@@ -1,0 +1,116 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ax="using:ArxisStudio.Controls">
+
+  <!--
+      Полоса заголовка: содержимое приложения слева, кнопки окна справа.
+      Отступ слева появляется только на macOS — под системные кнопки.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxTitleBar}" TargetType="ax:AxTitleBar">
+    <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+    <Setter Property="Height" Value="42"/>
+    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}">
+          <DockPanel>
+            <ax:AxWindowControls x:Name="PART_WindowControls"
+                                 DockPanel.Dock="Right"
+                                 IsVisible="{TemplateBinding ShowWindowControls}"/>
+            <ContentPresenter Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Margin="{TemplateBinding SystemControlsInset, Converter={x:Static ax:AxInsetConverter.Instance}}"
+                              Padding="{TemplateBinding Padding}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+          </DockPanel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <!--
+      Кнопки окна: свернуть, развернуть или восстановить, закрыть.
+      Размеры — из мокапа студии (32×26 в полосе 42px); у закрытия hover
+      красный, как принято в Windows и в Int UI.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxWindowControls}" TargetType="ax:AxWindowControls">
+    <Setter Property="VerticalAlignment" Value="Center"/>
+    <Setter Property="Margin" Value="4,0,6,0"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <StackPanel Orientation="Horizontal" Spacing="2">
+          <Button x:Name="PART_Minimize" Theme="{StaticResource AxWindowButton}">
+            <ax:AxIcon Data="M 4 8 H 12" Width="13" Height="13" StrokeThickness="1.3"
+                       Foreground="{Binding $parent[Button].Foreground}"/>
+          </Button>
+          <Button x:Name="PART_Maximize" Theme="{StaticResource AxWindowButton}">
+            <Panel>
+              <ax:AxIcon x:Name="PART_MaximizeIcon"
+                         Data="M 4.5 4.5 H 11.5 V 11.5 H 4.5 Z"
+                         Width="13" Height="13" StrokeThickness="1.3"
+                         Foreground="{Binding $parent[Button].Foreground}"/>
+              <ax:AxIcon x:Name="PART_RestoreIcon"
+                         Data="M 6 4.5 H 11.5 V 10 M 4.5 6 H 10 V 11.5 H 4.5 Z"
+                         Width="13" Height="13" StrokeThickness="1.3"
+                         Foreground="{Binding $parent[Button].Foreground}"
+                         IsVisible="False"/>
+            </Panel>
+          </Button>
+          <Button x:Name="PART_Close" Theme="{StaticResource AxWindowButton}" Classes="close">
+            <ax:AxIcon Data="M 4.5 4.5 L 11.5 11.5 M 11.5 4.5 L 4.5 11.5"
+                       Width="13" Height="13" StrokeThickness="1.3"
+                       Foreground="{Binding $parent[Button].Foreground}"/>
+          </Button>
+        </StackPanel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^[IsMaximized=True] /template/ ax|AxIcon#PART_MaximizeIcon">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="^[IsMaximized=True] /template/ ax|AxIcon#PART_RestoreIcon">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+  </ControlTheme>
+
+  <!-- Одна кнопка окна: 32×26, без рамки; закрытие краснеет под курсором. -->
+  <ControlTheme x:Key="AxWindowButton" TargetType="Button">
+    <Setter Property="Width" Value="32"/>
+    <Setter Property="Height" Value="26"/>
+    <Setter Property="Padding" Value="0"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusSmall}"/>
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ContentPresenter x:Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          Content="{TemplateBinding Content}"
+                          HorizontalContentAlignment="Center"
+                          VerticalContentAlignment="Center"/>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+    </Style>
+    <Style Selector="^.close:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource AxRedBrush}"/>
+    </Style>
+    <Style Selector="^.close:pointerover">
+      <Setter Property="Foreground" Value="#FFFFFF"/>
+    </Style>
+  </ControlTheme>
+
+</ResourceDictionary>

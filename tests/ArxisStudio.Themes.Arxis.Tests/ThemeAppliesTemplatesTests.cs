@@ -46,6 +46,8 @@ public class ThemeAppliesTemplatesTests
         typeof(AxTreeViewItem),
         typeof(AxSlider),
         typeof(AxToolWindow),
+        typeof(AxTitleBar),
+        typeof(AxWindowControls),
     };
 
     [AvaloniaTheory]
