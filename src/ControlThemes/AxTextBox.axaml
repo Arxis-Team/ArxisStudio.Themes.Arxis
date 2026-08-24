@@ -21,6 +21,13 @@
     <Setter Property="SelectionBrush" Value="{DynamicResource AxSelBrush}"/>
     <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
+    <!--
+        Поле без подписи экранный диктор объявляет словом «edit» и больше ничем.
+        Подсказка внутри поля — то, что человек читает вместо подписи, поэтому
+        она же и становится именем; заданное явно имя всё равно старше.
+    -->
+    <Setter Property="AutomationProperties.Name"
+            Value="{Binding PlaceholderText, RelativeSource={RelativeSource Self}}"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Panel>
