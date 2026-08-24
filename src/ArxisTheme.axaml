@@ -57,6 +57,17 @@
   <Style Selector="TextBlock.dimmer">
     <Setter Property="Foreground" Value="{DynamicResource AxFg3Brush}"/>
   </Style>
+  <!-- Смысловые цвета текста: уровень записи в журнале, состояние, итог. -->
+  <Style Selector="TextBlock.ok">
+    <Setter Property="Foreground" Value="{DynamicResource AxGrnBrush}"/>
+  </Style>
+  <Style Selector="TextBlock.warn">
+    <Setter Property="Foreground" Value="{DynamicResource AxYelBrush}"/>
+  </Style>
+  <Style Selector="TextBlock.bad">
+    <Setter Property="Foreground" Value="{DynamicResource AxRedBrush}"/>
+  </Style>
+
   <Style Selector="TextBlock.section">
     <Setter Property="FontSize" Value="11"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
