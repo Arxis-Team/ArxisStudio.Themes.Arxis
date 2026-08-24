@@ -25,14 +25,26 @@ AppBuilder.Configure<App>().UsePlatformDetect().WithInterFont();
 ThemeVariant.Dark / Light` — все токены объявлены в theme dictionaries и
 меняются динамически.
 
+## Откуда значения
+
+Мокап студии нарисован по Int UI, поэтому тема берёт значения из
+первоисточника, а не из картинки: палитра — шкалы New UI IntelliJ
+(`expUI_*.theme.json` в intellij-community), метрики и состояния — Jewel,
+реализация Int UI от JetBrains. Ключевое из Int UI: строка списка 24, контур
+фокуса 2px, скругление 4, кнопка 28 высотой с отступами 12×6.
+
 ## Содержимое
 
-- `Palette.axaml` — 25 токенов × 2 варианта: `AxBg1…AxBg4`, `AxBrd/AxBrd2`,
+- `Palette.axaml` — шкалы Int UI (`AxGray1…14`, `AxBlue1…13`, `AxGreen*`,
+  `AxRed*`, `AxYellow*`, `AxOrange*`, `AxPurple*`, `AxTeal*`) и семантические
+  токены поверх них × 2 варианта: `AxBg1…AxBg4`, `AxBrd/AxBrd2`,
   `AxFg/AxFg2/AxFg3`, `AxAcc/AxAccHover/AxOnAcc`, `AxSel`, `AxCanvas/AxDot`, `AxInp`,
   семантические `AxGrn/AxRed/AxYel/AxOrg/AxPur`, ссылки и тени; каждый — как
   `*Color` и `*Brush`.
 - `Typography.axaml` — `AxFontFamily` (Inter), `AxFontFamilyMono` (JetBrains Mono с
   fallback), базовые размеры.
+- `Metrics.axaml` — размеры Int UI: `AxRowHeight`, `AxFocusOutlineWidth`,
+  `AxCornerRadius`, `AxControlHeight`, отступы кнопки и поля ввода.
 - `ControlThemes/` — темы всех Ax\*-контролов + тонкие скроллбары (8px) ключом
   `{x:Type ScrollBar}` для всего приложения.
 - Глобальные стили: база окна (фон, цвет, шрифт) и текстовые роли
