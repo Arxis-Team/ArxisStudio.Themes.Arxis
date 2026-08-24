@@ -1,0 +1,95 @@
+<!--
+    Палитры темы «Arxis» — дизайн-токены из мокапа ArxisStudio (docs/design-spec.md
+    главного репозитория). Для каждого токена — Color (AxИмяColor) и кисть
+    (AxИмяBrush); значения различаются по варианту темы Dark / Light.
+-->
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <ResourceDictionary.ThemeDictionaries>
+
+    <ResourceDictionary x:Key="Dark">
+      <Color x:Key="AxBg1Color">#1E1F22</Color>
+      <Color x:Key="AxBg2Color">#2B2D30</Color>
+      <Color x:Key="AxBg3Color">#393B40</Color>
+      <Color x:Key="AxBg4Color">#43454A</Color>
+      <Color x:Key="AxBrdColor">#393B40</Color>
+      <Color x:Key="AxBrd2Color">#4E5157</Color>
+      <Color x:Key="AxFgColor">#DFE1E5</Color>
+      <Color x:Key="AxFg2Color">#9DA0A8</Color>
+      <Color x:Key="AxFg3Color">#6F737A</Color>
+      <Color x:Key="AxAccColor">#3574F0</Color>
+      <Color x:Key="AxAccHoverColor">#4682FA</Color>
+      <Color x:Key="AxOnAccColor">#FFFFFF</Color>
+      <Color x:Key="AxSelColor">#2E436E</Color>
+      <Color x:Key="AxCanvasColor">#191A1D</Color>
+      <Color x:Key="AxDotColor">#33353A</Color>
+      <Color x:Key="AxInpColor">#1E1F22</Color>
+      <Color x:Key="AxGrnColor">#5FAD65</Color>
+      <Color x:Key="AxRedColor">#E55765</Color>
+      <Color x:Key="AxYelColor">#D6AE58</Color>
+      <Color x:Key="AxOrgColor">#E08855</Color>
+      <Color x:Key="AxPurColor">#9A7CF7</Color>
+      <Color x:Key="AxLinkColor">#548AF7</Color>
+      <Color x:Key="AxLinkHoverColor">#6B9BFF</Color>
+      <Color x:Key="AxShadowColor">#73000000</Color>
+      <Color x:Key="AxAbShadowColor">#8C000000</Color>
+    </ResourceDictionary>
+
+    <ResourceDictionary x:Key="Light">
+      <Color x:Key="AxBg1Color">#FFFFFF</Color>
+      <Color x:Key="AxBg2Color">#F7F8FA</Color>
+      <Color x:Key="AxBg3Color">#EBECF0</Color>
+      <Color x:Key="AxBg4Color">#DFE1E5</Color>
+      <Color x:Key="AxBrdColor">#EBECF0</Color>
+      <Color x:Key="AxBrd2Color">#C9CCD6</Color>
+      <Color x:Key="AxFgColor">#27282E</Color>
+      <Color x:Key="AxFg2Color">#6C707E</Color>
+      <Color x:Key="AxFg3Color">#A8ADBD</Color>
+      <Color x:Key="AxAccColor">#3574F0</Color>
+      <Color x:Key="AxAccHoverColor">#2E5FD3</Color>
+      <Color x:Key="AxOnAccColor">#FFFFFF</Color>
+      <Color x:Key="AxSelColor">#D4E2FF</Color>
+      <Color x:Key="AxCanvasColor">#EDEEF1</Color>
+      <Color x:Key="AxDotColor">#D5D7DE</Color>
+      <Color x:Key="AxInpColor">#FFFFFF</Color>
+      <Color x:Key="AxGrnColor">#1E8934</Color>
+      <Color x:Key="AxRedColor">#CC3B49</Color>
+      <Color x:Key="AxYelColor">#9E6C00</Color>
+      <Color x:Key="AxOrgColor">#BD5B15</Color>
+      <Color x:Key="AxPurColor">#6F4FD9</Color>
+      <Color x:Key="AxLinkColor">#3574F0</Color>
+      <Color x:Key="AxLinkHoverColor">#2E5FD3</Color>
+      <Color x:Key="AxShadowColor">#24000000</Color>
+      <Color x:Key="AxAbShadowColor">#2E1E283C</Color>
+    </ResourceDictionary>
+
+  </ResourceDictionary.ThemeDictionaries>
+
+  <!-- Кисти поверх токенов: DynamicResource переключает их вместе с вариантом темы. -->
+  <SolidColorBrush x:Key="AxBg1Brush" Color="{DynamicResource AxBg1Color}"/>
+  <SolidColorBrush x:Key="AxBg2Brush" Color="{DynamicResource AxBg2Color}"/>
+  <SolidColorBrush x:Key="AxBg3Brush" Color="{DynamicResource AxBg3Color}"/>
+  <SolidColorBrush x:Key="AxBg4Brush" Color="{DynamicResource AxBg4Color}"/>
+  <SolidColorBrush x:Key="AxBrdBrush" Color="{DynamicResource AxBrdColor}"/>
+  <SolidColorBrush x:Key="AxBrd2Brush" Color="{DynamicResource AxBrd2Color}"/>
+  <SolidColorBrush x:Key="AxFgBrush" Color="{DynamicResource AxFgColor}"/>
+  <SolidColorBrush x:Key="AxFg2Brush" Color="{DynamicResource AxFg2Color}"/>
+  <SolidColorBrush x:Key="AxFg3Brush" Color="{DynamicResource AxFg3Color}"/>
+  <SolidColorBrush x:Key="AxAccBrush" Color="{DynamicResource AxAccColor}"/>
+  <SolidColorBrush x:Key="AxAccHoverBrush" Color="{DynamicResource AxAccHoverColor}"/>
+  <SolidColorBrush x:Key="AxOnAccBrush" Color="{DynamicResource AxOnAccColor}"/>
+  <SolidColorBrush x:Key="AxSelBrush" Color="{DynamicResource AxSelColor}"/>
+  <SolidColorBrush x:Key="AxCanvasBrush" Color="{DynamicResource AxCanvasColor}"/>
+  <SolidColorBrush x:Key="AxDotBrush" Color="{DynamicResource AxDotColor}"/>
+  <SolidColorBrush x:Key="AxInpBrush" Color="{DynamicResource AxInpColor}"/>
+  <SolidColorBrush x:Key="AxGrnBrush" Color="{DynamicResource AxGrnColor}"/>
+  <SolidColorBrush x:Key="AxRedBrush" Color="{DynamicResource AxRedColor}"/>
+  <SolidColorBrush x:Key="AxYelBrush" Color="{DynamicResource AxYelColor}"/>
+  <SolidColorBrush x:Key="AxOrgBrush" Color="{DynamicResource AxOrgColor}"/>
+  <SolidColorBrush x:Key="AxPurBrush" Color="{DynamicResource AxPurColor}"/>
+  <SolidColorBrush x:Key="AxLinkBrush" Color="{DynamicResource AxLinkColor}"/>
+  <SolidColorBrush x:Key="AxLinkHoverBrush" Color="{DynamicResource AxLinkHoverColor}"/>
+  <SolidColorBrush x:Key="AxShadowBrush" Color="{DynamicResource AxShadowColor}"/>
+  <SolidColorBrush x:Key="AxAbShadowBrush" Color="{DynamicResource AxAbShadowColor}"/>
+
+</ResourceDictionary>

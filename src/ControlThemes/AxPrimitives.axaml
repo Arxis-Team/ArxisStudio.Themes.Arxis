@@ -1,0 +1,107 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ax="using:ArxisStudio.Controls">
+
+  <!-- Бейдж-счётчик: акцентная пилюля 15px. -->
+  <ControlTheme x:Key="{x:Type ax:AxBadge}" TargetType="ax:AxBadge">
+    <Setter Property="MinWidth" Value="15"/>
+    <Setter Property="Height" Value="15"/>
+    <Setter Property="CornerRadius" Value="8"/>
+    <Setter Property="Background" Value="{DynamicResource AxAccBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxOnAccBrush}"/>
+    <Setter Property="FontSize" Value="9.5"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="Padding" Value="4,0"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <ContentPresenter Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <!-- Чип-метка: bg3-пилюля; accent — выделенная; kbd — вид клавиши. -->
+  <ControlTheme x:Key="{x:Type ax:AxChip}" TargetType="ax:AxChip">
+    <Setter Property="Padding" Value="8,2"/>
+    <Setter Property="CornerRadius" Value="10"/>
+    <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+    <Setter Property="FontSize" Value="10.5"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <ContentPresenter Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+    <Style Selector="^.accent">
+      <Setter Property="Background" Value="{DynamicResource AxSelBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxAccBrush}"/>
+    </Style>
+    <Style Selector="^.kbd">
+      <Setter Property="FontFamily" Value="{DynamicResource AxFontFamilyMono}"/>
+      <Setter Property="FontSize" Value="11"/>
+      <Setter Property="FontWeight" Value="Medium"/>
+      <Setter Property="CornerRadius" Value="5"/>
+      <Setter Property="Padding" Value="8,3"/>
+    </Style>
+  </ControlTheme>
+
+  <!-- Карточка-контейнер: панель bg2 с рамкой и radius 10. -->
+  <ControlTheme x:Key="{x:Type ax:AxCard}" TargetType="ax:AxCard">
+    <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="CornerRadius" Value="10"/>
+    <Setter Property="Padding" Value="14"/>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+          <ContentPresenter Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Margin="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <!-- Тонкий индикатор прогресса (4px). -->
+  <ControlTheme x:Key="{x:Type ax:AxProgressBar}" TargetType="ax:AxProgressBar">
+    <Setter Property="Height" Value="4"/>
+    <Setter Property="MinHeight" Value="4"/>
+    <Setter Property="CornerRadius" Value="2"/>
+    <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxAccBrush}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                ClipToBounds="True">
+          <Border x:Name="PART_Indicator"
+                  Background="{TemplateBinding Foreground}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  HorizontalAlignment="Left"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+</ResourceDictionary>

@@ -1,0 +1,87 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ax="using:ArxisStudio.Controls">
+
+  <!-- Однострочное поле ввода: фон inp, рамка brd2, фокус — акцентная рамка. -->
+  <ControlTheme x:Key="{x:Type ax:AxTextBox}" TargetType="ax:AxTextBox">
+    <Setter Property="MinHeight" Value="30"/>
+    <Setter Property="Padding" Value="10,0"/>
+    <Setter Property="CornerRadius" Value="6"/>
+    <Setter Property="Background" Value="{DynamicResource AxInpBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="FontSize" Value="12.5"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="CaretBrush" Value="{DynamicResource AxAccBrush}"/>
+    <Setter Property="SelectionBrush" Value="{DynamicResource AxSelBrush}"/>
+    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
+    <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="PART_BorderElement"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+          <DockPanel Margin="{TemplateBinding Padding}">
+            <ContentPresenter DockPanel.Dock="Left"
+                              Content="{TemplateBinding InnerLeftContent}"
+                              VerticalAlignment="Center"/>
+            <ContentPresenter DockPanel.Dock="Right"
+                              Content="{TemplateBinding InnerRightContent}"
+                              VerticalAlignment="Center"/>
+            <ScrollViewer x:Name="PART_ScrollViewer"
+                          HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                          VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+              <Panel>
+                <TextBlock x:Name="PART_Watermark"
+                           Text="{TemplateBinding PlaceholderText}"
+                           Foreground="{DynamicResource AxFg3Brush}"
+                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                           TextWrapping="{TemplateBinding TextWrapping}"
+                           IsVisible="{TemplateBinding Text, Converter={x:Static StringConverters.IsNullOrEmpty}}"/>
+                <TextPresenter x:Name="PART_TextPresenter"
+                               Text="{TemplateBinding Text, Mode=TwoWay}"
+                               CaretIndex="{TemplateBinding CaretIndex}"
+                               SelectionStart="{TemplateBinding SelectionStart}"
+                               SelectionEnd="{TemplateBinding SelectionEnd}"
+                               TextAlignment="{TemplateBinding TextAlignment}"
+                               TextWrapping="{TemplateBinding TextWrapping}"
+                               PasswordChar="{TemplateBinding PasswordChar}"
+                               RevealPassword="{TemplateBinding RevealPassword}"
+                               SelectionBrush="{TemplateBinding SelectionBrush}"
+                               SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
+                               CaretBrush="{TemplateBinding CaretBrush}"
+                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+              </Panel>
+            </ScrollViewer>
+          </DockPanel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:focus /template/ Border#PART_BorderElement">
+      <Setter Property="BorderBrush" Value="{DynamicResource AxAccBrush}"/>
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="0.5"/>
+    </Style>
+  </ControlTheme>
+
+  <!-- Поле поиска: то же поле ввода со значком-лупой слева. -->
+  <ControlTheme x:Key="{x:Type ax:AxSearchField}" TargetType="ax:AxSearchField"
+                BasedOn="{StaticResource {x:Type ax:AxTextBox}}">
+    <Setter Property="InnerLeftContent">
+      <Template>
+        <Path Width="14" Height="14" Margin="0,0,8,0"
+              Data="M 10.9 7.2 A 3.7 3.7 0 1 1 3.5 7.2 A 3.7 3.7 0 1 1 10.9 7.2 M 10.2 10.2 L 13 13"
+              Stroke="{DynamicResource AxFg3Brush}"
+              StrokeThickness="1.3"
+              StrokeLineCap="Round"
+              Stretch="Uniform"/>
+      </Template>
+    </Setter>
+  </ControlTheme>
+
+</ResourceDictionary>

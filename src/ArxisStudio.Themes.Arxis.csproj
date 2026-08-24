@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <RootNamespace>ArxisStudio.Themes.Arxis</RootNamespace>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <IsPackable>true</IsPackable>
+        <PackageId>ArxisStudio.Themes.Arxis</PackageId>
+        <Version>0.1.0</Version>
+        <Authors>ArxisStudio</Authors>
+        <Company>ArxisStudio</Company>
+        <Copyright>Copyright (c) 2026 ArxisStudio</Copyright>
+        <Product>ArxisStudio.Themes.Arxis</Product>
+        <Description>Тема «Arxis» для контролов ArxisStudio: палитры Dark и Light по дизайн-токенам студии и ControlTheme-шаблоны всех Ax*-контролов. Аналог пары Avalonia.Controls / Avalonia.Themes.Fluent.</Description>
+        <PackageTags>avalonia;theme;ide;arxisstudio</PackageTags>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryType>git</RepositoryType>
+    </PropertyGroup>
+
+    <!--
+        Тема поставляет шаблоны для контролов ArxisStudio.Controls и разрабатывается
+        вместе с ними, поэтому ссылается на репозиторий-сосед по исходникам: ломающая
+        правка контролов должна падать здесь сразу, а не при следующей публикации.
+    -->
+    <PropertyGroup>
+        <ControlsRepositoryRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../ArxisStudio.Controls/'))</ControlsRepositoryRoot>
+        <ControlsProject>$(ControlsRepositoryRoot)src/ArxisStudio.Controls.csproj</ControlsProject>
+    </PropertyGroup>
+
+    <Target Name="CheckControlsIsBesideUs" BeforeTargets="CollectPackageReferences;ResolveProjectReferences">
+        <Error
+            Condition="!Exists('$(ControlsProject)')"
+            Text="ArxisStudio.Themes.Arxis поставляет шаблоны для ArxisStudio.Controls и ожидает этот репозиторий рядом с собой, в '$(ControlsRepositoryRoot)'. Клонируйте его туда или исключите этот проект из сборки." />
+    </Target>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia"/>
+        <ProjectReference Include="$(ControlsProject)"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="../README.md" Pack="true" PackagePath="/"/>
+    </ItemGroup>
+
+</Project>

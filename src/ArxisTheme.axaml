@@ -1,0 +1,58 @@
+<!--
+    Тема «Arxis». В M0 подключается поверх FluentTheme — базового слоя для
+    не-Ax примитивов (окно, попапы, тултипы):
+
+        <Application.Styles>
+            <FluentTheme/>
+            <themes:ArxisTheme/>
+        </Application.Styles>
+-->
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ArxisStudio.Themes.Arxis.ArxisTheme">
+
+  <Styles.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/Palette.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/Typography.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxButton.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxTextBox.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxCheckBox.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxToggleSwitch.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxComboBox.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxListBox.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxSegmentedControl.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxPrimitives.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/ScrollBar.axaml"/>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Styles.Resources>
+
+  <!-- База окна: фон, цвет текста и типографика студии наследуются всем содержимым. -->
+  <Style Selector="Window">
+    <Setter Property="Background" Value="{DynamicResource AxBg1Brush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="FontFamily" Value="{DynamicResource AxFontFamily}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
+  </Style>
+
+  <!-- Текстовые роли: mono — код/пути/значения; dim/dimmer — вторичный и третичный текст;
+       section — заголовок секции (капс проставляет автор текста). -->
+  <Style Selector="TextBlock.mono">
+    <Setter Property="FontFamily" Value="{DynamicResource AxFontFamilyMono}"/>
+  </Style>
+  <Style Selector="TextBlock.dim">
+    <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+  </Style>
+  <Style Selector="TextBlock.dimmer">
+    <Setter Property="Foreground" Value="{DynamicResource AxFg3Brush}"/>
+  </Style>
+  <Style Selector="TextBlock.section">
+    <Setter Property="FontSize" Value="11"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxFg3Brush}"/>
+    <Setter Property="LetterSpacing" Value="0.6"/>
+  </Style>
+
+</Styles>
