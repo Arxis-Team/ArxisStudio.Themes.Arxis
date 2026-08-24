@@ -1,0 +1,151 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ax="using:ArxisStudio.Controls">
+
+  <!--
+      Переключатель одного варианта: круг 16px, у выбранного — акцентная
+      заливка с белой точкой. Размеры и отступ до текста те же, что у флажка.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxRadioButton}" TargetType="ax:AxRadioButton">
+    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="FontSize" Value="12.5"/>
+    <Setter Property="Cursor" Value="Hand"/>
+    <Setter Property="HorizontalAlignment" Value="Left"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid ColumnDefinitions="Auto,*" VerticalAlignment="Center">
+          <Panel Width="16" Height="16"
+                 VerticalAlignment="Center">
+            <Ellipse x:Name="PART_FocusRing"
+                     Margin="-3"
+                     StrokeThickness="{DynamicResource AxFocusOutlineWidth}"
+                     Stroke="{DynamicResource AxOutlineFocusedBrush}"
+                     IsVisible="False"/>
+            <Ellipse x:Name="PART_Circle"
+                     Fill="Transparent"
+                     Stroke="{DynamicResource AxBrd2Brush}"
+                     StrokeThickness="1.5"/>
+            <Ellipse x:Name="PART_Dot"
+                     Width="6" Height="6"
+                     Fill="{DynamicResource AxOnAccBrush}"
+                     HorizontalAlignment="Center" VerticalAlignment="Center"
+                     IsVisible="False"/>
+          </Panel>
+          <ContentPresenter Grid.Column="1"
+                            Margin="5,0,0,0"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            VerticalAlignment="Center"
+                            RecognizesAccessKey="True"
+                            IsVisible="{TemplateBinding Content, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:pointerover /template/ Ellipse#PART_Circle">
+      <Setter Property="Stroke" Value="{DynamicResource AxFg2Brush}"/>
+    </Style>
+    <Style Selector="^:checked /template/ Ellipse#PART_Circle">
+      <Setter Property="Fill" Value="{DynamicResource AxAccBrush}"/>
+      <Setter Property="Stroke" Value="{DynamicResource AxAccBrush}"/>
+    </Style>
+    <Style Selector="^:checked /template/ Ellipse#PART_Dot">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ Ellipse#PART_FocusRing">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Cursor" Value="Arrow"/>
+    </Style>
+  </ControlTheme>
+
+  <!-- Разделительная линия в пиксель. -->
+  <ControlTheme x:Key="{x:Type ax:AxDivider}" TargetType="ax:AxDivider">
+    <Setter Property="Background" Value="{DynamicResource AxBrdBrush}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"/>
+      </ControlTemplate>
+    </Setter>
+    <Style Selector="^[Orientation=Horizontal]">
+      <Setter Property="Height" Value="1"/>
+      <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    </Style>
+    <Style Selector="^[Orientation=Vertical]">
+      <Setter Property="Width" Value="1"/>
+      <Setter Property="VerticalAlignment" Value="Stretch"/>
+    </Style>
+  </ControlTheme>
+
+  <!-- Заголовок группы: подпись и линия до конца строки. -->
+  <ControlTheme x:Key="{x:Type ax:AxGroupHeader}" TargetType="ax:AxGroupHeader">
+    <Setter Property="Foreground" Value="{DynamicResource AxFg3Brush}"/>
+    <Setter Property="FontSize" Value="11"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid ColumnDefinitions="Auto,*" VerticalAlignment="Center">
+          <ContentPresenter Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Foreground="{TemplateBinding Foreground}"
+                            VerticalAlignment="Center"/>
+          <Border Grid.Column="1" Height="1" Margin="8,1,0,0"
+                  VerticalAlignment="Center"
+                  Background="{DynamicResource AxBrdBrush}"/>
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <!-- Ползунок: дорожка 4px, заполнение акцентом, ручка-круг с рамкой. -->
+  <ControlTheme x:Key="{x:Type ax:AxSlider}" TargetType="ax:AxSlider">
+    <Setter Property="Foreground" Value="{DynamicResource AxAccBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+    <Setter Property="MinHeight" Value="20"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="Transparent" Padding="0,8">
+          <Track Minimum="{TemplateBinding Minimum}"
+                 Maximum="{TemplateBinding Maximum}"
+                 Value="{TemplateBinding Value, Mode=TwoWay}"
+                 Orientation="Horizontal">
+            <Track.DecreaseButton>
+              <RepeatButton Background="{TemplateBinding Foreground}" Height="4" BorderThickness="0">
+                <RepeatButton.Template>
+                  <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}" Height="4" CornerRadius="2"/>
+                  </ControlTemplate>
+                </RepeatButton.Template>
+              </RepeatButton>
+            </Track.DecreaseButton>
+            <Track.IncreaseButton>
+              <RepeatButton Background="{TemplateBinding Background}" Height="4" BorderThickness="0">
+                <RepeatButton.Template>
+                  <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}" Height="4" CornerRadius="2"/>
+                  </ControlTemplate>
+                </RepeatButton.Template>
+              </RepeatButton>
+            </Track.IncreaseButton>
+            <Thumb Width="14" Height="14">
+              <Thumb.Template>
+                <ControlTemplate>
+                  <Ellipse Fill="{DynamicResource AxBg1Brush}"
+                           Stroke="{DynamicResource AxAccBrush}"
+                           StrokeThickness="2"/>
+                </ControlTemplate>
+              </Thumb.Template>
+            </Thumb>
+          </Track>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+    <Style Selector="^:disabled">
+      <Setter Property="Opacity" Value="0.5"/>
+    </Style>
+  </ControlTheme>
+
+</ResourceDictionary>

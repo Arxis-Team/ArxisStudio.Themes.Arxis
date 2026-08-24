@@ -1,0 +1,73 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ax="using:ArxisStudio.Controls">
+
+  <!--
+      Полоса сообщения: цветной фон по смыслу, значок слева, действия справа.
+      Цвета фона — приглушённые из шкалы (Blue 1 / Green 1 / Yellow 1 / Red 1
+      в тёмной теме), чтобы полоса читалась, но не спорила с содержимым.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxBanner}" TargetType="ax:AxBanner">
+    <Setter Property="Background" Value="{DynamicResource AxInfoBackgroundBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
+    <Setter Property="Padding" Value="12,8"/>
+    <Setter Property="FontSize" Value="12.5"/>
+    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <DockPanel>
+            <ax:AxIcon x:Name="PART_Icon"
+                       DockPanel.Dock="Left"
+                       Width="16" Height="16"
+                       Margin="0,0,10,0"
+                       VerticalAlignment="Top"
+                       StrokeThickness="1.3"
+                       Data="{x:Static ax:AxIcons.Warning}"
+                       Foreground="{DynamicResource AxAccBrush}"/>
+            <ContentPresenter x:Name="PART_Actions"
+                              DockPanel.Dock="Right"
+                              Margin="12,0,0,0"
+                              VerticalAlignment="Center"
+                              Content="{TemplateBinding Actions}"
+                              IsVisible="{TemplateBinding Actions, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+            <ContentPresenter Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Foreground="{TemplateBinding Foreground}"
+                              VerticalAlignment="Center"
+                              TextBlock.TextWrapping="Wrap"/>
+          </DockPanel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^[Severity=Success]">
+      <Setter Property="Background" Value="{DynamicResource AxSuccessBackgroundBrush}"/>
+    </Style>
+    <Style Selector="^[Severity=Success] /template/ ax|AxIcon#PART_Icon">
+      <Setter Property="Data" Value="{x:Static ax:AxIcons.Check}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxGrnBrush}"/>
+    </Style>
+
+    <Style Selector="^[Severity=Warning]">
+      <Setter Property="Background" Value="{DynamicResource AxWarningBackgroundBrush}"/>
+    </Style>
+    <Style Selector="^[Severity=Warning] /template/ ax|AxIcon#PART_Icon">
+      <Setter Property="Foreground" Value="{DynamicResource AxYelBrush}"/>
+    </Style>
+
+    <Style Selector="^[Severity=Error]">
+      <Setter Property="Background" Value="{DynamicResource AxErrorBackgroundBrush}"/>
+    </Style>
+    <Style Selector="^[Severity=Error] /template/ ax|AxIcon#PART_Icon">
+      <Setter Property="Foreground" Value="{DynamicResource AxRedBrush}"/>
+    </Style>
+  </ControlTheme>
+
+</ResourceDictionary>

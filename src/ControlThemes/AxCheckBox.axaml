@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ax="using:ArxisStudio.Controls">
 
-  <!-- Флажок 14×14, radius 3.5; отмеченный — акцентная заливка с белой галочкой. -->
+  <!-- Флажок Int UI 16×16, скругление 3; отмеченный — акцентная заливка с галочкой. -->
   <ControlTheme x:Key="{x:Type ax:AxCheckBox}" TargetType="ax:AxCheckBox">
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
     <Setter Property="FontSize" Value="12.5"/>
@@ -11,8 +11,16 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Grid ColumnDefinitions="Auto,*" VerticalAlignment="Center">
+          <Panel VerticalAlignment="Center">
+          <Border x:Name="PART_FocusRing"
+                  Margin="-3"
+                  CornerRadius="5"
+                  BorderThickness="{DynamicResource AxFocusOutlineThickness}"
+                  BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                  IsVisible="False"/>
           <Border x:Name="PART_Box"
-                  Width="14" Height="14" CornerRadius="3.5"
+                  Width="16" Height="16"
+                  CornerRadius="{DynamicResource AxCornerRadiusSmall}"
                   BorderBrush="{DynamicResource AxBrd2Brush}"
                   BorderThickness="1.5"
                   Background="Transparent"
@@ -27,8 +35,9 @@
                   Margin="2"
                   IsVisible="False"/>
           </Border>
+          </Panel>
           <ContentPresenter Grid.Column="1"
-                            Margin="8,0,0,0"
+                            Margin="5,0,0,0"
                             Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
                             VerticalAlignment="Center"
@@ -45,8 +54,15 @@
     <Style Selector="^:checked /template/ Path#PART_Check">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
+    <Style Selector="^:pointerover /template/ Border#PART_Box">
+      <Setter Property="BorderBrush" Value="{DynamicResource AxFg2Brush}"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
     <Style Selector="^:disabled">
-      <Setter Property="Opacity" Value="0.5"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Cursor" Value="Arrow"/>
     </Style>
   </ControlTheme>
 

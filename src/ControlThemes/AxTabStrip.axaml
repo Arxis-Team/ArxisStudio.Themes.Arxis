@@ -1,0 +1,103 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ax="using:ArxisStudio.Controls">
+
+  <!-- Полоса вкладок: ряд вкладок на фоне панели с разделителем снизу. -->
+  <ControlTheme x:Key="{x:Type ax:AxTabStrip}" TargetType="ax:AxTabStrip">
+    <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+    <Setter Property="Padding" Value="6,0"/>
+    <Setter Property="ItemsPanel">
+      <ItemsPanelTemplate>
+        <StackPanel Orientation="Horizontal"/>
+      </ItemsPanelTemplate>
+    </Setter>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}">
+          <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+            <ItemsPresenter ItemsPanel="{TemplateBinding ItemsPanel}" Margin="{TemplateBinding Padding}"/>
+          </ScrollViewer>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <!--
+      Вкладка: 36 высотой, активная подчёркнута акцентной полосой снизу.
+      Кнопка закрытия проявляется на наведении и у активной вкладки; точка
+      вместо крестика означает несохранённые правки.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxTabItem}" TargetType="ax:AxTabItem">
+    <Setter Property="Height" Value="36"/>
+    <Setter Property="Padding" Value="12,0"/>
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+    <Setter Property="FontSize" Value="12.5"/>
+    <Setter Property="Cursor" Value="Hand"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="PART_Root"
+                Background="{TemplateBinding Background}"
+                Padding="{TemplateBinding Padding}">
+          <Panel>
+            <StackPanel Orientation="Horizontal" Spacing="7" VerticalAlignment="Center">
+              <ax:AxIcon Width="13" Height="13"
+                         Data="{TemplateBinding Icon}"
+                         Foreground="{TemplateBinding IconBrush}"
+                         IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+              <ContentPresenter Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Foreground="{TemplateBinding Foreground}"
+                                VerticalAlignment="Center"/>
+              <Panel Width="14" Height="14"
+                     IsVisible="{TemplateBinding IsClosable}">
+                <Ellipse x:Name="PART_Modified"
+                         Width="6" Height="6"
+                         Fill="{DynamicResource AxFg2Brush}"
+                         IsVisible="{TemplateBinding IsModified}"/>
+                <ax:AxIcon x:Name="PART_Close"
+                           Width="10" Height="10"
+                           StrokeThickness="1.3"
+                           Data="M 4.5 4.5 L 11.5 11.5 M 11.5 4.5 L 4.5 11.5"
+                           Foreground="{DynamicResource AxFg3Brush}"
+                           IsVisible="False"/>
+              </Panel>
+            </StackPanel>
+            <Border x:Name="PART_ActiveMarker"
+                    Height="2"
+                    VerticalAlignment="Bottom"
+                    Margin="-12,0"
+                    Background="{DynamicResource AxAccBrush}"
+                    IsVisible="False"/>
+          </Panel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:pointerover /template/ Border#PART_Root">
+      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+    </Style>
+    <Style Selector="^:pointerover /template/ ax|AxIcon#PART_Close">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:pointerover /template/ Ellipse#PART_Modified">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+
+    <Style Selector="^:selected">
+      <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+      <Setter Property="FontWeight" Value="Medium"/>
+    </Style>
+    <Style Selector="^:selected /template/ Border#PART_Root">
+      <Setter Property="Background" Value="{DynamicResource AxBg1Brush}"/>
+    </Style>
+    <Style Selector="^:selected /template/ Border#PART_ActiveMarker">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+  </ControlTheme>
+
+</ResourceDictionary>

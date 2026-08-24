@@ -1,0 +1,95 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ax="using:ArxisStudio.Controls">
+
+  <!--
+      Дерево Int UI: строка 24px, выделение — заливка на всю ширину панели,
+      стрелка раскрытия слева от содержимого. Отступ по уровню даёт сама
+      Avalonia через TreeViewItem.Level — умножаем его на 14px, как в мокапе.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxTreeView}" TargetType="ax:AxTreeView">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Padding" Value="0,4"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}">
+          <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <ItemsPresenter ItemsPanel="{TemplateBinding ItemsPanel}" Margin="{TemplateBinding Padding}"/>
+          </ScrollViewer>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <ControlTheme x:Key="{x:Type ax:AxTreeViewItem}" TargetType="ax:AxTreeViewItem">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="FontSize" Value="12.5"/>
+    <Setter Property="Padding" Value="0,0,8,0"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <StackPanel>
+          <Border x:Name="PART_Root"
+                  Height="{DynamicResource AxRowHeight}"
+                  Background="{TemplateBinding Background}">
+            <DockPanel Margin="{Binding Level, RelativeSource={RelativeSource TemplatedParent},
+                                        Converter={x:Static ax:AxTreeIndentConverter.Instance}}">
+              <ToggleButton x:Name="PART_ExpandCollapseChevron"
+                            DockPanel.Dock="Left"
+                            Width="16" Height="16"
+                            Margin="4,0,2,0"
+                            VerticalAlignment="Center"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Focusable="False"
+                            IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}">
+                <ToggleButton.Template>
+                  <ControlTemplate>
+                    <Border Background="Transparent">
+                      <ax:AxIcon x:Name="Chevron"
+                                 Width="12" Height="12"
+                                 StrokeThickness="1.4"
+                                 Data="{x:Static ax:AxIcons.ChevronRight}"
+                                 Foreground="{DynamicResource AxFg3Brush}"/>
+                    </Border>
+                  </ControlTemplate>
+                </ToggleButton.Template>
+              </ToggleButton>
+              <ContentPresenter Content="{TemplateBinding Header}"
+                                ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                Foreground="{TemplateBinding Foreground}"
+                                Padding="{TemplateBinding Padding}"
+                                VerticalAlignment="Center"/>
+            </DockPanel>
+          </Border>
+          <ItemsPresenter x:Name="PART_ItemsPresenter"
+                          IsVisible="{TemplateBinding IsExpanded}"
+                          ItemsPanel="{TemplateBinding ItemsPanel}"/>
+        </StackPanel>
+      </ControlTemplate>
+    </Setter>
+
+    <!--
+        Стрелка всегда занимает своё место: у листа она невидима, но отступ
+        сохраняется, иначе подписи листьев и узлов стоят в разных колонках.
+    -->
+    <Style Selector="^:empty /template/ ToggleButton#PART_ExpandCollapseChevron">
+      <Setter Property="Opacity" Value="0"/>
+      <Setter Property="IsHitTestVisible" Value="False"/>
+    </Style>
+    <Style Selector="^:expanded /template/ ToggleButton#PART_ExpandCollapseChevron ax|AxIcon#Chevron">
+      <Setter Property="Data" Value="{x:Static ax:AxIcons.ChevronDown}"/>
+    </Style>
+
+    <Style Selector="^:pointerover /template/ Border#PART_Root">
+      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+    </Style>
+    <Style Selector="^:selected /template/ Border#PART_Root">
+      <Setter Property="Background" Value="{DynamicResource AxSelBrush}"/>
+    </Style>
+  </ControlTheme>
+
+</ResourceDictionary>

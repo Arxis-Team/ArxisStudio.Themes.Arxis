@@ -34,6 +34,17 @@ public class ThemeAppliesTemplatesTests
         typeof(AxProgressBar),
         typeof(AxAvatar),
         typeof(AxIcon),
+        typeof(AxTextArea),
+        typeof(AxLink),
+        typeof(AxRadioButton),
+        typeof(AxDivider),
+        typeof(AxGroupHeader),
+        typeof(AxBanner),
+        typeof(AxTabStrip),
+        typeof(AxTabItem),
+        typeof(AxTreeView),
+        typeof(AxTreeViewItem),
+        typeof(AxSlider),
     };
 
     [AvaloniaTheory]
@@ -62,6 +73,42 @@ public class ThemeAppliesTemplatesTests
         Assert.True(window.TryFindResource("AxBg1Color", ThemeVariant.Light, out var light));
 
         Assert.NotEqual(dark, light);
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void Focus_ring_uses_the_int_ui_outline_width()
+    {
+        var window = new Window();
+        window.Show();
+
+        Assert.True(window.TryFindResource("AxFocusOutlineWidth", ActualThemeVariantOf(window), out var width));
+        Assert.Equal(2d, width);
+
+        Assert.True(window.TryFindResource("AxRowHeight", ActualThemeVariantOf(window), out var rowHeight));
+        Assert.Equal(24d, rowHeight);
+
+        window.Close();
+
+        static ThemeVariant ActualThemeVariantOf(Window window) => window.ActualThemeVariant;
+    }
+
+    [AvaloniaTheory]
+    [InlineData("AxGray1")]
+    [InlineData("AxGray14")]
+    [InlineData("AxBlue6")]
+    [InlineData("AxOutlineFocusedColor")]
+    [InlineData("AxErrorBackgroundColor")]
+    public void Palette_scales_are_available_in_both_variants(string key)
+    {
+        var window = new Window();
+        window.Show();
+
+        Assert.True(window.TryFindResource(key, ThemeVariant.Dark, out var dark));
+        Assert.True(window.TryFindResource(key, ThemeVariant.Light, out var light));
+        Assert.NotNull(dark);
+        Assert.NotNull(light);
+
         window.Close();
     }
 

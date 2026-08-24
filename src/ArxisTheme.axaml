@@ -16,6 +16,7 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/Palette.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/Typography.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/Metrics.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxButton.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxTextBox.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxCheckBox.axaml"/>
@@ -25,6 +26,11 @@
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxSegmentedControl.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxAvatar.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxPrimitives.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxLink.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxSelection.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxBanner.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxTabStrip.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxTreeView.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/ScrollBar.axaml"/>
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>

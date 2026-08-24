@@ -1,0 +1,56 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ax="using:ArxisStudio.Controls">
+
+  <!--
+      Ссылка Int UI: акцентный текст, подчёркивание появляется на наведении,
+      посещённая — фиолетовая. Фокус показывается пунктирным контуром, а не
+      рамкой: ссылка не имеет собственных границ.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxLink}" TargetType="ax:AxLink">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Padding" Value="0"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxLinkBrush}"/>
+    <Setter Property="FontSize" Value="12.5"/>
+    <Setter Property="Cursor" Value="Hand"/>
+    <Setter Property="HorizontalAlignment" Value="Left"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="PART_FocusRing"
+                Padding="2"
+                Margin="-2"
+                CornerRadius="{DynamicResource AxCornerRadiusSmall}"
+                BorderThickness="1"
+                BorderBrush="Transparent">
+          <ContentPresenter x:Name="PART_ContentPresenter"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Foreground="{TemplateBinding Foreground}"
+                            RecognizesAccessKey="True"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:pointerover">
+      <Setter Property="Foreground" Value="{DynamicResource AxLinkHoverBrush}"/>
+    </Style>
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="TextBlock.TextDecorations" Value="Underline"/>
+    </Style>
+    <Style Selector="^:pressed">
+      <Setter Property="Foreground" Value="{DynamicResource AxAccPressedBrush}"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+      <Setter Property="BorderBrush" Value="{DynamicResource AxOutlineFocusedBrush}"/>
+    </Style>
+    <Style Selector="^[IsVisited=True]">
+      <Setter Property="Foreground" Value="{DynamicResource AxLinkVisitedBrush}"/>
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Cursor" Value="Arrow"/>
+    </Style>
+  </ControlTheme>
+
+</ResourceDictionary>

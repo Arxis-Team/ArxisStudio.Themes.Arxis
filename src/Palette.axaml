@@ -1,13 +1,83 @@
 <!--
-    Палитры темы «Arxis» — дизайн-токены из мокапа ArxisStudio (docs/design-spec.md
-    главного репозитория). Для каждого токена — Color (AxИмяColor) и кисть
-    (AxИмяBrush); значения различаются по варианту темы Dark / Light.
+    Палитра темы «Arxis». Устроена в два слоя, как Int UI (дизайн-система
+    IntelliJ, на которой основан мокап студии):
+
+    1. Шкалы — Gray 1…14, Blue 1…13, Green, Red, Yellow, Orange, Purple, Teal.
+       Значения взяты из темы New UI IntelliJ; в тёмной теме шкала идёт от
+       тёмного к светлому, в светлой — наоборот, поэтому один и тот же номер
+       означает роль, а не яркость.
+    2. Семантические токены поверх шкал: фон панели, рамки, текст, выделение,
+       контур фокуса. Интерфейс пользуется ими, а не номерами — тогда правка
+       палитры не превращается в поиск по всем шаблонам.
+
+    Имена вида AxBg1/AxFg2 остались из первой версии темы и работают как
+    семантические алиасы: на них уже написан интерфейс студии.
 -->
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <ResourceDictionary.ThemeDictionaries>
 
     <ResourceDictionary x:Key="Dark">
+      <!-- Шкала Gray: от фона окна к самому светлому тексту. -->
+      <Color x:Key="AxGray1">#1E1F22</Color>
+      <Color x:Key="AxGray2">#2B2D30</Color>
+      <Color x:Key="AxGray3">#393B40</Color>
+      <Color x:Key="AxGray4">#43454A</Color>
+      <Color x:Key="AxGray5">#4E5157</Color>
+      <Color x:Key="AxGray6">#5A5D63</Color>
+      <Color x:Key="AxGray7">#6F737A</Color>
+      <Color x:Key="AxGray8">#868A91</Color>
+      <Color x:Key="AxGray9">#9DA0A8</Color>
+      <Color x:Key="AxGray10">#B4B8BF</Color>
+      <Color x:Key="AxGray11">#CED0D6</Color>
+      <Color x:Key="AxGray12">#DFE1E5</Color>
+      <Color x:Key="AxGray13">#F0F1F2</Color>
+      <Color x:Key="AxGray14">#FFFFFF</Color>
+
+      <Color x:Key="AxBlue1">#25324D</Color>
+      <Color x:Key="AxBlue2">#2E436E</Color>
+      <Color x:Key="AxBlue3">#35538F</Color>
+      <Color x:Key="AxBlue4">#375FAD</Color>
+      <Color x:Key="AxBlue5">#366ACE</Color>
+      <Color x:Key="AxBlue6">#3574F0</Color>
+      <Color x:Key="AxBlue7">#467FF2</Color>
+      <Color x:Key="AxBlue8">#548AF7</Color>
+      <Color x:Key="AxBlue9">#6B9BFA</Color>
+      <Color x:Key="AxBlue10">#83ACFC</Color>
+      <Color x:Key="AxBlue11">#99BBFF</Color>
+      <Color x:Key="AxBlue12">#B5CEFF</Color>
+      <Color x:Key="AxBlue13">#D1E0FF</Color>
+
+      <Color x:Key="AxGreen1">#253627</Color>
+      <Color x:Key="AxGreen4">#436946</Color>
+      <Color x:Key="AxGreen6">#57965C</Color>
+      <Color x:Key="AxGreen7">#5FAD65</Color>
+      <Color x:Key="AxGreen9">#89CC8E</Color>
+
+      <Color x:Key="AxRed1">#402929</Color>
+      <Color x:Key="AxRed4">#7A4343</Color>
+      <Color x:Key="AxRed6">#BD5757</Color>
+      <Color x:Key="AxRed7">#DB5C5C</Color>
+      <Color x:Key="AxRed9">#EB938D</Color>
+
+      <Color x:Key="AxYellow1">#3D3223</Color>
+      <Color x:Key="AxYellow4">#9E814A</Color>
+      <Color x:Key="AxYellow6">#D6AE58</Color>
+      <Color x:Key="AxYellow7">#F2C55C</Color>
+
+      <Color x:Key="AxOrange1">#45322B</Color>
+      <Color x:Key="AxOrange6">#E08855</Color>
+      <Color x:Key="AxOrange7">#E5986C</Color>
+
+      <Color x:Key="AxPurple1">#2F2936</Color>
+      <Color x:Key="AxPurple7">#955AE0</Color>
+      <Color x:Key="AxPurple8">#A571E6</Color>
+      <Color x:Key="AxPurple9">#B589EC</Color>
+
+      <Color x:Key="AxTeal1">#1D3838</Color>
+      <Color x:Key="AxTeal7">#24A394</Color>
+
+      <!-- Семантические токены. -->
       <Color x:Key="AxBg1Color">#1E1F22</Color>
       <Color x:Key="AxBg2Color">#2B2D30</Color>
       <Color x:Key="AxBg3Color">#393B40</Color>
@@ -17,25 +87,100 @@
       <Color x:Key="AxFgColor">#DFE1E5</Color>
       <Color x:Key="AxFg2Color">#9DA0A8</Color>
       <Color x:Key="AxFg3Color">#6F737A</Color>
+      <Color x:Key="AxFgDisabledColor">#868A91</Color>
       <Color x:Key="AxAccColor">#3574F0</Color>
-      <Color x:Key="AxAccHoverColor">#4682FA</Color>
+      <Color x:Key="AxAccHoverColor">#467FF2</Color>
+      <Color x:Key="AxAccPressedColor">#366ACE</Color>
       <Color x:Key="AxOnAccColor">#FFFFFF</Color>
       <Color x:Key="AxSelColor">#2E436E</Color>
+      <Color x:Key="AxSelInactiveColor">#393B40</Color>
       <Color x:Key="AxCanvasColor">#191A1D</Color>
       <Color x:Key="AxDotColor">#33353A</Color>
       <Color x:Key="AxInpColor">#1E1F22</Color>
+      <Color x:Key="AxInpDisabledColor">#2B2D30</Color>
       <Color x:Key="AxGrnColor">#5FAD65</Color>
-      <Color x:Key="AxRedColor">#E55765</Color>
+      <Color x:Key="AxRedColor">#DB5C5C</Color>
       <Color x:Key="AxYelColor">#D6AE58</Color>
       <Color x:Key="AxOrgColor">#E08855</Color>
-      <Color x:Key="AxPurColor">#9A7CF7</Color>
+      <Color x:Key="AxPurColor">#A571E6</Color>
       <Color x:Key="AxLinkColor">#548AF7</Color>
-      <Color x:Key="AxLinkHoverColor">#6B9BFF</Color>
+      <Color x:Key="AxLinkHoverColor">#6B9BFA</Color>
+      <Color x:Key="AxLinkVisitedColor">#B589EC</Color>
+
+      <!-- Контур фокуса и состояния проверки ввода. -->
+      <Color x:Key="AxOutlineFocusedColor">#3574F0</Color>
+      <Color x:Key="AxOutlineErrorColor">#DB5C5C</Color>
+      <Color x:Key="AxOutlineWarningColor">#D6AE58</Color>
+
+      <!-- Фоны сообщений: информация, успех, предупреждение, ошибка. -->
+      <Color x:Key="AxInfoBackgroundColor">#25324D</Color>
+      <Color x:Key="AxSuccessBackgroundColor">#253627</Color>
+      <Color x:Key="AxWarningBackgroundColor">#3D3223</Color>
+      <Color x:Key="AxErrorBackgroundColor">#402929</Color>
+
       <Color x:Key="AxShadowColor">#73000000</Color>
       <Color x:Key="AxAbShadowColor">#8C000000</Color>
     </ResourceDictionary>
 
     <ResourceDictionary x:Key="Light">
+      <Color x:Key="AxGray1">#000000</Color>
+      <Color x:Key="AxGray2">#27282E</Color>
+      <Color x:Key="AxGray3">#383A42</Color>
+      <Color x:Key="AxGray4">#494B57</Color>
+      <Color x:Key="AxGray5">#5A5D6B</Color>
+      <Color x:Key="AxGray6">#6C707E</Color>
+      <Color x:Key="AxGray7">#818594</Color>
+      <Color x:Key="AxGray8">#A8ADBD</Color>
+      <Color x:Key="AxGray9">#C9CCD6</Color>
+      <Color x:Key="AxGray10">#D3D5DB</Color>
+      <Color x:Key="AxGray11">#DFE1E5</Color>
+      <Color x:Key="AxGray12">#EBECF0</Color>
+      <Color x:Key="AxGray13">#F7F8FA</Color>
+      <Color x:Key="AxGray14">#FFFFFF</Color>
+
+      <Color x:Key="AxBlue1">#2E55A3</Color>
+      <Color x:Key="AxBlue2">#315FBD</Color>
+      <Color x:Key="AxBlue3">#3369D6</Color>
+      <Color x:Key="AxBlue4">#3574F0</Color>
+      <Color x:Key="AxBlue5">#4682FA</Color>
+      <Color x:Key="AxBlue6">#588CF3</Color>
+      <Color x:Key="AxBlue7">#709CF5</Color>
+      <Color x:Key="AxBlue8">#88ADF7</Color>
+      <Color x:Key="AxBlue9">#A0BDF8</Color>
+      <Color x:Key="AxBlue10">#C2D6FC</Color>
+      <Color x:Key="AxBlue11">#D4E2FF</Color>
+      <Color x:Key="AxBlue12">#EDF3FF</Color>
+      <Color x:Key="AxBlue13">#F5F8FE</Color>
+
+      <Color x:Key="AxGreen1">#1E6B33</Color>
+      <Color x:Key="AxGreen4">#208A3C</Color>
+      <Color x:Key="AxGreen6">#55A76A</Color>
+      <Color x:Key="AxGreen7">#89C398</Color>
+      <Color x:Key="AxGreen9">#C5E5CC</Color>
+
+      <Color x:Key="AxRed1">#AD2B38</Color>
+      <Color x:Key="AxRed4">#DB3B4B</Color>
+      <Color x:Key="AxRed6">#E46A76</Color>
+      <Color x:Key="AxRed7">#ED99A1</Color>
+      <Color x:Key="AxRed9">#FAD4D8</Color>
+
+      <Color x:Key="AxYellow1">#A46704</Color>
+      <Color x:Key="AxYellow4">#FFAF0F</Color>
+      <Color x:Key="AxYellow6">#FED277</Color>
+      <Color x:Key="AxYellow7">#FEE6B1</Color>
+
+      <Color x:Key="AxOrange1">#A14916</Color>
+      <Color x:Key="AxOrange6">#F2B181</Color>
+      <Color x:Key="AxOrange7">#F9D2B6</Color>
+
+      <Color x:Key="AxPurple1">#55339C</Color>
+      <Color x:Key="AxPurple7">#DCCBFB</Color>
+      <Color x:Key="AxPurple8">#EFE5FF</Color>
+      <Color x:Key="AxPurple9">#F5EDFF</Color>
+
+      <Color x:Key="AxTeal1">#096A6E</Color>
+      <Color x:Key="AxTeal7">#B6E4E5</Color>
+
       <Color x:Key="AxBg1Color">#FFFFFF</Color>
       <Color x:Key="AxBg2Color">#F7F8FA</Color>
       <Color x:Key="AxBg3Color">#EBECF0</Color>
@@ -45,20 +190,35 @@
       <Color x:Key="AxFgColor">#27282E</Color>
       <Color x:Key="AxFg2Color">#6C707E</Color>
       <Color x:Key="AxFg3Color">#A8ADBD</Color>
+      <Color x:Key="AxFgDisabledColor">#A8ADBD</Color>
       <Color x:Key="AxAccColor">#3574F0</Color>
-      <Color x:Key="AxAccHoverColor">#2E5FD3</Color>
+      <Color x:Key="AxAccHoverColor">#3369D6</Color>
+      <Color x:Key="AxAccPressedColor">#315FBD</Color>
       <Color x:Key="AxOnAccColor">#FFFFFF</Color>
       <Color x:Key="AxSelColor">#D4E2FF</Color>
+      <Color x:Key="AxSelInactiveColor">#EBECF0</Color>
       <Color x:Key="AxCanvasColor">#EDEEF1</Color>
       <Color x:Key="AxDotColor">#D5D7DE</Color>
       <Color x:Key="AxInpColor">#FFFFFF</Color>
-      <Color x:Key="AxGrnColor">#1E8934</Color>
-      <Color x:Key="AxRedColor">#CC3B49</Color>
-      <Color x:Key="AxYelColor">#9E6C00</Color>
-      <Color x:Key="AxOrgColor">#BD5B15</Color>
-      <Color x:Key="AxPurColor">#6F4FD9</Color>
+      <Color x:Key="AxInpDisabledColor">#F7F8FA</Color>
+      <Color x:Key="AxGrnColor">#208A3C</Color>
+      <Color x:Key="AxRedColor">#DB3B4B</Color>
+      <Color x:Key="AxYelColor">#A46704</Color>
+      <Color x:Key="AxOrgColor">#A14916</Color>
+      <Color x:Key="AxPurColor">#55339C</Color>
       <Color x:Key="AxLinkColor">#3574F0</Color>
-      <Color x:Key="AxLinkHoverColor">#2E5FD3</Color>
+      <Color x:Key="AxLinkHoverColor">#3369D6</Color>
+      <Color x:Key="AxLinkVisitedColor">#55339C</Color>
+
+      <Color x:Key="AxOutlineFocusedColor">#3574F0</Color>
+      <Color x:Key="AxOutlineErrorColor">#DB3B4B</Color>
+      <Color x:Key="AxOutlineWarningColor">#FFAF0F</Color>
+
+      <Color x:Key="AxInfoBackgroundColor">#EDF3FF</Color>
+      <Color x:Key="AxSuccessBackgroundColor">#F2FCF3</Color>
+      <Color x:Key="AxWarningBackgroundColor">#FFF5DB</Color>
+      <Color x:Key="AxErrorBackgroundColor">#FFF7F7</Color>
+
       <Color x:Key="AxShadowColor">#24000000</Color>
       <Color x:Key="AxAbShadowColor">#2E1E283C</Color>
     </ResourceDictionary>
@@ -75,13 +235,17 @@
   <SolidColorBrush x:Key="AxFgBrush" Color="{DynamicResource AxFgColor}"/>
   <SolidColorBrush x:Key="AxFg2Brush" Color="{DynamicResource AxFg2Color}"/>
   <SolidColorBrush x:Key="AxFg3Brush" Color="{DynamicResource AxFg3Color}"/>
+  <SolidColorBrush x:Key="AxFgDisabledBrush" Color="{DynamicResource AxFgDisabledColor}"/>
   <SolidColorBrush x:Key="AxAccBrush" Color="{DynamicResource AxAccColor}"/>
   <SolidColorBrush x:Key="AxAccHoverBrush" Color="{DynamicResource AxAccHoverColor}"/>
+  <SolidColorBrush x:Key="AxAccPressedBrush" Color="{DynamicResource AxAccPressedColor}"/>
   <SolidColorBrush x:Key="AxOnAccBrush" Color="{DynamicResource AxOnAccColor}"/>
   <SolidColorBrush x:Key="AxSelBrush" Color="{DynamicResource AxSelColor}"/>
+  <SolidColorBrush x:Key="AxSelInactiveBrush" Color="{DynamicResource AxSelInactiveColor}"/>
   <SolidColorBrush x:Key="AxCanvasBrush" Color="{DynamicResource AxCanvasColor}"/>
   <SolidColorBrush x:Key="AxDotBrush" Color="{DynamicResource AxDotColor}"/>
   <SolidColorBrush x:Key="AxInpBrush" Color="{DynamicResource AxInpColor}"/>
+  <SolidColorBrush x:Key="AxInpDisabledBrush" Color="{DynamicResource AxInpDisabledColor}"/>
   <SolidColorBrush x:Key="AxGrnBrush" Color="{DynamicResource AxGrnColor}"/>
   <SolidColorBrush x:Key="AxRedBrush" Color="{DynamicResource AxRedColor}"/>
   <SolidColorBrush x:Key="AxYelBrush" Color="{DynamicResource AxYelColor}"/>
@@ -89,6 +253,14 @@
   <SolidColorBrush x:Key="AxPurBrush" Color="{DynamicResource AxPurColor}"/>
   <SolidColorBrush x:Key="AxLinkBrush" Color="{DynamicResource AxLinkColor}"/>
   <SolidColorBrush x:Key="AxLinkHoverBrush" Color="{DynamicResource AxLinkHoverColor}"/>
+  <SolidColorBrush x:Key="AxLinkVisitedBrush" Color="{DynamicResource AxLinkVisitedColor}"/>
+  <SolidColorBrush x:Key="AxOutlineFocusedBrush" Color="{DynamicResource AxOutlineFocusedColor}"/>
+  <SolidColorBrush x:Key="AxOutlineErrorBrush" Color="{DynamicResource AxOutlineErrorColor}"/>
+  <SolidColorBrush x:Key="AxOutlineWarningBrush" Color="{DynamicResource AxOutlineWarningColor}"/>
+  <SolidColorBrush x:Key="AxInfoBackgroundBrush" Color="{DynamicResource AxInfoBackgroundColor}"/>
+  <SolidColorBrush x:Key="AxSuccessBackgroundBrush" Color="{DynamicResource AxSuccessBackgroundColor}"/>
+  <SolidColorBrush x:Key="AxWarningBackgroundBrush" Color="{DynamicResource AxWarningBackgroundColor}"/>
+  <SolidColorBrush x:Key="AxErrorBackgroundBrush" Color="{DynamicResource AxErrorBackgroundColor}"/>
   <SolidColorBrush x:Key="AxShadowBrush" Color="{DynamicResource AxShadowColor}"/>
   <SolidColorBrush x:Key="AxAbShadowBrush" Color="{DynamicResource AxAbShadowColor}"/>
 
