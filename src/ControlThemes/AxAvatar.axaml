@@ -1,0 +1,57 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ax="using:ArxisStudio.Controls">
+
+  <!-- Плитка с инициалами 36×36; класс round — круглая (пользователь, собеседник). -->
+  <ControlTheme x:Key="{x:Type ax:AxAvatar}" TargetType="ax:AxAvatar">
+    <Setter Property="Width" Value="36"/>
+    <Setter Property="Height" Value="36"/>
+    <Setter Property="CornerRadius" Value="9"/>
+    <Setter Property="TileBrush" Value="{DynamicResource AxAccBrush}"/>
+    <Setter Property="Foreground" Value="#FFFFFF"/>
+    <Setter Property="FontSize" Value="12.5"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding TileBrush}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+          <TextBlock Text="{TemplateBinding Initials}"
+                     Foreground="{TemplateBinding Foreground}"
+                     FontSize="{TemplateBinding FontSize}"
+                     FontWeight="{TemplateBinding FontWeight}"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^.round">
+      <Setter Property="CornerRadius" Value="1000"/>
+    </Style>
+  </ControlTheme>
+
+  <!-- Контурная иконка 16×16: обводка Foreground, класс/свойство IsFilled — заливка. -->
+  <ControlTheme x:Key="{x:Type ax:AxIcon}" TargetType="ax:AxIcon">
+    <Setter Property="Width" Value="14"/>
+    <Setter Property="Height" Value="14"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Viewbox Stretch="Uniform">
+          <Path x:Name="PART_Path"
+                Data="{TemplateBinding Data}"
+                Stroke="{TemplateBinding Foreground}"
+                StrokeThickness="{TemplateBinding StrokeThickness}"
+                StrokeLineCap="Round"
+                StrokeJoin="Round"/>
+        </Viewbox>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^[IsFilled=True] /template/ Path#PART_Path">
+      <Setter Property="Fill" Value="{Binding $parent[ax:AxIcon].Foreground}"/>
+      <Setter Property="Stroke" Value="{x:Null}"/>
+    </Style>
+  </ControlTheme>
+
+</ResourceDictionary>

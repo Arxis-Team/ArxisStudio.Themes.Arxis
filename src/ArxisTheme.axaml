@@ -23,6 +23,7 @@
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxComboBox.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxListBox.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxSegmentedControl.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxAvatar.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxPrimitives.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/ScrollBar.axaml"/>
       </ResourceDictionary.MergedDictionaries>

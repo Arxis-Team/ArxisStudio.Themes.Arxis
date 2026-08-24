@@ -32,6 +32,8 @@ public class ThemeAppliesTemplatesTests
         typeof(AxChip),
         typeof(AxCard),
         typeof(AxProgressBar),
+        typeof(AxAvatar),
+        typeof(AxIcon),
     };
 
     [AvaloniaTheory]
