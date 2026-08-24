@@ -45,6 +45,7 @@ public class ThemeAppliesTemplatesTests
         typeof(AxTreeView),
         typeof(AxTreeViewItem),
         typeof(AxSlider),
+        typeof(AxToolWindow),
     };
 
     [AvaloniaTheory]
@@ -108,6 +109,31 @@ public class ThemeAppliesTemplatesTests
         Assert.True(window.TryFindResource(key, ThemeVariant.Light, out var light));
         Assert.NotNull(dark);
         Assert.NotNull(light);
+
+        window.Close();
+    }
+
+    [AvaloniaFact]
+    public void Tool_window_shows_title_tabs_and_actions_together()
+    {
+        var tabs = new AxTabStrip { ItemsSource = new[] { "Проект", "Консоль" } };
+        var toolWindow = new AxToolWindow
+        {
+            Title = "Проект",
+            Tabs = tabs,
+            Actions = new AxButton { Classes = { "icon" } },
+            Content = new TextBlock { Text = "содержимое" },
+        };
+
+        var window = new Window { Content = toolWindow, Width = 400, Height = 300 };
+        window.Show();
+
+        Assert.NotNull(toolWindow.Template);
+
+        // Заголовок и вкладки в Int UI живут в одной строке шапки: вкладки
+        // добавляются к заголовку, а не заменяют его.
+        Assert.Equal("Проект", toolWindow.Title);
+        Assert.Same(tabs, toolWindow.Tabs);
 
         window.Close();
     }

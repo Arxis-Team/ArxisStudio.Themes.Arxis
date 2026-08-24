@@ -1,0 +1,68 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ax="using:ArxisStudio.Controls">
+
+  <!--
+      Панель инструментов Int UI: шапка 34px и содержимое под ней.
+
+      Заголовок и вкладки лежат в одной строке шапки — в Int UI вкладки не
+      заменяют заголовок, а встают рядом с ним, поэтому «Проект» остаётся
+      подписан даже когда внутри переключаются «Консоль» и «Проблемы».
+      Действия прижаты вправо и не уезжают под длинный заголовок.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxToolWindow}" TargetType="ax:AxToolWindow">
+    <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}">
+          <DockPanel>
+            <Border x:Name="PART_Header"
+                    DockPanel.Dock="Top"
+                    Height="34"
+                    Padding="12,0,6,0"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="0"
+                    IsVisible="{TemplateBinding ShowHeader}">
+              <DockPanel>
+                <ContentPresenter x:Name="PART_Actions"
+                                  DockPanel.Dock="Right"
+                                  Content="{TemplateBinding Actions}"
+                                  VerticalAlignment="Center"
+                                  IsVisible="{TemplateBinding Actions, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                <TextBlock x:Name="PART_Title"
+                           Text="{TemplateBinding Title}"
+                           FontSize="12"
+                           FontWeight="SemiBold"
+                           Foreground="{TemplateBinding Foreground}"
+                           VerticalAlignment="Center"
+                           TextTrimming="CharacterEllipsis"
+                           IsVisible="{TemplateBinding Title, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+                <ContentPresenter x:Name="PART_Tabs"
+                                  Margin="12,0,0,0"
+                                  Content="{TemplateBinding Tabs}"
+                                  VerticalAlignment="Stretch"
+                                  IsVisible="{TemplateBinding Tabs, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+              </DockPanel>
+            </Border>
+            <ContentPresenter Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Padding="{TemplateBinding Padding}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+          </DockPanel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^[ShowHeaderSeparator=True] /template/ Border#PART_Header">
+      <Setter Property="BorderThickness" Value="0,0,0,1"/>
+    </Style>
+  </ControlTheme>
+
+</ResourceDictionary>

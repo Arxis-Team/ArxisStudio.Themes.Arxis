@@ -26,6 +26,15 @@
     </Setter>
   </ControlTheme>
 
+  <!-- Вкладки внутри шапки панели инструментов: без своего фона и рамки. -->
+  <ControlTheme x:Key="AxToolWindowTabStrip" TargetType="ax:AxTabStrip"
+                BasedOn="{StaticResource {x:Type ax:AxTabStrip}}">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Padding" Value="0"/>
+    <Setter Property="VerticalAlignment" Value="Stretch"/>
+  </ControlTheme>
+
   <!--
       Вкладка: 36 высотой, активная подчёркнута акцентной полосой снизу.
       Кнопка закрытия проявляется на наведении и у активной вкладки; точка
@@ -97,6 +106,18 @@
     </Style>
     <Style Selector="^:selected /template/ Border#PART_ActiveMarker">
       <Setter Property="IsVisible" Value="True"/>
+    </Style>
+
+    <!-- Вкладка в шапке панели инструментов: ниже и без своего фона. -->
+    <Style Selector="^.compact">
+      <Setter Property="Height" Value="34"/>
+      <Setter Property="Padding" Value="8,0"/>
+    </Style>
+    <Style Selector="^.compact:selected /template/ Border#PART_Root">
+      <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style Selector="^.compact /template/ Border#PART_ActiveMarker">
+      <Setter Property="Margin" Value="-8,0"/>
     </Style>
   </ControlTheme>
 

@@ -30,6 +30,7 @@
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxSelection.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxBanner.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxTabStrip.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxToolWindow.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxTreeView.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/ScrollBar.axaml"/>
       </ResourceDictionary.MergedDictionaries>
