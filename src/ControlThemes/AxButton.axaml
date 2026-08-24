@@ -6,7 +6,8 @@
       Кнопка Int UI: 28 высотой, скругление 4, отступы 12×6, минимальная ширина 72.
       Классы: без класса — контурная, accent — акцентная (основное действие),
       ghost — без рамки до наведения, icon — компактная под одну иконку,
-      danger — красный акцент на наведении (закрыть, удалить).
+      compact — пониже и потеснее для панелей, danger — красный акцент на
+      наведении (закрыть, удалить).
 
       Контур фокуса рисуется отдельным слоем поверх фона и выходит за границы
       кнопки на 2px, как в Int UI: рамка контрола при этом остаётся на месте,
@@ -101,6 +102,14 @@
       <Setter Property="BorderThickness" Value="0"/>
       <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusSmall}"/>
       <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+    </Style>
+
+    <!-- Кнопка в тесном месте: панель инструментов, подвал панели. -->
+    <Style Selector="^.compact">
+      <Setter Property="Height" Value="{DynamicResource AxControlHeightCompact}"/>
+      <Setter Property="MinWidth" Value="0"/>
+      <Setter Property="Padding" Value="10,0"/>
+      <Setter Property="FontSize" Value="11.5"/>
     </Style>
 
     <Style Selector="^.danger:pointerover /template/ ContentPresenter#PART_ContentPresenter">
