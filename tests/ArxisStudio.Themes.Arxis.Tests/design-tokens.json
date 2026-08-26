@@ -1,0 +1,371 @@
+{
+  "metrics": {
+    "AxButtonMinWidth": "72",
+    "AxButtonPadding": "12,6",
+    "AxCheckboxGap": "5",
+    "AxCheckboxSize": "16",
+    "AxComboBoxPadding": "6,2",
+    "AxControlHeight": "28",
+    "AxControlHeightCompact": "24",
+    "AxCornerRadius": "4",
+    "AxCornerRadiusLarge": "8",
+    "AxCornerRadiusSmall": "3",
+    "AxFocusOutlineThickness": "2",
+    "AxFocusOutlineWidth": "2",
+    "AxFontFamily": "fonts:Inter#Inter",
+    "AxFontFamilyMono": "Fira Code → Cascadia Mono → Consolas",
+    "AxFontSize": "13",
+    "AxFontSizeCaption": "10.5",
+    "AxFontSizeSmall": "11.5",
+    "AxRowHeight": "24",
+    "AxTextFieldPadding": "9,4"
+  },
+  "scales": {
+    "AxBlue1": {
+      "Dark": "#25324D",
+      "Light": "#2E55A3"
+    },
+    "AxBlue10": {
+      "Dark": "#83ACFC",
+      "Light": "#C2D6FC"
+    },
+    "AxBlue11": {
+      "Dark": "#99BBFF",
+      "Light": "#D4E2FF"
+    },
+    "AxBlue12": {
+      "Dark": "#B5CEFF",
+      "Light": "#EDF3FF"
+    },
+    "AxBlue13": {
+      "Dark": "#D1E0FF",
+      "Light": "#F5F8FE"
+    },
+    "AxBlue2": {
+      "Dark": "#2E436E",
+      "Light": "#315FBD"
+    },
+    "AxBlue3": {
+      "Dark": "#35538F",
+      "Light": "#3369D6"
+    },
+    "AxBlue4": {
+      "Dark": "#375FAD",
+      "Light": "#3574F0"
+    },
+    "AxBlue5": {
+      "Dark": "#366ACE",
+      "Light": "#4682FA"
+    },
+    "AxBlue6": {
+      "Dark": "#3574F0",
+      "Light": "#588CF3"
+    },
+    "AxBlue7": {
+      "Dark": "#467FF2",
+      "Light": "#709CF5"
+    },
+    "AxBlue8": {
+      "Dark": "#548AF7",
+      "Light": "#88ADF7"
+    },
+    "AxBlue9": {
+      "Dark": "#6B9BFA",
+      "Light": "#A0BDF8"
+    },
+    "AxGray1": {
+      "Dark": "#1E1F22",
+      "Light": "#000000"
+    },
+    "AxGray10": {
+      "Dark": "#B4B8BF",
+      "Light": "#D3D5DB"
+    },
+    "AxGray11": {
+      "Dark": "#CED0D6",
+      "Light": "#DFE1E5"
+    },
+    "AxGray12": {
+      "Dark": "#DFE1E5",
+      "Light": "#EBECF0"
+    },
+    "AxGray13": {
+      "Dark": "#F0F1F2",
+      "Light": "#F7F8FA"
+    },
+    "AxGray14": {
+      "Dark": "#FFFFFF",
+      "Light": "#FFFFFF"
+    },
+    "AxGray2": {
+      "Dark": "#2B2D30",
+      "Light": "#27282E"
+    },
+    "AxGray3": {
+      "Dark": "#393B40",
+      "Light": "#383A42"
+    },
+    "AxGray4": {
+      "Dark": "#43454A",
+      "Light": "#494B57"
+    },
+    "AxGray5": {
+      "Dark": "#4E5157",
+      "Light": "#5A5D6B"
+    },
+    "AxGray6": {
+      "Dark": "#5A5D63",
+      "Light": "#6C707E"
+    },
+    "AxGray7": {
+      "Dark": "#6F737A",
+      "Light": "#818594"
+    },
+    "AxGray8": {
+      "Dark": "#868A91",
+      "Light": "#A8ADBD"
+    },
+    "AxGray9": {
+      "Dark": "#9DA0A8",
+      "Light": "#C9CCD6"
+    },
+    "AxGreen1": {
+      "Dark": "#253627",
+      "Light": "#1E6B33"
+    },
+    "AxGreen4": {
+      "Dark": "#436946",
+      "Light": "#208A3C"
+    },
+    "AxGreen6": {
+      "Dark": "#57965C",
+      "Light": "#55A76A"
+    },
+    "AxGreen7": {
+      "Dark": "#5FAD65",
+      "Light": "#89C398"
+    },
+    "AxGreen9": {
+      "Dark": "#89CC8E",
+      "Light": "#C5E5CC"
+    },
+    "AxOrange1": {
+      "Dark": "#45322B",
+      "Light": "#A14916"
+    },
+    "AxOrange6": {
+      "Dark": "#E08855",
+      "Light": "#F2B181"
+    },
+    "AxOrange7": {
+      "Dark": "#E5986C",
+      "Light": "#F9D2B6"
+    },
+    "AxPurple1": {
+      "Dark": "#2F2936",
+      "Light": "#55339C"
+    },
+    "AxPurple7": {
+      "Dark": "#955AE0",
+      "Light": "#DCCBFB"
+    },
+    "AxPurple8": {
+      "Dark": "#A571E6",
+      "Light": "#EFE5FF"
+    },
+    "AxPurple9": {
+      "Dark": "#B589EC",
+      "Light": "#F5EDFF"
+    },
+    "AxRed1": {
+      "Dark": "#402929",
+      "Light": "#AD2B38"
+    },
+    "AxRed4": {
+      "Dark": "#7A4343",
+      "Light": "#DB3B4B"
+    },
+    "AxRed6": {
+      "Dark": "#BD5757",
+      "Light": "#E46A76"
+    },
+    "AxRed7": {
+      "Dark": "#DB5C5C",
+      "Light": "#ED99A1"
+    },
+    "AxRed9": {
+      "Dark": "#EB938D",
+      "Light": "#FAD4D8"
+    },
+    "AxTeal1": {
+      "Dark": "#1D3838",
+      "Light": "#096A6E"
+    },
+    "AxTeal7": {
+      "Dark": "#24A394",
+      "Light": "#B6E4E5"
+    },
+    "AxYellow1": {
+      "Dark": "#3D3223",
+      "Light": "#A46704"
+    },
+    "AxYellow4": {
+      "Dark": "#9E814A",
+      "Light": "#FFAF0F"
+    },
+    "AxYellow6": {
+      "Dark": "#D6AE58",
+      "Light": "#FED277"
+    },
+    "AxYellow7": {
+      "Dark": "#F2C55C",
+      "Light": "#FEE6B1"
+    }
+  },
+  "semantic": {
+    "AxAbShadow": {
+      "Dark": "#8C000000",
+      "Light": "#2E1E283C"
+    },
+    "AxAcc": {
+      "Dark": "#3574F0",
+      "Light": "#3574F0"
+    },
+    "AxAccHover": {
+      "Dark": "#467FF2",
+      "Light": "#3369D6"
+    },
+    "AxAccPressed": {
+      "Dark": "#366ACE",
+      "Light": "#315FBD"
+    },
+    "AxAccStrong": {
+      "Dark": "#3369D6",
+      "Light": "#3369D6"
+    },
+    "AxAccStrongHover": {
+      "Dark": "#315FBD",
+      "Light": "#315FBD"
+    },
+    "AxBrd": {
+      "Dark": "#393B40",
+      "Light": "#EBECF0"
+    },
+    "AxCanvas": {
+      "Dark": "#191A1D",
+      "Light": "#EDEEF1"
+    },
+    "AxDot": {
+      "Dark": "#33353A",
+      "Light": "#D5D7DE"
+    },
+    "AxErrorBackground": {
+      "Dark": "#402929",
+      "Light": "#FFF7F7"
+    },
+    "AxFg": {
+      "Dark": "#DFE1E5",
+      "Light": "#27282E"
+    },
+    "AxFgDisabled": {
+      "Dark": "#868A91",
+      "Light": "#A8ADBD"
+    },
+    "AxGreenText": {
+      "Dark": "#5FAD65",
+      "Light": "#1E6B33"
+    },
+    "AxGrn": {
+      "Dark": "#5FAD65",
+      "Light": "#208A3C"
+    },
+    "AxInfoBackground": {
+      "Dark": "#25324D",
+      "Light": "#EDF3FF"
+    },
+    "AxInp": {
+      "Dark": "#1E1F22",
+      "Light": "#FFFFFF"
+    },
+    "AxInpDisabled": {
+      "Dark": "#2B2D30",
+      "Light": "#F7F8FA"
+    },
+    "AxLink": {
+      "Dark": "#548AF7",
+      "Light": "#3574F0"
+    },
+    "AxLinkHover": {
+      "Dark": "#6B9BFA",
+      "Light": "#3369D6"
+    },
+    "AxLinkOn": {
+      "Dark": "#6B9BFA",
+      "Light": "#315FBD"
+    },
+    "AxLinkVisited": {
+      "Dark": "#B589EC",
+      "Light": "#55339C"
+    },
+    "AxOnAcc": {
+      "Dark": "#FFFFFF",
+      "Light": "#FFFFFF"
+    },
+    "AxOrg": {
+      "Dark": "#E08855",
+      "Light": "#A14916"
+    },
+    "AxOutlineError": {
+      "Dark": "#DB5C5C",
+      "Light": "#DB3B4B"
+    },
+    "AxOutlineFocused": {
+      "Dark": "#3574F0",
+      "Light": "#3574F0"
+    },
+    "AxOutlineWarning": {
+      "Dark": "#D6AE58",
+      "Light": "#FFAF0F"
+    },
+    "AxPur": {
+      "Dark": "#A571E6",
+      "Light": "#55339C"
+    },
+    "AxRed": {
+      "Dark": "#DB5C5C",
+      "Light": "#DB3B4B"
+    },
+    "AxRedText": {
+      "Dark": "#EB938D",
+      "Light": "#AD2B38"
+    },
+    "AxSel": {
+      "Dark": "#2E436E",
+      "Light": "#D4E2FF"
+    },
+    "AxSelInactive": {
+      "Dark": "#393B40",
+      "Light": "#EBECF0"
+    },
+    "AxShadow": {
+      "Dark": "#73000000",
+      "Light": "#24000000"
+    },
+    "AxSuccessBackground": {
+      "Dark": "#253627",
+      "Light": "#F2FCF3"
+    },
+    "AxWarningBackground": {
+      "Dark": "#3D3223",
+      "Light": "#FFF5DB"
+    },
+    "AxYel": {
+      "Dark": "#D6AE58",
+      "Light": "#A46704"
+    },
+    "AxYellowText": {
+      "Dark": "#D6AE58",
+      "Light": "#A14916"
+    }
+  }
+}

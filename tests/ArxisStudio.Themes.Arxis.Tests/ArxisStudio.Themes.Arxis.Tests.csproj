@@ -18,4 +18,13 @@
         <ProjectReference Include="../../src/ArxisStudio.Themes.Arxis.csproj"/>
     </ItemGroup>
 
+
+    <!--
+        Значения дизайн-проекта едут в сборке тестов: сверка должна работать
+        и там, где самого дизайн-проекта рядом нет.
+    -->
+    <ItemGroup>
+        <EmbeddedResource Include="design-tokens.json"/>
+    </ItemGroup>
+
 </Project>
