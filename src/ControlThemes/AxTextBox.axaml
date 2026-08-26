@@ -138,6 +138,13 @@
   <ControlTheme x:Key="{x:Type ax:AxTextArea}" TargetType="ax:AxTextArea"
                 BasedOn="{StaticResource {x:Type ax:AxTextBox}}">
     <Setter Property="MinHeight" Value="72"/>
+    <!--
+        Многострочное поле — единственное, где вертикальный отступ нужен:
+        у однострочного текст стоит по центру и отступ ему только мешает, а
+        здесь первая строка иначе прижимается к рамке. Компонента на этот
+        случай в проекте нет, значение выбрано по горизонтальному.
+    -->
+    <Setter Property="Padding" Value="9,6"/>
     <Setter Property="AcceptsReturn" Value="True"/>
     <Setter Property="TextWrapping" Value="Wrap"/>
     <Setter Property="VerticalContentAlignment" Value="Top"/>

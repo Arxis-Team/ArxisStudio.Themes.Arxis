@@ -31,7 +31,10 @@ public class ControlGeometryTests
 
         Assert.Equal(28d, button.Height);
         Assert.Equal(72d, button.MinWidth);
-        Assert.Equal(new Thickness(12, 6), button.Padding);
+        // Вертикальный отступ у кнопки нулевой: компонент центрирует текст
+        // флексом при высоте 28, а не отступами. Ненулевой съедал высоту, и
+        // на 28 текст обрезался снизу.
+        Assert.Equal(new Thickness(12, 0), button.Padding);
         Assert.Equal(new CornerRadius(4), button.CornerRadius);
         Assert.Equal(new Thickness(1), button.BorderThickness);
     }
@@ -77,7 +80,7 @@ public class ControlGeometryTests
         var box = Shown(new AxTextBox());
 
         Assert.Equal(28d, box.MinHeight);
-        Assert.Equal(new Thickness(9, 4), box.Padding);
+        Assert.Equal(new Thickness(9, 0), box.Padding);
         Assert.Equal(new CornerRadius(4), box.CornerRadius);
         Assert.Equal(new Thickness(1), box.BorderThickness);
     }
