@@ -51,9 +51,10 @@
                    IsLightDismissEnabled="True"
                    InheritsTransform="True">
               <Border Background="{DynamicResource AxBg2Brush}"
-                      BorderBrush="{DynamicResource AxBrdBrush}"
+                      BorderBrush="{DynamicResource AxBrd2Brush}"
                       BorderThickness="1"
                       CornerRadius="{DynamicResource AxCornerRadiusLarge}"
+                      BoxShadow="{DynamicResource AxPopupShadow}"
                       Margin="0,4,0,0">
                 <ScrollViewer>
                   <ItemsPresenter x:Name="PART_ItemsPresenter"

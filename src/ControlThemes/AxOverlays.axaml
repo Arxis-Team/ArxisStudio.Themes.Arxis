@@ -40,7 +40,7 @@
 
   <!-- Подсказка «Понятно»: заголовок, объяснение, счётчик шагов и действие. -->
   <ControlTheme x:Key="{x:Type ax:AxTeachingTip}" TargetType="ax:AxTeachingTip">
-    <Setter Property="Background" Value="{DynamicResource AxBg1Brush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
@@ -83,7 +83,7 @@
 
   <!-- Уведомление: событие с действиями-ссылками, исчезает — в отличие от баннера. -->
   <ControlTheme x:Key="{x:Type ax:AxNotificationCard}" TargetType="ax:AxNotificationCard">
-    <Setter Property="Background" Value="{DynamicResource AxBg1Brush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
@@ -149,7 +149,7 @@
 
   <!-- Попап поиска: строка запроса, результаты и подвал с подсказками клавиш. -->
   <ControlTheme x:Key="{x:Type ax:AxQuickSearch}" TargetType="ax:AxQuickSearch">
-    <Setter Property="Background" Value="{DynamicResource AxBg1Brush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
