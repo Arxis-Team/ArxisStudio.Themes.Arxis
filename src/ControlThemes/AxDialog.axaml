@@ -43,6 +43,7 @@
                 <DockPanel>
                   <ContentPresenter Content="{TemplateBinding Buttons}"
                                     DockPanel.Dock="Right"
+                                    Margin="12,0,0,0"
                                     HorizontalAlignment="Right"
                                     IsVisible="{TemplateBinding Buttons, Converter={x:Static ObjectConverters.IsNotNull}}"/>
                   <ContentPresenter Content="{TemplateBinding FooterContent}"

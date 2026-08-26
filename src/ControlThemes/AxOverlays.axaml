@@ -6,12 +6,16 @@
       Всплывающие поверхности: тултип, подсказка «Понятно», уведомление и
       попап поиска. Все — карточки: тултип на bg2 с тенью попапа, остальные
       на bg1; тень диалога — только у модальных окон.
+
+      Волосяная рамка у всех — AxBrd2: в тёмной половине карточек проекта
+      она у всех всплывающих одна и та же, и это единственное прочтение,
+      сходящееся в обоих вариантах. AxBrd остаётся разделителям внутри.
   -->
 
   <!-- Тултип: тема родного ToolTip, ключом типа — как ScrollBar. -->
   <ControlTheme x:Key="{x:Type ToolTip}" TargetType="ToolTip">
     <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
@@ -37,7 +41,7 @@
   <!-- Подсказка «Понятно»: заголовок, объяснение, счётчик шагов и действие. -->
   <ControlTheme x:Key="{x:Type ax:AxTeachingTip}" TargetType="ax:AxTeachingTip">
     <Setter Property="Background" Value="{DynamicResource AxBg1Brush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
@@ -80,7 +84,7 @@
   <!-- Уведомление: событие с действиями-ссылками, исчезает — в отличие от баннера. -->
   <ControlTheme x:Key="{x:Type ax:AxNotificationCard}" TargetType="ax:AxNotificationCard">
     <Setter Property="Background" Value="{DynamicResource AxBg1Brush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>

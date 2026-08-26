@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Headless.XUnit;
 using Avalonia.Styling;
+using Avalonia.VisualTree;
 using Xunit;
 
 namespace ArxisStudio.Themes.Arxis.Tests;
@@ -96,6 +97,12 @@ public class ThemeAppliesTemplatesTests
         dialog.Show();
 
         Assert.NotNull(dialog.Template);
+
+        // Шаблон должен быть наш, а не базового Window: «не null» здесь мало —
+        // окно получает чужой шаблон молча и показывает голое содержимое.
+        // Крестик заголовка есть только в теме диалога.
+        Assert.Contains(dialog.GetVisualDescendants().OfType<Control>(), child => child.Name == "PART_Close");
+
         dialog.Close();
     }
 
