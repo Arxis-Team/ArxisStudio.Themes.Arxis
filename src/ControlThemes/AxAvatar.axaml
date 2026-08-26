@@ -9,7 +9,7 @@
     <Setter Property="CornerRadius" Value="9"/>
     <Setter Property="TileBrush" Value="{DynamicResource AxAccStrongBrush}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxOnAccBrush}"/>
-    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
     <Setter Property="Template">
       <ControlTemplate>

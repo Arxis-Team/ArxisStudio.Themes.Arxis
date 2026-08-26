@@ -11,51 +11,56 @@
     <Setter Property="HorizontalAlignment" Value="Left"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <Grid ColumnDefinitions="Auto,*" VerticalAlignment="Center">
-          <Panel VerticalAlignment="Center">
+        <Panel>
+          <!-- Кольцо фокуса обнимает всю строку с подписью — как в компоненте. -->
           <Border x:Name="PART_FocusRing"
-                  Margin="-3"
-                  CornerRadius="5"
+                  Margin="-2"
+                  CornerRadius="6"
                   BorderThickness="{DynamicResource AxFocusOutlineThickness}"
                   BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
                   IsVisible="False"/>
-          <Border x:Name="PART_Box"
-                  Width="{DynamicResource AxCheckboxSize}"
-                  Height="{DynamicResource AxCheckboxSize}"
-                  CornerRadius="{DynamicResource AxCornerRadiusSmall}"
-                  BorderBrush="{DynamicResource AxBrd2Brush}"
-                  BorderThickness="1"
-                  Background="{DynamicResource AxInpBrush}"
-                  VerticalAlignment="Center">
-            <Panel>
+          <Grid ColumnDefinitions="Auto,*" VerticalAlignment="Center">
+            <Panel VerticalAlignment="Center">
+              <Border x:Name="PART_Box"
+                      Width="{DynamicResource AxCheckboxSize}"
+                      Height="{DynamicResource AxCheckboxSize}"
+                      CornerRadius="{DynamicResource AxCornerRadiusSmall}"
+                      BorderBrush="{DynamicResource AxBrd2Brush}"
+                      BorderThickness="1"
+                      Background="{DynamicResource AxInpBrush}"
+                      VerticalAlignment="Center"/>
+              <!--
+                  Галочка и черта — пути 16-сетки со штрихом иконок, как в
+                  компоненте: рисуются поверх коробки без масштабирования,
+                  чтобы вес совпадал с остальным набором глифов.
+              -->
               <Path x:Name="PART_Check"
+                    Width="{DynamicResource AxCheckboxSize}"
+                    Height="{DynamicResource AxCheckboxSize}"
                     Data="M 3.5 8.5 L 6.5 11.5 L 12.5 4.5"
                     Stroke="{DynamicResource AxOnAccBrush}"
-                    StrokeThickness="2"
+                    StrokeThickness="{DynamicResource AxIconStrokeThickness}"
                     StrokeLineCap="Round"
                     StrokeJoin="Round"
-                    Stretch="Uniform"
-                    Margin="2"
                     IsVisible="False"/>
               <Path x:Name="PART_Dash"
+                    Width="{DynamicResource AxCheckboxSize}"
+                    Height="{DynamicResource AxCheckboxSize}"
                     Data="M 4.5 8 L 11.5 8"
                     Stroke="{DynamicResource AxOnAccBrush}"
-                    StrokeThickness="2"
+                    StrokeThickness="{DynamicResource AxIconStrokeThickness}"
                     StrokeLineCap="Round"
-                    Stretch="Uniform"
-                    Margin="3,0"
                     IsVisible="False"/>
             </Panel>
-          </Border>
-          </Panel>
-          <ContentPresenter Grid.Column="1"
-                            Margin="5,0,0,0"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            VerticalAlignment="Center"
-                            RecognizesAccessKey="True"
-                            IsVisible="{TemplateBinding Content, Converter={x:Static ObjectConverters.IsNotNull}}"/>
-        </Grid>
+            <ContentPresenter Grid.Column="1"
+                              Margin="5,0,0,0"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              VerticalAlignment="Center"
+                              RecognizesAccessKey="True"
+                              IsVisible="{TemplateBinding Content, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+          </Grid>
+        </Panel>
       </ControlTemplate>
     </Setter>
 

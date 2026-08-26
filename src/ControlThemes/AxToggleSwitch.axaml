@@ -17,25 +17,28 @@
     <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <Grid ColumnDefinitions="*,Auto" VerticalAlignment="Center">
-          <!-- Подпись идёт слева от дорожки — как в карточке галереи. -->
-          <ContentPresenter Margin="0,0,8,0"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            VerticalAlignment="Center"
-                            RecognizesAccessKey="True"
-                            IsVisible="{TemplateBinding Content, Converter={x:Static ObjectConverters.IsNotNull}}"/>
-          <Panel Grid.Column="1" VerticalAlignment="Center">
-            <Border x:Name="PART_FocusRing"
-                    Margin="-3"
-                    CornerRadius="12"
-                    BorderThickness="{DynamicResource AxFocusOutlineThickness}"
-                    BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
-                    IsVisible="False"/>
+        <Panel>
+          <!-- Кольцо фокуса обнимает подпись вместе с дорожкой — как в компоненте. -->
+          <Border x:Name="PART_FocusRing"
+                  Margin="-2"
+                  CornerRadius="6"
+                  BorderThickness="{DynamicResource AxFocusOutlineThickness}"
+                  BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                  IsVisible="False"/>
+          <Grid ColumnDefinitions="*,Auto" VerticalAlignment="Center">
+            <!-- Подпись идёт слева от дорожки — как в компоненте. -->
+            <ContentPresenter Margin="0,0,8,0"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              VerticalAlignment="Center"
+                              RecognizesAccessKey="True"
+                              IsVisible="{TemplateBinding Content, Converter={x:Static ObjectConverters.IsNotNull}}"/>
             <Border x:Name="PART_Track"
+                    Grid.Column="1"
                     Width="{DynamicResource AxToggleWidth}"
                     Height="{DynamicResource AxToggleHeight}"
                     CornerRadius="10"
+                    VerticalAlignment="Center"
                     Background="{DynamicResource AxBg4Brush}">
               <Ellipse x:Name="PART_Knob"
                        Width="{DynamicResource AxToggleKnobSize}"
@@ -45,8 +48,8 @@
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center"/>
             </Border>
-          </Panel>
-        </Grid>
+          </Grid>
+        </Panel>
       </ControlTemplate>
     </Setter>
 

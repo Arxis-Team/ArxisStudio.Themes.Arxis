@@ -43,7 +43,7 @@
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="Padding" Value="14,12"/>
-    <Setter Property="MaxWidth" Value="280"/>
+    <Setter Property="MaxWidth" Value="250"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}"
@@ -162,7 +162,7 @@
             <Border DockPanel.Dock="Top"
                     BorderBrush="{DynamicResource AxBrdBrush}"
                     BorderThickness="0,0,0,1"
-                    Padding="12,8">
+                    Padding="12,10">
               <DockPanel>
                 <ax:AxIcon DockPanel.Dock="Left"
                            Margin="0,0,8,0"
@@ -182,7 +182,7 @@
             <Border DockPanel.Dock="Bottom"
                     BorderBrush="{DynamicResource AxBrdBrush}"
                     BorderThickness="0,1,0,0"
-                    Padding="12,6">
+                    Padding="12,8">
               <TextBlock Text="{TemplateBinding Hints}"
                          Foreground="{DynamicResource AxFg2Brush}"
                          FontSize="{DynamicResource AxFontSizeSmall}"/>

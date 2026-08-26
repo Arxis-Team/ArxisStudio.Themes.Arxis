@@ -17,7 +17,8 @@
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
-    <Setter Property="CaretBrush" Value="{DynamicResource AxFgBrush}"/>
+    <!-- Карет акцентный — как в компоненте поля. -->
+    <Setter Property="CaretBrush" Value="{DynamicResource AxAccBrush}"/>
     <Setter Property="SelectionBrush" Value="{DynamicResource AxSelBrush}"/>
     <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
@@ -94,7 +95,6 @@
     </Style>
     <Style Selector="^:disabled /template/ Border#PART_BorderElement">
       <Setter Property="Background" Value="{DynamicResource AxInpDisabledBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
     </Style>
 
     <!--

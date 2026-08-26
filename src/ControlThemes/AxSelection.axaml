@@ -14,27 +14,31 @@
     <Setter Property="HorizontalAlignment" Value="Left"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <Grid ColumnDefinitions="Auto,*" VerticalAlignment="Center">
-          <Panel Width="16" Height="16"
-                 VerticalAlignment="Center">
-            <Ellipse x:Name="PART_FocusRing"
-                     Margin="-3"
-                     StrokeThickness="{DynamicResource AxFocusOutlineWidth}"
-                     Stroke="{DynamicResource AxOutlineFocusedBrush}"
-                     IsVisible="False"/>
-            <Ellipse x:Name="PART_Circle"
-                     Fill="{DynamicResource AxInpBrush}"
-                     Stroke="{DynamicResource AxBrd2Brush}"
-                     StrokeThickness="1"/>
-          </Panel>
-          <ContentPresenter Grid.Column="1"
-                            Margin="5,0,0,0"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            VerticalAlignment="Center"
-                            RecognizesAccessKey="True"
-                            IsVisible="{TemplateBinding Content, Converter={x:Static ObjectConverters.IsNotNull}}"/>
-        </Grid>
+        <Panel>
+          <Border x:Name="PART_FocusRing"
+                  Margin="-2"
+                  CornerRadius="6"
+                  BorderThickness="{DynamicResource AxFocusOutlineThickness}"
+                  BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                  IsVisible="False"/>
+          <Grid ColumnDefinitions="Auto,*" VerticalAlignment="Center">
+            <Panel Width="{DynamicResource AxCheckboxSize}"
+                   Height="{DynamicResource AxCheckboxSize}"
+                   VerticalAlignment="Center">
+              <Ellipse x:Name="PART_Circle"
+                       Fill="{DynamicResource AxInpBrush}"
+                       Stroke="{DynamicResource AxBrd2Brush}"
+                       StrokeThickness="1"/>
+            </Panel>
+            <ContentPresenter Grid.Column="1"
+                              Margin="5,0,0,0"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              VerticalAlignment="Center"
+                              RecognizesAccessKey="True"
+                              IsVisible="{TemplateBinding Content, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+          </Grid>
+        </Panel>
       </ControlTemplate>
     </Setter>
 
@@ -49,12 +53,19 @@
     <Style Selector="^:checked:pointerover /template/ Ellipse#PART_Circle">
       <Setter Property="Stroke" Value="{DynamicResource AxAccHoverBrush}"/>
     </Style>
-    <Style Selector="^:focus-visible /template/ Ellipse#PART_FocusRing">
+    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:disabled">
       <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
       <Setter Property="Cursor" Value="Arrow"/>
+    </Style>
+    <Style Selector="^:disabled /template/ Ellipse#PART_Circle">
+      <Setter Property="Fill" Value="{DynamicResource AxInpDisabledBrush}"/>
+      <Setter Property="Stroke" Value="{DynamicResource AxBrdBrush}"/>
+    </Style>
+    <Style Selector="^:disabled:checked /template/ Ellipse#PART_Circle">
+      <Setter Property="Stroke" Value="{DynamicResource AxBg4Brush}"/>
     </Style>
   </ControlTheme>
 

@@ -65,9 +65,15 @@
       <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
       <Setter Property="Cursor" Value="Arrow"/>
     </Style>
+    <!-- Выключенная кнопка по компоненту: фон выключенного поля, рамка та же. -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="Transparent"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxInpDisabledBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
+    </Style>
+
+    <!-- В фокусе и рамка контрола красится акцентом — как в компоненте. -->
+    <Style Selector="^:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="BorderBrush" Value="{DynamicResource AxOutlineFocusedBrush}"/>
     </Style>
 
     <!-- Акцентная кнопка: основное действие диалога или экрана. -->
@@ -89,9 +95,10 @@
       <Setter Property="Background" Value="{DynamicResource AxAccPressedBrush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AxAccPressedBrush}"/>
     </Style>
+    <!-- Выключенный вид один на все классы — компонент не различает их. -->
     <Style Selector="^.accent:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource AxBg3Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxInpDisabledBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
     </Style>
 
     <Style Selector="^.ghost">
