@@ -7,7 +7,8 @@
     <Setter Property="MinWidth" Value="15"/>
     <Setter Property="Height" Value="15"/>
     <Setter Property="CornerRadius" Value="8"/>
-    <Setter Property="Background" Value="{DynamicResource AxAccBrush}"/>
+    <!-- Счётчик — текст на заливке: AxAccStrong (приёмка, раздел 6). -->
+    <Setter Property="Background" Value="{DynamicResource AxAccStrongBrush}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxOnAccBrush}"/>
     <Setter Property="FontSize" Value="9.5"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
@@ -31,8 +32,8 @@
     <Setter Property="Padding" Value="8,2"/>
     <Setter Property="CornerRadius" Value="10"/>
     <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
-    <Setter Property="FontSize" Value="10.5"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSizeCaption}"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}"
@@ -45,9 +46,10 @@
         </Border>
       </ControlTemplate>
     </Setter>
+    <!-- Акцентный текст на залитой плашке — AxLinkOn: AxAcc там даёт 4,18:1. -->
     <Style Selector="^.accent">
       <Setter Property="Background" Value="{DynamicResource AxSelBrush}"/>
-      <Setter Property="Foreground" Value="{DynamicResource AxAccBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxLinkOnBrush}"/>
     </Style>
     <Style Selector="^.kbd">
       <Setter Property="FontFamily" Value="{DynamicResource AxFontFamilyMono}"/>

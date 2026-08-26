@@ -2,33 +2,69 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ax="using:ArxisStudio.Controls">
 
-  <!-- Тумблер 30×17: выключен — дорожка bg4 и кноб слева, включён — акцент и кноб справа. -->
+  <!--
+      Тумблер 30×17 с кнобом 13 (размеры — метрики темы): выключен — дорожка bg4
+      и кноб слева, включён — залитая акцентом дорожка и кноб справа. Дорожка
+      с текстом не встречается, но кноб стоит на акценте, поэтому включённый —
+      AxAccStrong, как и остальные залитые поверхности.
+  -->
   <ControlTheme x:Key="{x:Type ax:AxToggleSwitch}" TargetType="ax:AxToggleSwitch">
     <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="HorizontalAlignment" Value="Left"/>
     <Setter Property="VerticalAlignment" Value="Center"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
+    <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <Border x:Name="PART_Track"
-                Width="30" Height="17" CornerRadius="10"
-                Background="{DynamicResource AxBg4Brush}">
-          <Ellipse x:Name="PART_Knob"
-                   Width="13" Height="13" Margin="2,0"
-                   Fill="#FFFFFF"
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Center"/>
-        </Border>
+        <Grid ColumnDefinitions="*,Auto" VerticalAlignment="Center">
+          <!-- Подпись идёт слева от дорожки — как в карточке галереи. -->
+          <ContentPresenter Margin="0,0,8,0"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            VerticalAlignment="Center"
+                            RecognizesAccessKey="True"
+                            IsVisible="{TemplateBinding Content, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+          <Panel Grid.Column="1" VerticalAlignment="Center">
+            <Border x:Name="PART_FocusRing"
+                    Margin="-3"
+                    CornerRadius="12"
+                    BorderThickness="{DynamicResource AxFocusOutlineThickness}"
+                    BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                    IsVisible="False"/>
+            <Border x:Name="PART_Track"
+                    Width="{DynamicResource AxToggleWidth}"
+                    Height="{DynamicResource AxToggleHeight}"
+                    CornerRadius="10"
+                    Background="{DynamicResource AxBg4Brush}">
+              <Ellipse x:Name="PART_Knob"
+                       Width="{DynamicResource AxToggleKnobSize}"
+                       Height="{DynamicResource AxToggleKnobSize}"
+                       Margin="2,0"
+                       Fill="{DynamicResource AxOnAccBrush}"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"/>
+            </Border>
+          </Panel>
+        </Grid>
       </ControlTemplate>
     </Setter>
 
     <Style Selector="^:checked /template/ Border#PART_Track">
-      <Setter Property="Background" Value="{DynamicResource AxAccBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxAccStrongBrush}"/>
+    </Style>
+    <Style Selector="^:checked:pointerover /template/ Border#PART_Track">
+      <Setter Property="Background" Value="{DynamicResource AxAccStrongHoverBrush}"/>
     </Style>
     <Style Selector="^:checked /template/ Ellipse#PART_Knob">
       <Setter Property="HorizontalAlignment" Value="Right"/>
     </Style>
+    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
     <Style Selector="^:disabled">
       <Setter Property="Opacity" Value="0.5"/>
+      <Setter Property="Cursor" Value="Arrow"/>
     </Style>
   </ControlTheme>
 

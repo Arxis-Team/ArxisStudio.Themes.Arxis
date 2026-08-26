@@ -153,6 +153,14 @@
 
       <Color x:Key="AxShadowColor">#73000000</Color>
       <Color x:Key="AxAbShadowColor">#8C000000</Color>
+
+      <!--
+          Готовые тени: BoxShadows не собирается из кисти ресурсом, поэтому
+          цвет тени повторён здесь — и только здесь. AxPopupShadow — попапы,
+          меню, тултипы (AxShadow); AxModalShadow — диалоги (AxAbShadow).
+      -->
+      <BoxShadows x:Key="AxPopupShadow">0 4 16 0 #73000000</BoxShadows>
+      <BoxShadows x:Key="AxModalShadow">0 8 40 0 #8C000000</BoxShadows>
     </ResourceDictionary>
 
     <ResourceDictionary x:Key="Light">
@@ -277,6 +285,9 @@
 
       <Color x:Key="AxShadowColor">#24000000</Color>
       <Color x:Key="AxAbShadowColor">#2E1E283C</Color>
+
+      <BoxShadows x:Key="AxPopupShadow">0 4 16 0 #24000000</BoxShadows>
+      <BoxShadows x:Key="AxModalShadow">0 8 40 0 #2E1E283C</BoxShadows>
     </ResourceDictionary>
 
   </ResourceDictionary.ThemeDictionaries>

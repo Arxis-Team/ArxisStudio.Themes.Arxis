@@ -8,7 +8,8 @@
   -->
   <ControlTheme x:Key="{x:Type ax:AxRadioButton}" TargetType="ax:AxRadioButton">
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
-    <Setter Property="FontSize" Value="12.5"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
+    <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
     <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="HorizontalAlignment" Value="Left"/>
     <Setter Property="Template">
@@ -22,14 +23,9 @@
                      Stroke="{DynamicResource AxOutlineFocusedBrush}"
                      IsVisible="False"/>
             <Ellipse x:Name="PART_Circle"
-                     Fill="Transparent"
+                     Fill="{DynamicResource AxInpBrush}"
                      Stroke="{DynamicResource AxBrd2Brush}"
-                     StrokeThickness="1.5"/>
-            <Ellipse x:Name="PART_Dot"
-                     Width="6" Height="6"
-                     Fill="{DynamicResource AxOnAccBrush}"
-                     HorizontalAlignment="Center" VerticalAlignment="Center"
-                     IsVisible="False"/>
+                     StrokeThickness="1"/>
           </Panel>
           <ContentPresenter Grid.Column="1"
                             Margin="5,0,0,0"
@@ -45,12 +41,13 @@
     <Style Selector="^:pointerover /template/ Ellipse#PART_Circle">
       <Setter Property="Stroke" Value="{DynamicResource AxFg2Brush}"/>
     </Style>
+    <!-- Выбранный вариант — толстое акцентное кольцо со светлым центром. -->
     <Style Selector="^:checked /template/ Ellipse#PART_Circle">
-      <Setter Property="Fill" Value="{DynamicResource AxAccBrush}"/>
       <Setter Property="Stroke" Value="{DynamicResource AxAccBrush}"/>
+      <Setter Property="StrokeThickness" Value="5"/>
     </Style>
-    <Style Selector="^:checked /template/ Ellipse#PART_Dot">
-      <Setter Property="IsVisible" Value="True"/>
+    <Style Selector="^:checked:pointerover /template/ Ellipse#PART_Circle">
+      <Setter Property="Stroke" Value="{DynamicResource AxAccHoverBrush}"/>
     </Style>
     <Style Selector="^:focus-visible /template/ Ellipse#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
@@ -81,8 +78,8 @@
 
   <!-- Заголовок группы: подпись и линия до конца строки. -->
   <ControlTheme x:Key="{x:Type ax:AxGroupHeader}" TargetType="ax:AxGroupHeader">
-    <Setter Property="Foreground" Value="{DynamicResource AxFg3Brush}"/>
-    <Setter Property="FontSize" Value="11"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
     <Setter Property="HorizontalAlignment" Value="Stretch"/>
     <Setter Property="Template">

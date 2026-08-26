@@ -33,6 +33,12 @@
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxToolWindow.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxTitleBar.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxTreeView.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxSplitButton.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxDropDownButton.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxMenu.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxOverlays.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxDialog.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxToolbox.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/ScrollBar.axaml"/>
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
@@ -44,6 +50,11 @@
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
     <Setter Property="FontFamily" Value="{DynamicResource AxFontFamily}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
+  </Style>
+
+  <!-- Тултип не выскакивает под руку: задержка показа 600 мс. -->
+  <Style Selector=":is(Control)">
+    <Setter Property="(ToolTip.ShowDelay)" Value="600"/>
   </Style>
 
   <!-- Текстовые роли: mono — код/пути/значения; dim/dimmer — вторичный и третичный текст;
@@ -58,20 +69,25 @@
     <Setter Property="Foreground" Value="{DynamicResource AxFg3Brush}"/>
   </Style>
   <!-- Смысловые цвета текста: уровень записи в журнале, состояние, итог. -->
+  <!--
+      Смысловой ТЕКСТ идёт цветами *Text: AxGrn/AxRed/AxYel рассчитаны на
+      заливки и иконки и на фоне панелей не добирают 4,5:1.
+  -->
   <Style Selector="TextBlock.ok">
-    <Setter Property="Foreground" Value="{DynamicResource AxGrnBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxGreenTextBrush}"/>
   </Style>
   <Style Selector="TextBlock.warn">
-    <Setter Property="Foreground" Value="{DynamicResource AxYelBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxYellowTextBrush}"/>
   </Style>
   <Style Selector="TextBlock.bad">
-    <Setter Property="Foreground" Value="{DynamicResource AxRedBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxRedTextBrush}"/>
   </Style>
 
+  <!-- Заголовок секции — текст, а текстом AxFg3 не служит: AxFg2. -->
   <Style Selector="TextBlock.section">
     <Setter Property="FontSize" Value="11"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFg3Brush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
     <Setter Property="LetterSpacing" Value="0.6"/>
   </Style>
 

@@ -1,0 +1,66 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ax="using:ArxisStudio.Controls">
+
+  <!--
+      Диалог: окно без системной рамки на тени AxModalShadow — заголовок с
+      крестиком, содержимое, полоса кнопок за линией. Основное действие стоит
+      крайним справа; слева в полосе живёт FooterContent («Больше не
+      спрашивать»). Размер даёт содержимое, позиция — центр окна-владельца.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxDialog}" TargetType="ax:AxDialog">
+    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="FontFamily" Value="{DynamicResource AxFontFamily}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <VisualLayerManager>
+          <Border Background="{DynamicResource AxBg1Brush}"
+                  CornerRadius="{DynamicResource AxCornerRadiusLarge}"
+                  BoxShadow="{DynamicResource AxModalShadow}"
+                  Margin="24"
+                  MinWidth="320"
+                  ClipToBounds="False">
+            <DockPanel>
+              <DockPanel DockPanel.Dock="Top" Margin="16,12">
+                <ax:AxButton DockPanel.Dock="Right"
+                             x:Name="PART_Close"
+                             Classes="icon"
+                             VerticalAlignment="Center"
+                             IsVisible="{Binding IsCloseVisible, RelativeSource={RelativeSource TemplatedParent}}">
+                  <ax:AxIcon Classes="small" Data="{x:Static ax:AxIcons.Close}"
+                             Foreground="{Binding $parent[ax:AxButton].Foreground}"/>
+                </ax:AxButton>
+                <TextBlock Text="{TemplateBinding Title}"
+                           FontWeight="SemiBold"
+                           FontSize="14"
+                           VerticalAlignment="Center"/>
+              </DockPanel>
+              <Border DockPanel.Dock="Bottom"
+                      BorderBrush="{DynamicResource AxBrdBrush}"
+                      BorderThickness="0,1,0,0"
+                      Padding="16,12">
+                <DockPanel>
+                  <ContentPresenter Content="{TemplateBinding Buttons}"
+                                    DockPanel.Dock="Right"
+                                    HorizontalAlignment="Right"
+                                    IsVisible="{TemplateBinding Buttons, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                  <ContentPresenter Content="{TemplateBinding FooterContent}"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    IsVisible="{TemplateBinding FooterContent, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                </DockPanel>
+              </Border>
+              <ContentPresenter x:Name="PART_ContentPresenter"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Margin="16,0,16,16"
+                                TextBlock.Foreground="{DynamicResource AxFg2Brush}"/>
+            </DockPanel>
+          </Border>
+        </VisualLayerManager>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+</ResourceDictionary>

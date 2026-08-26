@@ -2,21 +2,28 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ax="using:ArxisStudio.Controls">
 
-  <!-- Выпадающий список: компактное поле 26px с шевроном, попап на bg2. -->
+  <!-- Выпадающий список: поле 28 (24 в плотной зоне) с шевроном, попап на bg2. -->
   <ControlTheme x:Key="{x:Type ax:AxComboBox}" TargetType="ax:AxComboBox">
-    <Setter Property="MinHeight" Value="26"/>
-    <Setter Property="Padding" Value="9,0"/>
-    <Setter Property="FontSize" Value="12"/>
+    <Setter Property="MinHeight" Value="{DynamicResource AxControlHeight}"/>
+    <Setter Property="Padding" Value="{DynamicResource AxComboBoxPadding}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="Background" Value="{DynamicResource AxInpBrush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
     <Setter Property="BorderThickness" Value="1"/>
-    <Setter Property="CornerRadius" Value="5"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
-    <Setter Property="PlaceholderForeground" Value="{DynamicResource AxFg3Brush}"/>
+    <Setter Property="PlaceholderForeground" Value="{DynamicResource AxFg2Brush}"/>
     <Setter Property="MaxDropDownHeight" Value="320"/>
     <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="Template">
       <ControlTemplate>
+        <Panel>
+        <Border x:Name="PART_FocusRing"
+                Margin="-2"
+                CornerRadius="6"
+                BorderThickness="{DynamicResource AxFocusOutlineThickness}"
+                BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                IsVisible="False"/>
         <Border x:Name="PART_Background"
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -31,16 +38,12 @@
             <ContentControl Content="{TemplateBinding SelectionBoxItem}"
                             ContentTemplate="{TemplateBinding ItemTemplate}"
                             VerticalAlignment="Center"/>
-            <Path Grid.Column="1"
-                  Margin="6,0,0,0"
-                  Width="11" Height="11"
-                  Data="M 4.2 6 L 8 9.8 L 11.8 6"
-                  Stroke="{DynamicResource AxFg3Brush}"
-                  StrokeThickness="1.4"
-                  StrokeLineCap="Round"
-                  StrokeJoin="Round"
-                  Stretch="Uniform"
-                  VerticalAlignment="Center"/>
+            <ax:AxIcon Grid.Column="1"
+                       x:Name="PART_Chevron"
+                       Margin="6,0,0,0"
+                       Data="{x:Static ax:AxIcons.ChevronDown}"
+                       Foreground="{DynamicResource AxFg2Brush}"
+                       VerticalAlignment="Center"/>
             <Popup x:Name="PART_Popup"
                    IsOpen="{TemplateBinding IsDropDownOpen, Mode=TwoWay}"
                    MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
@@ -50,7 +53,7 @@
               <Border Background="{DynamicResource AxBg2Brush}"
                       BorderBrush="{DynamicResource AxBrdBrush}"
                       BorderThickness="1"
-                      CornerRadius="6"
+                      CornerRadius="{DynamicResource AxCornerRadiusLarge}"
                       Margin="0,4,0,0">
                 <ScrollViewer>
                   <ItemsPresenter x:Name="PART_ItemsPresenter"
@@ -61,23 +64,42 @@
             </Popup>
           </Grid>
         </Border>
+        </Panel>
       </ControlTemplate>
     </Setter>
 
     <Style Selector="^:pointerover /template/ Border#PART_Background">
-      <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
       <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
     </Style>
+    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ Border#PART_Background">
+      <Setter Property="BorderBrush" Value="{DynamicResource AxOutlineFocusedBrush}"/>
+    </Style>
     <Style Selector="^:disabled">
-      <Setter Property="Opacity" Value="0.5"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Cursor" Value="Arrow"/>
+    </Style>
+    <Style Selector="^:disabled /template/ Border#PART_Background">
+      <Setter Property="Background" Value="{DynamicResource AxInpDisabledBrush}"/>
+    </Style>
+    <Style Selector="^:disabled /template/ ax|AxIcon#PART_Chevron">
+      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+    </Style>
+
+    <!-- Плотная зона: шапка инструментального окна и строки Инспектора. -->
+    <Style Selector="^.compact">
+      <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
     </Style>
   </ControlTheme>
 
   <!-- Элемент выпадающего списка. -->
   <ControlTheme x:Key="{x:Type ax:AxComboBoxItem}" TargetType="ax:AxComboBoxItem">
-    <Setter Property="Padding" Value="8,5"/>
-    <Setter Property="CornerRadius" Value="4"/>
-    <Setter Property="FontSize" Value="12"/>
+    <Setter Property="Padding" Value="8,2"/>
+    <Setter Property="MinHeight" Value="{DynamicResource AxRowHeight}"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="Template">

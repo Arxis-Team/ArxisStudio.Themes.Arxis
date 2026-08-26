@@ -1,0 +1,80 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ax="using:ArxisStudio.Controls">
+
+  <!--
+      Кнопка выбора: контурная кнопка с шевроном справа, щелчок открывает
+      Flyout. Состояния — как у AxButton; вариантов заливки у неё нет: выбор
+      не бывает основным действием.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxDropDownButton}" TargetType="ax:AxDropDownButton">
+    <Setter Property="Height" Value="{DynamicResource AxControlHeight}"/>
+    <Setter Property="MinWidth" Value="{DynamicResource AxButtonMinWidth}"/>
+    <Setter Property="Padding" Value="{DynamicResource AxButtonPadding}"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
+    <Setter Property="FontWeight" Value="Medium"/>
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="Cursor" Value="Hand"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <Border x:Name="PART_FocusRing"
+                  Margin="-2"
+                  CornerRadius="6"
+                  BorderThickness="{DynamicResource AxFocusOutlineThickness}"
+                  BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                  IsVisible="False"/>
+          <Border x:Name="PART_Background"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="{TemplateBinding Padding}">
+            <Grid ColumnDefinitions="*,Auto">
+              <ContentPresenter Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                RecognizesAccessKey="True"/>
+              <ax:AxIcon Grid.Column="1"
+                         x:Name="PART_Chevron"
+                         Classes="small"
+                         Margin="6,0,0,0"
+                         Data="{x:Static ax:AxIcons.ChevronDown}"
+                         Foreground="{DynamicResource AxFg2Brush}"
+                         VerticalAlignment="Center"/>
+            </Grid>
+          </Border>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:pointerover /template/ Border#PART_Background">
+      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+    </Style>
+    <Style Selector="^:pressed /template/ Border#PART_Background">
+      <Setter Property="Background" Value="{DynamicResource AxBg4Brush}"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Cursor" Value="Arrow"/>
+    </Style>
+    <Style Selector="^:disabled /template/ Border#PART_Background">
+      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxBg3Brush}"/>
+    </Style>
+    <Style Selector="^:disabled /template/ ax|AxIcon#PART_Chevron">
+      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+    </Style>
+  </ControlTheme>
+
+</ResourceDictionary>

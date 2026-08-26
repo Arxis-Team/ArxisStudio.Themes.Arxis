@@ -1,0 +1,201 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ax="using:ArxisStudio.Controls">
+
+  <!--
+      Инструменты каркаса: главный тулбар, хлебные крошки, лоадер, блок кода
+      и таблица-список. Все — плоские: фон им даёт место, где они стоят.
+  -->
+
+  <!-- Главный тулбар: три слота, живёт внутри AxTitleBar, фона не несёт. -->
+  <ControlTheme x:Key="{x:Type ax:AxToolBar}" TargetType="ax:AxToolBar">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid ColumnDefinitions="*,Auto,*" Background="{TemplateBinding Background}">
+          <ContentPresenter Content="{TemplateBinding LeftContent}"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"/>
+          <ContentPresenter Grid.Column="1"
+                            Content="{TemplateBinding CenterContent}"
+                            VerticalAlignment="Center"/>
+          <ContentPresenter Grid.Column="2"
+                            Content="{TemplateBinding RightContent}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"/>
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <!-- Хлебные крошки: строка звеньев, шеврон-разделитель рисует звено. -->
+  <ControlTheme x:Key="{x:Type ax:AxBreadcrumbBar}" TargetType="ax:AxBreadcrumbBar">
+    <Setter Property="ItemsPanel">
+      <ItemsPanelTemplate>
+        <StackPanel Orientation="Horizontal"/>
+      </ItemsPanelTemplate>
+    </Setter>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ItemsPresenter x:Name="PART_ItemsPresenter"
+                        ItemsPanel="{TemplateBinding ItemsPanel}"/>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <!--
+      Звено крошек: вторичный текст, ведущий себя как ссылка; текущее (класс
+      current) читается основным, звено с проблемой (класс error) — красным
+      текстом. Шеврон-разделитель стоит слева и прячется у первого звена.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxBreadcrumbItem}" TargetType="ax:AxBreadcrumbItem">
+    <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
+    <Setter Property="Padding" Value="2,2"/>
+    <Setter Property="Cursor" Value="Hand"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <StackPanel Orientation="Horizontal">
+          <ax:AxIcon x:Name="PART_Separator"
+                     Classes="small"
+                     Margin="4,0"
+                     Data="{x:Static ax:AxIcons.ChevronRight}"
+                     Foreground="{DynamicResource AxFg3Brush}"
+                     VerticalAlignment="Center"/>
+          <Border x:Name="PART_LayoutRoot"
+                  Background="Transparent"
+                  CornerRadius="{DynamicResource AxCornerRadiusSmall}"
+                  Padding="{TemplateBinding Padding}">
+            <ContentPresenter Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              VerticalAlignment="Center"/>
+          </Border>
+        </StackPanel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:nth-child(1) /template/ ax|AxIcon#PART_Separator">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="^:pointerover">
+      <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    </Style>
+    <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+    </Style>
+    <Style Selector="^.current">
+      <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+      <Setter Property="Cursor" Value="Arrow"/>
+    </Style>
+    <Style Selector="^.current:pointerover /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style Selector="^.error">
+      <Setter Property="Foreground" Value="{DynamicResource AxRedTextBrush}"/>
+    </Style>
+  </ControlTheme>
+
+  <!-- Лоадер: дуга на четверть круга, оборот за 0.8 с линейно. -->
+  <ControlTheme x:Key="{x:Type ax:AxSpinner}" TargetType="ax:AxSpinner">
+    <Setter Property="Width" Value="{DynamicResource AxIconSize}"/>
+    <Setter Property="Height" Value="{DynamicResource AxIconSize}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxAccBrush}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ax:AxIcon x:Name="PART_Arc"
+                   Width="{TemplateBinding Width}"
+                   Height="{TemplateBinding Height}"
+                   Data="M 8 2.5 A 5.5 5.5 0 1 1 2.5 8"
+                   Foreground="{TemplateBinding Foreground}">
+          <ax:AxIcon.RenderTransform>
+            <RotateTransform/>
+          </ax:AxIcon.RenderTransform>
+        </ax:AxIcon>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ ax|AxIcon#PART_Arc">
+      <Style.Animations>
+        <Animation Duration="0:0:0.8" IterationCount="Infinite">
+          <KeyFrame Cue="0%">
+            <Setter Property="RotateTransform.Angle" Value="0"/>
+          </KeyFrame>
+          <KeyFrame Cue="100%">
+            <Setter Property="RotateTransform.Angle" Value="360"/>
+          </KeyFrame>
+        </Animation>
+      </Style.Animations>
+    </Style>
+  </ControlTheme>
+
+  <!-- Блок кода: моноширинный текст с подсветкой кистями AxCode*. -->
+  <ControlTheme x:Key="{x:Type ax:AxCodeBlock}" TargetType="ax:AxCodeBlock">
+    <Setter Property="Background" Value="{DynamicResource AxInpBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
+    <Setter Property="Padding" Value="12,10"/>
+    <Setter Property="FontFamily" Value="{DynamicResource AxFontFamilyMono}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxCodeFgBrush}"/>
+    <Setter Property="TagBrush" Value="{DynamicResource AxCodeTagBrush}"/>
+    <Setter Property="AttributeBrush" Value="{DynamicResource AxCodeAttrBrush}"/>
+    <Setter Property="StringBrush" Value="{DynamicResource AxCodeStringBrush}"/>
+    <Setter Property="CommentBrush" Value="{DynamicResource AxCodeCommentBrush}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <ScrollViewer HorizontalScrollBarVisibility="Auto">
+            <SelectableTextBlock x:Name="PART_Text"
+                                 FontFamily="{TemplateBinding FontFamily}"
+                                 FontSize="{TemplateBinding FontSize}"
+                                 Foreground="{TemplateBinding Foreground}"
+                                 LineHeight="18"/>
+          </ScrollViewer>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <!-- Таблица-список: строка заголовков над строками AxRowHeight. -->
+  <ControlTheme x:Key="{x:Type ax:AxDataGrid}" TargetType="ax:AxDataGrid">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                ClipToBounds="True">
+          <DockPanel>
+            <Border DockPanel.Dock="Top"
+                    Background="{DynamicResource AxBg2Brush}"
+                    BorderBrush="{DynamicResource AxBrdBrush}"
+                    BorderThickness="0,0,0,1"
+                    MinHeight="{DynamicResource AxRowHeight}"
+                    Padding="8,0"
+                    IsVisible="{TemplateBinding Header, Converter={x:Static ObjectConverters.IsNotNull}}">
+              <ContentPresenter Content="{TemplateBinding Header}"
+                                VerticalAlignment="Center"
+                                TextBlock.Foreground="{DynamicResource AxFg2Brush}"
+                                TextBlock.FontSize="{DynamicResource AxFontSizeSmall}"/>
+            </Border>
+            <ScrollViewer x:Name="PART_ScrollViewer">
+              <ItemsPresenter x:Name="PART_ItemsPresenter"
+                              ItemsPanel="{TemplateBinding ItemsPanel}"
+                              Margin="{TemplateBinding Padding}"/>
+            </ScrollViewer>
+          </DockPanel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+</ResourceDictionary>

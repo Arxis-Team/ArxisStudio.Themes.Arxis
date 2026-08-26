@@ -109,7 +109,7 @@
       <Setter Property="Background" Value="{DynamicResource AxRedBrush}"/>
     </Style>
     <Style Selector="^.close:pointerover">
-      <Setter Property="Foreground" Value="#FFFFFF"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxOnAccBrush}"/>
     </Style>
   </ControlTheme>
 

@@ -26,10 +26,10 @@
 
   <!-- Строка списка: hover — bg3, выделение — sel. -->
   <ControlTheme x:Key="{x:Type ax:AxListBoxItem}" TargetType="ax:AxListBoxItem">
-    <Setter Property="Padding" Value="8,4"/>
-    <Setter Property="CornerRadius" Value="7"/>
-    <Setter Property="MinHeight" Value="26"/>
-    <Setter Property="FontSize" Value="12.5"/>
+    <Setter Property="Padding" Value="8,2"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
+    <Setter Property="MinHeight" Value="{DynamicResource AxRowHeight}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="Template">
