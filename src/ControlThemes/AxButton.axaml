@@ -129,9 +129,14 @@
     <!-- Кнопка в тесном месте: панель инструментов, подвал панели. -->
     <Style Selector="^.compact">
       <Setter Property="Height" Value="{DynamicResource AxControlHeightCompact}"/>
+      <Setter Property="MinWidth" Value="{DynamicResource AxButtonMinWidthCompact}"/>
+      <Setter Property="Padding" Value="12,0"/>
+      <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
+    </Style>
+    <!-- Слим-кнопка под одну иконку или в подвале панели: без мин-ширины. -->
+    <Style Selector="^.compact.ghost">
       <Setter Property="MinWidth" Value="0"/>
       <Setter Property="Padding" Value="10,0"/>
-      <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
     </Style>
 
     <!--

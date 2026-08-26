@@ -254,6 +254,14 @@ public class ThemeAppliesTemplatesTests
         Assert.True(window.TryFindResource("AxIconSize", window.ActualThemeVariant, out var icon));
         Assert.Equal(16d, icon);
 
+        // Компонент AxComboBox: слева 9 — как у текста поля, справа 6 — шеврон.
+        Assert.True(window.TryFindResource("AxComboBoxPadding", window.ActualThemeVariant, out var comboPadding));
+        Assert.Equal(new Avalonia.Thickness(9, 0, 6, 0), comboPadding);
+
+        // Слим-кнопка карточки галереи: 24 высотой, мин-ширина 64.
+        Assert.True(window.TryFindResource("AxButtonMinWidthCompact", window.ActualThemeVariant, out var slim));
+        Assert.Equal(64d, slim);
+
         window.Close();
     }
 
