@@ -161,6 +161,66 @@
       -->
       <BoxShadows x:Key="AxPopupShadow">0 4 16 0 #73000000</BoxShadows>
       <BoxShadows x:Key="AxModalShadow">0 8 40 0 #8C000000</BoxShadows>
+
+      <!--
+          Кисти поверх токенов — внутри словаря варианта, а не общим списком:
+          общая кисть разрешала бы свой Color на уровне приложения, и
+          ThemeVariantScope (светлая и тёмная половины галереи, предпросмотр
+          плагина) не мог бы её переокрасить. Шаблоны берут кисти через
+          DynamicResource, поэтому вариант меняется и у живого окна.
+      -->
+      <SolidColorBrush x:Key="AxBg1Brush" Color="{StaticResource AxBg1Color}"/>
+      <SolidColorBrush x:Key="AxBg2Brush" Color="{StaticResource AxBg2Color}"/>
+      <SolidColorBrush x:Key="AxBg3Brush" Color="{StaticResource AxBg3Color}"/>
+      <SolidColorBrush x:Key="AxBg4Brush" Color="{StaticResource AxBg4Color}"/>
+      <SolidColorBrush x:Key="AxBrdBrush" Color="{StaticResource AxBrdColor}"/>
+      <SolidColorBrush x:Key="AxBrd2Brush" Color="{StaticResource AxBrd2Color}"/>
+      <SolidColorBrush x:Key="AxFgBrush" Color="{StaticResource AxFgColor}"/>
+      <SolidColorBrush x:Key="AxFg2Brush" Color="{StaticResource AxFg2Color}"/>
+      <SolidColorBrush x:Key="AxFg3Brush" Color="{StaticResource AxFg3Color}"/>
+      <SolidColorBrush x:Key="AxFgDisabledBrush" Color="{StaticResource AxFgDisabledColor}"/>
+      <SolidColorBrush x:Key="AxAccBrush" Color="{StaticResource AxAccColor}"/>
+      <SolidColorBrush x:Key="AxAccHoverBrush" Color="{StaticResource AxAccHoverColor}"/>
+      <SolidColorBrush x:Key="AxAccPressedBrush" Color="{StaticResource AxAccPressedColor}"/>
+      <SolidColorBrush x:Key="AxAccStrongBrush" Color="{StaticResource AxAccStrongColor}"/>
+      <SolidColorBrush x:Key="AxAccStrongHoverBrush" Color="{StaticResource AxAccStrongHoverColor}"/>
+      <SolidColorBrush x:Key="AxOnAccBrush" Color="{StaticResource AxOnAccColor}"/>
+      <SolidColorBrush x:Key="AxSelBrush" Color="{StaticResource AxSelColor}"/>
+      <SolidColorBrush x:Key="AxSelInactiveBrush" Color="{StaticResource AxSelInactiveColor}"/>
+      <SolidColorBrush x:Key="AxCanvasBrush" Color="{StaticResource AxCanvasColor}"/>
+      <SolidColorBrush x:Key="AxDotBrush" Color="{StaticResource AxDotColor}"/>
+      <SolidColorBrush x:Key="AxInpBrush" Color="{StaticResource AxInpColor}"/>
+      <SolidColorBrush x:Key="AxInpDisabledBrush" Color="{StaticResource AxInpDisabledColor}"/>
+      <SolidColorBrush x:Key="AxGrnBrush" Color="{StaticResource AxGrnColor}"/>
+      <SolidColorBrush x:Key="AxRedBrush" Color="{StaticResource AxRedColor}"/>
+      <SolidColorBrush x:Key="AxYelBrush" Color="{StaticResource AxYelColor}"/>
+      <SolidColorBrush x:Key="AxOrgBrush" Color="{StaticResource AxOrgColor}"/>
+      <SolidColorBrush x:Key="AxPurBrush" Color="{StaticResource AxPurColor}"/>
+      <SolidColorBrush x:Key="AxLinkBrush" Color="{StaticResource AxLinkColor}"/>
+      <SolidColorBrush x:Key="AxLinkHoverBrush" Color="{StaticResource AxLinkHoverColor}"/>
+      <SolidColorBrush x:Key="AxLinkVisitedBrush" Color="{StaticResource AxLinkVisitedColor}"/>
+      <SolidColorBrush x:Key="AxLinkOnBrush" Color="{StaticResource AxLinkOnColor}"/>
+      <SolidColorBrush x:Key="AxGreenTextBrush" Color="{StaticResource AxGreenTextColor}"/>
+      <SolidColorBrush x:Key="AxRedTextBrush" Color="{StaticResource AxRedTextColor}"/>
+      <SolidColorBrush x:Key="AxYellowTextBrush" Color="{StaticResource AxYellowTextColor}"/>
+      <SolidColorBrush x:Key="AxOutlineFocusedBrush" Color="{StaticResource AxOutlineFocusedColor}"/>
+      <SolidColorBrush x:Key="AxOutlineErrorBrush" Color="{StaticResource AxOutlineErrorColor}"/>
+      <SolidColorBrush x:Key="AxOutlineWarningBrush" Color="{StaticResource AxOutlineWarningColor}"/>
+      <SolidColorBrush x:Key="AxInfoBackgroundBrush" Color="{StaticResource AxInfoBackgroundColor}"/>
+      <SolidColorBrush x:Key="AxSuccessBackgroundBrush" Color="{StaticResource AxSuccessBackgroundColor}"/>
+      <SolidColorBrush x:Key="AxWarningBackgroundBrush" Color="{StaticResource AxWarningBackgroundColor}"/>
+      <SolidColorBrush x:Key="AxErrorBackgroundBrush" Color="{StaticResource AxErrorBackgroundColor}"/>
+      <SolidColorBrush x:Key="AxInfoBorderBrush" Color="{StaticResource AxInfoBorderColor}"/>
+      <SolidColorBrush x:Key="AxSuccessBorderBrush" Color="{StaticResource AxSuccessBorderColor}"/>
+      <SolidColorBrush x:Key="AxWarningBorderBrush" Color="{StaticResource AxWarningBorderColor}"/>
+      <SolidColorBrush x:Key="AxErrorBorderBrush" Color="{StaticResource AxErrorBorderColor}"/>
+      <SolidColorBrush x:Key="AxCodeFgBrush" Color="{StaticResource AxCodeFgColor}"/>
+      <SolidColorBrush x:Key="AxCodeTagBrush" Color="{StaticResource AxCodeTagColor}"/>
+      <SolidColorBrush x:Key="AxCodeAttrBrush" Color="{StaticResource AxCodeAttrColor}"/>
+      <SolidColorBrush x:Key="AxCodeStringBrush" Color="{StaticResource AxCodeStringColor}"/>
+      <SolidColorBrush x:Key="AxCodeCommentBrush" Color="{StaticResource AxCodeCommentColor}"/>
+      <SolidColorBrush x:Key="AxShadowBrush" Color="{StaticResource AxShadowColor}"/>
+      <SolidColorBrush x:Key="AxAbShadowBrush" Color="{StaticResource AxAbShadowColor}"/>
     </ResourceDictionary>
 
     <ResourceDictionary x:Key="Light">
@@ -288,62 +348,68 @@
 
       <BoxShadows x:Key="AxPopupShadow">0 4 16 0 #24000000</BoxShadows>
       <BoxShadows x:Key="AxModalShadow">0 8 40 0 #2E1E283C</BoxShadows>
+
+      <!--
+          Кисти поверх токенов — внутри словаря варианта, а не общим списком:
+          общая кисть разрешала бы свой Color на уровне приложения, и
+          ThemeVariantScope (светлая и тёмная половины галереи, предпросмотр
+          плагина) не мог бы её переокрасить. Шаблоны берут кисти через
+          DynamicResource, поэтому вариант меняется и у живого окна.
+      -->
+      <SolidColorBrush x:Key="AxBg1Brush" Color="{StaticResource AxBg1Color}"/>
+      <SolidColorBrush x:Key="AxBg2Brush" Color="{StaticResource AxBg2Color}"/>
+      <SolidColorBrush x:Key="AxBg3Brush" Color="{StaticResource AxBg3Color}"/>
+      <SolidColorBrush x:Key="AxBg4Brush" Color="{StaticResource AxBg4Color}"/>
+      <SolidColorBrush x:Key="AxBrdBrush" Color="{StaticResource AxBrdColor}"/>
+      <SolidColorBrush x:Key="AxBrd2Brush" Color="{StaticResource AxBrd2Color}"/>
+      <SolidColorBrush x:Key="AxFgBrush" Color="{StaticResource AxFgColor}"/>
+      <SolidColorBrush x:Key="AxFg2Brush" Color="{StaticResource AxFg2Color}"/>
+      <SolidColorBrush x:Key="AxFg3Brush" Color="{StaticResource AxFg3Color}"/>
+      <SolidColorBrush x:Key="AxFgDisabledBrush" Color="{StaticResource AxFgDisabledColor}"/>
+      <SolidColorBrush x:Key="AxAccBrush" Color="{StaticResource AxAccColor}"/>
+      <SolidColorBrush x:Key="AxAccHoverBrush" Color="{StaticResource AxAccHoverColor}"/>
+      <SolidColorBrush x:Key="AxAccPressedBrush" Color="{StaticResource AxAccPressedColor}"/>
+      <SolidColorBrush x:Key="AxAccStrongBrush" Color="{StaticResource AxAccStrongColor}"/>
+      <SolidColorBrush x:Key="AxAccStrongHoverBrush" Color="{StaticResource AxAccStrongHoverColor}"/>
+      <SolidColorBrush x:Key="AxOnAccBrush" Color="{StaticResource AxOnAccColor}"/>
+      <SolidColorBrush x:Key="AxSelBrush" Color="{StaticResource AxSelColor}"/>
+      <SolidColorBrush x:Key="AxSelInactiveBrush" Color="{StaticResource AxSelInactiveColor}"/>
+      <SolidColorBrush x:Key="AxCanvasBrush" Color="{StaticResource AxCanvasColor}"/>
+      <SolidColorBrush x:Key="AxDotBrush" Color="{StaticResource AxDotColor}"/>
+      <SolidColorBrush x:Key="AxInpBrush" Color="{StaticResource AxInpColor}"/>
+      <SolidColorBrush x:Key="AxInpDisabledBrush" Color="{StaticResource AxInpDisabledColor}"/>
+      <SolidColorBrush x:Key="AxGrnBrush" Color="{StaticResource AxGrnColor}"/>
+      <SolidColorBrush x:Key="AxRedBrush" Color="{StaticResource AxRedColor}"/>
+      <SolidColorBrush x:Key="AxYelBrush" Color="{StaticResource AxYelColor}"/>
+      <SolidColorBrush x:Key="AxOrgBrush" Color="{StaticResource AxOrgColor}"/>
+      <SolidColorBrush x:Key="AxPurBrush" Color="{StaticResource AxPurColor}"/>
+      <SolidColorBrush x:Key="AxLinkBrush" Color="{StaticResource AxLinkColor}"/>
+      <SolidColorBrush x:Key="AxLinkHoverBrush" Color="{StaticResource AxLinkHoverColor}"/>
+      <SolidColorBrush x:Key="AxLinkVisitedBrush" Color="{StaticResource AxLinkVisitedColor}"/>
+      <SolidColorBrush x:Key="AxLinkOnBrush" Color="{StaticResource AxLinkOnColor}"/>
+      <SolidColorBrush x:Key="AxGreenTextBrush" Color="{StaticResource AxGreenTextColor}"/>
+      <SolidColorBrush x:Key="AxRedTextBrush" Color="{StaticResource AxRedTextColor}"/>
+      <SolidColorBrush x:Key="AxYellowTextBrush" Color="{StaticResource AxYellowTextColor}"/>
+      <SolidColorBrush x:Key="AxOutlineFocusedBrush" Color="{StaticResource AxOutlineFocusedColor}"/>
+      <SolidColorBrush x:Key="AxOutlineErrorBrush" Color="{StaticResource AxOutlineErrorColor}"/>
+      <SolidColorBrush x:Key="AxOutlineWarningBrush" Color="{StaticResource AxOutlineWarningColor}"/>
+      <SolidColorBrush x:Key="AxInfoBackgroundBrush" Color="{StaticResource AxInfoBackgroundColor}"/>
+      <SolidColorBrush x:Key="AxSuccessBackgroundBrush" Color="{StaticResource AxSuccessBackgroundColor}"/>
+      <SolidColorBrush x:Key="AxWarningBackgroundBrush" Color="{StaticResource AxWarningBackgroundColor}"/>
+      <SolidColorBrush x:Key="AxErrorBackgroundBrush" Color="{StaticResource AxErrorBackgroundColor}"/>
+      <SolidColorBrush x:Key="AxInfoBorderBrush" Color="{StaticResource AxInfoBorderColor}"/>
+      <SolidColorBrush x:Key="AxSuccessBorderBrush" Color="{StaticResource AxSuccessBorderColor}"/>
+      <SolidColorBrush x:Key="AxWarningBorderBrush" Color="{StaticResource AxWarningBorderColor}"/>
+      <SolidColorBrush x:Key="AxErrorBorderBrush" Color="{StaticResource AxErrorBorderColor}"/>
+      <SolidColorBrush x:Key="AxCodeFgBrush" Color="{StaticResource AxCodeFgColor}"/>
+      <SolidColorBrush x:Key="AxCodeTagBrush" Color="{StaticResource AxCodeTagColor}"/>
+      <SolidColorBrush x:Key="AxCodeAttrBrush" Color="{StaticResource AxCodeAttrColor}"/>
+      <SolidColorBrush x:Key="AxCodeStringBrush" Color="{StaticResource AxCodeStringColor}"/>
+      <SolidColorBrush x:Key="AxCodeCommentBrush" Color="{StaticResource AxCodeCommentColor}"/>
+      <SolidColorBrush x:Key="AxShadowBrush" Color="{StaticResource AxShadowColor}"/>
+      <SolidColorBrush x:Key="AxAbShadowBrush" Color="{StaticResource AxAbShadowColor}"/>
     </ResourceDictionary>
 
   </ResourceDictionary.ThemeDictionaries>
-
-  <!-- Кисти поверх токенов: DynamicResource переключает их вместе с вариантом темы. -->
-  <SolidColorBrush x:Key="AxBg1Brush" Color="{DynamicResource AxBg1Color}"/>
-  <SolidColorBrush x:Key="AxBg2Brush" Color="{DynamicResource AxBg2Color}"/>
-  <SolidColorBrush x:Key="AxBg3Brush" Color="{DynamicResource AxBg3Color}"/>
-  <SolidColorBrush x:Key="AxBg4Brush" Color="{DynamicResource AxBg4Color}"/>
-  <SolidColorBrush x:Key="AxBrdBrush" Color="{DynamicResource AxBrdColor}"/>
-  <SolidColorBrush x:Key="AxBrd2Brush" Color="{DynamicResource AxBrd2Color}"/>
-  <SolidColorBrush x:Key="AxFgBrush" Color="{DynamicResource AxFgColor}"/>
-  <SolidColorBrush x:Key="AxFg2Brush" Color="{DynamicResource AxFg2Color}"/>
-  <SolidColorBrush x:Key="AxFg3Brush" Color="{DynamicResource AxFg3Color}"/>
-  <SolidColorBrush x:Key="AxFgDisabledBrush" Color="{DynamicResource AxFgDisabledColor}"/>
-  <SolidColorBrush x:Key="AxAccBrush" Color="{DynamicResource AxAccColor}"/>
-  <SolidColorBrush x:Key="AxAccHoverBrush" Color="{DynamicResource AxAccHoverColor}"/>
-  <SolidColorBrush x:Key="AxAccPressedBrush" Color="{DynamicResource AxAccPressedColor}"/>
-  <SolidColorBrush x:Key="AxAccStrongBrush" Color="{DynamicResource AxAccStrongColor}"/>
-  <SolidColorBrush x:Key="AxAccStrongHoverBrush" Color="{DynamicResource AxAccStrongHoverColor}"/>
-  <SolidColorBrush x:Key="AxOnAccBrush" Color="{DynamicResource AxOnAccColor}"/>
-  <SolidColorBrush x:Key="AxSelBrush" Color="{DynamicResource AxSelColor}"/>
-  <SolidColorBrush x:Key="AxSelInactiveBrush" Color="{DynamicResource AxSelInactiveColor}"/>
-  <SolidColorBrush x:Key="AxCanvasBrush" Color="{DynamicResource AxCanvasColor}"/>
-  <SolidColorBrush x:Key="AxDotBrush" Color="{DynamicResource AxDotColor}"/>
-  <SolidColorBrush x:Key="AxInpBrush" Color="{DynamicResource AxInpColor}"/>
-  <SolidColorBrush x:Key="AxInpDisabledBrush" Color="{DynamicResource AxInpDisabledColor}"/>
-  <SolidColorBrush x:Key="AxGrnBrush" Color="{DynamicResource AxGrnColor}"/>
-  <SolidColorBrush x:Key="AxRedBrush" Color="{DynamicResource AxRedColor}"/>
-  <SolidColorBrush x:Key="AxYelBrush" Color="{DynamicResource AxYelColor}"/>
-  <SolidColorBrush x:Key="AxOrgBrush" Color="{DynamicResource AxOrgColor}"/>
-  <SolidColorBrush x:Key="AxPurBrush" Color="{DynamicResource AxPurColor}"/>
-  <SolidColorBrush x:Key="AxLinkBrush" Color="{DynamicResource AxLinkColor}"/>
-  <SolidColorBrush x:Key="AxLinkHoverBrush" Color="{DynamicResource AxLinkHoverColor}"/>
-  <SolidColorBrush x:Key="AxLinkVisitedBrush" Color="{DynamicResource AxLinkVisitedColor}"/>
-  <SolidColorBrush x:Key="AxLinkOnBrush" Color="{DynamicResource AxLinkOnColor}"/>
-  <SolidColorBrush x:Key="AxGreenTextBrush" Color="{DynamicResource AxGreenTextColor}"/>
-  <SolidColorBrush x:Key="AxRedTextBrush" Color="{DynamicResource AxRedTextColor}"/>
-  <SolidColorBrush x:Key="AxYellowTextBrush" Color="{DynamicResource AxYellowTextColor}"/>
-  <SolidColorBrush x:Key="AxOutlineFocusedBrush" Color="{DynamicResource AxOutlineFocusedColor}"/>
-  <SolidColorBrush x:Key="AxOutlineErrorBrush" Color="{DynamicResource AxOutlineErrorColor}"/>
-  <SolidColorBrush x:Key="AxOutlineWarningBrush" Color="{DynamicResource AxOutlineWarningColor}"/>
-  <SolidColorBrush x:Key="AxInfoBackgroundBrush" Color="{DynamicResource AxInfoBackgroundColor}"/>
-  <SolidColorBrush x:Key="AxSuccessBackgroundBrush" Color="{DynamicResource AxSuccessBackgroundColor}"/>
-  <SolidColorBrush x:Key="AxWarningBackgroundBrush" Color="{DynamicResource AxWarningBackgroundColor}"/>
-  <SolidColorBrush x:Key="AxErrorBackgroundBrush" Color="{DynamicResource AxErrorBackgroundColor}"/>
-  <SolidColorBrush x:Key="AxInfoBorderBrush" Color="{DynamicResource AxInfoBorderColor}"/>
-  <SolidColorBrush x:Key="AxSuccessBorderBrush" Color="{DynamicResource AxSuccessBorderColor}"/>
-  <SolidColorBrush x:Key="AxWarningBorderBrush" Color="{DynamicResource AxWarningBorderColor}"/>
-  <SolidColorBrush x:Key="AxErrorBorderBrush" Color="{DynamicResource AxErrorBorderColor}"/>
-  <SolidColorBrush x:Key="AxCodeFgBrush" Color="{DynamicResource AxCodeFgColor}"/>
-  <SolidColorBrush x:Key="AxCodeTagBrush" Color="{DynamicResource AxCodeTagColor}"/>
-  <SolidColorBrush x:Key="AxCodeAttrBrush" Color="{DynamicResource AxCodeAttrColor}"/>
-  <SolidColorBrush x:Key="AxCodeStringBrush" Color="{DynamicResource AxCodeStringColor}"/>
-  <SolidColorBrush x:Key="AxCodeCommentBrush" Color="{DynamicResource AxCodeCommentColor}"/>
-  <SolidColorBrush x:Key="AxShadowBrush" Color="{DynamicResource AxShadowColor}"/>
-  <SolidColorBrush x:Key="AxAbShadowBrush" Color="{DynamicResource AxAbShadowColor}"/>
 
 </ResourceDictionary>

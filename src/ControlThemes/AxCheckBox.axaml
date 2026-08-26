@@ -102,6 +102,13 @@
       <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
       <Setter Property="Cursor" Value="Arrow"/>
     </Style>
+    <Style Selector="^:disabled /template/ Border#PART_Box">
+      <Setter Property="Background" Value="{DynamicResource AxInpDisabledBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+    </Style>
+    <Style Selector="^:disabled:checked /template/ Border#PART_Box, ^:disabled:indeterminate /template/ Border#PART_Box">
+      <Setter Property="Background" Value="{DynamicResource AxBg4Brush}"/>
+    </Style>
   </ControlTheme>
 
 </ResourceDictionary>
