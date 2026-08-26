@@ -46,7 +46,15 @@
       <Setter Property="Stroke" Value="{DynamicResource AxFg2Brush}"/>
     </Style>
     <!-- Выбранный вариант — толстое акцентное кольцо со светлым центром. -->
+    <!--
+        Включённая: кольцо акцента 5 и белая точка внутри. Точка именно белая,
+        а не цвета поля: в светлой теме это одно и то же, а в тёмной поле —
+        почти чёрное, и вместо метки получалась дырка. Тем же белым компонент
+        красит бегунок тумблера на акцентной дорожке — это одна и та же метка
+        «выбрано» на залитой поверхности.
+    -->
     <Style Selector="^:checked /template/ Ellipse#PART_Circle">
+      <Setter Property="Fill" Value="{DynamicResource AxOnAccBrush}"/>
       <Setter Property="Stroke" Value="{DynamicResource AxAccBrush}"/>
       <Setter Property="StrokeThickness" Value="5"/>
     </Style>
@@ -64,8 +72,14 @@
       <Setter Property="Fill" Value="{DynamicResource AxInpDisabledBrush}"/>
       <Setter Property="Stroke" Value="{DynamicResource AxBrdBrush}"/>
     </Style>
+    <!--
+        Выключенная включённая обязана остаться включённой на вид. Точка цвета
+        поля темнее кольца, и метка пропадала — выбор нельзя было прочитать.
+        Проект разводит их наоборот: кольцо AxBg3, точка AxFg3, светлее кольца.
+    -->
     <Style Selector="^:disabled:checked /template/ Ellipse#PART_Circle">
-      <Setter Property="Stroke" Value="{DynamicResource AxBg4Brush}"/>
+      <Setter Property="Fill" Value="{DynamicResource AxFg3Brush}"/>
+      <Setter Property="Stroke" Value="{DynamicResource AxBg3Brush}"/>
     </Style>
   </ControlTheme>
 
