@@ -25,6 +25,7 @@
     -->
     <ItemGroup>
         <EmbeddedResource Include="design-tokens.json"/>
+        <EmbeddedResource Include="design-icons.json"/>
     </ItemGroup>
 
 </Project>
