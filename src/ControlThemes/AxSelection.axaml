@@ -108,49 +108,81 @@
     </Setter>
   </ControlTheme>
 
-  <!-- Ползунок: дорожка 4px, заполнение акцентом, ручка-круг с рамкой. -->
+  <!--
+      Половинки дорожки ползунка: заполненная слева от ручки и пустая справа.
+      Темами, а не вложенными шаблонами: Track пересоздаёт кнопки, и шаблон,
+      объявленный внутри него, до отрисовки не доживает.
+  -->
+  <ControlTheme x:Key="AxSliderRail" TargetType="RepeatButton">
+    <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Focusable" Value="False"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                Height="4"
+                CornerRadius="2"
+                VerticalAlignment="Center"/>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <ControlTheme x:Key="AxSliderFill" TargetType="RepeatButton"
+                BasedOn="{StaticResource AxSliderRail}">
+    <Setter Property="Background" Value="{DynamicResource AxAccBrush}"/>
+  </ControlTheme>
+
+  <ControlTheme x:Key="AxSliderThumb" TargetType="Thumb">
+    <Setter Property="Width" Value="14"/>
+    <Setter Property="Height" Value="14"/>
+    <Setter Property="Cursor" Value="Hand"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Ellipse Fill="{DynamicResource AxBg1Brush}"
+                 Stroke="{DynamicResource AxAccBrush}"
+                 StrokeThickness="{DynamicResource AxFocusOutlineWidth}"/>
+      </ControlTemplate>
+    </Setter>
+    <Style Selector="^:pointerover /template/ Ellipse">
+      <Setter Property="Stroke" Value="{DynamicResource AxAccHoverBrush}"/>
+    </Style>
+  </ControlTheme>
+
+  <!-- Ползунок: дорожка 4, заполнение акцентом, ручка-круг 14 с акцентной рамкой. -->
   <ControlTheme x:Key="{x:Type ax:AxSlider}" TargetType="ax:AxSlider">
     <Setter Property="Foreground" Value="{DynamicResource AxAccBrush}"/>
     <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
-    <Setter Property="MinHeight" Value="20"/>
+    <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <Border Background="Transparent" Padding="0,8">
-          <Track Minimum="{TemplateBinding Minimum}"
+        <Panel Background="Transparent">
+          <Border x:Name="PART_FocusRing"
+                  Margin="-2"
+                  CornerRadius="6"
+                  BorderThickness="{DynamicResource AxFocusOutlineThickness}"
+                  BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                  IsVisible="False"/>
+          <Track Name="PART_Track"
+                 Minimum="{TemplateBinding Minimum}"
                  Maximum="{TemplateBinding Maximum}"
                  Value="{TemplateBinding Value, Mode=TwoWay}"
-                 Orientation="Horizontal">
+                 Orientation="Horizontal"
+                 VerticalAlignment="Center">
             <Track.DecreaseButton>
-              <RepeatButton Background="{TemplateBinding Foreground}" Height="4" BorderThickness="0">
-                <RepeatButton.Template>
-                  <ControlTemplate>
-                    <Border Background="{TemplateBinding Background}" Height="4" CornerRadius="2"/>
-                  </ControlTemplate>
-                </RepeatButton.Template>
-              </RepeatButton>
+              <RepeatButton Theme="{StaticResource AxSliderFill}"/>
             </Track.DecreaseButton>
             <Track.IncreaseButton>
-              <RepeatButton Background="{TemplateBinding Background}" Height="4" BorderThickness="0">
-                <RepeatButton.Template>
-                  <ControlTemplate>
-                    <Border Background="{TemplateBinding Background}" Height="4" CornerRadius="2"/>
-                  </ControlTemplate>
-                </RepeatButton.Template>
-              </RepeatButton>
+              <RepeatButton Theme="{StaticResource AxSliderRail}"/>
             </Track.IncreaseButton>
-            <Thumb Width="14" Height="14">
-              <Thumb.Template>
-                <ControlTemplate>
-                  <Ellipse Fill="{DynamicResource AxBg1Brush}"
-                           Stroke="{DynamicResource AxAccBrush}"
-                           StrokeThickness="2"/>
-                </ControlTemplate>
-              </Thumb.Template>
-            </Thumb>
+            <Thumb Theme="{StaticResource AxSliderThumb}"/>
           </Track>
-        </Border>
+        </Panel>
       </ControlTemplate>
     </Setter>
+
+    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
     <Style Selector="^:disabled">
       <Setter Property="Opacity" Value="0.5"/>
     </Style>

@@ -115,6 +115,14 @@
         (TemplateSettings), поэтому цифр здесь нет.
     -->
     <Style Selector="^:indeterminate /template/ Border#PART_Indicator">
+      <!--
+          В бесконечном режиме ширину бегунка считает сам ProgressBar и кладёт
+          в TemplateSettings: без этой привязки индикатор растянут во всю
+          дорожку, и движение не видно.
+      -->
+      <Setter Property="Width"
+              Value="{Binding TemplateSettings.ContainerWidth, RelativeSource={RelativeSource TemplatedParent}}"/>
+      <Setter Property="HorizontalAlignment" Value="Left"/>
       <Style.Animations>
         <Animation IterationCount="Infinite" Duration="0:0:2">
           <KeyFrame Cue="0%">

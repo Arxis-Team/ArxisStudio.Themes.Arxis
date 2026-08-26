@@ -56,10 +56,12 @@
           <StackPanel Spacing="6">
             <TextBlock Text="{TemplateBinding Title}"
                        FontWeight="SemiBold"
+                       TextWrapping="Wrap"
                        IsVisible="{TemplateBinding Title, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
             <ContentPresenter Content="{TemplateBinding Content}"
                               ContentTemplate="{TemplateBinding ContentTemplate}"
-                              TextBlock.Foreground="{DynamicResource AxFg2Brush}"/>
+                              TextBlock.Foreground="{DynamicResource AxFg2Brush}"
+                              TextBlock.TextWrapping="Wrap"/>
             <DockPanel Margin="0,4,0,0">
               <TextBlock Text="{TemplateBinding StepText}"
                          Foreground="{DynamicResource AxFg2Brush}"
@@ -112,10 +114,12 @@
             <StackPanel Spacing="4">
               <TextBlock Text="{TemplateBinding Title}"
                          FontWeight="SemiBold"
+                         TextWrapping="Wrap"
                          IsVisible="{TemplateBinding Title, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
               <ContentPresenter Content="{TemplateBinding Content}"
                                 ContentTemplate="{TemplateBinding ContentTemplate}"
-                                TextBlock.Foreground="{DynamicResource AxFg2Brush}"/>
+                                TextBlock.Foreground="{DynamicResource AxFg2Brush}"
+                                TextBlock.TextWrapping="Wrap"/>
               <ContentPresenter Content="{TemplateBinding Actions}"
                                 Margin="0,4,0,0"
                                 IsVisible="{TemplateBinding Actions, Converter={x:Static ObjectConverters.IsNotNull}}"/>

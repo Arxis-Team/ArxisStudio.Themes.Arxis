@@ -55,7 +55,8 @@
                                 Content="{TemplateBinding Content}"
                                 ContentTemplate="{TemplateBinding ContentTemplate}"
                                 Margin="16,0,16,16"
-                                TextBlock.Foreground="{DynamicResource AxFg2Brush}"/>
+                                TextBlock.Foreground="{DynamicResource AxFg2Brush}"
+                                TextBlock.TextWrapping="Wrap"/>
             </DockPanel>
           </Border>
         </VisualLayerManager>
