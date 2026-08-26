@@ -41,7 +41,12 @@
       вместо крестика означает несохранённые правки.
   -->
   <ControlTheme x:Key="{x:Type ax:AxTabItem}" TargetType="ax:AxTabItem">
-    <Setter Property="Height" Value="36"/>
+    <!--
+        34, а не 36: столько даёт и витрина проекта для вкладок редактора, и
+        макеты экранов. Лишние два пикселя разъезжались со строкой заголовка,
+        рядом с которой вкладка и стоит.
+    -->
+    <Setter Property="Height" Value="34"/>
     <Setter Property="Padding" Value="12,0"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
@@ -65,7 +70,7 @@
               <Panel Width="14" Height="14"
                      IsVisible="{TemplateBinding IsClosable}">
                 <Ellipse x:Name="PART_Modified"
-                         Width="6" Height="6"
+                         Width="7" Height="7"
                          Fill="{DynamicResource AxFg2Brush}"
                          IsVisible="{TemplateBinding IsModified}"/>
                 <ax:AxIcon x:Name="PART_Close"

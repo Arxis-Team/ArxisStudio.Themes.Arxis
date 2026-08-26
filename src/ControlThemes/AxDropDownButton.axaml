@@ -10,7 +10,11 @@
   <ControlTheme x:Key="{x:Type ax:AxDropDownButton}" TargetType="ax:AxDropDownButton">
     <Setter Property="Height" Value="{DynamicResource AxControlHeight}"/>
     <Setter Property="MinWidth" Value="{DynamicResource AxButtonMinWidth}"/>
-    <Setter Property="Padding" Value="{DynamicResource AxButtonPadding}"/>
+    <!--
+        Отступы свои, не кнопочные: справа шеврон, и ему нужно меньше места,
+        чем тексту слева. Проект так и объявляет — 10 слева, 8 справа.
+    -->
+    <Setter Property="Padding" Value="10,0,8,0"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>

@@ -20,6 +20,12 @@
   <CornerRadius x:Key="AxCornerRadius">4</CornerRadius>
   <CornerRadius x:Key="AxCornerRadiusSmall">3</CornerRadius>
   <CornerRadius x:Key="AxCornerRadiusLarge">8</CornerRadius>
+  <!--
+      Карточка уведомления — единственное, что скруглено сильнее диалога:
+      она всплывает над всем и не примыкает ни к чему, поэтому в проекте у неё
+      свой радиус 12.
+  -->
+  <CornerRadius x:Key="AxCornerRadiusCard">12</CornerRadius>
 
   <!-- Размеры интерактивных контролов. -->
   <x:Double x:Key="AxControlHeight">28</x:Double>
