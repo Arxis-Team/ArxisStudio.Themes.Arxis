@@ -38,13 +38,29 @@
     <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
     <Setter Property="Template">
       <ControlTemplate>
+        <!--
+            Клетка 16×16 обязана быть здесь явно.
+
+            Viewbox подгоняет под рамку то, что намерил ребёнок, и без клетки
+            он мерил границы самого пути: плюс 9×9 раздувался до 13×13, дуга
+            спиннера — в два с половиной раза, а обводка 1.2 росла вместе с
+            ними. Заодно каждый глиф садился по центру своих границ, а не по
+            центру клетки, — потому и «не отцентровано».
+
+            Canvas не растягивает ребёнка и не сдвигает его выравниванием:
+            путь рисуется там, где сказано его координатами, ровно как в
+            viewBox="0 0 16 16" дизайн-проекта. Масштаб остаётся один на все
+            иконки и меняется только вместе с размером самой иконки.
+        -->
         <Viewbox Stretch="Uniform">
-          <Path x:Name="PART_Path"
-                Data="{TemplateBinding Data}"
-                Stroke="{TemplateBinding Foreground}"
-                StrokeThickness="{TemplateBinding StrokeThickness}"
-                StrokeLineCap="Round"
-                StrokeJoin="Round"/>
+          <Canvas Width="{DynamicResource AxIconSize}" Height="{DynamicResource AxIconSize}">
+            <Path x:Name="PART_Path"
+                  Data="{TemplateBinding Data}"
+                  Stroke="{TemplateBinding Foreground}"
+                  StrokeThickness="{TemplateBinding StrokeThickness}"
+                  StrokeLineCap="Round"
+                  StrokeJoin="Round"/>
+          </Canvas>
         </Viewbox>
       </ControlTemplate>
     </Setter>
