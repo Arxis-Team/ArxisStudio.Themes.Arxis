@@ -15,53 +15,63 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 /// </summary>
 public class ThemeAppliesTemplatesTests
 {
-    /// <summary>Все templated-контролы библиотеки; новые добавляются сюда осознанно.</summary>
-    public static TheoryData<Type> TemplatedControls => new()
+    /// <summary>
+    /// Все templated-контролы библиотеки — не списком, а перечислением сборки.
+    /// </summary>
+    /// <remarks>
+    /// Список руками здесь и был дырой, о которой предупреждает раздел 12
+    /// спецификации: контрол, забытый в списке, не проверяется никем и уезжает
+    /// в поставку без шаблона. Перечисление сборки забыть нельзя.
+    ///
+    /// Не попадают трое, и каждый по своей причине: <c>AxDialog</c> — окно, его
+    /// в чужое окно не положить, и у него отдельный тест ниже; конвертеры —
+    /// вообще не контролы; <c>AxMenuFlyout</c> — всплывающее меню, шаблон
+    /// которого живёт на его собственном презентере.
+    /// </remarks>
+    public static TheoryData<Type> TemplatedControls
     {
-        typeof(AxButton),
-        typeof(AxTextBox),
-        typeof(AxSearchField),
-        typeof(AxCheckBox),
-        typeof(AxToggleSwitch),
-        typeof(AxComboBox),
-        typeof(AxComboBoxItem),
-        typeof(AxListBox),
-        typeof(AxListBoxItem),
-        typeof(AxSegmentedControl),
-        typeof(AxSegmentItem),
-        typeof(AxBadge),
-        typeof(AxChip),
-        typeof(AxCard),
-        typeof(AxProgressBar),
-        typeof(AxAvatar),
-        typeof(AxIcon),
-        typeof(AxTextArea),
-        typeof(AxLink),
-        typeof(AxRadioButton),
-        typeof(AxDivider),
-        typeof(AxGroupHeader),
-        typeof(AxBanner),
-        typeof(AxTabStrip),
-        typeof(AxTabItem),
-        typeof(AxTreeView),
-        typeof(AxTreeViewItem),
-        typeof(AxSlider),
-        typeof(AxToolWindow),
-        typeof(AxTitleBar),
-        typeof(AxWindowControls),
-        typeof(AxSplitButton),
-        typeof(AxDropDownButton),
-        typeof(AxMenuItem),
-        typeof(AxBreadcrumbBar),
-        typeof(AxBreadcrumbItem),
-        typeof(AxQuickSearch),
-        typeof(AxTeachingTip),
-        typeof(AxNotificationCard),
-        typeof(AxSpinner),
-        typeof(AxToolBar),
-        typeof(AxCodeBlock),
-        typeof(AxDataGrid),
-    };
+        get
+        {
+            var data = new TheoryData<Type>();
+
+            var controls = typeof(AxButton).Assembly.GetTypes()
+                .Where(type => type is { IsPublic: true, IsAbstract: false }
+                    && typeof(TemplatedControl).IsAssignableFrom(type)
+                    && !typeof(Window).IsAssignableFrom(type)
+                    && type.GetConstructor(Type.EmptyTypes) is not null)
+                .OrderBy(type => type.Name, StringComparer.Ordinal);
+
+            foreach (var type in controls)
+                data.Add(type);
+
+            return data;
+        }
+    }
+
+    /// <summary>
+    /// Библиотека даёт ровно те контролы, которые называет спецификация.
+    /// </summary>
+    /// <remarks>
+    /// Разделы 8 и 9 перечисляют контрол под каждую карточку макетов: раздел 8 —
+    /// то, что было в M0, раздел 9 — то, что предлагалось дописать. Вместе они
+    /// и есть состав набора, поэтому пропажа имени видна сразу, а не тогда,
+    /// когда экран собирают и контрола не находят.
+    /// </remarks>
+    [AvaloniaFact]
+    public void Library_declares_every_control_the_specification_names()
+    {
+        var declared = typeof(AxButton).Assembly.GetTypes()
+            .Where(type => type.IsPublic && type.Name.StartsWith("Ax", StringComparison.Ordinal))
+            .Select(type => type.Name)
+            .ToHashSet(StringComparer.Ordinal);
+
+        var missing = DesignProject.Load().Controls
+            .Where(name => !declared.Contains(name))
+            .OrderBy(name => name, StringComparer.Ordinal)
+            .ToList();
+
+        Assert.True(missing.Count == 0, "библиотека не объявляет: " + string.Join(", ", missing));
+    }
 
     /// <summary>
     /// Шаблон обязан находиться в обоих вариантах темы, а переключение

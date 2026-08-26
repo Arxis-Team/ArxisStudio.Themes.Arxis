@@ -5,7 +5,8 @@
   design/10 Foundations.dc.html — шкалы (раздел 2) и семантические токены (раздел 3);
   spec/foundations.md            — метрики и типографика (раздел 5);
   design/ArxisStudio.dc.html     — значения CSS-переменных обоих вариантов;
-  design/Ax*.dc.html             — какой переменной красится каждое состояние.
+  design/Ax*.dc.html             — какой переменной красится каждое состояние;
+  spec/controls.md               — состав набора: разделы 8 и 9.
 """
 import io, json, re, sys, os
 
@@ -145,10 +146,31 @@ for component in ('AxButton', 'AxTextBox', 'AxComboBox', 'AxCheckBox', 'AxToggle
             if extra_style:
                 states[f'{component}/{variant}/{state}'] = declared(extra_style.group(1))
 
+# ---- состав набора: разделы 8 и 9 спецификации контролов ----
+#
+# Раздел 8 называет контрол под каждую карточку макетов, раздел 9 — то, что
+# предлагалось дописать. Имена стоят во второй колонке, иногда парой через
+# косую черту: «AxComboBox / AxComboBoxItem».
+spec_controls = io.open(os.path.join(HANDOFF, 'spec', 'controls.md'), encoding='utf-8').read()
+
+controls = []
+section = spec_controls[spec_controls.find('## 8.'):spec_controls.find('## 10.')]
+for line in section.splitlines():
+    cells = [cell.strip() for cell in line.split('|')]
+    if len(cells) < 4:
+        continue
+    for name in re.split(r'\s*/\s*', cells[2]):
+        if re.fullmatch(r'Ax[A-Za-z]+', name) and name not in controls:
+            controls.append(name)
+
+controls.sort()
+
+
 out = {'scales': scales, 'semantic': semantic, 'metrics': metrics,
-       'variables': variables, 'states': states}
+       'variables': variables, 'states': states, 'controls': controls}
 print('шкал:', len(scales), '· семантических:', len(semantic), '· метрик:', len(metrics),
-      '· переменных:', len(variables), '· состояний:', len(states))
+      '· переменных:', len(variables), '· состояний:', len(states),
+      '· контролов:', len(controls))
 
 dest = sys.argv[1] if len(sys.argv) > 1 else 'design-tokens.json'
 io.open(dest, 'w', encoding='utf-8').write(json.dumps(out, ensure_ascii=False, indent=2, sort_keys=True))

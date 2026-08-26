@@ -26,6 +26,9 @@ public sealed class DesignProject
     /// <summary>CSS-переменные макетов: короткое имя — цвет в каждом варианте.</summary>
     public Dictionary<string, Dictionary<string, string>> Variables { get; set; } = [];
 
+    /// <summary>Состав набора: контролы, названные разделами 8 и 9.</summary>
+    public List<string> Controls { get; set; } = [];
+
     /// <summary>
     /// Состояния контролов: «компонент/вид/состояние» — какой переменной
     /// красится фон, текст и рамка.
