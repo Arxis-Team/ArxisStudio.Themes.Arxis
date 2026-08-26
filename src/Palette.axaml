@@ -91,6 +91,13 @@
       <Color x:Key="AxAccColor">#3574F0</Color>
       <Color x:Key="AxAccHoverColor">#467FF2</Color>
       <Color x:Key="AxAccPressedColor">#366ACE</Color>
+      <!--
+          Залитая акцентом поверхность, на которой стоит текст: кнопка, счётчик,
+          активный сегмент. AxAcc даёт белому тексту 4,28:1 — недобор; этот шаг
+          держит 5,1:1. Наведение темнеет в обоих вариантах, иначе контраст падает.
+      -->
+      <Color x:Key="AxAccStrongColor">#3369D6</Color>
+      <Color x:Key="AxAccStrongHoverColor">#315FBD</Color>
       <Color x:Key="AxOnAccColor">#FFFFFF</Color>
       <Color x:Key="AxSelColor">#2E436E</Color>
       <Color x:Key="AxSelInactiveColor">#393B40</Color>
@@ -106,6 +113,19 @@
       <Color x:Key="AxLinkColor">#548AF7</Color>
       <Color x:Key="AxLinkHoverColor">#6B9BFA</Color>
       <Color x:Key="AxLinkVisitedColor">#B589EC</Color>
+      <!--
+          Акцентный текст и иконка на залитой плашке (AxBg3, AxSel): AxLink там
+          даёт 4,18:1, этот шаг — 5,0:1 и выше.
+      -->
+      <Color x:Key="AxLinkOnColor">#6B9BFA</Color>
+
+      <!--
+          Смысловые цвета ТЕКСТА. Заливки и иконки остаются на AxGrn/AxRed/AxYel:
+          им довольно 3:1, а тексту нужно 4,5:1 на фактическом фоне.
+      -->
+      <Color x:Key="AxGreenTextColor">#5FAD65</Color>
+      <Color x:Key="AxRedTextColor">#EB938D</Color>
+      <Color x:Key="AxYellowTextColor">#D6AE58</Color>
 
       <!-- Контур фокуса и состояния проверки ввода. -->
       <Color x:Key="AxOutlineFocusedColor">#3574F0</Color>
@@ -117,6 +137,19 @@
       <Color x:Key="AxSuccessBackgroundColor">#253627</Color>
       <Color x:Key="AxWarningBackgroundColor">#3D3223</Color>
       <Color x:Key="AxErrorBackgroundColor">#402929</Color>
+
+      <!-- Рамки баннеров: шаг шкалы к каждому фону сообщения. -->
+      <Color x:Key="AxInfoBorderColor">#35538F</Color>
+      <Color x:Key="AxSuccessBorderColor">#436946</Color>
+      <Color x:Key="AxWarningBorderColor">#9E814A</Color>
+      <Color x:Key="AxErrorBorderColor">#7A4343</Color>
+
+      <!-- Подсветка кода: разметка в AxCodeBlock. -->
+      <Color x:Key="AxCodeFgColor">#BCBEC4</Color>
+      <Color x:Key="AxCodeTagColor">#E8BF6A</Color>
+      <Color x:Key="AxCodeAttrColor">#BCBEC4</Color>
+      <Color x:Key="AxCodeStringColor">#6AAB73</Color>
+      <Color x:Key="AxCodeCommentColor">#7A7E85</Color>
 
       <Color x:Key="AxShadowColor">#73000000</Color>
       <Color x:Key="AxAbShadowColor">#8C000000</Color>
@@ -194,6 +227,8 @@
       <Color x:Key="AxAccColor">#3574F0</Color>
       <Color x:Key="AxAccHoverColor">#3369D6</Color>
       <Color x:Key="AxAccPressedColor">#315FBD</Color>
+      <Color x:Key="AxAccStrongColor">#3369D6</Color>
+      <Color x:Key="AxAccStrongHoverColor">#315FBD</Color>
       <Color x:Key="AxOnAccColor">#FFFFFF</Color>
       <Color x:Key="AxSelColor">#D4E2FF</Color>
       <Color x:Key="AxSelInactiveColor">#EBECF0</Color>
@@ -206,9 +241,19 @@
       <Color x:Key="AxYelColor">#A46704</Color>
       <Color x:Key="AxOrgColor">#A14916</Color>
       <Color x:Key="AxPurColor">#55339C</Color>
-      <Color x:Key="AxLinkColor">#3574F0</Color>
+      <!--
+          Ссылка в светлой теме — AxBlue3, не AxBlue4: #3574F0 на белом даёт
+          4,28:1, этот — 4,9:1 (приёмка, раздел 6). Наведение отличается
+          подчёркиванием.
+      -->
+      <Color x:Key="AxLinkColor">#3369D6</Color>
       <Color x:Key="AxLinkHoverColor">#3369D6</Color>
       <Color x:Key="AxLinkVisitedColor">#55339C</Color>
+      <Color x:Key="AxLinkOnColor">#315FBD</Color>
+
+      <Color x:Key="AxGreenTextColor">#1E6B33</Color>
+      <Color x:Key="AxRedTextColor">#AD2B38</Color>
+      <Color x:Key="AxYellowTextColor">#A14916</Color>
 
       <Color x:Key="AxOutlineFocusedColor">#3574F0</Color>
       <Color x:Key="AxOutlineErrorColor">#DB3B4B</Color>
@@ -218,6 +263,17 @@
       <Color x:Key="AxSuccessBackgroundColor">#F2FCF3</Color>
       <Color x:Key="AxWarningBackgroundColor">#FFF5DB</Color>
       <Color x:Key="AxErrorBackgroundColor">#FFF7F7</Color>
+
+      <Color x:Key="AxInfoBorderColor">#C2D6FC</Color>
+      <Color x:Key="AxSuccessBorderColor">#C5E5CC</Color>
+      <Color x:Key="AxWarningBorderColor">#FED277</Color>
+      <Color x:Key="AxErrorBorderColor">#FAD4D8</Color>
+
+      <Color x:Key="AxCodeFgColor">#080808</Color>
+      <Color x:Key="AxCodeTagColor">#0033B3</Color>
+      <Color x:Key="AxCodeAttrColor">#174AD4</Color>
+      <Color x:Key="AxCodeStringColor">#067D17</Color>
+      <Color x:Key="AxCodeCommentColor">#8C8C8C</Color>
 
       <Color x:Key="AxShadowColor">#24000000</Color>
       <Color x:Key="AxAbShadowColor">#2E1E283C</Color>
@@ -239,6 +295,8 @@
   <SolidColorBrush x:Key="AxAccBrush" Color="{DynamicResource AxAccColor}"/>
   <SolidColorBrush x:Key="AxAccHoverBrush" Color="{DynamicResource AxAccHoverColor}"/>
   <SolidColorBrush x:Key="AxAccPressedBrush" Color="{DynamicResource AxAccPressedColor}"/>
+  <SolidColorBrush x:Key="AxAccStrongBrush" Color="{DynamicResource AxAccStrongColor}"/>
+  <SolidColorBrush x:Key="AxAccStrongHoverBrush" Color="{DynamicResource AxAccStrongHoverColor}"/>
   <SolidColorBrush x:Key="AxOnAccBrush" Color="{DynamicResource AxOnAccColor}"/>
   <SolidColorBrush x:Key="AxSelBrush" Color="{DynamicResource AxSelColor}"/>
   <SolidColorBrush x:Key="AxSelInactiveBrush" Color="{DynamicResource AxSelInactiveColor}"/>
@@ -254,6 +312,10 @@
   <SolidColorBrush x:Key="AxLinkBrush" Color="{DynamicResource AxLinkColor}"/>
   <SolidColorBrush x:Key="AxLinkHoverBrush" Color="{DynamicResource AxLinkHoverColor}"/>
   <SolidColorBrush x:Key="AxLinkVisitedBrush" Color="{DynamicResource AxLinkVisitedColor}"/>
+  <SolidColorBrush x:Key="AxLinkOnBrush" Color="{DynamicResource AxLinkOnColor}"/>
+  <SolidColorBrush x:Key="AxGreenTextBrush" Color="{DynamicResource AxGreenTextColor}"/>
+  <SolidColorBrush x:Key="AxRedTextBrush" Color="{DynamicResource AxRedTextColor}"/>
+  <SolidColorBrush x:Key="AxYellowTextBrush" Color="{DynamicResource AxYellowTextColor}"/>
   <SolidColorBrush x:Key="AxOutlineFocusedBrush" Color="{DynamicResource AxOutlineFocusedColor}"/>
   <SolidColorBrush x:Key="AxOutlineErrorBrush" Color="{DynamicResource AxOutlineErrorColor}"/>
   <SolidColorBrush x:Key="AxOutlineWarningBrush" Color="{DynamicResource AxOutlineWarningColor}"/>
@@ -261,6 +323,15 @@
   <SolidColorBrush x:Key="AxSuccessBackgroundBrush" Color="{DynamicResource AxSuccessBackgroundColor}"/>
   <SolidColorBrush x:Key="AxWarningBackgroundBrush" Color="{DynamicResource AxWarningBackgroundColor}"/>
   <SolidColorBrush x:Key="AxErrorBackgroundBrush" Color="{DynamicResource AxErrorBackgroundColor}"/>
+  <SolidColorBrush x:Key="AxInfoBorderBrush" Color="{DynamicResource AxInfoBorderColor}"/>
+  <SolidColorBrush x:Key="AxSuccessBorderBrush" Color="{DynamicResource AxSuccessBorderColor}"/>
+  <SolidColorBrush x:Key="AxWarningBorderBrush" Color="{DynamicResource AxWarningBorderColor}"/>
+  <SolidColorBrush x:Key="AxErrorBorderBrush" Color="{DynamicResource AxErrorBorderColor}"/>
+  <SolidColorBrush x:Key="AxCodeFgBrush" Color="{DynamicResource AxCodeFgColor}"/>
+  <SolidColorBrush x:Key="AxCodeTagBrush" Color="{DynamicResource AxCodeTagColor}"/>
+  <SolidColorBrush x:Key="AxCodeAttrBrush" Color="{DynamicResource AxCodeAttrColor}"/>
+  <SolidColorBrush x:Key="AxCodeStringBrush" Color="{DynamicResource AxCodeStringColor}"/>
+  <SolidColorBrush x:Key="AxCodeCommentBrush" Color="{DynamicResource AxCodeCommentColor}"/>
   <SolidColorBrush x:Key="AxShadowBrush" Color="{DynamicResource AxShadowColor}"/>
   <SolidColorBrush x:Key="AxAbShadowBrush" Color="{DynamicResource AxAbShadowColor}"/>
 
