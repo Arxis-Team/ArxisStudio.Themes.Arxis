@@ -75,6 +75,29 @@ public class MetricsScaleTests
     }
 
     /// <summary>
+    /// Округление раскладки включено.
+    /// </summary>
+    /// <remarks>
+    /// Именно оно, а не кратность двум, держит края резкими на дробном
+    /// масштабе: Avalonia сажает границы на целый пиксель устройства. Свойство
+    /// включено по умолчанию, и выключить его где-то в теме или разметке —
+    /// значит получить размытые рамки при 125 %, ничего больше не сломав.
+    /// Тест ловит такое выключение.
+    /// </remarks>
+    [AvaloniaFact]
+    public void Layout_rounding_stays_on()
+    {
+        var button = new ArxisStudio.Controls.AxButton { Content = "Проверка" };
+        var window = new Window { Content = button };
+        window.Show();
+
+        Assert.True(window.UseLayoutRounding);
+        Assert.True(button.UseLayoutRounding);
+
+        window.Close();
+    }
+
+    /// <summary>
     /// Отступы контролов закреплены значениями спецификации.
     /// </summary>
     /// <remarks>
