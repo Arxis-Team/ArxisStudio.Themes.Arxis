@@ -367,5 +367,318 @@
       "Dark": "#D6AE58",
       "Light": "#A14916"
     }
+  },
+  "states": {
+    "AxButton/isAccent/active": {
+      "background": "accP"
+    },
+    "AxButton/isAccent/base": {
+      "background": "accS",
+      "border-color": "transparent",
+      "color": "onacc"
+    },
+    "AxButton/isAccent/focus": {
+      "border-color": "outF"
+    },
+    "AxButton/isAccent/hover": {
+      "background": "accSH"
+    },
+    "AxButton/isDanger/active": {
+      "background": "bg4"
+    },
+    "AxButton/isDanger/base": {
+      "background": "transparent",
+      "border-color": "brd2",
+      "color": "redT"
+    },
+    "AxButton/isDanger/focus": {
+      "border-color": "outF"
+    },
+    "AxButton/isDanger/hover": {
+      "background": "bg3",
+      "border-color": "redT"
+    },
+    "AxButton/isDefault/active": {
+      "background": "bg4"
+    },
+    "AxButton/isDefault/base": {
+      "background": "transparent",
+      "border-color": "brd2",
+      "color": "fg"
+    },
+    "AxButton/isDefault/focus": {
+      "border-color": "outF"
+    },
+    "AxButton/isDefault/hover": {
+      "background": "bg3"
+    },
+    "AxButton/isDisabled/base": {
+      "background": "inpDis",
+      "border-color": "brd2",
+      "color": "fgDis"
+    },
+    "AxButton/isGhost/active": {
+      "background": "bg4"
+    },
+    "AxButton/isGhost/base": {
+      "background": "transparent",
+      "border-color": "transparent",
+      "color": "fg2"
+    },
+    "AxButton/isGhost/focus": {
+      "border-color": "outF"
+    },
+    "AxButton/isGhost/hover": {
+      "background": "bg3",
+      "color": "fg"
+    },
+    "AxButton/isIcon/active": {
+      "background": "bg4"
+    },
+    "AxButton/isIcon/base": {
+      "background": "transparent",
+      "border-color": "transparent",
+      "color": "fg2"
+    },
+    "AxButton/isIcon/focus": {
+      "border-color": "outF"
+    },
+    "AxButton/isIcon/hover": {
+      "background": "bg3",
+      "color": "fg"
+    },
+    "AxComboBox/isDisabled/base": {
+      "background": "inpDis",
+      "border-color": "brd2",
+      "color": "fgDis"
+    },
+    "AxComboBox/isNormal/base": {
+      "background": "inp",
+      "border-color": "brd2",
+      "color": "fg"
+    },
+    "AxComboBox/isNormal/focus": {
+      "border-color": "outF"
+    },
+    "AxComboBox/isNormal/hover": {
+      "background": "bg3"
+    },
+    "AxTextBox/isDisabled/base": {
+      "background": "inpDis",
+      "border-color": "brd2",
+      "color": "fgDis"
+    },
+    "AxTextBox/isError/base": {
+      "background": "inp",
+      "border-color": "outE",
+      "color": "fg"
+    },
+    "AxTextBox/isFocused/base": {
+      "background": "inp",
+      "border-color": "outF",
+      "color": "fg"
+    },
+    "AxTextBox/isNormal/base": {
+      "background": "inp",
+      "border-color": "brd2",
+      "color": "{{ fg }}"
+    },
+    "AxTextBox/isNormal/focus": {
+      "border-color": "outF",
+      "color": "fg"
+    },
+    "AxTextBox/isNormal/hover": {
+      "border-color": "fg3"
+    }
+  },
+  "variables": {
+    "abshadow": {
+      "Dark": "RGBA(0,0,0,.55)",
+      "Light": "RGBA(30,40,60,.18)"
+    },
+    "acc": {
+      "Dark": "#3574F0",
+      "Light": "#3574F0"
+    },
+    "accH": {
+      "Dark": "#467FF2",
+      "Light": "#3369D6"
+    },
+    "accP": {
+      "Dark": "#366ACE",
+      "Light": "#315FBD"
+    },
+    "accS": {
+      "Dark": "#3369D6",
+      "Light": "#3369D6"
+    },
+    "accSH": {
+      "Dark": "#315FBD",
+      "Light": "#315FBD"
+    },
+    "bg1": {
+      "Dark": "#1E1F22",
+      "Light": "#FFFFFF"
+    },
+    "bg2": {
+      "Dark": "#2B2D30",
+      "Light": "#F7F8FA"
+    },
+    "bg3": {
+      "Dark": "#393B40",
+      "Light": "#EBECF0"
+    },
+    "bg4": {
+      "Dark": "#43454A",
+      "Light": "#DFE1E5"
+    },
+    "bnE": {
+      "Dark": "#402929",
+      "Light": "#FFF7F7"
+    },
+    "bnEb": {
+      "Dark": "#7A4343",
+      "Light": "#FAD4D8"
+    },
+    "bnI": {
+      "Dark": "#25324D",
+      "Light": "#EDF3FF"
+    },
+    "bnIb": {
+      "Dark": "#35538F",
+      "Light": "#C2D6FC"
+    },
+    "bnS": {
+      "Dark": "#253627",
+      "Light": "#F2FCF3"
+    },
+    "bnSb": {
+      "Dark": "#436946",
+      "Light": "#C5E5CC"
+    },
+    "bnW": {
+      "Dark": "#3D3223",
+      "Light": "#FFF5DB"
+    },
+    "bnWb": {
+      "Dark": "#9E814A",
+      "Light": "#FED277"
+    },
+    "brd": {
+      "Dark": "#393B40",
+      "Light": "#EBECF0"
+    },
+    "brd2": {
+      "Dark": "#4E5157",
+      "Light": "#C9CCD6"
+    },
+    "canvas": {
+      "Dark": "#191A1D",
+      "Light": "#EDEEF1"
+    },
+    "dot": {
+      "Dark": "#33353A",
+      "Light": "#D5D7DE"
+    },
+    "fg": {
+      "Dark": "#DFE1E5",
+      "Light": "#27282E"
+    },
+    "fg2": {
+      "Dark": "#9DA0A8",
+      "Light": "#6C707E"
+    },
+    "fg3": {
+      "Dark": "#6F737A",
+      "Light": "#A8ADBD"
+    },
+    "fgDis": {
+      "Dark": "#868A91",
+      "Light": "#A8ADBD"
+    },
+    "grn": {
+      "Dark": "#5FAD65",
+      "Light": "#208A3C"
+    },
+    "grnT": {
+      "Dark": "#5FAD65",
+      "Light": "#1E6B33"
+    },
+    "inp": {
+      "Dark": "#1E1F22",
+      "Light": "#FFFFFF"
+    },
+    "inpDis": {
+      "Dark": "#2B2D30",
+      "Light": "#F7F8FA"
+    },
+    "link": {
+      "Dark": "#548AF7",
+      "Light": "#3369D6"
+    },
+    "linkH": {
+      "Dark": "#6B9BFA",
+      "Light": "#315FBD"
+    },
+    "linkOn": {
+      "Dark": "#6B9BFA",
+      "Light": "#315FBD"
+    },
+    "linkV": {
+      "Dark": "#B589EC",
+      "Light": "#55339C"
+    },
+    "onacc": {
+      "Dark": "#FFFFFF",
+      "Light": "#FFFFFF"
+    },
+    "org": {
+      "Dark": "#E08855",
+      "Light": "#A14916"
+    },
+    "outE": {
+      "Dark": "#DB5C5C",
+      "Light": "#DB3B4B"
+    },
+    "outF": {
+      "Dark": "#3574F0",
+      "Light": "#3574F0"
+    },
+    "outW": {
+      "Dark": "#D6AE58",
+      "Light": "#FFAF0F"
+    },
+    "pur": {
+      "Dark": "#A571E6",
+      "Light": "#55339C"
+    },
+    "red": {
+      "Dark": "#DB5C5C",
+      "Light": "#DB3B4B"
+    },
+    "redT": {
+      "Dark": "#EB938D",
+      "Light": "#AD2B38"
+    },
+    "sel": {
+      "Dark": "#2E436E",
+      "Light": "#D4E2FF"
+    },
+    "selI": {
+      "Dark": "#393B40",
+      "Light": "#EBECF0"
+    },
+    "shadow": {
+      "Dark": "RGBA(0,0,0,.45)",
+      "Light": "RGBA(0,0,0,.14)"
+    },
+    "yel": {
+      "Dark": "#D6AE58",
+      "Light": "#A46704"
+    },
+    "yelT": {
+      "Dark": "#D6AE58",
+      "Light": "#A14916"
+    }
   }
 }

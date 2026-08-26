@@ -1,5 +1,3 @@
-using System.Reflection;
-using System.Text.Json;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
@@ -115,11 +113,11 @@ public class DesignTokensTests
     }
 
     private static TheoryData<string, string, string> Load(
-        Func<DesignTokens, Dictionary<string, Dictionary<string, string>>> part)
+        Func<DesignProject, Dictionary<string, Dictionary<string, string>>> part)
     {
         var data = new TheoryData<string, string, string>();
 
-        foreach (var (key, halves) in part(DesignTokens.Load()).OrderBy(entry => entry.Key, StringComparer.Ordinal))
+        foreach (var (key, halves) in part(DesignProject.Load()).OrderBy(entry => entry.Key, StringComparer.Ordinal))
         {
             foreach (var (variant, value) in halves.OrderBy(entry => entry.Key, StringComparer.Ordinal))
                 data.Add(key, variant, value);
@@ -128,26 +126,4 @@ public class DesignTokensTests
         return data;
     }
 
-    /// <summary>Значения, вынутые из дизайн-проекта.</summary>
-    private sealed class DesignTokens
-    {
-        public Dictionary<string, Dictionary<string, string>> Scales { get; set; } = [];
-
-        public Dictionary<string, Dictionary<string, string>> Semantic { get; set; } = [];
-
-        public Dictionary<string, string> Metrics { get; set; } = [];
-
-        public static DesignTokens Load()
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            var name = assembly.GetManifestResourceNames()
-                .Single(candidate => candidate.EndsWith("design-tokens.json", StringComparison.Ordinal));
-
-            using var stream = assembly.GetManifestResourceStream(name)!;
-
-            return JsonSerializer.Deserialize<DesignTokens>(
-                stream,
-                new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
-        }
-    }
 }

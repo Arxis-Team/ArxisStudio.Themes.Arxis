@@ -3,7 +3,9 @@
 
 Источники:
   design/10 Foundations.dc.html — шкалы (раздел 2) и семантические токены (раздел 3);
-  spec/foundations.md            — метрики и типографика (раздел 5).
+  spec/foundations.md            — метрики и типографика (раздел 5);
+  design/ArxisStudio.dc.html     — значения CSS-переменных обоих вариантов;
+  design/Ax*.dc.html             — какой переменной красится каждое состояние.
 """
 import io, json, re, sys, os
 
@@ -44,8 +46,50 @@ for line in spec.splitlines():
     if m:
         metrics[m.group(1)] = m.group(2).strip()
 
-out = {'scales': scales, 'semantic': semantic, 'metrics': metrics}
-print('шкал:', len(scales), '· семантических:', len(semantic), '· метрик:', len(metrics))
+
+# ---- значения CSS-переменных: блоки :root (тёмная) и .axL (светлая) ----
+studio = io.open(os.path.join(HANDOFF, 'design', 'ArxisStudio.dc.html'), encoding='utf-8').read()
+
+variables = {}
+for selector, half in ((r':root\{([^}]*)\}', 'Dark'), (r'\.axL\{([^}]*)\}', 'Light')):
+    block = re.search(selector, studio)
+    for name, value in re.findall(r'--([A-Za-z0-9]+):\s*([^;]+)', block.group(1)):
+        variables.setdefault(name, {})[half] = value.strip().upper()
+
+# ---- состояния контролов: style / style-hover / style-active / style-focus ----
+#
+# Компонент пишет цвет как var(--bg3, #393B40) — берём имя переменной, а не
+# запасной литерал: тогда значение придёт из блоков выше и останется одно на
+# весь проект.
+def declared(style):
+    out = {}
+    for prop in ('background', 'color', 'border-color'):
+        m = re.search(r'(?:^|;)\s*' + prop + r':\s*([^;]+)', style)
+        if m:
+            out[prop] = m.group(1).strip()
+    border = re.search(r'(?:^|;)\s*border:\s*[^;]*?(var\(--[A-Za-z0-9]+[^)]*\)|transparent)', style)
+    if border and 'border-color' not in out:
+        out['border-color'] = border.group(1)
+    return {prop: (re.match(r'var\(--([A-Za-z0-9]+)', value).group(1) if value.startswith('var(') else value)
+            for prop, value in out.items()}
+
+states = {}
+for component in ('AxButton', 'AxTextBox', 'AxComboBox'):
+    markup = io.open(os.path.join(HANDOFF, 'design', component + '.dc.html'), encoding='utf-8').read()
+    for m in re.finditer(r'<sc-if value="\{\{ (\w+) \}\}"[^>]*>\s*<div([^>]*)>', markup):
+        variant, attrs = m.group(1), m.group(2)
+        base = re.search(r'\sstyle="([^"]*)"', attrs)
+        if base:
+            states[f'{component}/{variant}/base'] = declared(base.group(1))
+        for state in ('hover', 'active', 'focus'):
+            extra_style = re.search(r'style-' + state + r'="([^"]*)"', attrs)
+            if extra_style:
+                states[f'{component}/{variant}/{state}'] = declared(extra_style.group(1))
+
+out = {'scales': scales, 'semantic': semantic, 'metrics': metrics,
+       'variables': variables, 'states': states}
+print('шкал:', len(scales), '· семантических:', len(semantic), '· метрик:', len(metrics),
+      '· переменных:', len(variables), '· состояний:', len(states))
 
 dest = sys.argv[1] if len(sys.argv) > 1 else 'design-tokens.json'
 io.open(dest, 'w', encoding='utf-8').write(json.dumps(out, ensure_ascii=False, indent=2, sort_keys=True))
