@@ -116,6 +116,34 @@ public class ThemeAppliesTemplatesTests
         dialog.Close();
     }
 
+    /// <summary>
+    /// Полоса заголовка слушается <c>ShowWindowControls</c>.
+    /// </summary>
+    /// <remarks>
+    /// Кнопки окна контрол прятал сам, присваивая себе <c>IsVisible</c>, —
+    /// а локальное значение старше привязки из шаблона, и выключить кнопки
+    /// снаружи было нельзя. Прятать себя он вправе только там, где кнопки
+    /// рисует система, и это единственный случай, когда его слово старше.
+    /// </remarks>
+    [AvaloniaFact]
+    public void Title_bar_obeys_show_window_controls()
+    {
+        var bar = new AxTitleBar { ShowWindowControls = false, Content = new TextBlock() };
+
+        var window = new Window { Content = bar };
+        window.Show();
+        window.UpdateLayout();
+
+        var controls = bar.GetVisualDescendants().OfType<AxWindowControls>().Single();
+        Assert.False(controls.IsVisible);
+
+        bar.ShowWindowControls = true;
+        window.UpdateLayout();
+        Assert.Equal(AxWindowControls.IsSupported, controls.IsVisible);
+
+        window.Close();
+    }
+
     [AvaloniaFact]
     public void Palette_switches_with_theme_variant()
     {

@@ -118,6 +118,15 @@
     <Style Selector="^.compact /template/ Border#PART_ActiveMarker">
       <Setter Property="Margin" Value="-8,0"/>
     </Style>
+    <!--
+        Выключенная строка (раздел 10 спецификации): текст на AxFgDisabled.
+        Стиль стоит последним намеренно — выделение и наведение объявлены выше,
+        и без этого выключенная выбранная строка выглядела бы обычной.
+    -->
+    <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+    </Style>
+
   </ControlTheme>
 
 </ResourceDictionary>

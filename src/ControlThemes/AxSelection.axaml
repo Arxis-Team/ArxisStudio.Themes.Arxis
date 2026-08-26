@@ -130,6 +130,15 @@
   <ControlTheme x:Key="AxSliderFill" TargetType="RepeatButton"
                 BasedOn="{StaticResource AxSliderRail}">
     <Setter Property="Background" Value="{DynamicResource AxAccBrush}"/>
+
+    <!--
+        Выключенное заполнение красится, а не гасится: половина прозрачности
+        зависит от того, что лежит под ползунком, и на панели он выглядел бы
+        иначе, чем в диалоге. Выключенное состояние — AxFgDisabled (раздел 10).
+    -->
+    <Style Selector="^:disabled">
+      <Setter Property="Background" Value="{DynamicResource AxFgDisabledBrush}"/>
+    </Style>
   </ControlTheme>
 
   <ControlTheme x:Key="AxSliderThumb" TargetType="Thumb">
@@ -145,6 +154,12 @@
     </Setter>
     <Style Selector="^:pointerover /template/ Ellipse">
       <Setter Property="Stroke" Value="{DynamicResource AxAccHoverBrush}"/>
+    </Style>
+    <Style Selector="^:disabled /template/ Ellipse">
+      <Setter Property="Stroke" Value="{DynamicResource AxFgDisabledBrush}"/>
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Cursor" Value="Arrow"/>
     </Style>
   </ControlTheme>
 
@@ -182,9 +197,6 @@
 
     <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
-    </Style>
-    <Style Selector="^:disabled">
-      <Setter Property="Opacity" Value="0.5"/>
     </Style>
   </ControlTheme>
 
