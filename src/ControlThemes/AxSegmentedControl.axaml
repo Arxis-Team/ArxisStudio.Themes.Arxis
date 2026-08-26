@@ -9,6 +9,13 @@
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Padding" Value="2"/>
+    <!--
+        Высота задана, а не набрана содержимым: раздел 5 «Основ» перечисляет
+        сегменты среди того, что стоит на AxControlHeight, рядом с кнопкой,
+        полем и комбобоксом. Набранная высота давала 26, и сегменты стояли
+        ниже соседей в одной строке.
+    -->
+    <Setter Property="Height" Value="{DynamicResource AxControlHeight}"/>
     <Setter Property="HorizontalAlignment" Value="Left"/>
     <Setter Property="ItemsPanel">
       <ItemsPanelTemplate>
@@ -31,8 +38,13 @@
 
   <!-- Сегмент: неактивный — fg2, активный — акцентная пилюля. -->
   <ControlTheme x:Key="{x:Type ax:AxSegmentItem}" TargetType="ax:AxSegmentItem">
-    <Setter Property="Padding" Value="10,3"/>
-    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusSmall}"/>
+    <!--
+        Отступ горизонтальный: по вертикали сегмент стоит по центру своей
+        половины, как и всё остальное на фиксированной высоте. Радиус —
+        контрольный 4, а не бейджевый 3: сегмент это контрол.
+    -->
+    <Setter Property="Padding" Value="12,0"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
     <Setter Property="Background" Value="Transparent"/>
