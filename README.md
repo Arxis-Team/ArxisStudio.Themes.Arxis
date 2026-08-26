@@ -47,7 +47,7 @@ ThemeVariant.Dark / Light` — все токены объявлены в theme d
   фоны и рамки сообщений, подсветка кода `AxCode*`, тени. Каждый — как `*Color`
   и `*Brush`; кисти объявлены внутри словарей вариантов, поэтому вложенный
   `ThemeVariantScope` перекрашивается вместе с ними.
-- `Typography.axaml` — `AxFontFamily` (Inter), `AxFontFamilyMono` (Fira Code,
+- `Typography.axaml` — `AxFontFamily` (Inter), `AxFontFamilyMono` (Cascadia Code,
   едет в сборке темы; системные — запасными), кегли 13 / 11.5 / 10.5 и
   заголовочные 14 / 15.
 - `Metrics.axaml` — размеры: `AxControlHeight` и `AxControlHeightCompact`,
@@ -61,7 +61,7 @@ ThemeVariant.Dark / Light` — все токены объявлены в theme d
 
 ## Шрифты в поставке
 
-Fira Code (Regular, Medium, SemiBold, Bold) лежит в `src/Fonts` и включается в
+Cascadia Code лежит в `src/Fonts` и включается в
 сборку ресурсом: моноширинный шрифт студии не зависит от того, что установлено в
 системе. Лицензия SIL OFL 1.1 — рядом с файлами.
 
@@ -71,7 +71,7 @@ Fira Code (Regular, Medium, SemiBold, Bold) лежит в `src/Fonts` и вкл�
 Ax\*-контрол получает шаблон в обоих вариантах и не теряет его при переключении
 `RequestedThemeVariant` у живого окна; токены приёмки существуют в обеих темах;
 метрики тумблера и иконки отдаёт тема, а не шаблон; моноширинный стек начинается
-с Fira Code; длины раскладки чётные, а нечётные исключения спецификации названы
+с Cascadia Code; длины раскладки чётные, а нечётные исключения спецификации названы
 поимённо.
 
 ```bash

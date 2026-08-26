@@ -49,7 +49,7 @@
     <!-- Моноширинный шрифт студии едет в сборке темы; лицензия — рядом (SIL OFL 1.1). -->
     <ItemGroup>
         <AvaloniaResource Include="Fonts/*.ttf"/>
-        <None Include="Fonts/LICENSE-FiraCode.txt" Pack="true" PackagePath="/"/>
+        <None Include="Fonts/LICENSE-CascadiaCode.txt" Pack="true" PackagePath="/"/>
     </ItemGroup>
 
 </Project>

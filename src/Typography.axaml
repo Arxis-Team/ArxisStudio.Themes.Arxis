@@ -1,14 +1,24 @@
 <!--
     Типографика темы: Inter для UI (регистрируется приложением через WithInterFont),
-    Fira Code для кода, путей и значений — шрифт едет в сборке темы (SIL OFL 1.1,
+    Cascadia Code для кода, путей и значений — шрифт едет в сборке темы (SIL OFL 1.1,
     src/Fonts), поэтому первым в стеке стоит вложенный, а системные — запасными.
     База — 13px.
+
+    Один файл вместо четырёх: Cascadia Code переменный, ось веса 200…700. Теме
+    хватает: жирного моноширинного текста в ней нет, единственное отступление от
+    обычного веса — чип шортката на Medium, и он внутри оси.
+
+    Раздел 6 приёмки называет здесь Fira Code, и это осознанный отход: решение
+    принято владельцем. Условия, по которым тот выбор делался, Cascadia Code
+    держит — OFL 1.1, кириллица, программные лигатуры; расходится одно, «к бренду
+    IDE не привязана»: Cascadia пришла из Windows Terminal и Visual Studio.
+    Вторым в стеке остаётся Cascadia Mono — та же метрика без лигатур.
 -->
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
   <FontFamily x:Key="AxFontFamily">fonts:Inter#Inter</FontFamily>
-  <FontFamily x:Key="AxFontFamilyMono">avares://ArxisStudio.Themes.Arxis/Fonts#Fira Code,Cascadia Mono,Consolas,Courier New</FontFamily>
+  <FontFamily x:Key="AxFontFamilyMono">avares://ArxisStudio.Themes.Arxis/Fonts#Cascadia Code,Cascadia Mono,Consolas,Courier New</FontFamily>
 
   <!--
       Кегли: база 13, мелкий 11.5, подпись 10.5 — раздел 5 спецификации.

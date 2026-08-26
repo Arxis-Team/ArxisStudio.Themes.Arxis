@@ -310,7 +310,7 @@ public class ThemeAppliesTemplatesTests
         window.Close();
     }
 
-    /// <summary>Моноширинный стек начинается с Fira Code — шрифт едет в теме.</summary>
+    /// <summary>Моноширинный стек начинается с Cascadia Code — шрифт едет в теме.</summary>
     [AvaloniaFact]
     public void Mono_font_family_starts_with_fira_code()
     {
@@ -319,7 +319,7 @@ public class ThemeAppliesTemplatesTests
 
         Assert.True(window.TryFindResource("AxFontFamilyMono", window.ActualThemeVariant, out var font));
         var family = Assert.IsType<Avalonia.Media.FontFamily>(font);
-        Assert.Equal("Fira Code", family.FamilyNames.PrimaryFamilyName);
+        Assert.Equal("Cascadia Code", family.FamilyNames.PrimaryFamilyName);
 
         window.Close();
     }
