@@ -2,8 +2,10 @@ using ArxisStudio.Controls;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Shapes;
 using Avalonia.Headless.XUnit;
 using Avalonia.Media;
+using Avalonia.Controls.Documents;
 using Avalonia.Styling;
 using Avalonia.VisualTree;
 using Xunit;
@@ -27,18 +29,18 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 public class ControlStateColorTests
 {
     /// <summary>
-    /// Единственное расхождение с буквой компонента, оставленное намеренно.
+    /// Места, где решение приёмки старше буквы компонента.
     /// </summary>
-    /// <remarks>
-    /// У акцентной кнопки компонент объявляет рамку прозрачной поверх заливки
-    /// <c>accS</c>; тема красит её тем же <c>accS</c>. На экране это один и тот
-    /// же пиксель — прозрачная рамка показывает фон под собой, — но своим
-    /// цветом рамка переезжает вместе с фоном на наведении и нажатии, и
-    /// светлая полоса на стыке не появляется.
-    /// </remarks>
     private static readonly Dictionary<(string State, string Property), string> Decided = new()
     {
-        [("AxButton/isAccent/base", "border-color")] = "accS",
+        // Флажок компонент красит той же залитой поверхностью, что и кнопку, —
+        // но раздел 6 приёмки разводит их прямо: «AxAcc остаётся подчёркиваниям,
+        // флажкам и иконкам — им довольно 3:1». Залитый акцент с текстом берёт
+        // AxAccStrong, флажок с галочкой-штрихом — AxAcc.
+        [("AxCheckBox/isChecked/base", "background")] = "acc",
+        [("AxCheckBox/isChecked/base", "border-color")] = "acc",
+        [("AxCheckBox/isIndeterminate/base", "background")] = "acc",
+        [("AxCheckBox/isIndeterminate/base", "border-color")] = "acc",
     };
 
     public static TheoryData<string, string, string, string> Cases
@@ -53,17 +55,35 @@ public class ControlStateColorTests
                 foreach (var (property, value) in declared.OrderBy(entry => entry.Key, StringComparer.Ordinal))
                 {
                     var named = Decided.GetValueOrDefault((state, property), value);
+                    var literal = named.StartsWith('#');
+
+                    // Рамка своих пикселей не даёт, когда её цвет совпал с
+                    // заливкой или когда она прозрачна: в обоих случаях край
+                    // показывает ту же заливку, потому что фон под рамку и
+                    // заходит. Сверять там нечего — залитый флажок и акцентная
+                    // кнопка выглядят одинаково и с рамкой, и без неё, а тема
+                    // экономит на лишнем слое.
+                    if (property == "border-color"
+                        && declared.TryGetValue("background", out var fill)
+                        && (named == "transparent"
+                            || named == Decided.GetValueOrDefault((state, "background"), fill)))
+                    {
+                        continue;
+                    }
 
                     // Компонент оставляет цвет параметром — {{ fg }}: значение
                     // задаёт тот, кто вставляет компонент, и сверять нечего.
-                    if (named != "transparent" && !design.Variables.ContainsKey(named))
+                    if (named != "transparent" && !literal && !design.Variables.ContainsKey(named))
                         continue;
 
                     foreach (var variant in new[] { "Light", "Dark" })
                     {
-                        var expected = named == "transparent"
-                            ? "#00000000"
-                            : design.Variables[named][variant];
+                        var expected = named switch
+                        {
+                            "transparent" => "#00000000",
+                            _ when literal => named,
+                            _ => design.Variables[named][variant],
+                        };
 
                         data.Add(state, property, variant, expected);
                     }
@@ -119,6 +139,16 @@ public class ControlStateColorTests
         ("AxTextBox", "isDisabled") => new AxTextBox { IsEnabled = false },
         ("AxComboBox", "isNormal") => new AxComboBox(),
         ("AxComboBox", "isDisabled") => new AxComboBox { IsEnabled = false },
+        ("AxCheckBox", "isChecked") => new AxCheckBox { IsChecked = true },
+        ("AxCheckBox", "isIndeterminate") => new AxCheckBox { IsChecked = null },
+        ("AxCheckBox", "isEmpty") => new AxCheckBox { IsChecked = false },
+        ("AxCheckBox", "root") => new AxCheckBox(),
+        ("AxToggleSwitch", "isOn") => new AxToggleSwitch { IsChecked = true },
+        ("AxToggleSwitch", "isOff") => new AxToggleSwitch { IsChecked = false },
+        ("AxToggleSwitch", "isOffDisabled") => new AxToggleSwitch { IsChecked = false, IsEnabled = false },
+        ("AxToggleSwitch", "hasLabel") => new AxToggleSwitch { Content = "Тумблер" },
+        ("AxToggleSwitch", "hasLabelDisabled") => new AxToggleSwitch { Content = "Тумблер", IsEnabled = false },
+        ("AxToggleSwitch", "root") => new AxToggleSwitch(),
         _ => throw new ArgumentException($"нет разбора для {component}/{variant}"),
     };
 
@@ -136,6 +166,11 @@ public class ControlStateColorTests
 
         if (variant == "isFocused")
             pseudo.Set(":focus", true);
+
+        // Флажок и тумблер объявляют контур на общей обёртке, без вида: там
+        // фокус — единственное, что показывает эта строка выгрузки.
+        if (variant == "root" && state == "focus")
+            pseudo.Set(":focus-visible", true);
 
         switch (state)
         {
@@ -156,6 +191,11 @@ public class ControlStateColorTests
     /// <summary>Читает цвет с той части шаблона, которая его и рисует.</summary>
     private static Color? Read(Control control, string component, string state, string property)
     {
+        // Второй окрашенный слой компонента: бегунок тумблера и подсказка,
+        // которую поле и список показывают, пока в них ничего не набрано.
+        if (state == "inner")
+            return Inner(control, component);
+
         if (property == "color")
             return (control.GetValue(TemplatedControl.ForegroundProperty) as ISolidColorBrush)?.Color;
 
@@ -174,6 +214,8 @@ public class ControlStateColorTests
         {
             "AxButton" => ("PART_ContentPresenter", ContentPresenter.BackgroundProperty, ContentPresenter.BorderBrushProperty),
             "AxTextBox" => ("PART_BorderElement", Border.BackgroundProperty, Border.BorderBrushProperty),
+            "AxCheckBox" => ("PART_Box", Border.BackgroundProperty, Border.BorderBrushProperty),
+            "AxToggleSwitch" => ("PART_Track", Border.BackgroundProperty, Border.BorderBrushProperty),
             _ => ("PART_Background", Border.BackgroundProperty, Border.BorderBrushProperty),
         };
 
@@ -190,6 +232,15 @@ public class ControlStateColorTests
             ? Colors.Transparent
             : (part.GetValue(border) as ISolidColorBrush)?.Color;
     }
+
+    /// <summary>Читает цвет второго слоя — своего у каждого компонента.</summary>
+    private static Color? Inner(Control control, string component) => component switch
+    {
+        "AxToggleSwitch" => (Part(control, "PART_Knob").GetValue(Shape.FillProperty) as ISolidColorBrush)?.Color,
+        "AxTextBox" => (Part(control, "PART_Watermark")
+            .GetValue(TextBlock.ForegroundProperty) as ISolidColorBrush)?.Color,
+        _ => (control.GetValue(ComboBox.PlaceholderForegroundProperty) as ISolidColorBrush)?.Color,
+    };
 
     private static Control Part(Control control, string name)
         => control.GetVisualDescendants().OfType<Control>().First(child => child.Name == name);

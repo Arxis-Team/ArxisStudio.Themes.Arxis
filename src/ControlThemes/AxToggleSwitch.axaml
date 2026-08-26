@@ -65,9 +65,25 @@
     <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
+    <!--
+        Выключенный тумблер компонент перекрашивает, а не гасит: дорожка уходит
+        на AxBg2, бегунок и подпись — на AxFgDisabled. Прозрачность дала бы
+        другой цвет — AxBg4 вполсилы зависит от того, что лежит под контролом,
+        и на разных фонах выключенный тумблер выглядел бы по-разному.
+
+        Положение бегунка при этом остаётся по состоянию: выключенный включённый
+        тумблер показывает, что он включён, — иначе контрол врёт о своём
+        значении.
+    -->
     <Style Selector="^:disabled">
-      <Setter Property="Opacity" Value="0.5"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
       <Setter Property="Cursor" Value="Arrow"/>
+    </Style>
+    <Style Selector="^:disabled /template/ Border#PART_Track">
+      <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
+    </Style>
+    <Style Selector="^:disabled /template/ Ellipse#PART_Knob">
+      <Setter Property="Fill" Value="{DynamicResource AxFgDisabledBrush}"/>
     </Style>
   </ControlTheme>
 

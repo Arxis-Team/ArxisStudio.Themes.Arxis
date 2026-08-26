@@ -447,6 +447,21 @@
       "background": "bg3",
       "color": "fg"
     },
+    "AxCheckBox/isChecked/base": {
+      "background": "accS",
+      "border-color": "accS"
+    },
+    "AxCheckBox/isEmpty/base": {
+      "background": "inp",
+      "border-color": "brd2"
+    },
+    "AxCheckBox/isIndeterminate/base": {
+      "background": "accS",
+      "border-color": "accS"
+    },
+    "AxCheckBox/root/focus": {
+      "border-color": "outF"
+    },
     "AxComboBox/isDisabled/base": {
       "background": "inpDis",
       "border-color": "brd2",
@@ -463,6 +478,9 @@
     "AxComboBox/isNormal/hover": {
       "background": "bg3"
     },
+    "AxComboBox/isNormal/inner": {
+      "color": "fg2"
+    },
     "AxTextBox/isDisabled/base": {
       "background": "inpDis",
       "border-color": "brd2",
@@ -473,15 +491,20 @@
       "border-color": "outE",
       "color": "fg"
     },
+    "AxTextBox/isError/inner": {
+      "color": "fg2"
+    },
     "AxTextBox/isFocused/base": {
       "background": "inp",
       "border-color": "outF",
       "color": "fg"
     },
+    "AxTextBox/isFocused/inner": {
+      "color": "fg2"
+    },
     "AxTextBox/isNormal/base": {
       "background": "inp",
-      "border-color": "brd2",
-      "color": "{{ fg }}"
+      "border-color": "brd2"
     },
     "AxTextBox/isNormal/focus": {
       "border-color": "outF",
@@ -489,6 +512,36 @@
     },
     "AxTextBox/isNormal/hover": {
       "border-color": "fg3"
+    },
+    "AxTextBox/isNormal/inner": {
+      "color": "fg2"
+    },
+    "AxToggleSwitch/hasLabel/base": {
+      "color": "fg"
+    },
+    "AxToggleSwitch/hasLabelDisabled/base": {
+      "color": "fgDis"
+    },
+    "AxToggleSwitch/isOff/base": {
+      "background": "bg4"
+    },
+    "AxToggleSwitch/isOff/inner": {
+      "background": "#FFFFFF"
+    },
+    "AxToggleSwitch/isOffDisabled/base": {
+      "background": "bg2"
+    },
+    "AxToggleSwitch/isOffDisabled/inner": {
+      "background": "fgDis"
+    },
+    "AxToggleSwitch/isOn/base": {
+      "background": "accS"
+    },
+    "AxToggleSwitch/isOn/inner": {
+      "background": "#FFFFFF"
+    },
+    "AxToggleSwitch/root/focus": {
+      "border-color": "outF"
     }
   },
   "variables": {

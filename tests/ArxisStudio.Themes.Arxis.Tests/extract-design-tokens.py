@@ -70,19 +70,78 @@ def declared(style):
     border = re.search(r'(?:^|;)\s*border:\s*[^;]*?(var\(--[A-Za-z0-9]+[^)]*\)|transparent)', style)
     if border and 'border-color' not in out:
         out['border-color'] = border.group(1)
+
+    # Кольцо фокуса компонент рисует тенью, тема — отдельным слоем: на экране
+    # это один и тот же край, поэтому и сверяется как край.
+    shadow = re.search(r'box-shadow:[^;]*?(var\(--[A-Za-z0-9]+[^)]*\))', style)
+    if shadow and 'border-color' not in out:
+        out['border-color'] = shadow.group(1)
     return {prop: (re.match(r'var\(--([A-Za-z0-9]+)', value).group(1) if value.startswith('var(') else value)
             for prop, value in out.items()}
 
+def resolve(layer, choices):
+    """Разворачивает {{ имя }} в обычный и выключенный вид."""
+    if not any(value.startswith('{{') for value in layer.values()):
+        return {'': layer}
+
+    out = {'': {}, 'Disabled': {}}
+    for prop, value in layer.items():
+        name = value[2:-2].strip() if value.startswith('{{') else None
+        if name is None:
+            out[''][prop] = value
+            out['Disabled'][prop] = value
+        elif name in choices:
+            out[''][prop] = strip(choices[name]['enabled'])
+            out['Disabled'][prop] = strip(choices[name]['disabled'])
+
+    # Ветки совпали — значит выключенный вид ничем не объявлен, и лишнего
+    # состояния заводить не за что.
+    return out if out[''] != out['Disabled'] else {'': out['']}
+
+
+def strip(value):
+    """Оставляет от var(--bg4, #43454A) имя переменной."""
+    m = re.match(r'var\(--([A-Za-z0-9]+)', value)
+    return m.group(1) if m else value.upper()
+
+
 states = {}
-for component in ('AxButton', 'AxTextBox', 'AxComboBox'):
+for component in ('AxButton', 'AxTextBox', 'AxComboBox', 'AxCheckBox', 'AxToggleSwitch'):
     markup = io.open(os.path.join(HANDOFF, 'design', component + '.dc.html'), encoding='utf-8').read()
-    for m in re.finditer(r'<sc-if value="\{\{ (\w+) \}\}"[^>]*>\s*<div([^>]*)>', markup):
-        variant, attrs = m.group(1), m.group(2)
-        base = re.search(r'\sstyle="([^"]*)"', attrs)
-        if base:
-            states[f'{component}/{variant}/base'] = declared(base.group(1))
+
+    # Часть значений компонент считает в скрипте: offBg: disabled ? 'A' : 'B'.
+    # Обе ветки — объявленные значения проекта, и обе нужны: вторая описывает
+    # обычный вид, первая — выключенный.
+    choices = {name: {'disabled': off, 'enabled': on}
+               for name, off, on in re.findall(r"(\w+):\s*disabled \? '([^']*)' : '([^']*)'", markup)}
+
+    # Контур фокуса у флажка и тумблера объявлен только тенью на общей обёртке.
+    root = re.search(r'<x-dc>\s*<div([^>]*)>', markup)
+    if root:
+        focus = re.search(r'style-focus="([^"]*)"', root.group(1))
+        if focus and 'style="' not in root.group(1) or (focus and 'background' not in root.group(1)):
+            declared_focus = declared(focus.group(1))
+            if declared_focus:
+                states[f'{component}/root/focus'] = declared_focus
+
+    for m in re.finditer(r'<sc-if value="\{\{ (\w+) \}\}"[^>]*>(.*?)</sc-if>', markup, re.S):
+        variant, segment = m.group(1), m.group(2)
+        opening = re.match(r'\s*<\w+([^>]*)>', segment)
+        if not opening:
+            continue
+
+        # Внутри вида бывает второй окрашенный слой: бегунок тумблера,
+        # подсказка поля и выпадающего списка.
+        layers = [declared(style) for style in re.findall(r'\sstyle="([^"]*)"', segment)]
+        layers = [layer for layer in layers if layer]
+
+        for slot, layer in zip(('base', 'inner'), layers):
+            for target, resolved in resolve(layer, choices).items():
+                if resolved:
+                    states[f'{component}/{variant}{target}/{slot}'] = resolved
+
         for state in ('hover', 'active', 'focus'):
-            extra_style = re.search(r'style-' + state + r'="([^"]*)"', attrs)
+            extra_style = re.search(r'style-' + state + r'="([^"]*)"', opening.group(1))
             if extra_style:
                 states[f'{component}/{variant}/{state}'] = declared(extra_style.group(1))
 
