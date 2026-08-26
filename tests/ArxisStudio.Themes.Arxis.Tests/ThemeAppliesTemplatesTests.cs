@@ -48,8 +48,25 @@ public class ThemeAppliesTemplatesTests
         typeof(AxToolWindow),
         typeof(AxTitleBar),
         typeof(AxWindowControls),
+        typeof(AxSplitButton),
+        typeof(AxDropDownButton),
+        typeof(AxMenuItem),
+        typeof(AxBreadcrumbBar),
+        typeof(AxBreadcrumbItem),
+        typeof(AxQuickSearch),
+        typeof(AxTeachingTip),
+        typeof(AxNotificationCard),
+        typeof(AxSpinner),
+        typeof(AxToolBar),
+        typeof(AxCodeBlock),
+        typeof(AxDataGrid),
     };
 
+    /// <summary>
+    /// Шаблон обязан находиться в обоих вариантах темы, а переключение
+    /// варианта у живого окна — не снимать его: дыра в одном из вариантов
+    /// снаружи выглядит как контрол, пропавший при смене темы.
+    /// </summary>
     [AvaloniaTheory]
     [MemberData(nameof(TemplatedControls))]
     public void Control_gets_template_from_theme(Type controlType)
@@ -57,10 +74,29 @@ public class ThemeAppliesTemplatesTests
         var control = (TemplatedControl)Activator.CreateInstance(controlType)!;
 
         var window = new Window { Content = control };
+        window.RequestedThemeVariant = ThemeVariant.Dark;
         window.Show();
 
         Assert.NotNull(control.Template);
+
+        window.RequestedThemeVariant = ThemeVariant.Light;
+        Assert.NotNull(control.Template);
+
         window.Close();
+    }
+
+    /// <summary>
+    /// Диалог — окно, в чужое окно его не положить: шаблон проверяется на нём
+    /// самом.
+    /// </summary>
+    [AvaloniaFact]
+    public void Dialog_gets_template_from_theme()
+    {
+        var dialog = new AxDialog { Title = "Проверка", Content = new TextBlock() };
+        dialog.Show();
+
+        Assert.NotNull(dialog.Template);
+        dialog.Close();
     }
 
     [AvaloniaFact]
@@ -136,6 +172,101 @@ public class ThemeAppliesTemplatesTests
         // добавляются к заголовку, а не заменяют его.
         Assert.Equal("Проект", toolWindow.Title);
         Assert.Same(tabs, toolWindow.Tabs);
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Живое окно переживает переключение варианта: кисть, взятая до и после,
+    /// продолжает находиться, а цвет за ней действительно меняется.
+    /// </summary>
+    [AvaloniaFact]
+    public void Switching_variant_at_runtime_keeps_resources_alive()
+    {
+        var button = new AxButton { Classes = { "accent" }, Content = "Проверка" };
+        var window = new Window { Content = button };
+
+        window.RequestedThemeVariant = ThemeVariant.Dark;
+        window.Show();
+
+        Assert.True(window.TryFindResource("AxBg1Color", window.ActualThemeVariant, out var darkBg));
+        Assert.NotNull(button.Template);
+
+        window.RequestedThemeVariant = ThemeVariant.Light;
+
+        Assert.True(window.TryFindResource("AxBg1Color", window.ActualThemeVariant, out var lightBg));
+        Assert.NotNull(button.Template);
+        Assert.NotEqual(darkBg, lightBg);
+
+        window.Close();
+    }
+
+    /// <summary>Токены приёмки существуют в обоих вариантах — палитра не дырявая.</summary>
+    [AvaloniaTheory]
+    [InlineData("AxAccStrongColor")]
+    [InlineData("AxAccStrongHoverColor")]
+    [InlineData("AxLinkOnColor")]
+    [InlineData("AxGreenTextColor")]
+    [InlineData("AxRedTextColor")]
+    [InlineData("AxYellowTextColor")]
+    [InlineData("AxInfoBorderColor")]
+    [InlineData("AxSuccessBorderColor")]
+    [InlineData("AxWarningBorderColor")]
+    [InlineData("AxErrorBorderColor")]
+    [InlineData("AxCodeTagColor")]
+    [InlineData("AxCodeAttrColor")]
+    [InlineData("AxCodeStringColor")]
+    [InlineData("AxCodeCommentColor")]
+    [InlineData("AxCodeFgColor")]
+    [InlineData("AxPopupShadow")]
+    [InlineData("AxModalShadow")]
+    public void Acceptance_tokens_exist_in_both_variants(string key)
+    {
+        var window = new Window();
+        window.Show();
+
+        Assert.True(window.TryFindResource(key, ThemeVariant.Dark, out var dark));
+        Assert.True(window.TryFindResource(key, ThemeVariant.Light, out var light));
+        Assert.NotNull(dark);
+        Assert.NotNull(light);
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Метрики приёмки: тумблер и обводка иконки объявлены темой — в шаблонах
+    /// этих цифр больше нет.
+    /// </summary>
+    [AvaloniaFact]
+    public void Toggle_and_icon_metrics_come_from_the_theme()
+    {
+        var window = new Window();
+        window.Show();
+
+        Assert.True(window.TryFindResource("AxToggleWidth", window.ActualThemeVariant, out var width));
+        Assert.Equal(30d, width);
+        Assert.True(window.TryFindResource("AxToggleHeight", window.ActualThemeVariant, out var height));
+        Assert.Equal(17d, height);
+        Assert.True(window.TryFindResource("AxToggleKnobSize", window.ActualThemeVariant, out var knob));
+        Assert.Equal(13d, knob);
+        Assert.True(window.TryFindResource("AxIconStrokeThickness", window.ActualThemeVariant, out var stroke));
+        Assert.Equal(1.2d, stroke);
+        Assert.True(window.TryFindResource("AxIconSize", window.ActualThemeVariant, out var icon));
+        Assert.Equal(16d, icon);
+
+        window.Close();
+    }
+
+    /// <summary>Моноширинный стек начинается с Fira Code — шрифт едет в теме.</summary>
+    [AvaloniaFact]
+    public void Mono_font_family_starts_with_fira_code()
+    {
+        var window = new Window();
+        window.Show();
+
+        Assert.True(window.TryFindResource("AxFontFamilyMono", window.ActualThemeVariant, out var font));
+        var family = Assert.IsType<Avalonia.Media.FontFamily>(font);
+        Assert.Equal("Fira Code", family.FamilyNames.PrimaryFamilyName);
 
         window.Close();
     }
