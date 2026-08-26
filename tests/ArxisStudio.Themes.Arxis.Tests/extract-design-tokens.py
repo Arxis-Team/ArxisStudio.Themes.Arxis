@@ -2,17 +2,21 @@
 """Извлекает из дизайн-проекта все объявленные значения в JSON.
 
 Источники:
-  design/10 Foundations.dc.html — шкалы (раздел 2) и семантические токены (раздел 3);
-  spec/foundations.md            — метрики и типографика (раздел 5);
-  design/ArxisStudio.dc.html     — значения CSS-переменных обоих вариантов;
-  design/Ax*.dc.html             — какой переменной красится каждое состояние;
-  spec/controls.md               — состав набора: разделы 8 и 9.
+  design/ArxisStudio Design Project.dc.html — шкалы (раздел 2) и токены (раздел 3);
+  spec/foundations.md                       — метрики и типографика (раздел 5);
+  design/Ax*.dc.html                        — какой переменной красится состояние;
+  spec/controls.md                          — состав набора: разделы 8 и 9.
+
+Проект пришёл одним файлом: зоны 00–40 стали секциями внутри него, а файл
+экранов, из которого раньше брались значения CSS-переменных, из набора убран —
+экраны в работу не берутся. Поэтому карта переменных строится из таблицы
+раздела 3: она и объявлена единственным источником значений.
 """
 import io, json, re, sys, os
 
 HANDOFF = r'C:\Users\Maxim\Desktop\ArxisStudio\design_handoff_arxis'
 
-html = io.open(os.path.join(HANDOFF, 'design', '10 Foundations.dc.html'), encoding='utf-8').read()
+html = io.open(os.path.join(HANDOFF, 'design', 'ArxisStudio Design Project.dc.html'), encoding='utf-8').read()
 
 # ---- шкалы: title="AxGray1 · #000000" в блоках Light / Dark ----
 scales = {}
@@ -27,13 +31,13 @@ for m in pat.finditer(html):
 # ---- семантические токены: раздел 3, тройками «имя, Light, Dark» ----
 start = html.find('3. Семантические токены')
 end = html.find('4. Значения макетов')
-cells = re.findall(r"Fira Code[^>]*>([^<]+)</span>", html[start:end])
+cells = re.findall(r"Cascadia Code[^>]*>([^<]+)</span>", html[start:end])
 
 semantic = {}
 i = 0
 while i + 2 < len(cells):
     name, light, dark = cells[i], cells[i + 1], cells[i + 2]
-    if re.fullmatch(r'Ax[A-Za-z]+', name) and light.startswith('#') and dark.startswith('#'):
+    if re.fullmatch(r'Ax[A-Za-z0-9]+', name) and light.startswith('#') and dark.startswith('#'):
         semantic[name] = {'Light': light.upper(), 'Dark': dark.upper()}
         i += 3
     else:
@@ -48,14 +52,29 @@ for line in spec.splitlines():
         metrics[m.group(1)] = m.group(2).strip()
 
 
-# ---- значения CSS-переменных: блоки :root (тёмная) и .axL (светлая) ----
-studio = io.open(os.path.join(HANDOFF, 'design', 'ArxisStudio.dc.html'), encoding='utf-8').read()
+# ---- значения CSS-переменных: короткое имя макета → токен раздела 3 ----
+#
+# Компоненты пишут цвет как var(--bg3, #393B40): короткое имя и запасной
+# литерал. Берётся имя, а значение приходит из таблицы токенов — тогда цвет
+# объявлен ровно один раз и там, где положено.
+SHORT = {
+    'bg1': 'AxBg1', 'bg2': 'AxBg2', 'bg3': 'AxBg3', 'bg4': 'AxBg4',
+    'brd': 'AxBrd', 'brd2': 'AxBrd2',
+    'fg': 'AxFg', 'fg2': 'AxFg2', 'fg3': 'AxFg3', 'fgDis': 'AxFgDisabled',
+    'acc': 'AxAcc', 'accH': 'AxAccHover', 'accP': 'AxAccPressed',
+    'accS': 'AxAccStrong', 'accSH': 'AxAccStrongHover', 'onacc': 'AxOnAcc',
+    'sel': 'AxSel', 'selI': 'AxSelInactive',
+    'canvas': 'AxCanvas', 'dot': 'AxDot',
+    'inp': 'AxInp', 'inpDis': 'AxInpDisabled',
+    'grn': 'AxGrn', 'red': 'AxRed', 'yel': 'AxYel', 'org': 'AxOrg', 'pur': 'AxPur',
+    'link': 'AxLink', 'linkH': 'AxLinkHover', 'linkV': 'AxLinkVisited', 'linkOn': 'AxLinkOn',
+    'grnT': 'AxGreenText', 'redT': 'AxRedText', 'yelT': 'AxYellowText',
+    'outF': 'AxOutlineFocused', 'outE': 'AxOutlineError', 'outW': 'AxOutlineWarning',
+    'bnI': 'AxInfoBackground', 'bnS': 'AxSuccessBackground',
+    'bnW': 'AxWarningBackground', 'bnE': 'AxErrorBackground',
+}
 
-variables = {}
-for selector, half in ((r':root\{([^}]*)\}', 'Dark'), (r'\.axL\{([^}]*)\}', 'Light')):
-    block = re.search(selector, studio)
-    for name, value in re.findall(r'--([A-Za-z0-9]+):\s*([^;]+)', block.group(1)):
-        variables.setdefault(name, {})[half] = value.strip().upper()
+variables = {short: semantic[token] for short, token in SHORT.items() if token in semantic}
 
 # ---- состояния контролов: style / style-hover / style-active / style-focus ----
 #

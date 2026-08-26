@@ -54,7 +54,7 @@
     "AxFocusOutlineThickness": "2",
     "AxFocusOutlineWidth": "2",
     "AxFontFamily": "fonts:Inter#Inter",
-    "AxFontFamilyMono": "Fira Code → Cascadia Mono → Consolas",
+    "AxFontFamilyMono": "Cascadia Code → Cascadia Mono → Consolas",
     "AxFontSize": "13",
     "AxFontSizeCaption": "10.5",
     "AxFontSizeSmall": "11.5",
@@ -288,9 +288,29 @@
       "Dark": "#315FBD",
       "Light": "#315FBD"
     },
+    "AxBg1": {
+      "Dark": "#1E1F22",
+      "Light": "#FFFFFF"
+    },
+    "AxBg2": {
+      "Dark": "#2B2D30",
+      "Light": "#F7F8FA"
+    },
+    "AxBg3": {
+      "Dark": "#393B40",
+      "Light": "#EBECF0"
+    },
+    "AxBg4": {
+      "Dark": "#43454A",
+      "Light": "#DFE1E5"
+    },
     "AxBrd": {
       "Dark": "#393B40",
       "Light": "#EBECF0"
+    },
+    "AxBrd2": {
+      "Dark": "#4E5157",
+      "Light": "#C9CCD6"
     },
     "AxCanvas": {
       "Dark": "#191A1D",
@@ -307,6 +327,14 @@
     "AxFg": {
       "Dark": "#DFE1E5",
       "Light": "#27282E"
+    },
+    "AxFg2": {
+      "Dark": "#9DA0A8",
+      "Light": "#6C707E"
+    },
+    "AxFg3": {
+      "Dark": "#6F737A",
+      "Light": "#A8ADBD"
     },
     "AxFgDisabled": {
       "Dark": "#868A91",
@@ -586,10 +614,6 @@
     }
   },
   "variables": {
-    "abshadow": {
-      "Dark": "RGBA(0,0,0,.55)",
-      "Light": "RGBA(30,40,60,.18)"
-    },
     "acc": {
       "Dark": "#3574F0",
       "Light": "#3574F0"
@@ -630,33 +654,17 @@
       "Dark": "#402929",
       "Light": "#FFF7F7"
     },
-    "bnEb": {
-      "Dark": "#7A4343",
-      "Light": "#FAD4D8"
-    },
     "bnI": {
       "Dark": "#25324D",
       "Light": "#EDF3FF"
-    },
-    "bnIb": {
-      "Dark": "#35538F",
-      "Light": "#C2D6FC"
     },
     "bnS": {
       "Dark": "#253627",
       "Light": "#F2FCF3"
     },
-    "bnSb": {
-      "Dark": "#436946",
-      "Light": "#C5E5CC"
-    },
     "bnW": {
       "Dark": "#3D3223",
       "Light": "#FFF5DB"
-    },
-    "bnWb": {
-      "Dark": "#9E814A",
-      "Light": "#FED277"
     },
     "brd": {
       "Dark": "#393B40",
@@ -708,11 +716,11 @@
     },
     "link": {
       "Dark": "#548AF7",
-      "Light": "#3369D6"
+      "Light": "#3574F0"
     },
     "linkH": {
       "Dark": "#6B9BFA",
-      "Light": "#315FBD"
+      "Light": "#3369D6"
     },
     "linkOn": {
       "Dark": "#6B9BFA",
@@ -761,10 +769,6 @@
     "selI": {
       "Dark": "#393B40",
       "Light": "#EBECF0"
-    },
-    "shadow": {
-      "Dark": "RGBA(0,0,0,.45)",
-      "Light": "RGBA(0,0,0,.14)"
     },
     "yel": {
       "Dark": "#D6AE58",
