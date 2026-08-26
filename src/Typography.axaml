@@ -10,8 +10,16 @@
   <FontFamily x:Key="AxFontFamily">fonts:Inter#Inter</FontFamily>
   <FontFamily x:Key="AxFontFamilyMono">avares://ArxisStudio.Themes.Arxis/Fonts#Fira Code,Cascadia Mono,Consolas,Courier New</FontFamily>
 
+  <!--
+      Кегли: база 13, мелкий 11.5, подпись 10.5 — раздел 5 спецификации.
+      Два заголовочных кегля таблицей не объявлены, но макетами используются:
+      15 на заголовке экрана (Settings, Learn, Plugins) и 14 на заголовке
+      диалога и карточки. Заведены здесь, чтобы их не писали числом на месте.
+  -->
   <x:Double x:Key="AxFontSize">13</x:Double>
   <x:Double x:Key="AxFontSizeSmall">11.5</x:Double>
   <x:Double x:Key="AxFontSizeCaption">10.5</x:Double>
+  <x:Double x:Key="AxFontSizeLarge">14</x:Double>
+  <x:Double x:Key="AxFontSizeTitle">15</x:Double>
 
 </ResourceDictionary>

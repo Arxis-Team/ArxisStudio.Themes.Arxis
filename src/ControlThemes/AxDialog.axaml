@@ -33,7 +33,7 @@
                 </ax:AxButton>
                 <TextBlock Text="{TemplateBinding Title}"
                            FontWeight="SemiBold"
-                           FontSize="14"
+                           FontSize="{DynamicResource AxFontSizeLarge}"
                            VerticalAlignment="Center"/>
               </DockPanel>
               <Border DockPanel.Dock="Bottom"

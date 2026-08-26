@@ -68,6 +68,22 @@
   <Style Selector="TextBlock.dimmer">
     <Setter Property="Foreground" Value="{DynamicResource AxFg3Brush}"/>
   </Style>
+
+  <!--
+      Размерные роли текста. Кегль — такое же значение темы, как цвет, и в
+      панели ему не место числом: панель говорит, что это мелкий текст или
+      подпись, а сколько это в пунктах — решает типографика.
+  -->
+  <Style Selector="TextBlock.small">
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
+  </Style>
+  <Style Selector="TextBlock.caption">
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSizeCaption}"/>
+  </Style>
+  <Style Selector="TextBlock.title">
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSizeTitle}"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
   <!-- Смысловые цвета текста: уровень записи в журнале, состояние, итог. -->
   <!--
       Смысловой ТЕКСТ идёт цветами *Text: AxGrn/AxRed/AxYel рассчитаны на
