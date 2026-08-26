@@ -47,25 +47,25 @@
       <ControlTemplate>
         <StackPanel Orientation="Horizontal" Spacing="2">
           <Button x:Name="PART_Minimize" Theme="{StaticResource AxWindowButton}">
-            <ax:AxIcon Data="M 4 8 H 12" Width="13" Height="13" StrokeThickness="1.3"
+            <ax:AxIcon Data="M 4 8 H 12" Classes="small" StrokeThickness="1.3"
                        Foreground="{Binding $parent[Button].Foreground}"/>
           </Button>
           <Button x:Name="PART_Maximize" Theme="{StaticResource AxWindowButton}">
             <Panel>
               <ax:AxIcon x:Name="PART_MaximizeIcon"
                          Data="M 4.5 4.5 H 11.5 V 11.5 H 4.5 Z"
-                         Width="13" Height="13" StrokeThickness="1.3"
+                         Classes="small" StrokeThickness="1.3"
                          Foreground="{Binding $parent[Button].Foreground}"/>
               <ax:AxIcon x:Name="PART_RestoreIcon"
                          Data="M 6 4.5 H 11.5 V 10 M 4.5 6 H 10 V 11.5 H 4.5 Z"
-                         Width="13" Height="13" StrokeThickness="1.3"
+                         Classes="small" StrokeThickness="1.3"
                          Foreground="{Binding $parent[Button].Foreground}"
                          IsVisible="False"/>
             </Panel>
           </Button>
           <Button x:Name="PART_Close" Theme="{StaticResource AxWindowButton}" Classes="close">
             <ax:AxIcon Data="M 4.5 4.5 L 11.5 11.5 M 11.5 4.5 L 4.5 11.5"
-                       Width="13" Height="13" StrokeThickness="1.3"
+                       Classes="small" StrokeThickness="1.3"
                        Foreground="{Binding $parent[Button].Foreground}"/>
           </Button>
         </StackPanel>

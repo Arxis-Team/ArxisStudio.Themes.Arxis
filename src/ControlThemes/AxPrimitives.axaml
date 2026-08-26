@@ -65,7 +65,7 @@
     <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
     <Setter Property="BorderThickness" Value="1"/>
-    <Setter Property="CornerRadius" Value="10"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
     <Setter Property="Padding" Value="14"/>
     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
     <Setter Property="VerticalContentAlignment" Value="Stretch"/>

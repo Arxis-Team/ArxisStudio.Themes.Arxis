@@ -54,7 +54,7 @@
                 Padding="{TemplateBinding Padding}">
           <Panel>
             <StackPanel Orientation="Horizontal" Spacing="7" VerticalAlignment="Center">
-              <ax:AxIcon Width="13" Height="13"
+              <ax:AxIcon Classes="small"
                          Data="{TemplateBinding Icon}"
                          Foreground="{TemplateBinding IconBrush}"
                          IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}"/>
@@ -69,9 +69,8 @@
                          Fill="{DynamicResource AxFg2Brush}"
                          IsVisible="{TemplateBinding IsModified}"/>
                 <ax:AxIcon x:Name="PART_Close"
-                           Width="10" Height="10"
-                           StrokeThickness="1.3"
-                           Data="M 4.5 4.5 L 11.5 11.5 M 11.5 4.5 L 4.5 11.5"
+                           Classes="small"
+                           Data="{x:Static ax:AxIcons.Close}"
                            Foreground="{DynamicResource AxFg3Brush}"
                            IsVisible="False"/>
               </Panel>

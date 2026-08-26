@@ -83,9 +83,13 @@
     <Setter Property="Foreground" Value="{DynamicResource AxRedTextBrush}"/>
   </Style>
 
-  <!-- Заголовок секции — текст, а текстом AxFg3 не служит: AxFg2. -->
+  <!--
+      Заголовок секции: 11.5 с разрядкой, как «RECENT» на экране Welcome
+      макета. Последний размерный литерал темы отсюда убран — кегль берётся
+      из типографики.
+  -->
   <Style Selector="TextBlock.section">
-    <Setter Property="FontSize" Value="11"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
     <Setter Property="LetterSpacing" Value="0.6"/>

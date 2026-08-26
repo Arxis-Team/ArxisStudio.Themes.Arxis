@@ -4,10 +4,10 @@
 
   <!-- Сегментный переключатель: контейнер bg1 с рамкой, активный сегмент — акцент. -->
   <ControlTheme x:Key="{x:Type ax:AxSegmentedControl}" TargetType="ax:AxSegmentedControl">
-    <Setter Property="Background" Value="{DynamicResource AxBg1Brush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxInpBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
     <Setter Property="BorderThickness" Value="1"/>
-    <Setter Property="CornerRadius" Value="6"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Padding" Value="2"/>
     <Setter Property="HorizontalAlignment" Value="Left"/>
     <Setter Property="ItemsPanel">
@@ -32,7 +32,7 @@
   <!-- Сегмент: неактивный — fg2, активный — акцентная пилюля. -->
   <ControlTheme x:Key="{x:Type ax:AxSegmentItem}" TargetType="ax:AxSegmentItem">
     <Setter Property="Padding" Value="10,3"/>
-    <Setter Property="CornerRadius" Value="4"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusSmall}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
     <Setter Property="Background" Value="Transparent"/>
