@@ -17,16 +17,34 @@
     <Setter Property="HorizontalContentAlignment" Value="Center"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <ContentPresenter x:Name="PART_ContentPresenter"
-                          Background="{TemplateBinding Background}"
-                          Content="{TemplateBinding Content}"
-                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                          Padding="{TemplateBinding Padding}"
-                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                          RecognizesAccessKey="True"/>
+        <Panel>
+          <!--
+              Кольцо у половины, а не у всей кнопки. SplitButton сам фокуса не
+              берёт — Avalonia отдаёт его половинам, — и кольцо на общей рамке
+              ждало :focus-visible, который на ней не наступает никогда: по Tab
+              не было видно, где стоишь. Половин две, шага тоже два: действие и
+              стрелка, и каждый показывает себя сам.
+          -->
+          <Border x:Name="PART_FocusRing"
+                  Margin="-2"
+                  CornerRadius="6"
+                  BorderThickness="{DynamicResource AxFocusOutlineThickness}"
+                  BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                  IsVisible="False"/>
+          <ContentPresenter x:Name="PART_ContentPresenter"
+                            Background="{TemplateBinding Background}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            RecognizesAccessKey="True"/>
+        </Panel>
       </ControlTemplate>
     </Setter>
+    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
     </Style>
@@ -75,12 +93,6 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Panel>
-          <Border x:Name="PART_FocusRing"
-                  Margin="-2"
-                  CornerRadius="6"
-                  BorderThickness="{DynamicResource AxFocusOutlineThickness}"
-                  BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
-                  IsVisible="False"/>
           <Border x:Name="PART_Container"
                   Background="{TemplateBinding Background}"
                   BorderBrush="{TemplateBinding BorderBrush}"
@@ -111,9 +123,6 @@
       </ControlTemplate>
     </Setter>
 
-    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
-      <Setter Property="IsVisible" Value="True"/>
-    </Style>
     <Style Selector="^:disabled">
       <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
       <Setter Property="Cursor" Value="Arrow"/>
