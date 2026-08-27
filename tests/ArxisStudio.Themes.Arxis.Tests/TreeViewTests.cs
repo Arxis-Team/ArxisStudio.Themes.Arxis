@@ -117,6 +117,39 @@ public class TreeViewTests
         window.Close();
     }
 
+    /// <summary>
+    /// Под курсором подсвечивается одна строка, а не вся ветка предков.
+    /// </summary>
+    /// <remarks>
+    /// У элемента дерева :pointerover держится, пока курсор над любым его
+    /// потомком, а дочерние строки лежат внутри него. Наведение поэтому
+    /// спрашивается у самой строки: детей она не содержит.
+    /// </remarks>
+    [AvaloniaFact]
+    public void Hover_lights_the_row_under_the_pointer_alone()
+    {
+        var (tree, window) = Shown();
+
+        var leaf = Rows(tree).First(r => r.ItemCount == 0);
+        var parent = Rows(tree).First(r => r.ItemCount > 0);
+
+        // Так это делает Avalonia: наведение на потомка помечает и предков.
+        foreach (var row in new[] { leaf, parent })
+            ((IPseudoClasses)row.Classes).Set(":pointerover", true);
+
+        ((IPseudoClasses)Part(leaf, "PART_Root").Classes).Set(":pointerover", true);
+        window.UpdateLayout();
+
+        Assert.Equal(
+            Resource(window, "AxBg3Color", "Dark"),
+            Colour(((Border)Part(leaf, "PART_Root")).Background));
+        Assert.Equal(
+            Colors.Transparent.ToUInt32(),
+            Colour(((Border)Part(parent, "PART_Root")).Background)!.Value.ToUInt32());
+
+        window.Close();
+    }
+
     /// <summary>Выбранная строка: заливка AxSel с радиусом контрола.</summary>
     [AvaloniaTheory]
     [InlineData("Light")]

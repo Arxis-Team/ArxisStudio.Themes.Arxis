@@ -125,7 +125,14 @@
       <Setter Property="Data" Value="{x:Static ax:AxIcons.ChevronDown}"/>
     </Style>
 
-    <Style Selector="^:pointerover /template/ Border#PART_Root">
+    <!--
+        Наведение спрашиваем у самой строки, а не у элемента дерева: у элемента
+        :pointerover держится, пока курсор над любым его потомком, а дочерние
+        строки лежат внутри него — и вместе с наведённой подсвечивалась вся
+        ветка предков. PART_Root детей не содержит, они идут отдельной частью
+        ниже, поэтому его наведение — ровно одна строка.
+    -->
+    <Style Selector="^ /template/ Border#PART_Root:pointerover">
       <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
     </Style>
     <Style Selector="^:selected /template/ Border#PART_Root">
