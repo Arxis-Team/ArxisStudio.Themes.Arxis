@@ -14,13 +14,23 @@
     <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+    <!--
+        Панель обведена и скруглена: так её показывает карточка «Заголовок
+        панели». Радиус там 6, но в шкале проекта его нет (3 / 4 / 8) — взят
+        контрольный. Обрезка нужна линии под шапкой: без неё она вылезает за
+        скругление и торчит усиками по краям.
+    -->
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
     <Setter Property="VerticalContentAlignment" Value="Stretch"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}">
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                ClipToBounds="True">
           <DockPanel>
             <!--
                 Шапка: 38 высотой и отступ 12 с обеих сторон — столько
@@ -42,7 +52,6 @@
                                   IsVisible="{TemplateBinding Actions, Converter={x:Static ObjectConverters.IsNotNull}}"/>
                 <TextBlock x:Name="PART_Title"
                            Text="{TemplateBinding Title}"
-                           FontSize="12"
                            FontWeight="SemiBold"
                            Foreground="{TemplateBinding Foreground}"
                            VerticalAlignment="Center"

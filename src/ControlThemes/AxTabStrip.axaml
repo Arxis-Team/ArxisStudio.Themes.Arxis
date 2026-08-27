@@ -41,11 +41,34 @@
     <Setter Property="CornerRadius" Value="0"/>
     <Setter Property="Padding" Value="0"/>
     <Setter Property="VerticalAlignment" Value="Stretch"/>
-    <!-- Обычные вкладки стоят через 4, вкладки документа — вплотную. -->
+    <!--
+        В шапке панели вкладки стоят вплотную — так их размечает карточка
+        «Заголовок панели», и так же идут вкладки редактора. Зазор 4 остаётся
+        обычным вкладкам, которые стоят отдельной строкой над содержимым.
+    -->
     <Setter Property="ItemsPanel">
       <ItemsPanelTemplate>
-        <StackPanel Orientation="Horizontal" Spacing="4"/>
+        <StackPanel Orientation="Horizontal"/>
       </ItemsPanelTemplate>
+    </Setter>
+    <!--
+        Вкладка тянется на всю шапку: полоса выбора обязана лечь на её нижний
+        край, вплотную к линии под шапкой. Своя высота 34 оставила бы её
+        висеть посреди тридцати восьми.
+    -->
+    <Setter Property="ItemContainerTheme">
+      <ControlTheme TargetType="ax:AxTabItem" BasedOn="{StaticResource {x:Type ax:AxTabItem}}">
+        <Setter Property="Height" Value="NaN"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <!--
+            Выбранной вкладку в шапке делает одна полоса: своего фона у неё
+            нет. Фон остаётся вкладке редактора, где ряд имён стоит на общей
+            подложке и выбранное имя поднимается над ней белым.
+        -->
+        <Style Selector="^:selected /template/ Border#PART_Root">
+          <Setter Property="Background" Value="Transparent"/>
+        </Style>
+      </ControlTheme>
     </Setter>
   </ControlTheme>
 
