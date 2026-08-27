@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Headless.XUnit;
+using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.VisualTree;
@@ -150,6 +151,69 @@ public class TreeViewTests
         window.Close();
     }
 
+    /// <summary>Двойной щелчок по строке раскрывает и сворачивает узел.</summary>
+    [AvaloniaFact]
+    public void Double_click_folds_the_node()
+    {
+        var (tree, window) = Shown();
+
+        var node = Rows(tree).First(r => r.ItemCount > 0);
+
+        var row = Part(node, "PART_Root");
+
+        DoubleClick(row);
+        Assert.False(node.IsExpanded);
+
+        DoubleClick(row);
+        Assert.True(node.IsExpanded);
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Складывается своя строка: двойной щелчок по файлу папку не трогает.
+    /// </summary>
+    /// <remarks>
+    /// Щелчок идёт из глубины наружу, и без проверки источника он свернул бы
+    /// сначала папку над файлом, а следом и весь корень.
+    /// </remarks>
+    [AvaloniaFact]
+    public void Double_click_on_a_leaf_leaves_its_folder_open()
+    {
+        var (tree, window) = Shown();
+
+        var leaf = Rows(tree).First(r => r.ItemCount == 0);
+        var folder = Rows(tree).First(r => r.ItemCount > 0 && r.Level == leaf.Level - 1);
+
+        DoubleClick(Part(leaf, "PART_Root"));
+
+        Assert.True(folder.IsExpanded);
+        Assert.True(Rows(tree).First().IsExpanded);
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Двойной щелчок по стрелке остаётся делом стрелки.
+    /// </summary>
+    /// <remarks>
+    /// Она уже переключилась дважды и вернулась к прежнему состоянию; третье
+    /// переключение из строки увело бы узел не туда.
+    /// </remarks>
+    [AvaloniaFact]
+    public void Double_click_on_the_chevron_is_left_to_the_chevron()
+    {
+        var (tree, window) = Shown();
+
+        var node = Rows(tree).First(r => r.ItemCount > 0);
+
+        DoubleClick(Part(node, "PART_ExpandCollapseChevron"));
+
+        Assert.True(node.IsExpanded);
+
+        window.Close();
+    }
+
     /// <summary>Выбранная строка: заливка AxSel с радиусом контрола.</summary>
     [AvaloniaTheory]
     [InlineData("Light")]
@@ -223,6 +287,25 @@ public class TreeViewTests
 
     private static IEnumerable<AxTreeViewItem> Rows(AxTreeView tree) =>
         tree.GetVisualDescendants().OfType<AxTreeViewItem>();
+
+    /// <summary>
+    /// Двойной щелчок по части строки. Платформы в безголовом прогоне нет,
+    /// поэтому жест поднимаем сами — от того места, куда пришёлся бы курсор.
+    /// </summary>
+    private static void DoubleClick(Control where)
+    {
+        var pointer = new PointerEventArgs(
+            InputElement.PointerMovedEvent,
+            where,
+            new Pointer(0, PointerType.Mouse, isPrimary: true),
+            where,
+            default,
+            timestamp: 0,
+            new PointerPointProperties(RawInputModifiers.LeftMouseButton, PointerUpdateKind.LeftButtonPressed),
+            KeyModifiers.None);
+
+        where.RaiseEvent(new TappedEventArgs(InputElement.DoubleTappedEvent, pointer) { Source = where });
+    }
 
     /// <summary>Левый край части в координатах панели, а не своей строки.</summary>
     private static double Left(Visual part, Visual tree) =>
