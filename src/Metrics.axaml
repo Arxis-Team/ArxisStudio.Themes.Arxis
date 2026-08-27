@@ -15,6 +15,21 @@
   -->
   <x:Double x:Key="AxFocusOutlineWidth">2</x:Double>
   <Thickness x:Key="AxFocusOutlineThickness">2</Thickness>
+  <!--
+      Контур фокуса всегда 2 пикселя акцента, но складывается он по-разному.
+      У контрола без своей рамки — флажок, тумблер, ползунок — все 2 лежат
+      снаружи. У контрола с рамкой она сама на фокусе перекрашивается в
+      AxOutlineFocused и становится первым пикселем контура, а снаружи
+      добавляется второй: 1 + 1. Так это и объявлено в компонентах проекта.
+
+      Кольцо в 2 поверх перекрашенной рамки давало 3 — контур толще, чем
+      задумано, и поле в фокусе занимало на пиксель больше места с каждой
+      стороны.
+  -->
+  <Thickness x:Key="AxFocusOutlineOuter">1</Thickness>
+  <CornerRadius x:Key="AxCornerRadiusFocusOuter">5</CornerRadius>
+  <!-- Кольцо ложится наружу, поэтому отступ отрицательный на свою толщину. -->
+  <Thickness x:Key="AxFocusOutlineOuterMargin">-1</Thickness>
 
   <!-- Скругления: контролы, сегменты, всплывающие панели. -->
   <CornerRadius x:Key="AxCornerRadius">4</CornerRadius>

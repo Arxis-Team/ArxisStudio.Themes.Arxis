@@ -33,9 +33,9 @@
       <ControlTemplate>
         <Panel>
           <Border x:Name="PART_FocusRing"
-                  Margin="-2"
-                  CornerRadius="6"
-                  BorderThickness="{DynamicResource AxFocusOutlineThickness}"
+                  Margin="{DynamicResource AxFocusOutlineOuterMargin}"
+                  CornerRadius="{DynamicResource AxCornerRadiusFocusOuter}"
+                  BorderThickness="{DynamicResource AxFocusOutlineOuter}"
                   BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
                   IsVisible="False"/>
           <Border x:Name="PART_BorderElement"

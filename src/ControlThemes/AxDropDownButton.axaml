@@ -29,9 +29,9 @@
       <ControlTemplate>
         <Panel>
           <Border x:Name="PART_FocusRing"
-                  Margin="-2"
-                  CornerRadius="6"
-                  BorderThickness="{DynamicResource AxFocusOutlineThickness}"
+                  Margin="{DynamicResource AxFocusOutlineOuterMargin}"
+                  CornerRadius="{DynamicResource AxCornerRadiusFocusOuter}"
+                  BorderThickness="{DynamicResource AxFocusOutlineOuter}"
                   BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
                   IsVisible="False"/>
           <Border x:Name="PART_Background"
@@ -64,6 +64,14 @@
     </Style>
     <Style Selector="^:pressed /template/ Border#PART_Background">
       <Setter Property="Background" Value="{DynamicResource AxBg4Brush}"/>
+    </Style>
+    <!--
+        В фокусе рамка контрола сама становится акцентной: контур складывается
+        из неё и кольца снаружи — 1 + 1, как объявляют компоненты проекта. Без
+        этого у дропдауна контур выходил тоньше, чем у кнопки и поля рядом.
+    -->
+    <Style Selector="^:focus-visible /template/ Border#PART_Background">
+      <Setter Property="BorderBrush" Value="{DynamicResource AxOutlineFocusedBrush}"/>
     </Style>
     <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>

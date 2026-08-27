@@ -149,6 +149,59 @@ public class FocusRingTests
     }
 
     /// <summary>
+    /// Контур фокуса всегда даёт 2 пикселя акцента — но складывается по-разному.
+    /// </summary>
+    /// <remarks>
+    /// У контрола со своей рамкой она на фокусе сама становится акцентной и
+    /// считается первым пикселем контура, а снаружи ложится второй: так это
+    /// объявлено в компонентах проекта — <c>border-color</c> плюс
+    /// <c>box-shadow 0 0 0 1px</c>. У контрола без рамки — флажка, тумблера,
+    /// ползунка — все два лежат снаружи.
+    ///
+    /// Кольцо в два поверх перекрашенной рамки давало три, и контрол в фокусе
+    /// занимал на пиксель больше места с каждой стороны, чем задумано.
+    /// </remarks>
+    [AvaloniaTheory]
+    [InlineData(typeof(AxButton), 1d)]
+    [InlineData(typeof(AxTextBox), 1d)]
+    [InlineData(typeof(AxComboBox), 1d)]
+    [InlineData(typeof(AxDropDownButton), 1d)]
+    [InlineData(typeof(AxCheckBox), 2d)]
+    [InlineData(typeof(AxToggleSwitch), 2d)]
+    [InlineData(typeof(AxSlider), 2d)]
+    public void Focus_outline_adds_up_to_two(Type controlType, double outside)
+    {
+        var (control, window) = Shown(controlType);
+
+        Reach(control).Focus(NavigationMethod.Tab);
+        window.UpdateLayout();
+
+        var ring = Rings(control).First(r => r.IsVisible);
+        var accent = Resource(window, "AxOutlineFocusedColor");
+
+        // Кольцо снаружи: своей толщины и на неё же сдвинуто.
+        Assert.Equal(outside, ring.GetValue(Border.BorderThicknessProperty).Left);
+        Assert.Equal(-outside, ring.Margin.Left);
+        Assert.Equal(accent, Colour(ring.GetValue(Border.BorderBrushProperty)));
+
+        // Недостающее до двух даёт своя рамка контрола — и она обязана быть
+        // акцентной, иначе контур получится тоньше, а не сложится.
+        var inside = 2d - outside;
+        var edge = control.GetVisualDescendants()
+            .OfType<Control>()
+            .FirstOrDefault(child => child.Name is "PART_BorderElement" or "PART_ContentPresenter" or "PART_Background");
+
+        if (inside > 0)
+        {
+            Assert.True(edge is not null, $"{controlType.Name}: нечему добрать контур до двух");
+            Assert.Equal(inside, edge!.GetValue(Border.BorderThicknessProperty).Left);
+            Assert.Equal(accent, Colour(edge.GetValue(Border.BorderBrushProperty)));
+        }
+
+        window.Close();
+    }
+
+    /// <summary>
     /// Тот контрол, до которого доходит Tab.
     /// </summary>
     /// <remarks>
@@ -195,6 +248,15 @@ public class FocusRingTests
     /// её половинам, и кольцо у каждой своё. Вопрос «видно ли, где стоишь»
     /// один на все слои.
     /// </remarks>
+    private static Color? Colour(IBrush? brush) => (brush as ISolidColorBrush)?.Color;
+
+    private static Color Resource(Window window, string key)
+    {
+        Assert.True(window.TryFindResource(key, window.ActualThemeVariant, out var value), key);
+
+        return (Color)value!;
+    }
+
     private static IReadOnlyList<Control> Rings(Control control)
     {
         var rings = control.GetVisualDescendants()
