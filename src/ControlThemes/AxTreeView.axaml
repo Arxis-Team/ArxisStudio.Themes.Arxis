@@ -3,14 +3,25 @@
                     xmlns:ax="using:ArxisStudio.Controls">
 
   <!--
-      Дерево Int UI: строка 24px, выделение — заливка на всю ширину панели,
-      стрелка раскрытия слева от содержимого. Отступ по уровню даёт сама
-      Avalonia через TreeViewItem.Level — умножаем его на 14px, как в мокапе.
+      Дерево проекта: строка 24 (раздел 6 приёмки против 26 из карточки),
+      выделение — заливка на всю ширину панели, стрелка раскрытия слева от
+      содержимого. Отступ по уровню даёт сама Avalonia через TreeViewItem.Level.
+
+      Лестница карточки — 8 → 26 → 44 от левого края строки — держится на
+      арифметике: 8 отбивки, 12 шеврона, 6 зазора дают ровно 26, дальше шаг 18.
+      Поэтому колонка шеврона обязана быть 12, а не 16: лишние 4 сдвигают все
+      подписи и лестница расходится с макетом.
   -->
   <ControlTheme x:Key="{x:Type ax:AxTreeView}" TargetType="ax:AxTreeView">
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="BorderThickness" Value="0"/>
-    <Setter Property="Padding" Value="0,4"/>
+    <!--
+        Отбивка по горизонтали 2: в карточке выделенная строка вставлена на
+        2px от краёв панели. В макете эти 2px висят на самой строке и уводят
+        её подпись вправо от соседних — здесь они отданы панели, так заливка
+        встаёт как в карточке, а подписи всех строк остаются в одной колонке.
+    -->
+    <Setter Property="Padding" Value="2,4"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}"
@@ -34,13 +45,14 @@
         <StackPanel>
           <Border x:Name="PART_Root"
                   Height="{DynamicResource AxRowHeight}"
+                  CornerRadius="{DynamicResource AxCornerRadius}"
                   Background="{TemplateBinding Background}">
             <DockPanel Margin="{Binding Level, RelativeSource={RelativeSource TemplatedParent},
                                         Converter={x:Static ax:AxTreeIndentConverter.Instance}}">
               <ToggleButton x:Name="PART_ExpandCollapseChevron"
                             DockPanel.Dock="Left"
-                            Width="16" Height="16"
-                            Margin="8,0,6,0"
+                            Width="12" Height="{DynamicResource AxRowHeight}"
+                            Margin="0,0,6,0"
                             VerticalAlignment="Center"
                             Background="Transparent"
                             BorderThickness="0"
@@ -49,15 +61,38 @@
                 <ToggleButton.Template>
                   <ControlTemplate>
                     <Border Background="Transparent">
-                      <ax:AxIcon x:Name="Chevron"
-                                 Width="12" Height="12"
-                                 StrokeThickness="1.4"
-                                 Data="{x:Static ax:AxIcons.ChevronRight}"
-                                 Foreground="{DynamicResource AxFg3Brush}"/>
+                      <ContentPresenter Content="{TemplateBinding Content}"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"/>
                     </Border>
                   </ControlTemplate>
                 </ToggleButton.Template>
+                <!--
+                    Мелкий шеврон — тот самый «отдельный класс» из раздела 6
+                    приёмки, а не свои размеры на месте. Толщина обводки
+                    остаётся набора: icons.md запрещает менять её на отдельных
+                    иконках, иначе набор расслаивается по весу.
+
+                    Значок стоит содержимым кнопки, а не в её шаблоне: шаблон
+                    кнопки — своя область имён, и стиль раскрытого узла ниже
+                    туда не достаёт — шеврон так и остался бы смотреть вправо.
+                -->
+                <ax:AxIcon x:Name="Chevron"
+                           Classes="small"
+                           Data="{x:Static ax:AxIcons.ChevronRight}"
+                           Foreground="{DynamicResource AxFg2Brush}"/>
               </ToggleButton>
+              <!--
+                  Значок: карточка проекта ставит слева от подписи то глиф
+                  папки, то плашку типа файла. Место занимается только когда
+                  значок есть — у строки без него подпись не отъезжает.
+              -->
+              <ContentPresenter x:Name="PART_Icon"
+                                DockPanel.Dock="Left"
+                                Margin="0,0,6,0"
+                                VerticalAlignment="Center"
+                                Content="{TemplateBinding Icon}"
+                                IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}"/>
               <ContentPresenter Content="{TemplateBinding Header}"
                                 ContentTemplate="{TemplateBinding HeaderTemplate}"
                                 Foreground="{TemplateBinding Foreground}"
@@ -73,14 +108,20 @@
     </Setter>
 
     <!--
-        Стрелка всегда занимает своё место: у листа она невидима, но отступ
-        сохраняется, иначе подписи листьев и узлов стоят в разных колонках.
+        У листа колонки шеврона нет вовсе: значок файла встаёт ровно на его
+        место. Так размечена карточка — значок листа стоит в одной колонке с
+        папкой родителя (26 у App.axaml против 44 у ViewModels), а не правее её
+        на шаг. Пустая колонка вместо этого увела бы все файлы на 18 вправо.
     -->
     <Style Selector="^:empty /template/ ToggleButton#PART_ExpandCollapseChevron">
-      <Setter Property="Opacity" Value="0"/>
-      <Setter Property="IsHitTestVisible" Value="False"/>
+      <Setter Property="IsVisible" Value="False"/>
     </Style>
-    <Style Selector="^:expanded /template/ ToggleButton#PART_ExpandCollapseChevron ax|AxIcon#Chevron">
+    <!--
+        Раскрытый узел смотрит вниз. Состояние берётся с самой кнопки, а не с
+        псевдокласса строки: IsChecked кнопки связан с IsExpanded напрямую, и
+        так стиль не зависит от того, заводит ли Avalonia :expanded у строки.
+    -->
+    <Style Selector="^ /template/ ToggleButton#PART_ExpandCollapseChevron:checked ax|AxIcon#Chevron">
       <Setter Property="Data" Value="{x:Static ax:AxIcons.ChevronDown}"/>
     </Style>
 
