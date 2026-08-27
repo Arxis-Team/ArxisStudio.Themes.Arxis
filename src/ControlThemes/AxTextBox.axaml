@@ -122,6 +122,60 @@
     </Style>
   </ControlTheme>
 
+  <!--
+      Поле, встроенное в другой контрол: строку поиска редактора, шапку с
+      фильтром. Своей рамки, фона и кольца фокуса у него нет — всё это рисует
+      то, во что оно встроено, и вторая рамка внутри первой читается как
+      дефект. Кольцо особенно: оно ложится впритык к чужой рамке, и наружу
+      проступают его скруглённые углы.
+
+      Проект такого контрола не называет, но собирает из него строку поиска в
+      зоне 20; это тема варианта, а не новый контрол и не новый токен.
+  -->
+  <ControlTheme x:Key="AxInlineTextBox" TargetType="ax:AxTextBox"
+                BasedOn="{StaticResource {x:Type ax:AxTextBox}}">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Padding" Value="0"/>
+
+    <Style Selector="^:focus /template/ Border#PART_FocusRing">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="^:pointerover /template/ Border#PART_BorderElement">
+      <Setter Property="BorderBrush" Value="Transparent"/>
+    </Style>
+    <Style Selector="^:focus /template/ Border#PART_BorderElement">
+      <Setter Property="BorderBrush" Value="Transparent"/>
+    </Style>
+  </ControlTheme>
+
+  <!--
+      Крестик очистки внутри поля: цель нажатия прежняя, 24, а плашки нет.
+      Обычная иконочная кнопка кладёт под себя заливку во всю эту цель, и в
+      поле высотой 28 она встаёт почти во всю высоту, вплотную к краю, — рядом
+      с текстом это читается как вторая кнопка, а не как «стереть». Проект
+      рисует там голый глиф, и на наведении меняется он сам, а не фон под ним.
+  -->
+  <ControlTheme x:Key="AxSearchClearButton" TargetType="ax:AxButton"
+                BasedOn="{StaticResource {x:Type ax:AxButton}}">
+    <Setter Property="Width" Value="{DynamicResource AxControlHeightCompact}"/>
+    <Setter Property="Height" Value="{DynamicResource AxControlHeightCompact}"/>
+    <Setter Property="MinWidth" Value="0"/>
+    <Setter Property="Padding" Value="0"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxFg3Brush}"/>
+
+    <Style Selector="^:pointerover">
+      <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    </Style>
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="Transparent"/>
+    </Style>
+  </ControlTheme>
+
   <!-- Поле поиска: то же поле ввода со значком-лупой слева. -->
   <ControlTheme x:Key="{x:Type ax:AxSearchField}" TargetType="ax:AxSearchField"
                 BasedOn="{StaticResource {x:Type ax:AxTextBox}}">
@@ -140,12 +194,14 @@
     <Setter Property="InnerRightContent">
       <Template>
         <ax:AxButton x:Name="PART_Clear"
-                     Classes="icon"
+                     Theme="{StaticResource AxSearchClearButton}"
                      Margin="7,0,0,0"
                      AutomationProperties.Name="Очистить поиск"
                      IsVisible="{Binding Text, RelativeSource={RelativeSource AncestorType=ax:AxSearchField},
                                          Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
-          <ax:AxIcon Classes="small" Data="{x:Static ax:AxIcons.Close}"/>
+          <ax:AxIcon Classes="small"
+                     Data="{x:Static ax:AxIcons.Close}"
+                     Foreground="{Binding $parent[ax:AxButton].Foreground}"/>
         </ax:AxButton>
       </Template>
     </Setter>
