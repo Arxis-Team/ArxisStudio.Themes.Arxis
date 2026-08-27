@@ -37,8 +37,14 @@
             Text="ArxisStudio.Themes.Arxis поставляет шаблоны для ArxisStudio.Controls и ожидает этот репозиторий рядом с собой, в '$(ControlsRepositoryRoot)'. Клонируйте его туда или исключите этот проект из сборки." />
     </Target>
 
+    <!--
+        Inter объявлен ключом AxFontFamily в Typography.axaml, поэтому пакет
+        со шрифтом тянет тема, а не тот, кто её подключил. Приложению остаётся
+        вызвать WithInterFont() — метод придёт вместе с темой.
+    -->
     <ItemGroup>
         <PackageReference Include="Avalonia"/>
+        <PackageReference Include="Avalonia.Fonts.Inter"/>
         <ProjectReference Include="$(ControlsProject)"/>
     </ItemGroup>
 
