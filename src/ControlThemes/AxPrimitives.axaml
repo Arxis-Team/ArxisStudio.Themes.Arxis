@@ -51,12 +51,19 @@
       <Setter Property="Background" Value="{DynamicResource AxSelBrush}"/>
       <Setter Property="Foreground" Value="{DynamicResource AxLinkOnBrush}"/>
     </Style>
+    <!--
+        Чип шортката: 20 высотой, отступ только по горизонтали, радиус
+        контрольный. Текст остаётся AxFg, а не вторичным: правило раздела 12
+        требует на залитом AxBg3 именно основной цвет — вторичный там даёт
+        4,18:1.
+    -->
     <Style Selector="^.kbd">
       <Setter Property="FontFamily" Value="{DynamicResource AxFontFamilyMono}"/>
       <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
       <Setter Property="FontWeight" Value="Medium"/>
-      <Setter Property="CornerRadius" Value="5"/>
-      <Setter Property="Padding" Value="8,3"/>
+      <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
+      <Setter Property="Height" Value="20"/>
+      <Setter Property="Padding" Value="6,0"/>
     </Style>
   </ControlTheme>
 

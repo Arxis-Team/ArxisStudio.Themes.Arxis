@@ -154,7 +154,7 @@
     <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
     <Setter Property="BorderThickness" Value="1"/>
-    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusFloating}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="Width" Value="300"/>

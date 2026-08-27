@@ -51,7 +51,9 @@
   <ControlTheme x:Key="{x:Type ax:AxBreadcrumbItem}" TargetType="ax:AxBreadcrumbItem">
     <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
-    <Setter Property="Padding" Value="2,2"/>
+    <!-- Звено: 6 по горизонтали и 2 по вертикали, радиус контрольный. -->
+    <Setter Property="Padding" Value="6,2"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="Template">
       <ControlTemplate>
@@ -64,7 +66,7 @@
                      VerticalAlignment="Center"/>
           <Border x:Name="PART_LayoutRoot"
                   Background="Transparent"
-                  CornerRadius="{DynamicResource AxCornerRadiusSmall}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
                   Padding="{TemplateBinding Padding}">
             <ContentPresenter Content="{TemplateBinding Content}"
                               ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -143,7 +145,7 @@
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
-    <Setter Property="Padding" Value="12,10"/>
+    <Setter Property="Padding" Value="14,12"/>
     <Setter Property="FontFamily" Value="{DynamicResource AxFontFamilyMono}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxCodeFgBrush}"/>

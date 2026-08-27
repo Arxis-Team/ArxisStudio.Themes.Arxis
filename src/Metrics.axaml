@@ -26,6 +26,11 @@
       свой радиус 12.
   -->
   <CornerRadius x:Key="AxCornerRadiusCard">12</CornerRadius>
+  <!--
+      Плавающее окно — диалог и попап поиска: они не примыкают ни к чему и
+      скруглены сильнее попапов, но слабее карточки уведомления.
+  -->
+  <CornerRadius x:Key="AxCornerRadiusFloating">10</CornerRadius>
 
   <!-- Размеры интерактивных контролов. -->
   <x:Double x:Key="AxControlHeight">28</x:Double>

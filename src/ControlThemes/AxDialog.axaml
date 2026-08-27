@@ -16,7 +16,7 @@
       <ControlTemplate>
         <VisualLayerManager>
           <Border Background="{DynamicResource AxBg1Brush}"
-                  CornerRadius="{DynamicResource AxCornerRadiusLarge}"
+                  CornerRadius="{DynamicResource AxCornerRadiusFloating}"
                   BoxShadow="{DynamicResource AxModalShadow}"
                   Margin="24"
                   MinWidth="320"

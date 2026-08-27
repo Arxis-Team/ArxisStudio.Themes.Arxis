@@ -22,10 +22,15 @@
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}">
           <DockPanel>
+            <!--
+                Шапка: 38 высотой и отступ 12 с обеих сторон — столько
+                объявляет карточка «Заголовок панели». Действия стоят по
+                правому краю ровно так же, как заголовок по левому.
+            -->
             <Border x:Name="PART_Header"
                     DockPanel.Dock="Top"
-                    Height="34"
-                    Padding="12,0,6,0"
+                    Height="38"
+                    Padding="12,0"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="0"
                     IsVisible="{TemplateBinding ShowHeader}">
