@@ -114,7 +114,7 @@
                             ContentTemplate="{TemplateBinding ContentTemplate}"
                             Foreground="{TemplateBinding Foreground}"
                             VerticalAlignment="Center"/>
-          <Border Grid.Column="1" Height="1" Margin="8,1,0,0"
+          <Border Grid.Column="1" Height="1" Margin="10,1,0,0"
                   VerticalAlignment="Center"
                   Background="{DynamicResource AxBrdBrush}"/>
         </Grid>

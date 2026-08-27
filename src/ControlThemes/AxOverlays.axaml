@@ -14,8 +14,8 @@
 
   <!-- Тултип: тема родного ToolTip, ключом типа — как ScrollBar. -->
   <ControlTheme x:Key="{x:Type ToolTip}" TargetType="ToolTip">
-    <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxTooltipBackgroundBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxTooltipBorderBrush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>

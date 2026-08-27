@@ -97,7 +97,7 @@
 
   <!-- Элемент выпадающего списка. -->
   <ControlTheme x:Key="{x:Type ax:AxComboBoxItem}" TargetType="ax:AxComboBoxItem">
-    <Setter Property="Padding" Value="8,2"/>
+    <Setter Property="Padding" Value="8,0"/>
     <Setter Property="MinHeight" Value="{DynamicResource AxRowHeight}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
