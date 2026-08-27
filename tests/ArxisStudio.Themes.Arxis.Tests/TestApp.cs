@@ -2,20 +2,23 @@ using ArxisStudio.Themes.Arxis;
 using ArxisStudio.Themes.Arxis.Tests;
 using Avalonia;
 using Avalonia.Headless;
+using Avalonia.Themes.Fluent;
 
 [assembly: AvaloniaTestApplication(typeof(TestApp))]
 
 namespace ArxisStudio.Themes.Arxis.Tests;
 
 /// <summary>
-/// Headless-приложение тестов: одна тема «Arxis», без базового слоя.
+/// Headless-приложение тестов: FluentTheme плюс ArxisTheme — та же пара, что у
+/// студии и галереи.
 /// </summary>
 /// <remarks>
-/// Под ней тема и работает у потребителя: Ax*-контролы она покрывает целиком,
-/// а из базовых берёт на себя те шесть, которых им не хватает — ContextMenu,
-/// MenuFlyoutPresenter, MenuItem, ScrollBar, Separator и ToolTip. Тема Fluent
-/// стояла здесь слоем ниже и могла прикрыть недостающий шаблон собой; без неё
-/// такая дыра падает тестом, а не всплывает у потребителя.
+/// Базовый слой здесь не для удобства, а для правды: под ним тема и работает у
+/// потребителя, и правку Fluent, перебившую наш стиль, набор обязан поймать.
+///
+/// Своё покрытие темы он при этом прикрывает: недостающий шаблон Fluent молча
+/// подменит собой. Поэтому самодостаточность проверяется не приложением, а
+/// самой темой — см. ThemeAppliesTemplatesTests.
 /// </remarks>
 public class TestApp : Application
 {
@@ -28,6 +31,7 @@ public class TestApp : Application
     /// <inheritdoc/>
     public override void Initialize()
     {
+        Styles.Add(new FluentTheme());
         Styles.Add(new ArxisTheme());
     }
 }

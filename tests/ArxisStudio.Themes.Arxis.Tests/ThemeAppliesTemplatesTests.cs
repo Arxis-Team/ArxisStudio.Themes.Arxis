@@ -98,18 +98,18 @@ public class ThemeAppliesTemplatesTests
     }
 
     /// <summary>
-    /// Базовые контролы, которых тема берёт на себя, тоже получают шаблон.
+    /// Базовые контролы, которых тема берёт на себя, объявлены в ней самой.
     /// </summary>
     /// <remarks>
-    /// Их шесть с половиной: меню и его части, полоса прокрутки, разделитель,
-    /// тултип — и сама область прокрутки. Список закрыт намеренно: тема не
-    /// подменяет собой базовый слой целиком, она добирает ровно то, на что
-    /// опираются Ax*-контролы и витрина.
+    /// Спрашиваем тему, а не приложение: под ним лежит Fluent, и недостающий
+    /// шаблон он подменит собой — проверка «шаблон есть» прошла бы и на дыре.
+    /// Ровно так и вышло с областью прокрутки: без своей темы ScrollViewer
+    /// падал на дефолт ContentControl, рисовал содержимое и молча терял
+    /// прокрутку.
     ///
-    /// Проверка не про красоту, а про то, что без базового слоя ничего не
-    /// пропадёт. Область прокрутки эту цену уже показала: без своей темы
-    /// ScrollViewer оставался с дефолтом ContentControl — содержимое рисуется,
-    /// а полос и прокрутки нет вовсе.
+    /// Список закрыт намеренно: тема не подменяет базовый слой целиком, она
+    /// добирает то, на что опираются Ax*-контролы и витрина. Пока он не
+    /// закроется, Fluent остаётся под темой — и в галерее, и здесь.
     /// </remarks>
     [AvaloniaTheory]
     [InlineData(typeof(ScrollViewer))]
@@ -117,24 +117,19 @@ public class ThemeAppliesTemplatesTests
     [InlineData(typeof(ContextMenu))]
     [InlineData(typeof(MenuItem))]
     [InlineData(typeof(Separator))]
-    public void Borrowed_control_gets_template_from_theme(Type controlType)
+    [InlineData(typeof(ToolTip))]
+    [InlineData(typeof(MenuFlyoutPresenter))]
+    public void Borrowed_control_is_declared_by_the_theme(Type controlType)
     {
-        var control = (TemplatedControl)Activator.CreateInstance(controlType)!;
+        var theme = new ArxisTheme();
 
-        var window = new Window { Content = control };
-        window.RequestedThemeVariant = ThemeVariant.Dark;
-        window.Show();
-
-        Assert.NotNull(control.Template);
-
-        window.RequestedThemeVariant = ThemeVariant.Light;
-        Assert.NotNull(control.Template);
-
-        window.Close();
+        Assert.True(
+            Declares(theme, controlType),
+            $"тема не объявляет ControlTheme для {controlType.Name} — его закроет собой базовый слой");
     }
 
     /// <summary>
-    /// Область прокрутки собрана из своих частей, а не из дефолта.
+    /// Область прокрутки собрана из своих частей, а не из чужого дефолта.
     /// </summary>
     /// <remarks>
     /// Дефолт ContentControl тоже даёт PART_ContentPresenter — только обычный,
@@ -156,6 +151,16 @@ public class ThemeAppliesTemplatesTests
         Assert.Contains(parts, p => p is ScrollBar { Name: "PART_HorizontalScrollBar" });
 
         window.Close();
+    }
+
+    /// <summary>Ищет ControlTheme типа в словарях темы, включая вложенные.</summary>
+    private static bool Declares(IResourceProvider provider, Type controlType)
+    {
+        if (provider.TryGetResource(controlType, null, out var value) && value is ControlTheme)
+            return true;
+
+        return provider is ResourceDictionary dictionary
+            && dictionary.MergedDictionaries.OfType<IResourceProvider>().Any(inner => Declares(inner, controlType));
     }
 
     /// <summary>
