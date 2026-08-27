@@ -27,6 +27,11 @@
         правка контролов должна падать здесь сразу, а не при следующей публикации.
     -->
     <PropertyGroup>
+        <FontsRepositoryRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../ArxisStudio.Fonts.Cascadia/'))</FontsRepositoryRoot>
+        <FontsProject>$(FontsRepositoryRoot)src/ArxisStudio.Fonts.Cascadia.csproj</FontsProject>
+    </PropertyGroup>
+
+    <PropertyGroup>
         <ControlsRepositoryRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../ArxisStudio.Controls/'))</ControlsRepositoryRoot>
         <ControlsProject>$(ControlsRepositoryRoot)src/ArxisStudio.Controls.csproj</ControlsProject>
     </PropertyGroup>
@@ -35,6 +40,9 @@
         <Error
             Condition="!Exists('$(ControlsProject)')"
             Text="ArxisStudio.Themes.Arxis поставляет шаблоны для ArxisStudio.Controls и ожидает этот репозиторий рядом с собой, в '$(ControlsRepositoryRoot)'. Клонируйте его туда или исключите этот проект из сборки." />
+        <Error
+            Condition="!Exists('$(FontsProject)')"
+            Text="ArxisStudio.Themes.Arxis набирает код и пути шрифтом из ArxisStudio.Fonts.Cascadia и ожидает этот репозиторий рядом с собой, в '$(FontsRepositoryRoot)'. Клонируйте его туда или исключите этот проект из сборки." />
     </Target>
 
     <!--
@@ -46,16 +54,11 @@
         <PackageReference Include="Avalonia"/>
         <PackageReference Include="Avalonia.Fonts.Inter"/>
         <ProjectReference Include="$(ControlsProject)"/>
+        <ProjectReference Include="$(FontsProject)"/>
     </ItemGroup>
 
     <ItemGroup>
         <None Include="../README.md" Pack="true" PackagePath="/"/>
-    </ItemGroup>
-
-    <!-- Моноширинный шрифт студии едет в сборке темы; лицензия — рядом (SIL OFL 1.1). -->
-    <ItemGroup>
-        <AvaloniaResource Include="Fonts/*.ttf"/>
-        <None Include="Fonts/LICENSE-CascadiaCode.txt" Pack="true" PackagePath="/"/>
     </ItemGroup>
 
 </Project>

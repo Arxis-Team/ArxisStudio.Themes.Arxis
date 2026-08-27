@@ -18,7 +18,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
   <FontFamily x:Key="AxFontFamily">fonts:Inter#Inter</FontFamily>
-  <FontFamily x:Key="AxFontFamilyMono">avares://ArxisStudio.Themes.Arxis/Fonts#Cascadia Code,Cascadia Mono,Consolas,Courier New</FontFamily>
+  <FontFamily x:Key="AxFontFamilyMono">fonts:Cascadia#Cascadia Code,Cascadia Mono,Consolas,Courier New</FontFamily>
 
   <!--
       Кегли: база 13, мелкий 11.5, подпись 10.5 — раздел 5 спецификации.

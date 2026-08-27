@@ -26,6 +26,7 @@ public class TestApp : Application
     public static AppBuilder BuildAvaloniaApp() => AppBuilder
         .Configure<TestApp>()
         .WithInterFont()
+        .WithCascadiaFont()
         .UseHeadless(new AvaloniaHeadlessPlatformOptions());
 
     /// <inheritdoc/>
