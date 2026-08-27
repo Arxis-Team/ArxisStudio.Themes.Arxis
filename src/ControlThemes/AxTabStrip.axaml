@@ -7,7 +7,12 @@
     <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
     <Setter Property="BorderThickness" Value="0,0,0,1"/>
-    <Setter Property="Padding" Value="6,0"/>
+    <!--
+        Полоса вкладок документа скруглена сверху и прижата к краю: вкладки
+        начинаются от самой границы, как в карточке проекта.
+    -->
+    <Setter Property="CornerRadius" Value="6,6,0,0"/>
+    <Setter Property="Padding" Value="0"/>
     <Setter Property="ItemsPanel">
       <ItemsPanelTemplate>
         <StackPanel Orientation="Horizontal"/>
@@ -17,7 +22,9 @@
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}">
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                ClipToBounds="True">
           <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
             <ItemsPresenter ItemsPanel="{TemplateBinding ItemsPanel}" Margin="{TemplateBinding Padding}"/>
           </ScrollViewer>
@@ -31,8 +38,15 @@
                 BasedOn="{StaticResource {x:Type ax:AxTabStrip}}">
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="CornerRadius" Value="0"/>
     <Setter Property="Padding" Value="0"/>
     <Setter Property="VerticalAlignment" Value="Stretch"/>
+    <!-- Обычные вкладки стоят через 4, вкладки документа — вплотную. -->
+    <Setter Property="ItemsPanel">
+      <ItemsPanelTemplate>
+        <StackPanel Orientation="Horizontal" Spacing="4"/>
+      </ItemsPanelTemplate>
+    </Setter>
   </ControlTheme>
 
   <!--
@@ -58,7 +72,7 @@
                 Background="{TemplateBinding Background}"
                 Padding="{TemplateBinding Padding}">
           <Panel>
-            <StackPanel Orientation="Horizontal" Spacing="7" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
               <ax:AxIcon Classes="small"
                          Data="{TemplateBinding Icon}"
                          Foreground="{TemplateBinding IconBrush}"
@@ -71,13 +85,18 @@
                      IsVisible="{TemplateBinding IsClosable}">
                 <Ellipse x:Name="PART_Modified"
                          Width="7" Height="7"
-                         Fill="{DynamicResource AxFg2Brush}"
+                         Fill="{DynamicResource AxAccBrush}"
                          IsVisible="{TemplateBinding IsModified}"/>
+                <!--
+                    Крестик стоит на месте, а не появляется на наведении:
+                    закрываемая вкладка так и выглядит в проекте. Уступает он
+                    только точке несохранённых правок — и возвращается, когда
+                    на вкладку наводят, чтобы её можно было закрыть.
+                -->
                 <ax:AxIcon x:Name="PART_Close"
                            Classes="small"
                            Data="{x:Static ax:AxIcons.Close}"
-                           Foreground="{DynamicResource AxFg3Brush}"
-                           IsVisible="False"/>
+                           Foreground="{DynamicResource AxFg3Brush}"/>
               </Panel>
             </StackPanel>
             <Border x:Name="PART_ActiveMarker"
@@ -100,9 +119,24 @@
     <Style Selector="^:pointerover /template/ Ellipse#PART_Modified">
       <Setter Property="IsVisible" Value="False"/>
     </Style>
+    <Style Selector="^[IsModified=True] /template/ ax|AxIcon#PART_Close">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="^:selected /template/ ax|AxIcon#PART_Close">
+      <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+    </Style>
 
     <Style Selector="^:selected">
       <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    </Style>
+    <!--
+        Начертание усиливает только вкладку панели: у неё нет ни своего фона,
+        ни рамки, и выбранной её делают цвет, полоса снизу и вес. У вкладки
+        документа для этого есть фон и полоса, и проект веса ей не даёт —
+        жирное имя файла в ряду имён читается как другой уровень, а не как
+        выбор.
+    -->
+    <Style Selector="^.compact:selected">
       <Setter Property="FontWeight" Value="Medium"/>
     </Style>
     <Style Selector="^:selected /template/ Border#PART_Root">
@@ -121,7 +155,20 @@
       <Setter Property="Background" Value="Transparent"/>
     </Style>
     <Style Selector="^.compact /template/ Border#PART_ActiveMarker">
-      <Setter Property="Margin" Value="-8,0"/>
+      <Setter Property="Margin" Value="-10,0"/>
+      <!-- У обычной вкладки полоса толще: проект даёт 3 против 2 у документа. -->
+      <Setter Property="Height" Value="3"/>
+    </Style>
+    <!--
+        Наведение скругляет вкладку сверху — она растёт из полосы, а не
+        подсвечивается плашкой. Цвет при этом обычный, наведенческий: AxBg3.
+        Стоял AxBg2, и в светлой теме это сходилось с витриной случайно, а в
+        тёмной вкладка под курсором оказывалась темнее, чем должна. Раздел 3
+        закрепляет за AxBg3 роль наведения, раздел 10 повторяет её селектором.
+    -->
+    <Style Selector="^.compact:pointerover /template/ Border#PART_Root">
+      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+      <Setter Property="CornerRadius" Value="4,4,0,0"/>
     </Style>
     <!--
         Выключенная строка (раздел 10 спецификации): текст на AxFgDisabled.
