@@ -132,6 +132,23 @@
                    Foreground="{DynamicResource AxFg2Brush}"/>
       </Template>
     </Setter>
+    <!--
+        Крестик очистки появляется от текста и вместе с текстом исчезает:
+        пустое поле с крестиком предлагает стереть то, чего нет. Стирает его
+        сам контрол — тема только показывает.
+    -->
+    <Setter Property="InnerRightContent">
+      <Template>
+        <ax:AxButton x:Name="PART_Clear"
+                     Classes="icon"
+                     Margin="7,0,0,0"
+                     AutomationProperties.Name="Очистить поиск"
+                     IsVisible="{Binding Text, RelativeSource={RelativeSource AncestorType=ax:AxSearchField},
+                                         Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+          <ax:AxIcon Classes="small" Data="{x:Static ax:AxIcons.Close}"/>
+        </ax:AxButton>
+      </Template>
+    </Setter>
   </ControlTheme>
 
   <!-- Многострочное поле: тот же вид, но растёт по высоте. -->
