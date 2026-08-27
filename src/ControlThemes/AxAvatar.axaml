@@ -28,6 +28,25 @@
     <Style Selector="^.round">
       <Setter Property="CornerRadius" Value="1000"/>
     </Style>
+
+    <!--
+        Цветные монограммы. Раздел 6 приёмки прямо запрещает ставить их на
+        AxOrg / AxGrn / AxPur / AxRed: белые инициалы дают там 2,68…3,69:1.
+        Классы берут шаг 1 шкалы, где белый держит 5,9:1 и выше, — и берут его
+        отсюда, а не с места: цвет плитки монограммы решает не потребитель.
+    -->
+    <Style Selector="^.orange">
+      <Setter Property="TileBrush" Value="{DynamicResource AxMonogramOrangeBrush}"/>
+    </Style>
+    <Style Selector="^.green">
+      <Setter Property="TileBrush" Value="{DynamicResource AxMonogramGreenBrush}"/>
+    </Style>
+    <Style Selector="^.purple">
+      <Setter Property="TileBrush" Value="{DynamicResource AxMonogramPurpleBrush}"/>
+    </Style>
+    <Style Selector="^.red">
+      <Setter Property="TileBrush" Value="{DynamicResource AxMonogramRedBrush}"/>
+    </Style>
   </ControlTheme>
 
   <!-- Контурная иконка 16×16: обводка Foreground, класс/свойство IsFilled — заливка. -->

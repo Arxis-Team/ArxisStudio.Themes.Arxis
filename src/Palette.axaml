@@ -143,6 +143,18 @@
           коде и на списке читался бы как чужая полоса. Прозрачность из
           карточки: 0.20 в покое, 0.35 под курсором.
       -->
+      <!--
+          Плитки монограмм. Раздел 6 приёмки: аватар на AxOrg / AxGrn / AxPur /
+          AxRed даёт белым инициалам 2,68…3,69:1 — решено брать шаг 1 шкалы,
+          там белый держит 5,9:1 и выше. Значения одни на оба варианта: плитка
+          с монограммой темнеет и светлеет вместе с текстом на ней, а текст на
+          ней всегда белый.
+      -->
+      <Color x:Key="AxMonogramOrangeColor">#A14916</Color>
+      <Color x:Key="AxMonogramGreenColor">#1E6B33</Color>
+      <Color x:Key="AxMonogramPurpleColor">#55339C</Color>
+      <Color x:Key="AxMonogramRedColor">#AD2B38</Color>
+
       <Color x:Key="AxScrollThumbColor">#33FFFFFF</Color>
       <Color x:Key="AxScrollThumbHoverColor">#59FFFFFF</Color>
 
@@ -237,6 +249,10 @@
       <SolidColorBrush x:Key="AxWarningBackgroundBrush" Color="{StaticResource AxWarningBackgroundColor}"/>
       <SolidColorBrush x:Key="AxErrorBackgroundBrush" Color="{StaticResource AxErrorBackgroundColor}"/>
       <SolidColorBrush x:Key="AxBgSunkenBrush" Color="{StaticResource AxBgSunkenColor}"/>
+      <SolidColorBrush x:Key="AxMonogramOrangeBrush" Color="{StaticResource AxMonogramOrangeColor}"/>
+      <SolidColorBrush x:Key="AxMonogramGreenBrush" Color="{StaticResource AxMonogramGreenColor}"/>
+      <SolidColorBrush x:Key="AxMonogramPurpleBrush" Color="{StaticResource AxMonogramPurpleColor}"/>
+      <SolidColorBrush x:Key="AxMonogramRedBrush" Color="{StaticResource AxMonogramRedColor}"/>
       <SolidColorBrush x:Key="AxScrollThumbBrush" Color="{StaticResource AxScrollThumbColor}"/>
       <SolidColorBrush x:Key="AxScrollThumbHoverBrush" Color="{StaticResource AxScrollThumbHoverColor}"/>
       <SolidColorBrush x:Key="AxTooltipBackgroundBrush" Color="{StaticResource AxTooltipBackgroundColor}"/>
@@ -363,6 +379,18 @@
       <Color x:Key="AxWarningBackgroundColor">#FFF5DB</Color>
       <Color x:Key="AxErrorBackgroundColor">#FFF7F7</Color>
       <!-- Ползунок скроллбара — см. пару в тёмном варианте. -->
+      <!--
+          Плитки монограмм. Раздел 6 приёмки: аватар на AxOrg / AxGrn / AxPur /
+          AxRed даёт белым инициалам 2,68…3,69:1 — решено брать шаг 1 шкалы,
+          там белый держит 5,9:1 и выше. Значения одни на оба варианта: плитка
+          с монограммой темнеет и светлеет вместе с текстом на ней, а текст на
+          ней всегда белый.
+      -->
+      <Color x:Key="AxMonogramOrangeColor">#A14916</Color>
+      <Color x:Key="AxMonogramGreenColor">#1E6B33</Color>
+      <Color x:Key="AxMonogramPurpleColor">#55339C</Color>
+      <Color x:Key="AxMonogramRedColor">#AD2B38</Color>
+
       <Color x:Key="AxScrollThumbColor">#33000000</Color>
       <Color x:Key="AxScrollThumbHoverColor">#59000000</Color>
 
@@ -438,6 +466,10 @@
       <SolidColorBrush x:Key="AxWarningBackgroundBrush" Color="{StaticResource AxWarningBackgroundColor}"/>
       <SolidColorBrush x:Key="AxErrorBackgroundBrush" Color="{StaticResource AxErrorBackgroundColor}"/>
       <SolidColorBrush x:Key="AxBgSunkenBrush" Color="{StaticResource AxBgSunkenColor}"/>
+      <SolidColorBrush x:Key="AxMonogramOrangeBrush" Color="{StaticResource AxMonogramOrangeColor}"/>
+      <SolidColorBrush x:Key="AxMonogramGreenBrush" Color="{StaticResource AxMonogramGreenColor}"/>
+      <SolidColorBrush x:Key="AxMonogramPurpleBrush" Color="{StaticResource AxMonogramPurpleColor}"/>
+      <SolidColorBrush x:Key="AxMonogramRedBrush" Color="{StaticResource AxMonogramRedColor}"/>
       <SolidColorBrush x:Key="AxScrollThumbBrush" Color="{StaticResource AxScrollThumbColor}"/>
       <SolidColorBrush x:Key="AxScrollThumbHoverBrush" Color="{StaticResource AxScrollThumbHoverColor}"/>
       <SolidColorBrush x:Key="AxTooltipBackgroundBrush" Color="{StaticResource AxTooltipBackgroundColor}"/>
