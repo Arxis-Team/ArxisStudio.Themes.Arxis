@@ -58,8 +58,12 @@
         требует на залитом AxBg3 именно основной цвет — вторичный там даёт
         4,18:1.
     -->
+    <!--
+        Клавиша набрана тем же шрифтом, что и подпись рядом: моношрифт проект
+        отдаёт коду, путям и значениям, а «Shift F10» — ни то, ни другое, и в
+        карточке «Шорткаты и код» клавиши стоят обычным.
+    -->
     <Style Selector="^.kbd">
-      <Setter Property="FontFamily" Value="{DynamicResource AxFontFamilyMono}"/>
       <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
       <Setter Property="FontWeight" Value="Medium"/>
       <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>

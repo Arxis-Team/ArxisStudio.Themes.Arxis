@@ -196,14 +196,23 @@
   </ControlTheme>
 
   <!-- Блок кода: моноширинный текст с подсветкой кистями AxCode*. -->
+  <!--
+      Блок кода: утопленная полоса под текстом, как в карточке «Шорткаты и
+      код». Не фон поля: в светлой теме поле белое, а блок там серый — тот же
+      шаг вниз от панели, что у строки дерева контролов.
+
+      Кегль в карточке 12.5, в шкале его нет — взят базовый: код здесь не
+      подпись и не бейдж, а содержимое. Высота строки 20 — та же, что даёт
+      карточка своим множителем 1.6.
+  -->
   <ControlTheme x:Key="{x:Type ax:AxCodeBlock}" TargetType="ax:AxCodeBlock">
-    <Setter Property="Background" Value="{DynamicResource AxInpBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxBgSunkenBrush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
     <Setter Property="Padding" Value="14,12"/>
     <Setter Property="FontFamily" Value="{DynamicResource AxFontFamilyMono}"/>
-    <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxCodeFgBrush}"/>
     <Setter Property="TagBrush" Value="{DynamicResource AxCodeTagBrush}"/>
     <Setter Property="AttributeBrush" Value="{DynamicResource AxCodeAttrBrush}"/>
@@ -221,7 +230,7 @@
                                  FontFamily="{TemplateBinding FontFamily}"
                                  FontSize="{TemplateBinding FontSize}"
                                  Foreground="{TemplateBinding Foreground}"
-                                 LineHeight="18"/>
+                                 LineHeight="20"/>
           </ScrollViewer>
         </Border>
       </ControlTemplate>
