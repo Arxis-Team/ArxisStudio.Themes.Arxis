@@ -2,16 +2,23 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
   <!--
-      Тонкие скроллбары студии (8px, бегунок bg4, прозрачная дорожка). Тема ключом
-      {x:Type ScrollBar} перекрывает базовую и применяется ко всем спискам и
-      скролл-областям, включая внутренности Ax*-контролов.
+      Скроллбар студии: дорожки нет вовсе, есть один ползунок — полупрозрачная
+      накладка поверх содержимого. Тема ключом {x:Type ScrollBar} перекрывает
+      базовую и применяется ко всем спискам и скролл-областям, включая
+      внутренности Ax*-контролов.
+
+      Полоса всегда 12 поперёк, а меняется в ней ползунок: в покое 6 с отбивкой
+      3, под курсором 8 с отбивкой 2. Так размечена карточка «Скроллбар», и так
+      содержимое не дёргается: ширина полосы от состояния не зависит.
   -->
 
   <ControlTheme x:Key="AxScrollThumb" TargetType="Thumb">
-    <Setter Property="Background" Value="{DynamicResource AxBg4Brush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxScrollThumbBrush}"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusSmall}"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <Border Background="{TemplateBinding Background}" CornerRadius="4"/>
+        <Border Background="{TemplateBinding Background}"
+                CornerRadius="{TemplateBinding CornerRadius}"/>
       </ControlTemplate>
     </Setter>
   </ControlTheme>
@@ -20,7 +27,7 @@
     <Setter Property="Background" Value="Transparent"/>
 
     <Style Selector="^:vertical">
-      <Setter Property="Width" Value="8"/>
+      <Setter Property="Width" Value="12"/>
       <Setter Property="Template">
         <ControlTemplate>
           <Border Background="{TemplateBinding Background}">
@@ -31,7 +38,11 @@
                    Value="{TemplateBinding Value, Mode=TwoWay}"
                    ViewportSize="{TemplateBinding ViewportSize}">
               <Track.Thumb>
-                <Thumb Theme="{StaticResource AxScrollThumb}" Width="8"/>
+                <Thumb x:Name="PART_Thumb"
+                       Theme="{StaticResource AxScrollThumb}"
+                       Width="6"
+                       Margin="0,0,3,0"
+                       HorizontalAlignment="Right"/>
               </Track.Thumb>
             </Track>
           </Border>
@@ -40,7 +51,7 @@
     </Style>
 
     <Style Selector="^:horizontal">
-      <Setter Property="Height" Value="8"/>
+      <Setter Property="Height" Value="12"/>
       <Setter Property="Template">
         <ControlTemplate>
           <Border Background="{TemplateBinding Background}">
@@ -50,12 +61,49 @@
                    Value="{TemplateBinding Value, Mode=TwoWay}"
                    ViewportSize="{TemplateBinding ViewportSize}">
               <Track.Thumb>
-                <Thumb Theme="{StaticResource AxScrollThumb}" Height="8"/>
+                <Thumb x:Name="PART_Thumb"
+                       Theme="{StaticResource AxScrollThumb}"
+                       Height="6"
+                       Margin="0,0,0,3"
+                       VerticalAlignment="Bottom"/>
               </Track.Thumb>
             </Track>
           </Border>
         </ControlTemplate>
       </Setter>
+    </Style>
+
+    <!--
+        Разворот. Avalonia поднимает :expanded, когда указатель над областью
+        прокрутки, — именно это показывает вторая половина карточки: ползунок
+        толстеет и темнеет, пока курсор в панели, а не только на самой полосе.
+        Наведение прямо на полосу учитываем тем же правилом: без автоскрытия
+        :expanded не поднимается, а ползунок под курсором обязан отзываться.
+    -->
+    <Style Selector="^:vertical:expanded /template/ Thumb#PART_Thumb">
+      <Setter Property="Width" Value="8"/>
+      <Setter Property="Margin" Value="0,0,2,0"/>
+    </Style>
+    <Style Selector="^:vertical:pointerover /template/ Thumb#PART_Thumb">
+      <Setter Property="Width" Value="8"/>
+      <Setter Property="Margin" Value="0,0,2,0"/>
+    </Style>
+    <Style Selector="^:horizontal:expanded /template/ Thumb#PART_Thumb">
+      <Setter Property="Height" Value="8"/>
+      <Setter Property="Margin" Value="0,0,0,2"/>
+    </Style>
+    <Style Selector="^:horizontal:pointerover /template/ Thumb#PART_Thumb">
+      <Setter Property="Height" Value="8"/>
+      <Setter Property="Margin" Value="0,0,0,2"/>
+    </Style>
+
+    <Style Selector="^:expanded /template/ Thumb#PART_Thumb">
+      <Setter Property="Background" Value="{DynamicResource AxScrollThumbHoverBrush}"/>
+      <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
+    </Style>
+    <Style Selector="^:pointerover /template/ Thumb#PART_Thumb">
+      <Setter Property="Background" Value="{DynamicResource AxScrollThumbHoverBrush}"/>
+      <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     </Style>
   </ControlTheme>
 
