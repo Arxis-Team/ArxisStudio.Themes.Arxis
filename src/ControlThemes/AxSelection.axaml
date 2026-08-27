@@ -102,24 +102,65 @@
   </ControlTheme>
 
   <!-- Заголовок группы: подпись и линия до конца строки. -->
+  <!--
+      Заголовок группы: подпись основным текстом и линия до конца строки.
+
+      Сворачиваемый — тот же заголовок со стрелкой слева и счётчиком после
+      подписи. Зазор до линии в карточке разный: 10 у обычного, 8 у
+      сворачиваемого — там его задаёт общий gap ряда, в который попадает и
+      стрелка. Держим 10 у обычного и 8 у сворачиваемого, как размечено.
+  -->
   <ControlTheme x:Key="{x:Type ax:AxGroupHeader}" TargetType="ax:AxGroupHeader">
-    <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
-    <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
     <Setter Property="HorizontalAlignment" Value="Stretch"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <Grid ColumnDefinitions="Auto,*" VerticalAlignment="Center">
-          <ContentPresenter Content="{TemplateBinding Content}"
+        <Grid ColumnDefinitions="Auto,Auto,Auto,*" VerticalAlignment="Center">
+          <!--
+              Стрелка мелкая — тот же «отдельный класс» из раздела 6 приёмки,
+              что у дерева, и той же толщины обводки: icons.md запрещает менять
+              её на отдельных иконках.
+          -->
+          <ax:AxIcon x:Name="PART_Chevron"
+                     Classes="small"
+                     Margin="0,0,8,0"
+                     Data="{x:Static ax:AxIcons.ChevronRight}"
+                     Foreground="{DynamicResource AxFg2Brush}"
+                     VerticalAlignment="Center"
+                     IsVisible="{TemplateBinding IsCollapsible}"/>
+          <ContentPresenter Grid.Column="1"
+                            Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
                             Foreground="{TemplateBinding Foreground}"
                             VerticalAlignment="Center"/>
-          <Border Grid.Column="1" Height="1" Margin="10,1,0,0"
+          <!-- Счётчик: сколько всего в группе. Вторичным текстом и мельче. -->
+          <ContentPresenter x:Name="PART_Counter"
+                            Grid.Column="2"
+                            Margin="8,0,0,0"
+                            Content="{TemplateBinding Counter}"
+                            TextBlock.Foreground="{DynamicResource AxFg2Brush}"
+                            TextBlock.FontSize="{DynamicResource AxFontSizeSmall}"
+                            TextElement.FontWeight="Normal"
+                            VerticalAlignment="Center"
+                            IsVisible="{TemplateBinding Counter, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+          <Border x:Name="PART_Rule"
+                  Grid.Column="3"
+                  Height="1"
+                  Margin="10,1,0,0"
                   VerticalAlignment="Center"
                   Background="{DynamicResource AxBrdBrush}"/>
         </Grid>
       </ControlTemplate>
     </Setter>
+
+    <Style Selector="^[IsCollapsible=True] /template/ Border#PART_Rule">
+      <Setter Property="Margin" Value="8,1,0,0"/>
+    </Style>
+    <Style Selector="^[IsExpanded=True] /template/ ax|AxIcon#PART_Chevron">
+      <Setter Property="Data" Value="{x:Static ax:AxIcons.ChevronDown}"/>
+    </Style>
   </ControlTheme>
 
   <!--
