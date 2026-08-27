@@ -30,6 +30,9 @@
 
   <!-- Хлебные крошки: строка звеньев, шеврон-разделитель рисует звено. -->
   <ControlTheme x:Key="{x:Type ax:AxBreadcrumbBar}" TargetType="ax:AxBreadcrumbBar">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="ItemsPanel">
       <ItemsPanelTemplate>
         <StackPanel Orientation="Horizontal"/>
@@ -37,10 +40,34 @@
     </Setter>
     <Setter Property="Template">
       <ControlTemplate>
-        <ItemsPresenter x:Name="PART_ItemsPresenter"
-                        ItemsPanel="{TemplateBinding ItemsPanel}"/>
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <ItemsPresenter x:Name="PART_ItemsPresenter"
+                          ItemsPanel="{TemplateBinding ItemsPanel}"/>
+        </Border>
       </ControlTemplate>
     </Setter>
+
+    <!--
+        Дерево контролов в дизайнере: та же строка, но в рамке на своей
+        подложке. Карточка даёт ей высоту 32 и радиус 6 — ни того, ни другого
+        в шкале проекта нет (высоты 24 и 28, радиусы 3 / 4 / 8), поэтому взяты
+        AxControlHeight и AxCornerRadius.
+
+        Отбивка 4, а не 10 из карточки: там звенья внутри рамки идут без своей
+        отбивки, у нас она остаётся — на ней держится плашка наведения. Четыре
+        панели плюс шесть звена дают те же 10 до первой подписи.
+    -->
+    <Style Selector="^.framed">
+      <Setter Property="Background" Value="{DynamicResource AxBgSunkenBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Height" Value="{DynamicResource AxControlHeight}"/>
+      <Setter Property="Padding" Value="4,0"/>
+    </Style>
   </ControlTheme>
 
   <!--
@@ -58,19 +85,30 @@
     <Setter Property="Template">
       <ControlTemplate>
         <StackPanel Orientation="Horizontal">
+          <!--
+              Разделитель идёт цветом иконки в покое: в карточке он того же
+              серого, что и глиф папки в звене, а не бледнее его.
+          -->
           <ax:AxIcon x:Name="PART_Separator"
                      Classes="small"
                      Margin="4,0"
                      Data="{x:Static ax:AxIcons.ChevronRight}"
-                     Foreground="{DynamicResource AxFg3Brush}"
+                     Foreground="{DynamicResource AxFg2Brush}"
                      VerticalAlignment="Center"/>
           <Border x:Name="PART_LayoutRoot"
                   Background="Transparent"
                   CornerRadius="{TemplateBinding CornerRadius}"
                   Padding="{TemplateBinding Padding}">
-            <ContentPresenter Content="{TemplateBinding Content}"
-                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                              VerticalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal" Spacing="5">
+              <!-- Значок: глиф папки, плашка типа файла или своё. -->
+              <ContentPresenter x:Name="PART_Icon"
+                                Content="{TemplateBinding Icon}"
+                                VerticalAlignment="Center"
+                                IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+              <ContentPresenter Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                VerticalAlignment="Center"/>
+            </StackPanel>
           </Border>
         </StackPanel>
       </ControlTemplate>
@@ -85,8 +123,14 @@
     <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
     </Style>
+    <!--
+        Текущее звено и звено с ошибкой набраны усиленным начертанием: в конце
+        пути это единственное, что отличает цель от пройденных звеньев, когда
+        цвет уже занят состоянием.
+    -->
     <Style Selector="^.current">
       <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+      <Setter Property="FontWeight" Value="Medium"/>
       <Setter Property="Cursor" Value="Arrow"/>
     </Style>
     <Style Selector="^.current:pointerover /template/ Border#PART_LayoutRoot">
@@ -94,6 +138,10 @@
     </Style>
     <Style Selector="^.error">
       <Setter Property="Foreground" Value="{DynamicResource AxRedTextBrush}"/>
+      <Setter Property="FontWeight" Value="Medium"/>
+    </Style>
+    <Style Selector="^.error /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{DynamicResource AxErrorBackgroundBrush}"/>
     </Style>
     <!--
         Выключенная строка (раздел 10 спецификации): текст на AxFgDisabled.
@@ -101,6 +149,14 @@
         и без этого выключенная выбранная строка выглядела бы обычной.
     -->
     <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+    </Style>
+    <!--
+        Разделитель гаснет вместе со звеном: свой цвет у него задан прямо в
+        шаблоне и от Foreground звена не зависит, а в карточке выключенный
+        путь погашен целиком — вместе с шевронами.
+    -->
+    <Style Selector="^:disabled /template/ ax|AxIcon#PART_Separator">
       <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
     </Style>
 

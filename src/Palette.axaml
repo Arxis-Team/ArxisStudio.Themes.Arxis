@@ -138,6 +138,15 @@
       <Color x:Key="AxWarningBackgroundColor">#3D3223</Color>
       <Color x:Key="AxErrorBackgroundColor">#402929</Color>
       <!--
+          Утопленная полоса на панели: строка дерева контролов в дизайнере.
+          В карточке она уходит от фона половины на ступень вниз, но половины
+          стоят на разных токенах — светлая на AxBg1, тёмная на AxBg2, — и
+          «ступень вниз» получается то AxBg2, то AxBg1. Одним ключом это не
+          выразить, поэтому здесь свой, как заведены тултип и рамки баннеров.
+      -->
+      <Color x:Key="AxBgSunkenColor">#1E1F22</Color>
+
+      <!--
           Тултип поднимается над своей поверхностью на шаг, и шаг этот в двух
           вариантах разный: в светлой он темнеет от белого до AxBg2, в тёмной
           светлеет от панели до AxBg3. Одним токеном это не выразить, поэтому
@@ -218,6 +227,7 @@
       <SolidColorBrush x:Key="AxSuccessBackgroundBrush" Color="{StaticResource AxSuccessBackgroundColor}"/>
       <SolidColorBrush x:Key="AxWarningBackgroundBrush" Color="{StaticResource AxWarningBackgroundColor}"/>
       <SolidColorBrush x:Key="AxErrorBackgroundBrush" Color="{StaticResource AxErrorBackgroundColor}"/>
+      <SolidColorBrush x:Key="AxBgSunkenBrush" Color="{StaticResource AxBgSunkenColor}"/>
       <SolidColorBrush x:Key="AxTooltipBackgroundBrush" Color="{StaticResource AxTooltipBackgroundColor}"/>
       <SolidColorBrush x:Key="AxTooltipBorderBrush" Color="{StaticResource AxTooltipBorderColor}"/>
       <SolidColorBrush x:Key="AxInfoBorderBrush" Color="{StaticResource AxInfoBorderColor}"/>
@@ -341,6 +351,9 @@
       <Color x:Key="AxSuccessBackgroundColor">#F2FCF3</Color>
       <Color x:Key="AxWarningBackgroundColor">#FFF5DB</Color>
       <Color x:Key="AxErrorBackgroundColor">#FFF7F7</Color>
+      <!-- Утопленная полоса на панели — см. пару в тёмном варианте. -->
+      <Color x:Key="AxBgSunkenColor">#F7F8FA</Color>
+
       <Color x:Key="AxTooltipBackgroundColor">#F7F8FA</Color>
       <Color x:Key="AxTooltipBorderColor">#DFE1E5</Color>
 
@@ -409,6 +422,7 @@
       <SolidColorBrush x:Key="AxSuccessBackgroundBrush" Color="{StaticResource AxSuccessBackgroundColor}"/>
       <SolidColorBrush x:Key="AxWarningBackgroundBrush" Color="{StaticResource AxWarningBackgroundColor}"/>
       <SolidColorBrush x:Key="AxErrorBackgroundBrush" Color="{StaticResource AxErrorBackgroundColor}"/>
+      <SolidColorBrush x:Key="AxBgSunkenBrush" Color="{StaticResource AxBgSunkenColor}"/>
       <SolidColorBrush x:Key="AxTooltipBackgroundBrush" Color="{StaticResource AxTooltipBackgroundColor}"/>
       <SolidColorBrush x:Key="AxTooltipBorderBrush" Color="{StaticResource AxTooltipBorderColor}"/>
       <SolidColorBrush x:Key="AxInfoBorderBrush" Color="{StaticResource AxInfoBorderColor}"/>
