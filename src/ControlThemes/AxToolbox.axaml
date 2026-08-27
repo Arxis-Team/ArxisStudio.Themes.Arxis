@@ -172,26 +172,53 @@
     </Setter>
   </ControlTheme>
 
-  <!-- Таблица-список: строка заголовков над строками AxRowHeight. -->
+  <!--
+      Таблица карточки «Table · формы проекта»: никакой рамки вокруг и никакой
+      заливки под шапкой — таблицу держат линейки. Шапка отбита снизу, каждая
+      строка отбита снизу, и только у последней и у выбранной отбивки нет:
+      линия под выделением разрезала бы его полосу.
+
+      Строка идёт на AxRowHeight, как записано в разделе 9 спецификации,
+      поэтому вертикальные 6 из карточки в отбивку ячейки не попадают — их
+      съедает высота строки. Горизонтальные 10 остаются и стоят на ячейке, а
+      не на строке: иначе отступ был бы только у первой колонки, а остальные
+      начинались бы вплотную к своей границе.
+  -->
   <ControlTheme x:Key="{x:Type ax:AxDataGrid}" TargetType="ax:AxDataGrid">
     <Setter Property="Background" Value="Transparent"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
-    <Setter Property="BorderThickness" Value="1"/>
-    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="ItemContainerTheme">
+      <ControlTheme TargetType="ax:AxListBoxItem"
+                    BasedOn="{StaticResource {x:Type ax:AxListBoxItem}}">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="CornerRadius" Value="0"/>
+
+        <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+          <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+          <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        </Style>
+        <!--
+            Ниже базовой отбивки: у последней строки линия висела бы над
+            пустотой, у выбранной — резала бы её полосу пополам.
+        -->
+        <Style Selector="^:nth-last-child(1) /template/ ContentPresenter#PART_ContentPresenter">
+          <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
+          <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+      </ControlTheme>
+    </Setter>
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                CornerRadius="{TemplateBinding CornerRadius}"
-                ClipToBounds="True">
+                BorderThickness="{TemplateBinding BorderThickness}">
           <DockPanel>
             <Border DockPanel.Dock="Top"
-                    Background="{DynamicResource AxBg2Brush}"
                     BorderBrush="{DynamicResource AxBrdBrush}"
                     BorderThickness="0,0,0,1"
                     MinHeight="{DynamicResource AxRowHeight}"
-                    Padding="8,0"
                     IsVisible="{TemplateBinding Header, Converter={x:Static ObjectConverters.IsNotNull}}">
               <ContentPresenter Content="{TemplateBinding Header}"
                                 VerticalAlignment="Center"

@@ -73,6 +73,15 @@
     <Setter Property="Foreground" Value="{DynamicResource AxLinkOnBrush}"/>
   </Style>
 
+  <!--
+      Отбивка ячейки таблицы. Стоит на ячейке, а не на строке: у строки она
+      отодвинула бы только первую колонку, а остальные начинались бы вплотную
+      к своей границе — в карточке отбиты все четыре одинаково.
+  -->
+  <Style Selector="ax|AxDataGrid TextBlock">
+    <Setter Property="Padding" Value="10,0"/>
+  </Style>
+
   <Style Selector="TextBlock.dim">
     <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
   </Style>
