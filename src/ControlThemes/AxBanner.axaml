@@ -30,6 +30,26 @@
                        VerticalAlignment="Top"
                        Data="{x:Static ax:AxIcons.Info}"
                        Foreground="{DynamicResource AxAccBrush}"/>
+            <!--
+                Крестик закрытия: он есть у баннера любой строгости, даже без
+                действий, — сообщение о состоянии перестаёт быть нужным раньше,
+                чем состояние меняется.
+
+                Отрицательные отступы сверху и снизу — чтобы цель нажатия в 24
+                не распирала полосу: раздел 12 запрещает цель меньше 24, а
+                карточка проекта рисует баннер по содержимому, и лишние четыре
+                пикселя высоты видны сразу.
+            -->
+            <ax:AxButton x:Name="PART_Close"
+                         DockPanel.Dock="Right"
+                         Theme="{StaticResource AxInlineIconButton}"
+                         Margin="8,-2,0,-2"
+                         VerticalAlignment="Center"
+                         AutomationProperties.Name="Закрыть сообщение">
+              <ax:AxIcon Classes="small"
+                         Data="{x:Static ax:AxIcons.Close}"
+                         Foreground="{Binding $parent[ax:AxButton].Foreground}"/>
+            </ax:AxButton>
             <ContentPresenter x:Name="PART_Actions"
                               DockPanel.Dock="Right"
                               Margin="12,0,0,0"

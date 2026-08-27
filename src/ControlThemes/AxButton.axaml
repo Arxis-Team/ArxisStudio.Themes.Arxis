@@ -155,4 +155,33 @@
     </Style>
   </ControlTheme>
 
+  <!--
+      Иконочная кнопка внутри другого контрола: крестик очистки в поле поиска,
+      крестик закрытия в баннере. Цель нажатия прежняя, 24, а плашки нет.
+      Обычная иконочная кнопка кладёт под себя заливку во всю эту цель, и
+      внутри поля высотой 28 или полосы баннера она встаёт почти во всю высоту,
+      вплотную к краю, — рядом с текстом это читается как вторая кнопка, а не
+      как «стереть» или «закрыть». Проект рисует там голый глиф, и на наведении
+      меняется он сам, а не фон под ним.
+  -->
+  <ControlTheme x:Key="AxInlineIconButton" TargetType="ax:AxButton"
+                BasedOn="{StaticResource {x:Type ax:AxButton}}">
+    <Setter Property="Width" Value="{DynamicResource AxControlHeightCompact}"/>
+    <Setter Property="Height" Value="{DynamicResource AxControlHeightCompact}"/>
+    <Setter Property="MinWidth" Value="0"/>
+    <Setter Property="Padding" Value="0"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+
+    <Style Selector="^:pointerover">
+      <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    </Style>
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="Transparent"/>
+    </Style>
+  </ControlTheme>
+
 </ResourceDictionary>

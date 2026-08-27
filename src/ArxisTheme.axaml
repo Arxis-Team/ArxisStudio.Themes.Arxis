@@ -9,6 +9,7 @@
 -->
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ax="using:ArxisStudio.Controls"
         x:Class="ArxisStudio.Themes.Arxis.ArxisTheme">
 
   <Styles.Resources>
@@ -62,6 +63,16 @@
   <Style Selector="TextBlock.mono">
     <Setter Property="FontFamily" Value="{DynamicResource AxFontFamilyMono}"/>
   </Style>
+  <!--
+      Ссылка на залитой плашке берёт AxLinkOn. Раздел 6 приёмки записывает это
+      правилом: AxLink на AxBg3 и AxSel даёт 4,18:1, а на цветном фоне баннера
+      тем более. Баннер — плашка, поэтому действие в нём светится этим токеном,
+      а не обычным цветом ссылки.
+  -->
+  <Style Selector="ax|AxBanner ax|AxLink">
+    <Setter Property="Foreground" Value="{DynamicResource AxLinkOnBrush}"/>
+  </Style>
+
   <Style Selector="TextBlock.dim">
     <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
   </Style>
