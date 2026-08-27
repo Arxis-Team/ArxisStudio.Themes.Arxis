@@ -98,11 +98,16 @@
   </ControlTheme>
 
   <!-- Тонкий индикатор прогресса (4px). -->
+  <!--
+      Прогресс: полоса 4 с радиусом 2, дорожка на ступень нажатия. Наведение
+      сюда не годится — под заполнением дорожка обязана читаться как жёлоб, а
+      не как подсветка строки, и в карточке она на шаг темнее.
+  -->
   <ControlTheme x:Key="{x:Type ax:AxProgressBar}" TargetType="ax:AxProgressBar">
     <Setter Property="Height" Value="4"/>
     <Setter Property="MinHeight" Value="4"/>
     <Setter Property="CornerRadius" Value="2"/>
-    <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxBg4Brush}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxAccBrush}"/>
     <Setter Property="Template">
       <ControlTemplate>
@@ -136,7 +141,8 @@
               Value="{Binding TemplateSettings.ContainerWidth, RelativeSource={RelativeSource TemplatedParent}}"/>
       <Setter Property="HorizontalAlignment" Value="Left"/>
       <Style.Animations>
-        <Animation IterationCount="Infinite" Duration="0:0:2">
+        <!-- Проход за 1.2 с, как в карточке; линейно, без разгона. -->
+        <Animation IterationCount="Infinite" Duration="0:0:1.2">
           <KeyFrame Cue="0%">
             <Setter Property="TranslateTransform.X"
                     Value="{Binding TemplateSettings.ContainerAnimationStartPosition, RelativeSource={RelativeSource TemplatedParent}}"/>
