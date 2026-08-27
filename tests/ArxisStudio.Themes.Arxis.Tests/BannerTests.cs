@@ -30,10 +30,44 @@ public class BannerTests
         Assert.Equal(new Avalonia.CornerRadius(8), banner.CornerRadius);
         Assert.Equal(new Avalonia.Thickness(1), banner.BorderThickness);
 
-        // Полоса по содержимому: 8 + строка + 8 и рамка в пиксель с каждой
-        // стороны. Цель нажатия крестика в 24 её распирать не должна.
-        Assert.True(banner.Bounds.Height < 40,
-            $"полосу распирает: {banner.Bounds.Height} при ожидаемых 38");
+        // Полоса по содержимому: строка 16, отступ 8 сверху и снизу, рамка в
+        // пиксель — всего 34. Ни цель нажатия крестика в 24, ни кольцо фокуса
+        // ссылки распирать её не должны.
+        Assert.Equal(34d, banner.Bounds.Height);
+
+        window.Close();
+    }
+
+    /// <summary>Высота не зависит от того, есть ли действие.</summary>
+    /// <remarks>
+    /// Ссылка выходила на два пикселя выше строки текста — её кольцо фокуса
+    /// снимало отрицательным отступом меньше, чем добавляло отступом и рамкой,
+    /// — и баннер с действием оказывался выше баннера без него.
+    /// </remarks>
+    [AvaloniaFact]
+    public void Action_does_not_make_the_banner_taller()
+    {
+        var (plain, first) = Shown();
+        var plainHeight = plain.Bounds.Height;
+        first.Close();
+
+        var (withAction, second) = Shown(actions: new AxLink { Content = "Обновить" });
+
+        Assert.Equal(plainHeight, withAction.Bounds.Height);
+
+        second.Close();
+    }
+
+    /// <summary>Значок стоит по центру строки, а не по верху.</summary>
+    [AvaloniaFact]
+    public void Icon_sits_in_the_middle_of_the_row()
+    {
+        var (banner, window) = Shown();
+
+        var icon = banner.GetVisualDescendants().OfType<AxIcon>().First();
+        var row = icon.Parent as Control;
+
+        Assert.Equal((row!.Bounds.Height - icon.Bounds.Height) / 2, icon.Bounds.Y);
 
         window.Close();
     }

@@ -24,10 +24,12 @@
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
           <DockPanel>
+            <!-- По центру строки: карточка проекта выравнивает содержимое
+                 баннера по центру, а не по верху. -->
             <ax:AxIcon x:Name="PART_Icon"
                        DockPanel.Dock="Left"
                        Margin="0,0,10,0"
-                       VerticalAlignment="Top"
+                       VerticalAlignment="Center"
                        Data="{x:Static ax:AxIcons.Info}"
                        Foreground="{DynamicResource AxAccBrush}"/>
             <!--
@@ -37,13 +39,13 @@
 
                 Отрицательные отступы сверху и снизу — чтобы цель нажатия в 24
                 не распирала полосу: раздел 12 запрещает цель меньше 24, а
-                карточка проекта рисует баннер по содержимому, и лишние четыре
-                пикселя высоты видны сразу.
+                карточка проекта рисует баннер по содержимому — строка 16,
+                отступ 8 сверху и снизу, рамка в пиксель, всего 34.
             -->
             <ax:AxButton x:Name="PART_Close"
                          DockPanel.Dock="Right"
                          Theme="{StaticResource AxInlineIconButton}"
-                         Margin="8,-2,0,-2"
+                         Margin="8,-4,0,-4"
                          VerticalAlignment="Center"
                          AutomationProperties.Name="Закрыть сообщение">
               <ax:AxIcon Classes="small"

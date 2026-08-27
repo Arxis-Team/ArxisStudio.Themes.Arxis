@@ -16,9 +16,15 @@
     <Setter Property="HorizontalAlignment" Value="Left"/>
     <Setter Property="Template">
       <ControlTemplate>
+        <!--
+            Кольцо фокуса лежит снаружи и на раскладку влиять не должно:
+            отступ 2 плюс рамка 1 — это 3 с каждой стороны, столько же и
+            снимается отрицательным отступом. Было −2, и ссылка выходила на два
+            пикселя выше строки текста; в баннере это распирало полосу.
+        -->
         <Border x:Name="PART_FocusRing"
                 Padding="2"
-                Margin="-2"
+                Margin="-3"
                 CornerRadius="{DynamicResource AxCornerRadiusSmall}"
                 BorderThickness="1"
                 BorderBrush="Transparent">
