@@ -1,6 +1,7 @@
 using ArxisStudio.Controls;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Headless.XUnit;
 using Avalonia.Styling;
@@ -92,6 +93,67 @@ public class ThemeAppliesTemplatesTests
 
         window.RequestedThemeVariant = ThemeVariant.Light;
         Assert.NotNull(control.Template);
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Базовые контролы, которых тема берёт на себя, тоже получают шаблон.
+    /// </summary>
+    /// <remarks>
+    /// Их шесть с половиной: меню и его части, полоса прокрутки, разделитель,
+    /// тултип — и сама область прокрутки. Список закрыт намеренно: тема не
+    /// подменяет собой базовый слой целиком, она добирает ровно то, на что
+    /// опираются Ax*-контролы и витрина.
+    ///
+    /// Проверка не про красоту, а про то, что без базового слоя ничего не
+    /// пропадёт. Область прокрутки эту цену уже показала: без своей темы
+    /// ScrollViewer оставался с дефолтом ContentControl — содержимое рисуется,
+    /// а полос и прокрутки нет вовсе.
+    /// </remarks>
+    [AvaloniaTheory]
+    [InlineData(typeof(ScrollViewer))]
+    [InlineData(typeof(ScrollBar))]
+    [InlineData(typeof(ContextMenu))]
+    [InlineData(typeof(MenuItem))]
+    [InlineData(typeof(Separator))]
+    public void Borrowed_control_gets_template_from_theme(Type controlType)
+    {
+        var control = (TemplatedControl)Activator.CreateInstance(controlType)!;
+
+        var window = new Window { Content = control };
+        window.RequestedThemeVariant = ThemeVariant.Dark;
+        window.Show();
+
+        Assert.NotNull(control.Template);
+
+        window.RequestedThemeVariant = ThemeVariant.Light;
+        Assert.NotNull(control.Template);
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Область прокрутки собрана из своих частей, а не из дефолта.
+    /// </summary>
+    /// <remarks>
+    /// Дефолт ContentControl тоже даёт PART_ContentPresenter — только обычный,
+    /// без полос: содержимое видно, прокрутки нет. Отличает их тип части.
+    /// </remarks>
+    [AvaloniaFact]
+    public void Scroll_viewer_gets_its_own_parts()
+    {
+        var scroll = new ScrollViewer { Content = new Border { Height = 4000 } };
+
+        var window = new Window { Width = 200, Height = 200, Content = scroll };
+        window.Show();
+        window.UpdateLayout();
+
+        var parts = scroll.GetVisualDescendants().OfType<Control>().ToList();
+
+        Assert.Contains(parts, p => p is ScrollContentPresenter && p.Name == "PART_ContentPresenter");
+        Assert.Contains(parts, p => p is ScrollBar { Name: "PART_VerticalScrollBar" });
+        Assert.Contains(parts, p => p is ScrollBar { Name: "PART_HorizontalScrollBar" });
 
         window.Close();
     }

@@ -107,4 +107,43 @@
     </Style>
   </ControlTheme>
 
+  <!--
+      Область прокрутки. Своей темы у неё не было: её давал базовый слой, и без
+      него ScrollViewer оставался без шаблона — содержимое рисовалось дефолтом
+      ContentControl, а полос и прокрутки не было вовсе.
+
+      Полосы лежат поверх содержимого, а не отнимают у него ширину: ползунок
+      здесь — полупрозрачная накладка, и место под него не резервируется.
+  -->
+  <ControlTheme x:Key="{x:Type ScrollViewer}" TargetType="ScrollViewer">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid ColumnDefinitions="*,Auto" RowDefinitions="*,Auto">
+          <ScrollContentPresenter x:Name="PART_ContentPresenter"
+                                  Grid.Row="0" Grid.Column="0"
+                                  Grid.RowSpan="2" Grid.ColumnSpan="2"
+                                  Background="{TemplateBinding Background}"
+                                  Content="{TemplateBinding Content}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  Padding="{TemplateBinding Padding}"
+                                  HorizontalSnapPointsType="{TemplateBinding HorizontalSnapPointsType}"
+                                  VerticalSnapPointsType="{TemplateBinding VerticalSnapPointsType}"
+                                  HorizontalSnapPointsAlignment="{TemplateBinding HorizontalSnapPointsAlignment}"
+                                  VerticalSnapPointsAlignment="{TemplateBinding VerticalSnapPointsAlignment}"/>
+          <ScrollBar x:Name="PART_VerticalScrollBar"
+                     Grid.Row="0" Grid.Column="1"
+                     Orientation="Vertical"/>
+          <ScrollBar x:Name="PART_HorizontalScrollBar"
+                     Grid.Row="1" Grid.Column="0"
+                     Orientation="Horizontal"/>
+          <!-- Уголок между полосами: пустой, но части с этим именем ждёт сам ScrollViewer. -->
+          <Panel x:Name="PART_ScrollBarsSeparator"
+                 Grid.Row="1" Grid.Column="1"
+                 Background="Transparent"/>
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
 </ResourceDictionary>
