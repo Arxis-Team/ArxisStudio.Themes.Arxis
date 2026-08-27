@@ -78,6 +78,32 @@
       отодвинула бы только первую колонку, а остальные начинались бы вплотную
       к своей границе — в карточке отбиты все четыре одинаково.
   -->
+  <!--
+      Глиф иконочной кнопки идёт за её состоянием.
+
+      Своим цветом AxIcon задаётся в собственной теме, а тема сильнее
+      наследования, — поэтому Foreground кнопки до глифа не доходил, и в
+      карточке тулбара он оставался серым во всех пяти состояниях. Стиль
+      сильнее темы контрола, и эти четыре правила ставят то, что объявляет
+      карточка: наведение и нажатие — основной текст, включённость — акцент,
+      выключенность — цвет выключенного.
+
+      Свой цвет, проставленный на месте, сильнее стиля и переживает всё это:
+      зелёный треугольник запуска остаётся зелёным.
+  -->
+  <Style Selector="ax|AxButton.icon:pointerover ax|AxIcon">
+    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+  </Style>
+  <Style Selector="ax|AxButton.icon:pressed ax|AxIcon">
+    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+  </Style>
+  <Style Selector="ax|AxButton.icon:selected ax|AxIcon">
+    <Setter Property="Foreground" Value="{DynamicResource AxAccBrush}"/>
+  </Style>
+  <Style Selector="ax|AxButton.icon:disabled ax|AxIcon">
+    <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+  </Style>
+
   <Style Selector="ax|AxDataGrid TextBlock">
     <Setter Property="Padding" Value="10,0"/>
   </Style>

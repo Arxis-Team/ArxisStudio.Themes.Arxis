@@ -125,6 +125,27 @@
     <Style Selector="^.icon:pointerover">
       <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
     </Style>
+    <!--
+        Выключенная иконочная кнопка гаснет глифом, а не плашкой: своей заливки
+        у неё нет и в покое, и в карточке тулбара выключенная стоит на голом
+        фоне. Фон выключенного поля остаётся кнопке с рамкой.
+    -->
+    <Style Selector="^.icon:disabled /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="BorderBrush" Value="Transparent"/>
+    </Style>
+    <!--
+        Включённый инструмент: заливка выделения, глиф акцентом. Состояние
+        ставится псевдоклассом :selected — так его записывает раздел 10, и
+        своего свойства у кнопки под это нет: включённость инструмента знает
+        приложение, а не контрол.
+    -->
+    <Style Selector="^.icon:selected /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource AxSelBrush}"/>
+    </Style>
+    <Style Selector="^.icon:selected">
+      <Setter Property="Foreground" Value="{DynamicResource AxAccBrush}"/>
+    </Style>
 
     <!-- Кнопка в тесном месте: панель инструментов, подвал панели. -->
     <Style Selector="^.compact">

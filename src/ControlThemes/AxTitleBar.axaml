@@ -11,7 +11,12 @@
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
     <Setter Property="BorderThickness" Value="0,0,0,1"/>
-    <Setter Property="Height" Value="42"/>
+    <!--
+        40: столько объявляет карточка «Тулбар» — единственная в проекте, где
+        полоса с проектом, виджетом запуска и кнопками окна показана целиком.
+        Прежние 42 в проекте ничем не подтверждаются.
+    -->
+    <Setter Property="Height" Value="40"/>
     <Setter Property="VerticalContentAlignment" Value="Stretch"/>
     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
     <Setter Property="Template">
