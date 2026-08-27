@@ -22,7 +22,12 @@
                   MinWidth="320"
                   ClipToBounds="False">
             <DockPanel>
-              <DockPanel DockPanel.Dock="Top" Margin="16,12">
+              <!--
+                  Шапка обычного диалога. У алерта её нет: со значком заголовок
+                  и текст встают колонкой рядом с ним, и уйти оттуда можно
+                  только кнопкой — решение обязательно.
+              -->
+              <DockPanel x:Name="PART_Header" DockPanel.Dock="Top" Margin="16,12">
                 <ax:AxButton DockPanel.Dock="Right"
                              x:Name="PART_Close"
                              Classes="icon"
@@ -36,7 +41,8 @@
                            FontSize="{DynamicResource AxFontSizeLarge}"
                            VerticalAlignment="Center"/>
               </DockPanel>
-              <Border DockPanel.Dock="Bottom"
+              <Border x:Name="PART_Footer"
+                      DockPanel.Dock="Bottom"
                       BorderBrush="{DynamicResource AxBrdBrush}"
                       BorderThickness="0,1,0,0"
                       Padding="16,12">
@@ -52,17 +58,52 @@
                                     IsVisible="{TemplateBinding FooterContent, Converter={x:Static ObjectConverters.IsNotNull}}"/>
                 </DockPanel>
               </Border>
-              <ContentPresenter x:Name="PART_ContentPresenter"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                Margin="16,0,16,16"
-                                TextBlock.Foreground="{DynamicResource AxFg2Brush}"
-                                TextBlock.TextWrapping="Wrap"/>
+              <!--
+                  Тело. У алерта в него въезжают значок слева и заголовок над
+                  текстом — оба прячутся, пока значка нет.
+              -->
+              <DockPanel x:Name="PART_Body" Margin="16,0,16,16">
+                <ContentPresenter x:Name="PART_AlertIcon"
+                                  DockPanel.Dock="Left"
+                                  Margin="0,0,12,0"
+                                  VerticalAlignment="Top"
+                                  Content="{TemplateBinding AlertIcon}"
+                                  IsVisible="False"/>
+                <StackPanel Spacing="4">
+                  <TextBlock x:Name="PART_AlertTitle"
+                             Text="{TemplateBinding Title}"
+                             FontWeight="SemiBold"
+                             FontSize="{DynamicResource AxFontSizeLarge}"
+                             TextWrapping="Wrap"
+                             IsVisible="False"/>
+                  <ContentPresenter x:Name="PART_ContentPresenter"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    TextBlock.Foreground="{DynamicResource AxFg2Brush}"
+                                    TextBlock.TextWrapping="Wrap"/>
+                </StackPanel>
+              </DockPanel>
             </DockPanel>
           </Border>
         </VisualLayerManager>
       </ControlTemplate>
     </Setter>
+    <!--
+        Алерт: шапки нет, значок и заголовок встают в тело. Верхнюю отбивку
+        тело берёт на себя — у обычного диалога её давала шапка.
+    -->
+    <Style Selector="^:alert /template/ DockPanel#PART_Header">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="^:alert /template/ DockPanel#PART_Body">
+      <Setter Property="Margin" Value="16"/>
+    </Style>
+    <Style Selector="^:alert /template/ ContentPresenter#PART_AlertIcon">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:alert /template/ TextBlock#PART_AlertTitle">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
   </ControlTheme>
 
 </ResourceDictionary>
