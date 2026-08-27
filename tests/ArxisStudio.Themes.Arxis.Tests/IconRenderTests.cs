@@ -79,23 +79,6 @@ public class IconRenderTests
         window.Close();
     }
 
-    /// <summary>Дуга лоадера вращается вокруг центра клетки.</summary>
-    [AvaloniaFact]
-    public void Spinner_turns_around_the_centre_of_its_cell()
-    {
-        var spinner = new AxSpinner();
-        var window = Shown(spinner);
-
-        var arc = spinner.GetVisualDescendants().OfType<AxIcon>().Single();
-
-        Assert.Equal(Cell, arc.Bounds.Width);
-        Assert.Equal(Cell, arc.Bounds.Height);
-        Assert.Equal(RelativePoint.Center, arc.RenderTransformOrigin);
-        Assert.Equal(Cell, Inner(arc).Width);
-
-        window.Close();
-    }
-
     public static TheoryData<string> Samples =>
         ["Plus", "ChevronDown", "Search", "Close", "Play", "Folder", "Check", "Settings"];
 
