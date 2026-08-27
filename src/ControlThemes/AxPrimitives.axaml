@@ -4,8 +4,9 @@
 
   <!-- Бейдж-счётчик: акцентная пилюля 15px. -->
   <ControlTheme x:Key="{x:Type ax:AxBadge}" TargetType="ax:AxBadge">
-    <Setter Property="MinWidth" Value="15"/>
-    <Setter Property="Height" Value="15"/>
+    <!-- Чётный размер: правило раздела 12, целые пиксели при 125 % и 150 %. -->
+    <Setter Property="MinWidth" Value="16"/>
+    <Setter Property="Height" Value="16"/>
     <Setter Property="CornerRadius" Value="8"/>
     <!-- Счётчик — текст на заливке: AxAccStrong (приёмка, раздел 6). -->
     <Setter Property="Background" Value="{DynamicResource AxAccStrongBrush}"/>

@@ -40,7 +40,7 @@
               <ToggleButton x:Name="PART_ExpandCollapseChevron"
                             DockPanel.Dock="Left"
                             Width="16" Height="16"
-                            Margin="4,0,2,0"
+                            Margin="8,0,6,0"
                             VerticalAlignment="Center"
                             Background="Transparent"
                             BorderThickness="0"
