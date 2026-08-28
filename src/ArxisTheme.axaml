@@ -1,4 +1,4 @@
-<!--
+﻿<!--
     Тема «Arxis». В M0 подключается поверх FluentTheme — базового слоя для
     не-Ax примитивов (окно, попапы, тултипы):
 
@@ -69,6 +69,22 @@
       тем более. Баннер — плашка, поэтому действие в нём светится этим токеном,
       а не обычным цветом ссылки.
   -->
+  <!--
+      Выделение в списке и дереве говорит и о фокусе: AxSel, пока фокус внутри,
+      AxSelInactive, когда он ушёл, — строка остаётся отмеченной, но не спорит
+      за внимание с тем полем, куда человек перешёл. Погашенный цвет объявлен
+      в темах строк, полный — здесь.
+
+      Стиль стоит в общих стилях, а не в теме строки: предок в селекторе теме
+      контрола не виден, и строка, однажды загоревшись, уже не гасла.
+  -->
+  <Style Selector=":is(ListBox):focus-within :is(ListBoxItem):selected /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource AxSelBrush}"/>
+  </Style>
+  <Style Selector=":is(TreeView):focus-within :is(TreeViewItem):selected /template/ Border#PART_Root">
+    <Setter Property="Background" Value="{DynamicResource AxSelBrush}"/>
+  </Style>
+
   <Style Selector="ax|AxBanner ax|AxLink">
     <Setter Property="Foreground" Value="{DynamicResource AxLinkOnBrush}"/>
   </Style>

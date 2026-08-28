@@ -297,6 +297,53 @@ public class FocusRingTests
     }
 
     /// <summary>
+    /// Список без фокуса гасит выделение, но его не теряет.
+    /// </summary>
+    /// <remarks>
+    /// Кольца у строк нет и быть не должно: в списке и дереве фокус показывает
+    /// не обводка, а цвет выделения — AxSel, пока список под фокусом, и
+    /// AxSelInactive, когда фокус ушёл. Без второй половины выделение в
+    /// оставленном дереве спорило по яркости с тем полем, куда человек перешёл,
+    /// и на экране было два «здесь».
+    /// </remarks>
+    [AvaloniaFact]
+    public void Selection_dims_when_the_list_loses_focus()
+    {
+        var list = new AxListBox { ItemsSource = new[] { "Первый", "Второй" }, SelectedIndex = 0 };
+        var elsewhere = new AxTextBox();
+        var window = new Window { Content = new StackPanel { Children = { list, elsewhere } } };
+
+        window.Show();
+        window.UpdateLayout();
+
+        var row = list.GetVisualDescendants().OfType<AxListBoxItem>().First();
+
+        row.Focus(NavigationMethod.Tab);
+        window.UpdateLayout();
+
+        var fill = () => Colour(Part(row, "PART_ContentPresenter").GetValue(Border.BackgroundProperty));
+
+        Assert.Equal(Resource(window, "AxSelColor"), fill());
+
+        elsewhere.Focus(NavigationMethod.Tab);
+        window.UpdateLayout();
+
+        Assert.True(row.IsSelected, "строка перестала быть выделенной");
+        Assert.Equal(Resource(window, "AxSelInactiveColor"), fill());
+
+        window.Close();
+    }
+
+    private static Control Part(Control control, string name)
+    {
+        var part = control.GetVisualDescendants().OfType<Control>().FirstOrDefault(c => c.Name == name);
+
+        Assert.True(part is not null, $"в шаблоне нет части {name}");
+
+        return part!;
+    }
+
+    /// <summary>
     /// Тот контрол, до которого доходит Tab.
     /// </summary>
     /// <remarks>

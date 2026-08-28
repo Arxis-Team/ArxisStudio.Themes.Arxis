@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ax="using:ArxisStudio.Controls">
 
@@ -47,8 +47,13 @@
       <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
     </Style>
     <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxSelBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxSelInactiveBrush}"/>
     </Style>
+    <!--
+        Погашенное выделение — состояние по умолчанию: полную силу ему даёт
+        фокус списка, и стиль на это живёт в ArxisTheme.axaml — стилю из темы
+        контрола предок не виден.
+    -->
     <!--
         Выключенная строка (раздел 10 спецификации): текст на AxFgDisabled.
         Стиль стоит последним намеренно — выделение и наведение объявлены выше,

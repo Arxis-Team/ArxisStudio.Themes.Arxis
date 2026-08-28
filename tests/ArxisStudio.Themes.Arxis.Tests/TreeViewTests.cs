@@ -1,4 +1,4 @@
-using ArxisStudio.Controls;
+﻿using ArxisStudio.Controls;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -224,6 +224,11 @@ public class TreeViewTests
 
         var row = Rows(tree).First(r => r.ItemCount == 0);
         ((IPseudoClasses)row.Classes).Set(":selected", true);
+
+        // Полный AxSel — цвет выделения в дереве под фокусом; оставленное
+        // дерево гасит его до AxSelInactive, и без этой строки проверялось бы
+        // как раз погашенное.
+        row.Focus(NavigationMethod.Tab);
         window.UpdateLayout();
 
         var fill = (Border)Part(row, "PART_Root");

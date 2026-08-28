@@ -1,8 +1,9 @@
-using ArxisStudio.Controls;
+﻿using ArxisStudio.Controls;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Headless.XUnit;
+using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.VisualTree;
@@ -69,6 +70,10 @@ public class TableTests
         var (table, window) = Shown(variant);
 
         var rows = Rows(table).ToList();
+
+        // Выделение показано в полную силу только у таблицы под фокусом.
+        rows[1].Focus(NavigationMethod.Tab);
+        window.UpdateLayout();
 
         Assert.Equal(new Thickness(0, 0, 0, 1), Fill(rows[0]).BorderThickness);
         Assert.Equal(Resource(window, "AxBrdColor", variant), Colour(Fill(rows[0]).BorderBrush));
