@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ax="using:ArxisStudio.Controls">
 
@@ -242,8 +242,9 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Panel Background="Transparent">
+          <!-- Просвет в пиксель: заполненная часть дорожки акцентная. -->
           <Border x:Name="PART_FocusRing"
-                  Margin="-2"
+                  Margin="-3"
                   CornerRadius="6"
                   BorderThickness="{DynamicResource AxFocusOutlineThickness}"
                   BorderBrush="{DynamicResource AxOutlineFocusedBrush}"

@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ax="using:ArxisStudio.Controls">
 
@@ -34,8 +34,9 @@
               не было видно, где стоишь. Половин две, шага тоже два: действие и
               стрелка, и каждый показывает себя сам.
           -->
+          <!-- Просвет в пиксель: у класса accent половина залита акцентом. -->
           <Border x:Name="PART_FocusRing"
-                  Margin="-2"
+                  Margin="-3"
                   CornerRadius="6"
                   BorderThickness="{DynamicResource AxFocusOutlineThickness}"
                   BorderBrush="{DynamicResource AxOutlineFocusedBrush}"

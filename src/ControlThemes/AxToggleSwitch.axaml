@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ax="using:ArxisStudio.Controls">
 
@@ -20,10 +20,19 @@
     <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <Panel>
-          <!-- Кольцо фокуса обнимает подпись вместе с дорожкой — как в компоненте. -->
+        <Panel VerticalAlignment="Center">
+          <!--
+              Кольцо обнимает подпись вместе с дорожкой — как в компоненте, — но
+              по содержимому, а не по MinHeight: строка держит 24, дорожка
+              высотой 17, и кольцо по контролу висело вокруг пустоты.
+
+              Отступ −3 против толщины 2 оставляет просвет в пиксель: у
+              включённого переключателя дорожка залита акцентом, и кольцо
+              вплотную слилось бы с ней в одно пятно. Просвет объявлен и в
+              карточке — outline-offset:1px во всех фокусных состояниях.
+          -->
           <Border x:Name="PART_FocusRing"
-                  Margin="-2"
+                  Margin="-3"
                   CornerRadius="6"
                   BorderThickness="{DynamicResource AxFocusOutlineThickness}"
                   BorderBrush="{DynamicResource AxOutlineFocusedBrush}"

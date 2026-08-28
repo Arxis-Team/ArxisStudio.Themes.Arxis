@@ -1,4 +1,4 @@
-using ArxisStudio.Controls;
+﻿using ArxisStudio.Controls;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Headless.XUnit;
@@ -34,8 +34,10 @@ public class FocusRingTests
         typeof(AxDropDownButton),
         typeof(AxLink),
         typeof(AxRadioButton),
+        typeof(AxSearchField),
         typeof(AxSlider),
         typeof(AxSplitButton),
+        typeof(AxTextArea),
         typeof(AxTextBox),
         typeof(AxToggleSwitch),
     ];
@@ -121,7 +123,7 @@ public class FocusRingTests
     [MemberData(nameof(Focusable))]
     public void Pointer_focus_leaves_the_ring_hidden(Type controlType)
     {
-        if (controlType == typeof(AxTextBox))
+        if (typeof(AxTextBox).IsAssignableFrom(controlType))
         {
             return;
         }
@@ -216,11 +218,16 @@ public class FocusRingTests
     [AvaloniaTheory]
     [InlineData(typeof(AxButton), 1d, 0d)]
     [InlineData(typeof(AxTextBox), 1d, 0d)]
+    [InlineData(typeof(AxSearchField), 1d, 0d)]
+    [InlineData(typeof(AxTextArea), 1d, 0d)]
     [InlineData(typeof(AxComboBox), 1d, 0d)]
     [InlineData(typeof(AxDropDownButton), 1d, 0d)]
     [InlineData(typeof(AxCheckBox), 2d, 1d)]
-    [InlineData(typeof(AxToggleSwitch), 2d, 0d)]
-    [InlineData(typeof(AxSlider), 2d, 0d)]
+    [InlineData(typeof(AxRadioButton), 2d, 1d)]
+    [InlineData(typeof(AxToggleSwitch), 2d, 1d)]
+    [InlineData(typeof(AxSlider), 2d, 1d)]
+    [InlineData(typeof(AxSplitButton), 2d, 1d)]
+    [InlineData(typeof(AxLink), 2d, 1d)]
     public void Focus_outline_adds_up_to_two(Type controlType, double outside, double gap = 0d)
     {
         var (control, window) = Shown(controlType);
@@ -251,6 +258,40 @@ public class FocusRingTests
             Assert.Equal(inside, edge!.GetValue(Border.BorderThicknessProperty).Left);
             Assert.Equal(accent, Colour(edge.GetValue(Border.BorderBrushProperty)));
         }
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Кольцо обнимает содержимое, а не отведённую контролу высоту.
+    /// </summary>
+    /// <remarks>
+    /// У флажка, переключателя и радиокнопки строка держит высоту контрола
+    /// (24), а сама фигура — коробка, дорожка, кружок — вдвое ниже. Кольцо,
+    /// растянутое по строке, висело вокруг пустоты: сверху и снизу от него до
+    /// коробки оставался зазор в четыре пикселя, и на снимке это читалось как
+    /// вытянутая рамка, а не как обводка флажка.
+    ///
+    /// Мера простая: кольцо выходит наружу на три пикселя с каждой стороны,
+    /// и если оно всё же не выше самого контрола — значит, обнимает фигуру,
+    /// а не строку.
+    /// </remarks>
+    [AvaloniaTheory]
+    [InlineData(typeof(AxCheckBox))]
+    [InlineData(typeof(AxRadioButton))]
+    [InlineData(typeof(AxToggleSwitch))]
+    public void Ring_hugs_the_content_not_the_row(Type controlType)
+    {
+        var (control, window) = Shown(controlType);
+
+        Reach(control).Focus(NavigationMethod.Tab);
+        window.UpdateLayout();
+
+        var ring = Rings(control).First(r => r.IsVisible);
+
+        Assert.True(
+            ring.Bounds.Height <= control.Bounds.Height,
+            $"{controlType.Name}: кольцо {ring.Bounds.Height} растянуто по строке {control.Bounds.Height}");
 
         window.Close();
     }
