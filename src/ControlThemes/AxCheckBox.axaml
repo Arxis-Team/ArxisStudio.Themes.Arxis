@@ -9,6 +9,11 @@
     <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
     <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="HorizontalAlignment" Value="Left"/>
+    <!--
+        Системную пунктирную обводку фокуса снимаем: своё кольцо тема рисует
+        сама, а вдвоём они складывались в две рамки вокруг одной коробки.
+    -->
+    <Setter Property="FocusAdorner" Value="{x:Null}"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Panel>
@@ -94,7 +99,11 @@
       <Setter Property="BorderBrush" Value="{DynamicResource AxOutlineErrorBrush}"/>
       <Setter Property="Background" Value="{DynamicResource AxErrorBackgroundBrush}"/>
     </Style>
-    <Style Selector="^.error:checked /template/ Border#PART_Box">
+    <!--
+        Отмеченный и неопределённый с ошибкой заливаются красным. Без этого
+        сюда доставался фон ошибки, светлый, и белый знак на нём пропадал.
+    -->
+    <Style Selector="^.error:checked /template/ Border#PART_Box, ^.error:indeterminate /template/ Border#PART_Box">
       <Setter Property="Background" Value="{DynamicResource AxRedBrush}"/>
     </Style>
     <Style Selector="^:pointerover /template/ Border#PART_Box">
@@ -111,8 +120,16 @@
       <Setter Property="Background" Value="{DynamicResource AxInpDisabledBrush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
     </Style>
+    <!--
+        Выключенный отмеченный: заливка шагом наведения, а знак — цветом
+        выключенного текста. Белый знак оставался белым и на этой заливке —
+        флажок читался как включённый, только побледневший.
+    -->
     <Style Selector="^:disabled:checked /template/ Border#PART_Box, ^:disabled:indeterminate /template/ Border#PART_Box">
-      <Setter Property="Background" Value="{DynamicResource AxBg4Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+    </Style>
+    <Style Selector="^:disabled /template/ Path#PART_Check, ^:disabled /template/ Path#PART_Dash">
+      <Setter Property="Stroke" Value="{DynamicResource AxFgDisabledBrush}"/>
     </Style>
   </ControlTheme>
 
