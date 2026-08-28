@@ -214,14 +214,14 @@ public class FocusRingTests
     /// занимал на пиксель больше места с каждой стороны, чем задумано.
     /// </remarks>
     [AvaloniaTheory]
-    [InlineData(typeof(AxButton), 1d)]
-    [InlineData(typeof(AxTextBox), 1d)]
-    [InlineData(typeof(AxComboBox), 1d)]
-    [InlineData(typeof(AxDropDownButton), 1d)]
-    [InlineData(typeof(AxCheckBox), 2d)]
-    [InlineData(typeof(AxToggleSwitch), 2d)]
-    [InlineData(typeof(AxSlider), 2d)]
-    public void Focus_outline_adds_up_to_two(Type controlType, double outside)
+    [InlineData(typeof(AxButton), 1d, 0d)]
+    [InlineData(typeof(AxTextBox), 1d, 0d)]
+    [InlineData(typeof(AxComboBox), 1d, 0d)]
+    [InlineData(typeof(AxDropDownButton), 1d, 0d)]
+    [InlineData(typeof(AxCheckBox), 2d, 1d)]
+    [InlineData(typeof(AxToggleSwitch), 2d, 0d)]
+    [InlineData(typeof(AxSlider), 2d, 0d)]
+    public void Focus_outline_adds_up_to_two(Type controlType, double outside, double gap = 0d)
     {
         var (control, window) = Shown(controlType);
 
@@ -231,9 +231,11 @@ public class FocusRingTests
         var ring = Rings(control).First(r => r.IsVisible);
         var accent = Resource(window, "AxOutlineFocusedColor");
 
-        // Кольцо снаружи: своей толщины и на неё же сдвинуто.
+        // Кольцо снаружи: своей толщины и сдвинуто на неё же плюс просвет.
+        // Просвет нужен там, где под кольцом залитая акцентом фигура — без
+        // него кольцо сливается с ней в одно пятно.
         Assert.Equal(outside, ring.GetValue(Border.BorderThicknessProperty).Left);
-        Assert.Equal(-outside, ring.Margin.Left);
+        Assert.Equal(-(outside + gap), ring.Margin.Left);
         Assert.Equal(accent, Colour(ring.GetValue(Border.BorderBrushProperty)));
 
         // Недостающее до двух даёт своя рамка контрола — и она обязана быть

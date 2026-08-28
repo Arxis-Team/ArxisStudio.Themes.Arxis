@@ -17,9 +17,19 @@
     <Setter Property="HorizontalAlignment" Value="Left"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <Panel>
+        <!--
+            Панель по содержимому, а не по строке: у контрола есть нижняя
+            граница высоты в 24 — цель нажатия, — и кольцо, обнимая её, вокруг
+            коробки в 16 вытягивалось капсулой. Теперь оно обнимает то, что
+            видно: коробку с подписью, а без подписи — саму коробку.
+        -->
+        <Panel VerticalAlignment="Center">
+          <!--
+              Кольцо на просвет в пиксель от точки: включённая она залита тем
+              же акцентом, и вплотную кольцо сливалось с ней в одно пятно.
+          -->
           <Border x:Name="PART_FocusRing"
-                  Margin="-2"
+                  Margin="-3"
                   CornerRadius="6"
                   BorderThickness="{DynamicResource AxFocusOutlineThickness}"
                   BorderBrush="{DynamicResource AxOutlineFocusedBrush}"

@@ -19,10 +19,21 @@
     <Setter Property="FocusAdorner" Value="{x:Null}"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <Panel>
-          <!-- Кольцо фокуса обнимает всю строку с подписью — как в компоненте. -->
+        <!--
+            Панель по содержимому, а не по строке: у контрола есть нижняя
+            граница высоты в 24 — цель нажатия, — и кольцо, обнимая её, вокруг
+            коробки в 16 вытягивалось капсулой. Теперь оно обнимает то, что
+            видно: коробку с подписью, а без подписи — саму коробку.
+        -->
+        <Panel VerticalAlignment="Center">
+          <!--
+              Кольцо обнимает строку с подписью — как в компоненте, — и стоит
+              от неё на просвет в пиксель: у отмеченного флажка коробка залита
+              тем же акцентом, и вплотную кольцо сливалось с ней в одно пятно.
+              Три пикселя поля — это два кольца плюс просвет.
+          -->
           <Border x:Name="PART_FocusRing"
-                  Margin="-2"
+                  Margin="-3"
                   CornerRadius="6"
                   BorderThickness="{DynamicResource AxFocusOutlineThickness}"
                   BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
