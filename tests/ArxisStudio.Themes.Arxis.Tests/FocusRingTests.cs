@@ -40,6 +40,58 @@ public class FocusRingTests
         typeof(AxToggleSwitch),
     ];
 
+    /// <summary>
+    /// Контрол с кольцом не обрезает себя по своим границам.
+    /// </summary>
+    /// <remarks>
+    /// Кольцо вынесено наружу отрицательным полем, а TemplatedControl в
+    /// Avalonia обрезает содержимое по границам — со включённой обрезкой от
+    /// кольца оставались только угловые дуги, заходящие внутрь из-за
+    /// скругления. У флажка это выглядело как четыре синих уголка вместо
+    /// рамки, у кнопки терялось за перекрашенной рамкой самого контрола и
+    /// потому не бросалось в глаза.
+    ///
+    /// Обрезка нужна не контролу целиком, а тем частям, которым она нужна, —
+    /// там она и стоит: шапка панели, полоса вкладок, карточка диалога.
+    /// </remarks>
+    [AvaloniaTheory]
+    [MemberData(nameof(Focusable))]
+    public void Control_with_a_ring_does_not_clip_itself(Type controlType)
+    {
+        var (control, window) = Shown(controlType);
+
+        Assert.False(control.ClipToBounds, $"{controlType.Name}: обрезка съест кольцо фокуса");
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Кольцо в фокусе выходит за своего хозяина — и остаётся видимым целиком.
+    /// </summary>
+    /// <remarks>
+    /// Сравниваем с родителем кольца, а не с контролом: у сплит-кнопки фокус
+    /// берут половины, и кольцо принадлежит половине — оно и должно быть шире
+    /// её, а не всей кнопки.
+    /// </remarks>
+    [AvaloniaTheory]
+    [MemberData(nameof(Focusable))]
+    public void Ring_reaches_past_its_owner(Type controlType)
+    {
+        var (control, window) = Shown(controlType);
+
+        Reach(control).Focus(NavigationMethod.Tab);
+        window.UpdateLayout();
+
+        var ring = Rings(control).First(r => r.IsVisible);
+        var owner = (Avalonia.Visual)ring.GetVisualParent()!;
+
+        Assert.True(
+            ring.Bounds.Width > owner.Bounds.Width,
+            $"{controlType.Name}: кольцо {ring.Bounds.Width} не шире хозяина {owner.Bounds.Width}");
+
+        window.Close();
+    }
+
     /// <summary>С клавиатуры кольцо видно.</summary>
     [AvaloniaTheory]
     [MemberData(nameof(Focusable))]

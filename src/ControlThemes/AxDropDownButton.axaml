@@ -8,6 +8,9 @@
       не бывает основным действием.
   -->
   <ControlTheme x:Key="{x:Type ax:AxDropDownButton}" TargetType="ax:AxDropDownButton">
+    <!-- Не обрезаем себя: кольцо фокуса выходит за границы контрола. -->
+    <Setter Property="ClipToBounds" Value="False"/>
+
     <Setter Property="Height" Value="{DynamicResource AxControlHeight}"/>
     <Setter Property="MinWidth" Value="{DynamicResource AxButtonMinWidth}"/>
     <!--

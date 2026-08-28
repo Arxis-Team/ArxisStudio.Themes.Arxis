@@ -4,6 +4,9 @@
 
   <!-- Выпадающий список: поле 28 (24 в плотной зоне) с шевроном, попап на bg2. -->
   <ControlTheme x:Key="{x:Type ax:AxComboBox}" TargetType="ax:AxComboBox">
+    <!-- Не обрезаем себя: кольцо фокуса выходит за границы контрола. -->
+    <Setter Property="ClipToBounds" Value="False"/>
+
     <Setter Property="MinHeight" Value="{DynamicResource AxControlHeight}"/>
     <Setter Property="Padding" Value="{DynamicResource AxComboBoxPadding}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>

@@ -8,6 +8,9 @@
       рамкой: ссылка не имеет собственных границ.
   -->
   <ControlTheme x:Key="{x:Type ax:AxLink}" TargetType="ax:AxLink">
+    <!-- Не обрезаем себя: кольцо фокуса выходит за границы контрола. -->
+    <Setter Property="ClipToBounds" Value="False"/>
+
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="Padding" Value="0"/>

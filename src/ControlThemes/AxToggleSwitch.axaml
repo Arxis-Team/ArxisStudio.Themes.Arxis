@@ -9,6 +9,9 @@
       AxAccStrong, как и остальные залитые поверхности.
   -->
   <ControlTheme x:Key="{x:Type ax:AxToggleSwitch}" TargetType="ax:AxToggleSwitch">
+    <!-- Не обрезаем себя: кольцо фокуса выходит за границы контрола. -->
+    <Setter Property="ClipToBounds" Value="False"/>
+
     <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="HorizontalAlignment" Value="Left"/>
     <Setter Property="VerticalAlignment" Value="Center"/>

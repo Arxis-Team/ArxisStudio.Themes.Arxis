@@ -4,6 +4,9 @@
 
   <!-- Флажок Int UI 16×16, скругление 3; отмеченный — акцентная заливка с галочкой. -->
   <ControlTheme x:Key="{x:Type ax:AxCheckBox}" TargetType="ax:AxCheckBox">
+    <!-- Не обрезаем себя: кольцо фокуса выходит за границы контрола. -->
+    <Setter Property="ClipToBounds" Value="False"/>
+
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>

@@ -14,6 +14,14 @@
       поэтому кнопка не дёргается, получая фокус.
   -->
   <ControlTheme x:Key="{x:Type ax:AxButton}" TargetType="ax:AxButton">
+    <!--
+        Контрол не обрезает себя: кольцо фокуса выходит за его границы, а
+        TemplatedControl в Avalonia обрезает содержимое по ним. Обрезка нужна
+        не контролу целиком, а тем его частям, которым она нужна, — там она и
+        стоит.
+    -->
+    <Setter Property="ClipToBounds" Value="False"/>
+
     <Setter Property="Height" Value="{DynamicResource AxControlHeight}"/>
     <Setter Property="MinWidth" Value="{DynamicResource AxButtonMinWidth}"/>
     <Setter Property="Padding" Value="{DynamicResource AxButtonPadding}"/>
