@@ -104,7 +104,14 @@
                                 ContentTemplate="{TemplateBinding ContentTemplate}"
                                 Foreground="{TemplateBinding Foreground}"
                                 VerticalAlignment="Center"/>
-              <Panel Width="14" Height="14"
+              <!--
+                  Ловит мышь вся площадка, а не сам путь крестика: попасть по
+                  линии в полтора пикселя человек не должен. Прозрачный фон
+                  здесь и делает четырнадцать на четырнадцать нажимаемыми.
+              -->
+              <Panel x:Name="PART_Close"
+                     Width="14" Height="14"
+                     Background="Transparent"
                      IsVisible="{TemplateBinding IsClosable}">
                 <Ellipse x:Name="PART_Modified"
                          Width="7" Height="7"
@@ -116,7 +123,7 @@
                     только точке несохранённых правок — и возвращается, когда
                     на вкладку наводят, чтобы её можно было закрыть.
                 -->
-                <ax:AxIcon x:Name="PART_Close"
+                <ax:AxIcon x:Name="PART_CloseIcon"
                            Classes="small"
                            Data="{x:Static ax:AxIcons.Close}"
                            Foreground="{DynamicResource AxFg3Brush}"/>
@@ -136,16 +143,16 @@
     <Style Selector="^:pointerover /template/ Border#PART_Root">
       <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
     </Style>
-    <Style Selector="^:pointerover /template/ ax|AxIcon#PART_Close">
+    <Style Selector="^:pointerover /template/ ax|AxIcon#PART_CloseIcon">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:pointerover /template/ Ellipse#PART_Modified">
       <Setter Property="IsVisible" Value="False"/>
     </Style>
-    <Style Selector="^[IsModified=True] /template/ ax|AxIcon#PART_Close">
+    <Style Selector="^[IsModified=True] /template/ ax|AxIcon#PART_CloseIcon">
       <Setter Property="IsVisible" Value="False"/>
     </Style>
-    <Style Selector="^:selected /template/ ax|AxIcon#PART_Close">
+    <Style Selector="^:selected /template/ ax|AxIcon#PART_CloseIcon">
       <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
     </Style>
 
