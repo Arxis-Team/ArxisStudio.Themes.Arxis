@@ -50,15 +50,21 @@
                                   Content="{TemplateBinding Actions}"
                                   VerticalAlignment="Center"
                                   IsVisible="{TemplateBinding Actions, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                <!--
+                    Отступ до вкладок принадлежит заголовку, а не им: он их
+                    разделяет. Стой он на вкладках — у панели без заголовка (а
+                    в докинге он всегда пуст) вкладки отходили бы от края на
+                    ровное место, отделяясь от пустоты.
+                -->
                 <TextBlock x:Name="PART_Title"
                            Text="{TemplateBinding Title}"
+                           Margin="0,0,12,0"
                            FontWeight="SemiBold"
                            Foreground="{TemplateBinding Foreground}"
                            VerticalAlignment="Center"
                            TextTrimming="CharacterEllipsis"
                            IsVisible="{TemplateBinding Title, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
                 <ContentPresenter x:Name="PART_Tabs"
-                                  Margin="12,0,0,0"
                                   Content="{TemplateBinding Tabs}"
                                   VerticalAlignment="Stretch"
                                   IsVisible="{TemplateBinding Tabs, Converter={x:Static ObjectConverters.IsNotNull}}"/>
