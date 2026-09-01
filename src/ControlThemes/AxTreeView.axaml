@@ -51,7 +51,7 @@
                                         Converter={x:Static ax:AxTreeIndentConverter.Instance}}">
               <ToggleButton x:Name="PART_ExpandCollapseChevron"
                             DockPanel.Dock="Left"
-                            Width="12" Height="{DynamicResource AxRowHeight}"
+                            Width="{DynamicResource AxIconSizeSmall}" Height="{DynamicResource AxRowHeight}"
                             Margin="0,0,6,0"
                             VerticalAlignment="Center"
                             Background="Transparent"

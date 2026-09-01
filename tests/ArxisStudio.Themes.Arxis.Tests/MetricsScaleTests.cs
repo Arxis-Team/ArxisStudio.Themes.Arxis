@@ -30,6 +30,10 @@ public class MetricsScaleTests
         "AxButtonMinWidthCompact",
         "AxCheckboxSize",
         "AxIconSize",
+        "AxIconSizeSmall",
+        "AxScrollBarLane",
+        "AxScrollThumbSize",
+        "AxScrollThumbSizeHover",
         "AxToggleWidth",
         "AxFocusOutlineWidth",
     ];

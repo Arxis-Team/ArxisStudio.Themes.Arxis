@@ -24,8 +24,12 @@
                   Background="{TemplateBinding Background}"
                   CornerRadius="{TemplateBinding CornerRadius}"
                   Padding="{TemplateBinding Padding}">
-            <Grid ColumnDefinitions="16,8,*,12,Auto,Auto" VerticalAlignment="Center">
-              <Viewbox Width="16" Height="16"
+            <!--
+                Колонка иконки — Auto, а не 16: ширину ей задаёт сама клетка
+                иконки, и число не приходится держать в двух местах сразу.
+            -->
+            <Grid ColumnDefinitions="Auto,8,*,12,Auto,Auto" VerticalAlignment="Center">
+              <Viewbox Width="{DynamicResource AxIconSize}" Height="{DynamicResource AxIconSize}"
                        StretchDirection="DownOnly"
                        HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ContentPresenter x:Name="PART_IconPresenter"

@@ -27,7 +27,7 @@
     <Setter Property="Background" Value="Transparent"/>
 
     <Style Selector="^:vertical">
-      <Setter Property="Width" Value="12"/>
+      <Setter Property="Width" Value="{DynamicResource AxScrollBarLane}"/>
       <Setter Property="Template">
         <ControlTemplate>
           <Border Background="{TemplateBinding Background}">
@@ -40,7 +40,7 @@
               <Track.Thumb>
                 <Thumb x:Name="PART_Thumb"
                        Theme="{StaticResource AxScrollThumb}"
-                       Width="6"
+                       Width="{DynamicResource AxScrollThumbSize}"
                        Margin="0,0,3,0"
                        HorizontalAlignment="Right"/>
               </Track.Thumb>
@@ -51,7 +51,7 @@
     </Style>
 
     <Style Selector="^:horizontal">
-      <Setter Property="Height" Value="12"/>
+      <Setter Property="Height" Value="{DynamicResource AxScrollBarLane}"/>
       <Setter Property="Template">
         <ControlTemplate>
           <Border Background="{TemplateBinding Background}">
@@ -63,7 +63,7 @@
               <Track.Thumb>
                 <Thumb x:Name="PART_Thumb"
                        Theme="{StaticResource AxScrollThumb}"
-                       Height="6"
+                       Height="{DynamicResource AxScrollThumbSize}"
                        Margin="0,0,0,3"
                        VerticalAlignment="Bottom"/>
               </Track.Thumb>
@@ -81,19 +81,19 @@
         :expanded не поднимается, а ползунок под курсором обязан отзываться.
     -->
     <Style Selector="^:vertical:expanded /template/ Thumb#PART_Thumb">
-      <Setter Property="Width" Value="8"/>
+      <Setter Property="Width" Value="{DynamicResource AxScrollThumbSizeHover}"/>
       <Setter Property="Margin" Value="0,0,2,0"/>
     </Style>
     <Style Selector="^:vertical:pointerover /template/ Thumb#PART_Thumb">
-      <Setter Property="Width" Value="8"/>
+      <Setter Property="Width" Value="{DynamicResource AxScrollThumbSizeHover}"/>
       <Setter Property="Margin" Value="0,0,2,0"/>
     </Style>
     <Style Selector="^:horizontal:expanded /template/ Thumb#PART_Thumb">
-      <Setter Property="Height" Value="8"/>
+      <Setter Property="Height" Value="{DynamicResource AxScrollThumbSizeHover}"/>
       <Setter Property="Margin" Value="0,0,0,2"/>
     </Style>
     <Style Selector="^:horizontal:pointerover /template/ Thumb#PART_Thumb">
-      <Setter Property="Height" Value="8"/>
+      <Setter Property="Height" Value="{DynamicResource AxScrollThumbSizeHover}"/>
       <Setter Property="Margin" Value="0,0,0,2"/>
     </Style>
 
