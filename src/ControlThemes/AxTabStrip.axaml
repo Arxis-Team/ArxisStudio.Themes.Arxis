@@ -58,8 +58,17 @@
     -->
     <Setter Property="ItemContainerTheme">
       <ControlTheme TargetType="ax:AxTabItem" BasedOn="{StaticResource {x:Type ax:AxTabItem}}">
-        <Setter Property="Height" Value="NaN"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <!--
+            Высоту снимает стиль по тому же классу, а не сеттер: своя высота у
+            compact объявлена стилем базовой темы, и сеттер производной ей не
+            указ. Оставь её — вкладка переживёт шапку: карточные тридцать два
+            при шапке в тридцать уходят вверх на два пикселя, нижний пиксель
+            полосы выбора прячется под разделителем, и от трёх остаётся два.
+        -->
+        <Style Selector="^.compact">
+          <Setter Property="Height" Value="NaN"/>
+        </Style>
         <!--
             Выбранной вкладку в шапке делает одна полоса: своего фона у неё
             нет. Фон остаётся вкладке редактора, где ряд имён стоит на общей

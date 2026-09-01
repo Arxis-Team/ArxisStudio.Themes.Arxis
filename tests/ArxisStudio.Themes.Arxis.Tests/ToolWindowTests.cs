@@ -131,11 +131,14 @@ public class ToolWindowTests
     }
 
     /// <summary>
-    /// Выбранной вкладку в шапке делает одна полоса: своего фона у неё нет.
+    /// Выбранную вкладку в шапке видно цветом, начертанием и полосой — но не
+    /// фоном.
     /// </summary>
     /// <remarks>
     /// Фон остаётся вкладке редактора, где ряд имён стоит на общей подложке и
-    /// выбранное имя поднимается над ней.
+    /// выбранное имя поднимается над ней. Панельной карточка даёт три знака:
+    /// цвет, начертание 500 и полосу в три пикселя — на один толще, чем у
+    /// документа, потому что фона, который держал бы выбор, здесь нет.
     /// </remarks>
     [AvaloniaTheory]
     [InlineData("Light")]
@@ -154,7 +157,8 @@ public class ToolWindowTests
         var marker = (Border)Part(selected, "PART_ActiveMarker");
 
         Assert.True(marker.IsVisible, "полосы выбора не видно");
-        Assert.Equal(2d, marker.Bounds.Height);
+        Assert.Equal(3d, marker.Bounds.Height);
+        Assert.Equal(FontWeight.Medium, selected.FontWeight);
         Assert.Equal(Resource(window, "AxAccColor", variant), Colour(marker.Background));
         // Прозрачная кисть, а не её отсутствие: своего фона у вкладки нет, но
         // сама кисть нужна — без неё вкладку не поймать курсором.
@@ -169,9 +173,11 @@ public class ToolWindowTests
 
         if (tabs)
         {
+            // Класс compact — это и есть вкладка в шапке: за ним начертание
+            // выбранной, толщина полосы под ней и высота, которую задаёт шапка.
             var strip = new AxTabStrip();
-            strip.Items.Add(new AxTabItem { Content = "Text" });
-            strip.Items.Add(new AxTabItem { Content = "Text" });
+            strip.Items.Add(new AxTabItem { Classes = { "compact" }, Content = "Text" });
+            strip.Items.Add(new AxTabItem { Classes = { "compact" }, Content = "Text" });
 
             Assert.True(Application.Current!.TryFindResource("AxToolWindowTabStrip", out var theme));
             strip.Theme = (ControlTheme)theme!;
