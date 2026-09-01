@@ -3,7 +3,7 @@
                     xmlns:ax="using:ArxisStudio.Controls">
 
   <!--
-      Панель инструментов Int UI: шапка 34px и содержимое под ней.
+      Панель инструментов Int UI: шапка 30px и содержимое под ней.
 
       Заголовок и вкладки лежат в одной строке шапки — в Int UI вкладки не
       заменяют заголовок, а встают рядом с ним, поэтому «Проект» остаётся
@@ -33,20 +33,30 @@
                 ClipToBounds="True">
           <DockPanel>
             <!--
-                Шапка: 38 высотой и отступ 12 с обеих сторон — столько
-                объявляет карточка «Заголовок панели». Действия стоят по
-                правому краю ровно так же, как заголовок по левому.
+                Шапка 30 высотой и без собственных отступов.
+
+                Карточка «Заголовок панели» объявляет 38 и отбивку 12 с обеих
+                сторон, и это расхождение с ней — намеренное. Вкладка в шапке
+                читается как вкладка, только когда доходит до края: отбивка
+                оставляла слева пустую полосу, а панель под шапкой начиналась
+                левее самой первой вкладки.
+                <para/>
+                Отбивку карточки поэтому носят те, кому она и нужна: заголовок
+                слева и действия справа. Вкладки идут вровень с краем, а
+                скрытый ребёнок DockPanel места не занимает — у панели без
+                заголовка полоса вкладок занимает шапку целиком.
             -->
             <Border x:Name="PART_Header"
                     DockPanel.Dock="Top"
-                    Height="38"
-                    Padding="12,0"
+                    Height="30"
+                    Padding="0,0"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="0"
                     IsVisible="{TemplateBinding ShowHeader}">
               <DockPanel>
                 <ContentPresenter x:Name="PART_Actions"
                                   DockPanel.Dock="Right"
+                                  Margin="12,0"
                                   Content="{TemplateBinding Actions}"
                                   VerticalAlignment="Center"
                                   IsVisible="{TemplateBinding Actions, Converter={x:Static ObjectConverters.IsNotNull}}"/>
@@ -58,7 +68,7 @@
                 -->
                 <TextBlock x:Name="PART_Title"
                            Text="{TemplateBinding Title}"
-                           Margin="0,0,12,0"
+                           Margin="12,0"
                            FontWeight="SemiBold"
                            Foreground="{TemplateBinding Foreground}"
                            VerticalAlignment="Center"

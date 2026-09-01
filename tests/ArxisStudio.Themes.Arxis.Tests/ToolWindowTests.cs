@@ -43,16 +43,30 @@ public class ToolWindowTests
         window.Close();
     }
 
-    /// <summary>Шапка: 38 высотой, отбивка 12 с обеих сторон.</summary>
+    /// <summary>
+    /// Шапка: 30 высотой и без собственных отступов — их носят заголовок и
+    /// действия.
+    /// </summary>
+    /// <remarks>
+    /// Отбивку карточки носит тот, кому она нужна. Стой она на самой шапке —
+    /// вкладки не доходили бы до края и полоса вкладок начиналась бы правее
+    /// панели под ней.
+    /// </remarks>
     [AvaloniaFact]
-    public void Header_is_thirty_eight_high()
+    public void Header_is_thirty_high()
     {
         var (panel, window) = Shown();
 
         var header = (Border)Part(panel, "PART_Header");
+        var title = (TextBlock)Part(panel, "PART_Title");
+        var actions = Part(panel, "PART_Actions");
 
-        Assert.Equal(38d, header.Bounds.Height);
-        Assert.Equal(new Thickness(12, 0), header.Padding);
+        Assert.Equal(30d, header.Bounds.Height);
+        Assert.Equal(default, header.Padding);
+
+        // Отбивку носят те двое, кому она нужна, — вкладки идут вровень с краем.
+        Assert.Equal(new Thickness(12, 0), title.Margin);
+        Assert.Equal(new Thickness(12, 0), actions.Margin);
 
         window.Close();
     }
@@ -110,7 +124,7 @@ public class ToolWindowTests
 
         var tabs = Tabs(panel).ToList();
 
-        Assert.Equal(38d, tabs[0].Bounds.Height);
+        Assert.Equal(30d, tabs[0].Bounds.Height);
         Assert.Equal(tabs[0].Bounds.Right, tabs[1].Bounds.Left);
 
         window.Close();
