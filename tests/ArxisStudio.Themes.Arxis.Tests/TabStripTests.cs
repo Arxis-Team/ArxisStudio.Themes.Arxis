@@ -29,6 +29,15 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 /// </remarks>
 public class TabStripTests
 {
+    /// <summary>
+    /// Наведение обеих разновидностей берёт токен наведения — но красит разное.
+    /// </summary>
+    /// <remarks>
+    /// У вкладки документа это её собственный фон: она и есть плитка в ряду
+    /// плиток. У вкладки панели — отдельная плашка внутри неё, потому что фон
+    /// во всю площадь сливался бы с рамкой панели и разделителем шапки: те же
+    /// AxBg3.
+    /// </remarks>
     [AvaloniaTheory]
     [InlineData("Light")]
     [InlineData("Dark")]
@@ -41,12 +50,78 @@ public class TabStripTests
             ((IPseudoClasses)tab.Classes).Set(":pointerover", true);
             window.UpdateLayout();
 
+            var painted = Part(tab, compact ? "PART_Hover" : "PART_Root");
+
+            Assert.True(painted.IsVisible, "наведения не видно");
             Assert.Equal(
                 Resource(window, "AxBg3Color", variant),
-                Colour(Part(tab, "PART_Root").GetValue(Border.BackgroundProperty)));
+                Colour(painted.GetValue(Border.BackgroundProperty)));
 
             window.Close();
         }
+    }
+
+    /// <summary>
+    /// Плашка наведения меньше вкладки панели и не меняет её размера.
+    /// </summary>
+    /// <remarks>
+    /// Вкладка в шапке тянется во всю её высоту и стоит вплотную к соседке, а
+    /// рамка панели сверху и разделитель снизу — того же AxBg3, что и
+    /// наведение. Заливка во всю площадь сливалась с ними, и от одного слова
+    /// оставалась плита от края до края. Отступы открывают верхний край плашки
+    /// и оставляют между соседними плашками карточные четыре пикселя.
+    ///
+    /// Сама вкладка при этом прежнего размера: раздел 10 спецификации запрещает
+    /// менять размеры на наведении, и попадать мышью человек должен по вкладке,
+    /// а не по плашке.
+    /// </remarks>
+    [AvaloniaFact]
+    public void The_panel_tab_hover_is_a_plate_inside_the_tab()
+    {
+        var (tab, window) = Shown(compact: true, "Dark");
+
+        var was = tab.Bounds;
+
+        ((IPseudoClasses)tab.Classes).Set(":pointerover", true);
+        window.UpdateLayout();
+
+        var plate = Part(tab, "PART_Hover");
+
+        Assert.Equal(was, tab.Bounds);
+
+        // Под плашкой — прозрачно. Вернись сюда заливка во всю вкладку, плашка
+        // легла бы на неё тем же цветом, и отступы стали бы не видны.
+        Assert.Equal(
+            Colors.Transparent,
+            Colour(Part(tab, "PART_Root").GetValue(Border.BackgroundProperty)));
+
+        var at = plate.TranslatePoint(default, tab);
+
+        Assert.NotNull(at);
+        Assert.Equal(2d, at.Value.X);
+        Assert.Equal(2d, at.Value.Y);
+        Assert.Equal(tab.Bounds.Width - 4, plate.Bounds.Width);
+        Assert.Equal(tab.Bounds.Height - 2, plate.Bounds.Height);
+
+        // Скругление только сверху: плашка растёт из полосы под шапкой.
+        var corners = plate.GetValue(Border.CornerRadiusProperty);
+
+        Assert.Equal(new CornerRadius(4, 4, 0, 0), corners);
+
+        window.Close();
+    }
+
+    /// <summary>Без наведения плашки нет вовсе — ни у панели, ни у документа.</summary>
+    [AvaloniaTheory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void The_hover_plate_is_absent_until_the_pointer_arrives(bool compact)
+    {
+        var (tab, window) = Shown(compact, "Dark");
+
+        Assert.False(Part(tab, "PART_Hover").IsVisible, "плашка видна без наведения");
+
+        window.Close();
     }
 
     /// <summary>Полоса выбора: 3 у вкладки панели, 2 у вкладки документа.</summary>
