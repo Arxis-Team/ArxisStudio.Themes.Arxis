@@ -145,6 +145,69 @@ public class ToolBarTests
         window.Close();
     }
 
+    /// <summary>
+    /// Глифы кнопок окна — обычные иконки набора, а не мелкие.
+    /// </summary>
+    /// <remarks>
+    /// Раздел 7 спецификации отводит иконке клетку 16×16 и обводку 1.2, а класс
+    /// small с его двенадцатью заведён под мелкий шеврон в тесной строке.
+    /// Кнопки окна носили его без причины — теснота там мнимая, кнопка 32×26, —
+    /// и уменьшение шло дважды, клеткой и рисунком: квадрат в семь единиц из
+    /// шестнадцати, сжатый до двенадцати, доезжал до экрана пятью пикселями с
+    /// четвертью. Отсюда три проверки разом: клетка, обводка и то, что рисунок
+    /// её заполняет.
+    /// </remarks>
+    [AvaloniaFact]
+    public void Window_button_glyphs_are_ordinary_icons()
+    {
+        var controls = new AxWindowControls();
+
+        var window = new Window
+        {
+            RequestedThemeVariant = ThemeVariant.Dark,
+            Content = controls,
+        };
+
+        window.Show();
+        window.UpdateLayout();
+
+        var size = Metric(window, "AxIconSize");
+        var stroke = Metric(window, "AxIconStrokeThickness");
+        var glyphs = controls.GetVisualDescendants().OfType<AxIcon>().ToList();
+
+        Assert.Equal(4, glyphs.Count);
+
+        foreach (var glyph in glyphs)
+        {
+            Assert.DoesNotContain("small", glyph.Classes);
+            Assert.Equal(size, glyph.Width);
+            Assert.Equal(size, glyph.Height);
+            Assert.Equal(stroke, glyph.StrokeThickness);
+
+            // Восстановить прячется под развернуть и площади не занимает, пока
+            // окно не развёрнуто: мерить у него нечего, кроме объявленного.
+            if (glyph.IsVisible)
+                Assert.Equal(new Size(size, size), glyph.Bounds.Size);
+
+            var drawn = glyph.Data!.Bounds;
+
+            // Рисунок заполняет клетку: семь единиц из шестнадцати — столько
+            // спецификация отводит самой мелкой из своих фигур, квадрату.
+            Assert.True(
+                Math.Max(drawn.Width, drawn.Height) >= 7,
+                $"глиф занимает всего {Math.Max(drawn.Width, drawn.Height)} единиц из шестнадцати");
+        }
+
+        window.Close();
+    }
+
+    private static double Metric(Window window, string key)
+    {
+        Assert.True(window.TryFindResource(key, out var value), key);
+
+        return (double)value!;
+    }
+
     private static (AxButton Button, AxIcon Icon, Window Window) Shown(string variant)
     {
         var icon = new AxIcon { Data = AxIcons.Plus };

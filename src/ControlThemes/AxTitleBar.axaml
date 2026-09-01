@@ -42,8 +42,24 @@
 
   <!--
       Кнопки окна: свернуть, развернуть или восстановить, закрыть.
-      Размеры — из мокапа студии (32×26 в полосе 42px); у закрытия hover
+      Размеры кнопок — из мокапа студии (32×26 в полосе 42px); у закрытия hover
       красный, как принято в Windows и в Int UI.
+
+      Глифы — обычные иконки набора, 16×16 и обводкой 1.2, как требует раздел 7
+      спецификации. Стояли они на классе small с обводкой 1.3, и это было
+      заимствованной чужой поблажкой: small заведён для мелкого шеврона в тесной
+      строке, а здесь тесноты нет — кнопка 32×26. Уменьшение шло дважды, клеткой
+      и рисунком: квадрат в семь единиц из шестнадцати, сжатый до двенадцати,
+      доезжал до экрана пятью пикселями с четвертью. Свернуть и закрыть теперь
+      берут глифы прямо из набора (Minus и Close), развернуть и восстановить
+      нарисованы по правилам того же раздела: прямые штрихи по полупикселю, в
+      зоне 2.5…13.5, рамка девять на девять.
+
+      Девять, а не семь. Семь спецификация отводит квадрату в правиле
+      оптического веса, но правило это писано про залитые фигуры — про Stop
+      рядом с кругом той же площади. Контурная рамка почти пуста и рядом с
+      девятью единицами черты и восемью диагонального креста читается мельче
+      обоих; в самом наборе контурные рамки Window и Grid — девять в высоту.
   -->
   <ControlTheme x:Key="{x:Type ax:AxWindowControls}" TargetType="ax:AxWindowControls">
     <Setter Property="VerticalAlignment" Value="Center"/>
@@ -52,25 +68,22 @@
       <ControlTemplate>
         <StackPanel Orientation="Horizontal" Spacing="2">
           <Button x:Name="PART_Minimize" Theme="{StaticResource AxWindowButton}">
-            <ax:AxIcon Data="M 4 8 H 12" Classes="small" StrokeThickness="1.3"
+            <ax:AxIcon Data="{x:Static ax:AxIcons.Minus}"
                        Foreground="{Binding $parent[Button].Foreground}"/>
           </Button>
           <Button x:Name="PART_Maximize" Theme="{StaticResource AxWindowButton}">
             <Panel>
               <ax:AxIcon x:Name="PART_MaximizeIcon"
-                         Data="M 4.5 4.5 H 11.5 V 11.5 H 4.5 Z"
-                         Classes="small" StrokeThickness="1.3"
+                         Data="M3.5 3.5H12.5V12.5H3.5Z"
                          Foreground="{Binding $parent[Button].Foreground}"/>
               <ax:AxIcon x:Name="PART_RestoreIcon"
-                         Data="M 6 4.5 H 11.5 V 10 M 4.5 6 H 10 V 11.5 H 4.5 Z"
-                         Classes="small" StrokeThickness="1.3"
+                         Data="M5.5 3.5H12.5V10.5M3.5 5.5H10.5V12.5H3.5Z"
                          Foreground="{Binding $parent[Button].Foreground}"
                          IsVisible="False"/>
             </Panel>
           </Button>
           <Button x:Name="PART_Close" Theme="{StaticResource AxWindowButton}" Classes="close">
-            <ax:AxIcon Data="M 4.5 4.5 L 11.5 11.5 M 11.5 4.5 L 4.5 11.5"
-                       Classes="small" StrokeThickness="1.3"
+            <ax:AxIcon Data="{x:Static ax:AxIcons.Close}"
                        Foreground="{Binding $parent[Button].Foreground}"/>
           </Button>
         </StackPanel>
