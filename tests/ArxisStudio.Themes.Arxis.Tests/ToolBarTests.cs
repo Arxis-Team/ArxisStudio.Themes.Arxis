@@ -146,6 +146,89 @@ public class ToolBarTests
     }
 
     /// <summary>
+    /// Середина полосы — середина полосы, а не середина остатка.
+    /// </summary>
+    /// <remarks>
+    /// В этом вся разница между сеткой <c>*,Auto,*</c> и DockPanel, которым
+    /// полосу собирали в главном окне. У DockPanel центр — то, что осталось
+    /// между краями, и виджет запуска ездил бы вслед за длиной имени проекта;
+    /// здесь он стоит по середине окна, каким бы длинным имя ни было.
+    ///
+    /// Стороны намеренно разной ширины: при равных краях середина остатка и
+    /// середина полосы совпадают, и проверка прошла бы на любой раскладке.
+    /// </remarks>
+    [AvaloniaFact]
+    public void The_middle_of_the_bar_is_the_middle_of_the_bar()
+    {
+        var middle = new Border { Width = 60, Height = 20 };
+
+        var bar = new AxToolBar
+        {
+            Width = 600,
+            LeftContent = new Border { Width = 260, Height = 20 },
+            CenterContent = middle,
+            RightContent = new Border { Width = 40, Height = 20 },
+        };
+
+        var window = new Window
+        {
+            Width = 700,
+            RequestedThemeVariant = ThemeVariant.Dark,
+            Content = bar,
+        };
+
+        window.Show();
+        window.UpdateLayout();
+
+        var at = middle.TranslatePoint(default, bar);
+
+        Assert.NotNull(at);
+        Assert.Equal(bar.Bounds.Width / 2, at.Value.X + middle.Bounds.Width / 2, 1);
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Длинный левый край не сгоняет правый с полосы.
+    /// </summary>
+    /// <remarks>
+    /// У DockPanel первый ребёнок берёт желаемую ширину целиком, и длинное имя
+    /// проекта могло вытеснить всё, что стоит справа, — а справа переключатель
+    /// темы и, в проекте, кнопки окна. В сетке левый блок заперт в своей
+    /// колонке и обрезается сам.
+    /// </remarks>
+    [AvaloniaFact]
+    public void A_long_left_side_does_not_push_the_right_one_off()
+    {
+        var right = new Border { Width = 120, Height = 20 };
+
+        var bar = new AxToolBar
+        {
+            Width = 400,
+            LeftContent = new Border { Width = 900, Height = 20 },
+            RightContent = right,
+        };
+
+        var window = new Window
+        {
+            Width = 500,
+            RequestedThemeVariant = ThemeVariant.Dark,
+            Content = bar,
+        };
+
+        window.Show();
+        window.UpdateLayout();
+
+        var at = right.TranslatePoint(default, bar);
+
+        Assert.NotNull(at);
+        Assert.Equal(120d, right.Bounds.Width);
+        Assert.Equal(bar.Bounds.Width - 120, at.Value.X, 1);
+
+        window.Close();
+    }
+
+    /// <summary>
     /// Глифы кнопок окна — обычные иконки набора, а не мелкие.
     /// </summary>
     /// <remarks>
