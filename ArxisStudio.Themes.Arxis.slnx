@@ -6,4 +6,5 @@
     <Project Path="tests/ArxisStudio.Themes.Arxis.Tests/ArxisStudio.Themes.Arxis.Tests.csproj" />
   </Folder>
   <Project Path="../ArxisStudio.Controls/src/ArxisStudio.Controls.csproj" />
+  <Project Path="../ArxisStudio.Icons/src/ArxisStudio.Icons.csproj" />
 </Solution>

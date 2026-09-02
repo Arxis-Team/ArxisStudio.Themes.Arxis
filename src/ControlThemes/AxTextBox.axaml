@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="using:ArxisStudio.Controls">
+                    xmlns:ax="using:ArxisStudio.Controls"
+                    xmlns:axi="using:ArxisStudio.Icons">
 
   <!--
       Поле ввода Int UI: 28 высотой, скругление 4, горизонтальный отступ 9
@@ -160,8 +161,8 @@
                 BasedOn="{StaticResource {x:Type ax:AxTextBox}}">
     <Setter Property="InnerLeftContent">
       <Template>
-        <ax:AxIcon Margin="0,0,7,0"
-                   Data="{x:Static ax:AxIcons.Search}"
+        <axi:AxIcon Margin="0,0,7,0"
+                   Data="{x:Static axi:AxIcons.Search}"
                    Foreground="{DynamicResource AxFg2Brush}"/>
       </Template>
     </Setter>
@@ -178,8 +179,8 @@
                      AutomationProperties.Name="Очистить поиск"
                      IsVisible="{Binding Text, RelativeSource={RelativeSource AncestorType=ax:AxSearchField},
                                          Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
-          <ax:AxIcon Classes="small"
-                     Data="{x:Static ax:AxIcons.Close}"
+          <axi:AxIcon Classes="small"
+                     Data="{x:Static axi:AxIcons.Close}"
                      Foreground="{Binding $parent[ax:AxButton].Foreground}"/>
         </ax:AxButton>
       </Template>

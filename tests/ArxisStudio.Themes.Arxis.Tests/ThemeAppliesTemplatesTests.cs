@@ -1,4 +1,5 @@
 using ArxisStudio.Controls;
+using ArxisStudio.Icons;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
@@ -28,6 +29,11 @@ public class ThemeAppliesTemplatesTests
     /// в чужое окно не положить, и у него отдельный тест ниже; конвертеры —
     /// вообще не контролы; <c>AxMenuFlyout</c> — всплывающее меню, шаблон
     /// которого живёт на его собственном презентере.
+    ///
+    /// Сборок две: контролы и набор иконок. <c>AxIcon</c> тоже lookless и тоже
+    /// одевается этой темой, а живёт отдельной библиотекой. Перечислять
+    /// одну значило бы вернуть ту же дыру, только границей сборки вместо
+    /// списка руками.
     /// </remarks>
     public static TheoryData<Type> TemplatedControls
     {
@@ -35,7 +41,8 @@ public class ThemeAppliesTemplatesTests
         {
             var data = new TheoryData<Type>();
 
-            var controls = typeof(AxButton).Assembly.GetTypes()
+            var controls = new[] { typeof(AxButton).Assembly, typeof(AxIcon).Assembly }
+                .SelectMany(assembly => assembly.GetTypes())
                 .Where(type => type is { IsPublic: true, IsAbstract: false }
                     && typeof(TemplatedControl).IsAssignableFrom(type)
                     && !typeof(Window).IsAssignableFrom(type)

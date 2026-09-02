@@ -36,6 +36,11 @@
         <ControlsProject>$(ControlsRepositoryRoot)src/ArxisStudio.Controls.csproj</ControlsProject>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <IconsRepositoryRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../ArxisStudio.Icons/'))</IconsRepositoryRoot>
+        <IconsProject>$(IconsRepositoryRoot)src/ArxisStudio.Icons.csproj</IconsProject>
+    </PropertyGroup>
+
     <Target Name="CheckControlsIsBesideUs" BeforeTargets="CollectPackageReferences;ResolveProjectReferences">
         <Error
             Condition="!Exists('$(ControlsProject)')"
@@ -43,6 +48,9 @@
         <Error
             Condition="!Exists('$(FontsProject)')"
             Text="ArxisStudio.Themes.Arxis набирает код и пути шрифтом из ArxisStudio.Fonts.Cascadia и ожидает этот репозиторий рядом с собой, в '$(FontsRepositoryRoot)'. Клонируйте его туда или исключите этот проект из сборки." />
+        <Error
+            Condition="!Exists('$(IconsProject)')"
+            Text="ArxisStudio.Themes.Arxis ставит в шаблоны иконки из ArxisStudio.Icons и ожидает этот репозиторий рядом с собой, в '$(IconsRepositoryRoot)'. Клонируйте его туда или исключите этот проект из сборки." />
     </Target>
 
     <!--
@@ -55,6 +63,7 @@
         <PackageReference Include="Avalonia.Fonts.Inter"/>
         <ProjectReference Include="$(ControlsProject)"/>
         <ProjectReference Include="$(FontsProject)"/>
+        <ProjectReference Include="$(IconsProject)"/>
     </ItemGroup>
 
     <ItemGroup>

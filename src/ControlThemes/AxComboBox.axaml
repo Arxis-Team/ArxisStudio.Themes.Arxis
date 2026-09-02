@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="using:ArxisStudio.Controls">
+                    xmlns:ax="using:ArxisStudio.Controls"
+                    xmlns:axi="using:ArxisStudio.Icons">
 
   <!-- Выпадающий список: поле 28 (24 в плотной зоне) с шевроном, попап на bg2. -->
   <ControlTheme x:Key="{x:Type ax:AxComboBox}" TargetType="ax:AxComboBox">
@@ -41,10 +42,10 @@
             <ContentControl Content="{TemplateBinding SelectionBoxItem}"
                             ContentTemplate="{TemplateBinding ItemTemplate}"
                             VerticalAlignment="Center"/>
-            <ax:AxIcon Grid.Column="1"
+            <axi:AxIcon Grid.Column="1"
                        x:Name="PART_Chevron"
                        Margin="6,0,0,0"
-                       Data="{x:Static ax:AxIcons.ChevronDown}"
+                       Data="{x:Static axi:AxIcons.ChevronDown}"
                        Foreground="{DynamicResource AxFg2Brush}"
                        VerticalAlignment="Center"/>
             <Popup x:Name="PART_Popup"
@@ -88,7 +89,7 @@
     <Style Selector="^:disabled /template/ Border#PART_Background">
       <Setter Property="Background" Value="{DynamicResource AxInpDisabledBrush}"/>
     </Style>
-    <Style Selector="^:disabled /template/ ax|AxIcon#PART_Chevron">
+    <Style Selector="^:disabled /template/ axi|AxIcon#PART_Chevron">
       <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
     </Style>
 

@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="using:ArxisStudio.Controls">
+                    xmlns:ax="using:ArxisStudio.Controls"
+                    xmlns:axi="using:ArxisStudio.Icons">
 
   <!--
       Кнопка выбора: контурная кнопка с шевроном справа, щелчок открывает
@@ -49,11 +50,11 @@
                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                 RecognizesAccessKey="True"/>
-              <ax:AxIcon Grid.Column="1"
+              <axi:AxIcon Grid.Column="1"
                          x:Name="PART_Chevron"
                          Classes="small"
                          Margin="6,0,0,0"
-                         Data="{x:Static ax:AxIcons.ChevronDown}"
+                         Data="{x:Static axi:AxIcons.ChevronDown}"
                          Foreground="{DynamicResource AxFg2Brush}"
                          VerticalAlignment="Center"/>
             </Grid>
@@ -87,7 +88,7 @@
       <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AxBg3Brush}"/>
     </Style>
-    <Style Selector="^:disabled /template/ ax|AxIcon#PART_Chevron">
+    <Style Selector="^:disabled /template/ axi|AxIcon#PART_Chevron">
       <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
     </Style>
   </ControlTheme>

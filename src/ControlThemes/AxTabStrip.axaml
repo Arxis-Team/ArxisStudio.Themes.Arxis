@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="using:ArxisStudio.Controls">
+                    xmlns:ax="using:ArxisStudio.Controls"
+                    xmlns:axi="using:ArxisStudio.Icons">
 
   <!-- Полоса вкладок: ряд вкладок на фоне панели с разделителем снизу. -->
   <ControlTheme x:Key="{x:Type ax:AxTabStrip}" TargetType="ax:AxTabStrip">
@@ -113,7 +114,7 @@
             -->
             <Border x:Name="PART_Hover" IsVisible="False"/>
             <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
-              <ax:AxIcon Classes="small"
+              <axi:AxIcon Classes="small"
                          Data="{TemplateBinding Icon}"
                          Foreground="{TemplateBinding IconBrush}"
                          IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}"/>
@@ -140,9 +141,9 @@
                     только точке несохранённых правок — и возвращается, когда
                     на вкладку наводят, чтобы её можно было закрыть.
                 -->
-                <ax:AxIcon x:Name="PART_CloseIcon"
+                <axi:AxIcon x:Name="PART_CloseIcon"
                            Classes="small"
-                           Data="{x:Static ax:AxIcons.Close}"
+                           Data="{x:Static axi:AxIcons.Close}"
                            Foreground="{DynamicResource AxFg3Brush}"/>
               </Panel>
             </StackPanel>
@@ -160,16 +161,16 @@
     <Style Selector="^:pointerover /template/ Border#PART_Root">
       <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
     </Style>
-    <Style Selector="^:pointerover /template/ ax|AxIcon#PART_CloseIcon">
+    <Style Selector="^:pointerover /template/ axi|AxIcon#PART_CloseIcon">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:pointerover /template/ Ellipse#PART_Modified">
       <Setter Property="IsVisible" Value="False"/>
     </Style>
-    <Style Selector="^[IsModified=True] /template/ ax|AxIcon#PART_CloseIcon">
+    <Style Selector="^[IsModified=True] /template/ axi|AxIcon#PART_CloseIcon">
       <Setter Property="IsVisible" Value="False"/>
     </Style>
-    <Style Selector="^:selected /template/ ax|AxIcon#PART_CloseIcon">
+    <Style Selector="^:selected /template/ axi|AxIcon#PART_CloseIcon">
       <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
     </Style>
 

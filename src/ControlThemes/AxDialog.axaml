@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="using:ArxisStudio.Controls">
+                    xmlns:ax="using:ArxisStudio.Controls"
+                    xmlns:axi="using:ArxisStudio.Icons">
 
   <!--
       Диалог: окно без системной рамки на тени AxModalShadow — заголовок с
@@ -33,7 +34,7 @@
                              Classes="icon"
                              VerticalAlignment="Center"
                              IsVisible="{Binding IsCloseVisible, RelativeSource={RelativeSource TemplatedParent}}">
-                  <ax:AxIcon Classes="small" Data="{x:Static ax:AxIcons.Close}"
+                  <axi:AxIcon Classes="small" Data="{x:Static axi:AxIcons.Close}"
                              Foreground="{Binding $parent[ax:AxButton].Foreground}"/>
                 </ax:AxButton>
                 <TextBlock Text="{TemplateBinding Title}"

@@ -21,11 +21,11 @@
 
     <!--
         Значения дизайн-проекта едут в сборке тестов: сверка должна работать
-        и там, где самого дизайн-проекта рядом нет.
+        и там, где самого дизайн-проекта рядом нет. Листа иконок здесь нет —
+        форму путей сверяет их собственный репозиторий, ArxisStudio.Icons.
     -->
     <ItemGroup>
         <EmbeddedResource Include="design-tokens.json"/>
-        <EmbeddedResource Include="design-icons.json"/>
     </ItemGroup>
 
 </Project>

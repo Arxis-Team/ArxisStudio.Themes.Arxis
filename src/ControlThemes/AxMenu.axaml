@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="using:ArxisStudio.Controls">
+                    xmlns:ax="using:ArxisStudio.Controls"
+                    xmlns:axi="using:ArxisStudio.Icons">
 
   <!--
       Меню студии. Тема пункта написана для родного MenuItem и перекрывает его
@@ -47,10 +48,10 @@
                          Foreground="{DynamicResource AxFg3Brush}"
                          FontSize="{DynamicResource AxFontSizeSmall}"
                          VerticalAlignment="Center"/>
-              <ax:AxIcon x:Name="PART_SubmenuChevron"
+              <axi:AxIcon x:Name="PART_SubmenuChevron"
                          Grid.Column="5"
                          Classes="small"
-                         Data="{x:Static ax:AxIcons.ChevronRight}"
+                         Data="{x:Static axi:AxIcons.ChevronRight}"
                          Foreground="{DynamicResource AxFg2Brush}"
                          VerticalAlignment="Center"
                          IsVisible="False"/>
@@ -81,10 +82,10 @@
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="{DynamicResource AxSelBrush}"/>
     </Style>
-    <Style Selector="^:empty /template/ ax|AxIcon#PART_SubmenuChevron">
+    <Style Selector="^:empty /template/ axi|AxIcon#PART_SubmenuChevron">
       <Setter Property="IsVisible" Value="False"/>
     </Style>
-    <Style Selector="^:not(:empty) /template/ ax|AxIcon#PART_SubmenuChevron">
+    <Style Selector="^:not(:empty) /template/ axi|AxIcon#PART_SubmenuChevron">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:disabled">
