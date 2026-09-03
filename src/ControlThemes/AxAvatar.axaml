@@ -50,7 +50,15 @@
     </Style>
   </ControlTheme>
 
-  <!-- Контурная иконка 16×16: обводка Foreground, класс/свойство IsFilled — заливка. -->
+  <!--
+      Контурная иконка 16×16: обводка Foreground, класс/свойство IsFilled — заливка.
+
+      Срез плоский и стык острый, а не скруглённые. Набор нарисован под
+      пиксель: концы штрихов стоят на границах пикселей, углы — в их центрах.
+      Скруглённый срез вытягивал бы каждый конец на 0.6 в соседний пиксель
+      полупрозрачным хвостом, а скруглённый стык срезал бы угол рамки — на
+      16 px это читалось не как скругление, а как мутный контур.
+  -->
   <ControlTheme x:Key="{x:Type axi:AxIcon}" TargetType="axi:AxIcon">
     <Setter Property="Width" Value="{DynamicResource AxIconSize}"/>
     <Setter Property="Height" Value="{DynamicResource AxIconSize}"/>
@@ -85,8 +93,8 @@
                   Data="{TemplateBinding Data}"
                   Stroke="{TemplateBinding Foreground}"
                   StrokeThickness="{TemplateBinding StrokeThickness}"
-                  StrokeLineCap="Round"
-                  StrokeJoin="Round"/>
+                  StrokeLineCap="Flat"
+                  StrokeJoin="Miter"/>
           </Canvas>
         </Viewbox>
       </ControlTemplate>
