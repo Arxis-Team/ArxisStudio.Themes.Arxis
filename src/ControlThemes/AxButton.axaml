@@ -1,6 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="using:ArxisStudio.Controls">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
   <!--
       Кнопка Int UI: 28 высотой, скругление 4, отступы 12×6, минимальная ширина 72.

@@ -1,7 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="using:ArxisStudio.Controls"
-                    xmlns:axi="using:ArxisStudio.Icons">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
   <!--
       Инструменты каркаса: главный тулбар, хлебные крошки, лоадер, блок кода
@@ -90,10 +89,10 @@
               Разделитель идёт цветом иконки в покое: в карточке он того же
               серого, что и глиф папки в звене, а не бледнее его.
           -->
-          <axi:AxIcon x:Name="PART_Separator"
+          <ax:AxIcon x:Name="PART_Separator"
                      Classes="small"
                      Margin="4,0"
-                     Data="{x:Static axi:AxIcons.ChevronRight}"
+                     Data="{x:Static ax:AxIcons.ChevronRight}"
                      Foreground="{DynamicResource AxFg2Brush}"
                      VerticalAlignment="Center"/>
           <Border x:Name="PART_LayoutRoot"
@@ -115,7 +114,7 @@
       </ControlTemplate>
     </Setter>
 
-    <Style Selector="^:nth-child(1) /template/ axi|AxIcon#PART_Separator">
+    <Style Selector="^:nth-child(1) /template/ ax|AxIcon#PART_Separator">
       <Setter Property="IsVisible" Value="False"/>
     </Style>
     <Style Selector="^:pointerover">
@@ -157,7 +156,7 @@
         шаблоне и от Foreground звена не зависит, а в карточке выключенный
         путь погашен целиком — вместе с шевронами.
     -->
-    <Style Selector="^:disabled /template/ axi|AxIcon#PART_Separator">
+    <Style Selector="^:disabled /template/ ax|AxIcon#PART_Separator">
       <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
     </Style>
 

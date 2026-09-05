@@ -1,6 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="using:ArxisStudio.Controls">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
   <!-- Сегментный переключатель: контейнер bg1 с рамкой, активный сегмент — акцент. -->
   <ControlTheme x:Key="{x:Type ax:AxSegmentedControl}" TargetType="ax:AxSegmentedControl">

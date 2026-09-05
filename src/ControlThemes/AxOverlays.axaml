@@ -1,7 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="using:ArxisStudio.Controls"
-                    xmlns:axi="using:ArxisStudio.Icons">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
   <!--
       Всплывающие поверхности: тултип, подсказка «Понятно», уведомление и
@@ -104,18 +103,18 @@
                 Padding="{TemplateBinding Padding}"
                 Margin="6">
           <DockPanel>
-            <axi:AxIcon x:Name="PART_Icon"
+            <ax:AxIcon x:Name="PART_Icon"
                        DockPanel.Dock="Left"
                        Margin="0,1,8,0"
                        VerticalAlignment="Top"
-                       Data="{x:Static axi:AxIcons.Info}"
+                       Data="{x:Static ax:AxIcons.Info}"
                        Foreground="{DynamicResource AxAccBrush}"/>
             <ax:AxButton DockPanel.Dock="Right"
                          x:Name="PART_Close"
                          Classes="icon"
                          VerticalAlignment="Top"
                          Margin="8,0,0,0">
-              <axi:AxIcon Classes="small" Data="{x:Static axi:AxIcons.Close}"
+              <ax:AxIcon Classes="small" Data="{x:Static ax:AxIcons.Close}"
                          Foreground="{Binding $parent[ax:AxButton].Foreground}"/>
             </ax:AxButton>
             <StackPanel Spacing="4">
@@ -136,16 +135,16 @@
       </ControlTemplate>
     </Setter>
 
-    <Style Selector="^[Severity=Success] /template/ axi|AxIcon#PART_Icon">
-      <Setter Property="Data" Value="{x:Static axi:AxIcons.Success}"/>
+    <Style Selector="^[Severity=Success] /template/ ax|AxIcon#PART_Icon">
+      <Setter Property="Data" Value="{x:Static ax:AxIcons.Success}"/>
       <Setter Property="Foreground" Value="{DynamicResource AxGrnBrush}"/>
     </Style>
-    <Style Selector="^[Severity=Warning] /template/ axi|AxIcon#PART_Icon">
-      <Setter Property="Data" Value="{x:Static axi:AxIcons.WarningTriangle}"/>
+    <Style Selector="^[Severity=Warning] /template/ ax|AxIcon#PART_Icon">
+      <Setter Property="Data" Value="{x:Static ax:AxIcons.WarningTriangle}"/>
       <Setter Property="Foreground" Value="{DynamicResource AxOutlineWarningBrush}"/>
     </Style>
-    <Style Selector="^[Severity=Error] /template/ axi|AxIcon#PART_Icon">
-      <Setter Property="Data" Value="{x:Static axi:AxIcons.Error}"/>
+    <Style Selector="^[Severity=Error] /template/ ax|AxIcon#PART_Icon">
+      <Setter Property="Data" Value="{x:Static ax:AxIcons.Error}"/>
       <Setter Property="Foreground" Value="{DynamicResource AxRedBrush}"/>
     </Style>
   </ControlTheme>
@@ -175,9 +174,9 @@
                     BorderThickness="0,0,0,1"
                     Padding="12,10">
               <DockPanel>
-                <axi:AxIcon DockPanel.Dock="Left"
+                <ax:AxIcon DockPanel.Dock="Left"
                            Margin="0,0,8,0"
-                           Data="{x:Static axi:AxIcons.Search}"
+                           Data="{x:Static ax:AxIcons.Search}"
                            Foreground="{DynamicResource AxFg2Brush}"
                            VerticalAlignment="Center"/>
                 <ax:AxTextBox x:Name="PART_Search"

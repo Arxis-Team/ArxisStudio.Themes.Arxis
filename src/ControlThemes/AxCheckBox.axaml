@@ -1,6 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="using:ArxisStudio.Controls">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
   <!-- Флажок Int UI 16×16, скругление 3; отмеченный — акцентная заливка с галочкой. -->
   <ControlTheme x:Key="{x:Type ax:AxCheckBox}" TargetType="ax:AxCheckBox">

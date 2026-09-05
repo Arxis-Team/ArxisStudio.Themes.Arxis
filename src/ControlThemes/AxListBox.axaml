@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="using:ArxisStudio.Controls">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
   <!-- Список: прозрачный контейнер со скроллом. -->
   <ControlTheme x:Key="{x:Type ax:AxListBox}" TargetType="ax:AxListBox">

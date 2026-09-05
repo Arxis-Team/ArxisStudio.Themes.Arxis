@@ -1,7 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="using:ArxisStudio.Controls"
-                    xmlns:axi="using:ArxisStudio.Icons">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
   <!-- Плитка с инициалами 36×36; класс round — круглая (пользователь, собеседник). -->
   <ControlTheme x:Key="{x:Type ax:AxAvatar}" TargetType="ax:AxAvatar">
@@ -59,7 +58,7 @@
       полупрозрачным хвостом, а скруглённый стык срезал бы угол рамки — на
       16 px это читалось не как скругление, а как мутный контур.
   -->
-  <ControlTheme x:Key="{x:Type axi:AxIcon}" TargetType="axi:AxIcon">
+  <ControlTheme x:Key="{x:Type ax:AxIcon}" TargetType="ax:AxIcon">
     <Setter Property="Width" Value="{DynamicResource AxIconSize}"/>
     <Setter Property="Height" Value="{DynamicResource AxIconSize}"/>
     <Setter Property="StrokeThickness" Value="{DynamicResource AxIconStrokeThickness}"/>
@@ -101,7 +100,7 @@
     </Setter>
 
     <Style Selector="^[IsFilled=True] /template/ Path#PART_Path">
-      <Setter Property="Fill" Value="{Binding $parent[axi:AxIcon].Foreground}"/>
+      <Setter Property="Fill" Value="{Binding $parent[ax:AxIcon].Foreground}"/>
       <Setter Property="Stroke" Value="{x:Null}"/>
     </Style>
 

@@ -9,8 +9,7 @@
 -->
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:ax="using:ArxisStudio.Controls"
-        xmlns:axi="using:ArxisStudio.Icons"
+        xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
         x:Class="ArxisStudio.Themes.Arxis.ArxisTheme">
 
   <Styles.Resources>
@@ -108,16 +107,16 @@
       Свой цвет, проставленный на месте, сильнее стиля и переживает всё это:
       зелёный треугольник запуска остаётся зелёным.
   -->
-  <Style Selector="ax|AxButton.icon:pointerover axi|AxIcon">
+  <Style Selector="ax|AxButton.icon:pointerover ax|AxIcon">
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
   </Style>
-  <Style Selector="ax|AxButton.icon:pressed axi|AxIcon">
+  <Style Selector="ax|AxButton.icon:pressed ax|AxIcon">
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
   </Style>
-  <Style Selector="ax|AxButton.icon:selected axi|AxIcon">
+  <Style Selector="ax|AxButton.icon:selected ax|AxIcon">
     <Setter Property="Foreground" Value="{DynamicResource AxAccBrush}"/>
   </Style>
-  <Style Selector="ax|AxButton.icon:disabled axi|AxIcon">
+  <Style Selector="ax|AxButton.icon:disabled ax|AxIcon">
     <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
   </Style>
 

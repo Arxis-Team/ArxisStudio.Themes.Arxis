@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="using:ArxisStudio.Controls"
-                    xmlns:axi="using:ArxisStudio.Icons">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
   <!--
       Кнопка с меню: левая часть — действие, правая (24) открывает Flyout.
@@ -129,7 +128,7 @@
                       Grid.Column="2"
                       Theme="{StaticResource AxSplitButtonSecondary}"
                       Foreground="{DynamicResource AxFg2Brush}">
-                <axi:AxIcon Data="{x:Static axi:AxIcons.ChevronDown}" Classes="small"
+                <ax:AxIcon Data="{x:Static ax:AxIcons.ChevronDown}" Classes="small"
                            Foreground="{Binding $parent[Button].Foreground}"/>
               </Button>
             </Grid>

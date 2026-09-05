@@ -1,7 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="using:ArxisStudio.Controls"
-                    xmlns:axi="using:ArxisStudio.Icons">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
   <!--
       Полоса сообщения: цветной фон по смыслу, значок слева, действия справа.
@@ -27,11 +26,11 @@
           <DockPanel>
             <!-- По центру строки: карточка проекта выравнивает содержимое
                  баннера по центру, а не по верху. -->
-            <axi:AxIcon x:Name="PART_Icon"
+            <ax:AxIcon x:Name="PART_Icon"
                        DockPanel.Dock="Left"
                        Margin="0,0,10,0"
                        VerticalAlignment="Center"
-                       Data="{x:Static axi:AxIcons.Info}"
+                       Data="{x:Static ax:AxIcons.Info}"
                        Foreground="{DynamicResource AxAccBrush}"/>
             <!--
                 Крестик закрытия: он есть у баннера любой строгости, даже без
@@ -49,8 +48,8 @@
                          Margin="8,-4,0,-4"
                          VerticalAlignment="Center"
                          AutomationProperties.Name="Закрыть сообщение">
-              <axi:AxIcon Classes="small"
-                         Data="{x:Static axi:AxIcons.Close}"
+              <ax:AxIcon Classes="small"
+                         Data="{x:Static ax:AxIcons.Close}"
                          Foreground="{Binding $parent[ax:AxButton].Foreground}"/>
             </ax:AxButton>
             <ContentPresenter x:Name="PART_Actions"
@@ -73,8 +72,8 @@
       <Setter Property="Background" Value="{DynamicResource AxSuccessBackgroundBrush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AxSuccessBorderBrush}"/>
     </Style>
-    <Style Selector="^[Severity=Success] /template/ axi|AxIcon#PART_Icon">
-      <Setter Property="Data" Value="{x:Static axi:AxIcons.Success}"/>
+    <Style Selector="^[Severity=Success] /template/ ax|AxIcon#PART_Icon">
+      <Setter Property="Data" Value="{x:Static ax:AxIcons.Success}"/>
       <Setter Property="Foreground" Value="{DynamicResource AxGrnBrush}"/>
     </Style>
 
@@ -84,8 +83,8 @@
       <Setter Property="Background" Value="{DynamicResource AxWarningBackgroundBrush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AxWarningBorderBrush}"/>
     </Style>
-    <Style Selector="^[Severity=Warning] /template/ axi|AxIcon#PART_Icon">
-      <Setter Property="Data" Value="{x:Static axi:AxIcons.WarningTriangle}"/>
+    <Style Selector="^[Severity=Warning] /template/ ax|AxIcon#PART_Icon">
+      <Setter Property="Data" Value="{x:Static ax:AxIcons.WarningTriangle}"/>
       <Setter Property="Foreground" Value="{DynamicResource AxOutlineWarningBrush}"/>
     </Style>
 
@@ -93,8 +92,8 @@
       <Setter Property="Background" Value="{DynamicResource AxErrorBackgroundBrush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AxErrorBorderBrush}"/>
     </Style>
-    <Style Selector="^[Severity=Error] /template/ axi|AxIcon#PART_Icon">
-      <Setter Property="Data" Value="{x:Static axi:AxIcons.Error}"/>
+    <Style Selector="^[Severity=Error] /template/ ax|AxIcon#PART_Icon">
+      <Setter Property="Data" Value="{x:Static ax:AxIcons.Error}"/>
       <Setter Property="Foreground" Value="{DynamicResource AxRedBrush}"/>
     </Style>
   </ControlTheme>

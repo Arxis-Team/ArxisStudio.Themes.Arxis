@@ -1,7 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="using:ArxisStudio.Controls"
-                    xmlns:axi="using:ArxisStudio.Icons">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
   <!--
       Полоса заголовка: содержимое приложения слева, кнопки окна справа.
@@ -69,32 +68,32 @@
       <ControlTemplate>
         <StackPanel Orientation="Horizontal" Spacing="2">
           <Button x:Name="PART_Minimize" Theme="{StaticResource AxWindowButton}">
-            <axi:AxIcon Data="{x:Static axi:AxIcons.Minus}"
+            <ax:AxIcon Data="{x:Static ax:AxIcons.Minus}"
                        Foreground="{Binding $parent[Button].Foreground}"/>
           </Button>
           <Button x:Name="PART_Maximize" Theme="{StaticResource AxWindowButton}">
             <Panel>
-              <axi:AxIcon x:Name="PART_MaximizeIcon"
+              <ax:AxIcon x:Name="PART_MaximizeIcon"
                          Data="M3.5 3.5H12.5V12.5H3.5Z"
                          Foreground="{Binding $parent[Button].Foreground}"/>
-              <axi:AxIcon x:Name="PART_RestoreIcon"
+              <ax:AxIcon x:Name="PART_RestoreIcon"
                          Data="M5.5 3.5H12.5V10.5M3.5 5.5H10.5V12.5H3.5Z"
                          Foreground="{Binding $parent[Button].Foreground}"
                          IsVisible="False"/>
             </Panel>
           </Button>
           <Button x:Name="PART_Close" Theme="{StaticResource AxWindowButton}" Classes="close">
-            <axi:AxIcon Data="{x:Static axi:AxIcons.Close}"
+            <ax:AxIcon Data="{x:Static ax:AxIcons.Close}"
                        Foreground="{Binding $parent[Button].Foreground}"/>
           </Button>
         </StackPanel>
       </ControlTemplate>
     </Setter>
 
-    <Style Selector="^[IsMaximized=True] /template/ axi|AxIcon#PART_MaximizeIcon">
+    <Style Selector="^[IsMaximized=True] /template/ ax|AxIcon#PART_MaximizeIcon">
       <Setter Property="IsVisible" Value="False"/>
     </Style>
-    <Style Selector="^[IsMaximized=True] /template/ axi|AxIcon#PART_RestoreIcon">
+    <Style Selector="^[IsMaximized=True] /template/ ax|AxIcon#PART_RestoreIcon">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
   </ControlTheme>

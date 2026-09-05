@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="using:ArxisStudio.Controls"
-                    xmlns:axi="using:ArxisStudio.Icons">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
   <!--
       Дерево проекта: строка 24 (раздел 6 приёмки против 26 из карточки),
@@ -78,9 +77,9 @@
                     кнопки — своя область имён, и стиль раскрытого узла ниже
                     туда не достаёт — шеврон так и остался бы смотреть вправо.
                 -->
-                <axi:AxIcon x:Name="Chevron"
+                <ax:AxIcon x:Name="Chevron"
                            Classes="small"
-                           Data="{x:Static axi:AxIcons.ChevronRight}"
+                           Data="{x:Static ax:AxIcons.ChevronRight}"
                            Foreground="{DynamicResource AxFg2Brush}"/>
               </ToggleButton>
               <!--
@@ -122,8 +121,8 @@
         псевдокласса строки: IsChecked кнопки связан с IsExpanded напрямую, и
         так стиль не зависит от того, заводит ли Avalonia :expanded у строки.
     -->
-    <Style Selector="^ /template/ ToggleButton#PART_ExpandCollapseChevron:checked axi|AxIcon#Chevron">
-      <Setter Property="Data" Value="{x:Static axi:AxIcons.ChevronDown}"/>
+    <Style Selector="^ /template/ ToggleButton#PART_ExpandCollapseChevron:checked ax|AxIcon#Chevron">
+      <Setter Property="Data" Value="{x:Static ax:AxIcons.ChevronDown}"/>
     </Style>
 
     <!--

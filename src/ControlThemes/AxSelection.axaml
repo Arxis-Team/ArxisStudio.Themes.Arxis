@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="using:ArxisStudio.Controls"
-                    xmlns:axi="using:ArxisStudio.Icons">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
   <!--
       Переключатель одного варианта: круг 16px, у выбранного — акцентная
@@ -137,10 +136,10 @@
               что у дерева, и той же толщины обводки: icons.md запрещает менять
               её на отдельных иконках.
           -->
-          <axi:AxIcon x:Name="PART_Chevron"
+          <ax:AxIcon x:Name="PART_Chevron"
                      Classes="small"
                      Margin="0,0,8,0"
-                     Data="{x:Static axi:AxIcons.ChevronRight}"
+                     Data="{x:Static ax:AxIcons.ChevronRight}"
                      Foreground="{DynamicResource AxFg2Brush}"
                      VerticalAlignment="Center"
                      IsVisible="{TemplateBinding IsCollapsible}"/>
@@ -172,8 +171,8 @@
     <Style Selector="^[IsCollapsible=True] /template/ Border#PART_Rule">
       <Setter Property="Margin" Value="8,1,0,0"/>
     </Style>
-    <Style Selector="^[IsExpanded=True] /template/ axi|AxIcon#PART_Chevron">
-      <Setter Property="Data" Value="{x:Static axi:AxIcons.ChevronDown}"/>
+    <Style Selector="^[IsExpanded=True] /template/ ax|AxIcon#PART_Chevron">
+      <Setter Property="Data" Value="{x:Static ax:AxIcons.ChevronDown}"/>
     </Style>
   </ControlTheme>
 
