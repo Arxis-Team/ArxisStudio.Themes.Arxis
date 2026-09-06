@@ -67,13 +67,7 @@
     <Setter Property="Template">
       <ControlTemplate>
         <StackPanel Orientation="Horizontal" Spacing="2">
-          <!--
-              Кнопку «свернуть» показывают не всем: окну при другом окне
-              сворачиваться некуда — кнопки в панели задач у него нет, и
-              свёрнутое оно исчезает без дороги назад.
-          -->
-          <Button x:Name="PART_Minimize" Theme="{StaticResource AxWindowButton}"
-                  IsVisible="{TemplateBinding ShowMinimize}">
+          <Button x:Name="PART_Minimize" Theme="{StaticResource AxWindowButton}">
             <ax:AxIcon Data="{x:Static ax:AxIcons.Minus}"
                        Foreground="{Binding $parent[Button].Foreground}"/>
           </Button>
