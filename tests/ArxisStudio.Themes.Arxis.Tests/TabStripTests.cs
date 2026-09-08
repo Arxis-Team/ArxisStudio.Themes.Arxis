@@ -68,8 +68,12 @@ public class TabStripTests
     /// Вкладка в шапке тянется во всю её высоту и стоит вплотную к соседке, а
     /// рамка панели сверху и разделитель снизу — того же AxBg3, что и
     /// наведение. Заливка во всю площадь сливалась с ними, и от одного слова
-    /// оставалась плита от края до края. Отступы открывают верхний край плашки
-    /// и оставляют между соседними плашками карточные четыре пикселя.
+    /// оставалась плита от края до края. Отступ в два пикселя со всех сторон
+    /// открывает края плашки, оставляет между соседними плашками карточные
+    /// четыре и не закрывает полосу выбора — она те же два снизу.
+    ///
+    /// Прежняя плашка была на восемь пикселей шире вкладки и скруглена только
+    /// сверху: она залезала на соседку тем заметнее, чем короче имя.
     ///
     /// Сама вкладка при этом прежнего размера: раздел 10 спецификации запрещает
     /// менять размеры на наведении, и попадать мышью человек должен по вкладке,
@@ -101,12 +105,13 @@ public class TabStripTests
         Assert.Equal(2d, at.Value.X);
         Assert.Equal(2d, at.Value.Y);
         Assert.Equal(tab.Bounds.Width - 4, plate.Bounds.Width);
-        Assert.Equal(tab.Bounds.Height - 2, plate.Bounds.Height);
+        Assert.Equal(tab.Bounds.Height - 4, plate.Bounds.Height);
 
-        // Скругление только сверху: плашка растёт из полосы под шапкой.
+        // Скругление со всех сторон: плашка стоит внутри вкладки и ни из чего
+        // не растёт.
         var corners = plate.GetValue(Border.CornerRadiusProperty);
 
-        Assert.Equal(new CornerRadius(4, 4, 0, 0), corners);
+        Assert.Equal(new CornerRadius(4), corners);
 
         window.Close();
     }
@@ -124,11 +129,19 @@ public class TabStripTests
         window.Close();
     }
 
-    /// <summary>Полоса выбора: 3 у вкладки панели, 2 у вкладки документа.</summary>
+    /// <summary>
+    /// Полоса выбора — два пикселя у обеих разновидностей.
+    /// </summary>
+    /// <remarks>
+    /// Два — число раздела 3 спецификации: «в Int UI её толщина 3px, у нас
+    /// 2px». Панельная вкладка держала три, и в шапке дока нижний пиксель
+    /// уходил под разделитель — полоса выходила и громче соседней, и короче
+    /// себя самой.
+    /// </remarks>
     [AvaloniaTheory]
     [InlineData(false, 2d)]
-    [InlineData(true, 3d)]
-    public void Selected_tab_marks_itself_with_the_bar_of_its_kind(bool compact, double thickness)
+    [InlineData(true, 2d)]
+    public void Selected_tab_marks_itself_with_a_two_pixel_bar(bool compact, double thickness)
     {
         var (tab, window) = Shown(compact, "Dark");
 
@@ -146,18 +159,29 @@ public class TabStripTests
         window.Close();
     }
 
-    /// <summary>Начертание усиливает только вкладку панели.</summary>
+    /// <summary>
+    /// Выбор веса не меняет — ни у той разновидности, ни у другой.
+    /// </summary>
+    /// <remarks>
+    /// Жирное начертание меняет метрику текста: вкладка становится шире, и весь
+    /// ряд сдвигается на каждое переключение. Панельная вкладка так и делала —
+    /// имена соседок ездили от щелчка к щелчку. Выбор показывают цвет и полоса
+    /// снизу: они соседей не двигают.
+    /// </remarks>
     [AvaloniaTheory]
-    [InlineData(false, "Normal")]
-    [InlineData(true, "Medium")]
-    public void Weight_belongs_to_the_panel_tab_alone(bool compact, string weight)
+    [InlineData(false)]
+    [InlineData(true)]
+    public void Selecting_a_tab_does_not_change_its_weight(bool compact)
     {
         var (tab, window) = Shown(compact, "Dark");
+
+        var was = tab.FontWeight;
 
         ((IPseudoClasses)tab.Classes).Set(":selected", true);
         window.UpdateLayout();
 
-        Assert.Equal(weight, tab.FontWeight.ToString());
+        Assert.Equal(was, tab.FontWeight);
+        Assert.Equal("Normal", tab.FontWeight.ToString());
 
         window.Close();
     }
@@ -171,7 +195,9 @@ public class TabStripTests
         var (tab, window) = Shown(compact, "Dark");
 
         Assert.Equal(height, tab.Bounds.Height);
-        Assert.Equal(new Avalonia.Thickness(10, 0), tab.Padding);
+
+        // Восемь — число раздела 3: «отступы вкладок 8px».
+        Assert.Equal(new Avalonia.Thickness(8, 0), tab.Padding);
 
         window.Close();
     }
@@ -181,7 +207,7 @@ public class TabStripTests
     /// </summary>
     /// <remarks>
     /// Попадать мышью по контуру в полтора пикселя человек не должен, поэтому
-    /// мышь ловит вся площадка четырнадцать на четырнадцать. Без прозрачного
+    /// мышь ловит вся площадка шестнадцать на шестнадцать. Без прозрачного
     /// фона она прозрачна и для попадания: нажатие ушло бы во вкладку, и та бы
     /// просто выбралась.
     /// </remarks>
@@ -191,8 +217,37 @@ public class TabStripTests
         var (tab, window) = Shown(compact: false, "Dark");
         var close = Part(tab, "PART_Close");
 
-        Assert.Equal(new Size(14, 14), close.Bounds.Size);
-        Assert.NotNull(close.GetValue(Panel.BackgroundProperty));
+        Assert.Equal(new Size(16, 16), close.Bounds.Size);
+        Assert.NotNull(close.GetValue(Border.BackgroundProperty));
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Под курсором крестик подсвечивается сам.
+    /// </summary>
+    /// <remarks>
+    /// Пока своей подсветки у него не было, наведение на крестик выглядело
+    /// точь-в-точь как наведение на вкладку: человек нажимал, не зная, закроет
+    /// он её или выберет. Цвет — ступенью заметнее наведения вкладки: AxBg4
+    /// против AxBg3.
+    /// </remarks>
+    [AvaloniaFact]
+    public void The_cross_lights_up_under_the_pointer()
+    {
+        var (tab, window) = Shown(compact: true, "Dark");
+        var close = Part(tab, "PART_Close");
+
+        Assert.Equal(
+            Colors.Transparent,
+            Colour(close.GetValue(Border.BackgroundProperty)));
+
+        ((IPseudoClasses)close.Classes).Set(":pointerover", true);
+        window.UpdateLayout();
+
+        Assert.Equal(
+            Resource(window, "AxBg4Color", "Dark"),
+            Colour(close.GetValue(Border.BackgroundProperty)));
 
         window.Close();
     }

@@ -93,7 +93,12 @@
         рядом с которой вкладка и стоит.
     -->
     <Setter Property="Height" Value="34"/>
-    <Setter Property="Padding" Value="10,0"/>
+    <!--
+        Восемь — число раздела 3 спецификации: «отступы вкладок 8px, промежуток
+        до крестика 8px». Десять стояли здесь с первой вёрстки и не значили
+        ничего, кроме лишней ширины у каждой вкладки в ряду.
+    -->
+    <Setter Property="Padding" Value="8,0"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
@@ -112,7 +117,7 @@
                 текстом, и невидима, пока её не покажет стиль.
             -->
             <Border x:Name="PART_Hover" IsVisible="False"/>
-            <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
               <ax:AxIcon Classes="small"
                          Data="{TemplateBinding Icon}"
                          Foreground="{TemplateBinding IconBrush}"
@@ -124,32 +129,45 @@
               <!--
                   Ловит мышь вся площадка, а не сам путь крестика: попасть по
                   линии в полтора пикселя человек не должен. Прозрачный фон
-                  здесь и делает четырнадцать на четырнадцать нажимаемыми.
+                  здесь и делает шестнадцать на шестнадцать нажимаемыми.
+
+                  Border, а не Panel, и у него своё наведение: пока подсветки у
+                  крестика не было, наведение на него выглядело точно так же,
+                  как наведение на вкладку, и человек не видел, что сейчас
+                  закроет её, а не выберет.
               -->
-              <Panel x:Name="PART_Close"
-                     Width="14" Height="14"
-                     Background="Transparent"
-                     IsVisible="{TemplateBinding IsClosable}">
-                <Ellipse x:Name="PART_Modified"
-                         Width="7" Height="7"
-                         Fill="{DynamicResource AxAccBrush}"
-                         IsVisible="{TemplateBinding IsModified}"/>
-                <!--
-                    Крестик стоит на месте, а не появляется на наведении:
-                    закрываемая вкладка так и выглядит в проекте. Уступает он
-                    только точке несохранённых правок — и возвращается, когда
-                    на вкладку наводят, чтобы её можно было закрыть.
-                -->
-                <ax:AxIcon x:Name="PART_CloseIcon"
-                           Classes="small"
-                           Data="{x:Static ax:AxIcons.Close}"
-                           Foreground="{DynamicResource AxFg3Brush}"/>
-              </Panel>
+              <Border x:Name="PART_Close"
+                      Width="16" Height="16"
+                      CornerRadius="{DynamicResource AxCornerRadius}"
+                      Background="Transparent"
+                      IsVisible="{TemplateBinding IsClosable}">
+                <Panel>
+                  <Ellipse x:Name="PART_Modified"
+                           Width="7" Height="7"
+                           Fill="{DynamicResource AxAccBrush}"
+                           IsVisible="{TemplateBinding IsModified}"/>
+                  <!--
+                      Крестик стоит на месте, а не появляется на наведении:
+                      закрываемая вкладка так и выглядит в проекте. Уступает он
+                      только точке несохранённых правок — и возвращается, когда
+                      на вкладку наводят, чтобы её можно было закрыть.
+                  -->
+                  <ax:AxIcon x:Name="PART_CloseIcon"
+                             Classes="small"
+                             Data="{x:Static ax:AxIcons.Close}"
+                             Foreground="{DynamicResource AxFg3Brush}"/>
+                </Panel>
+              </Border>
             </StackPanel>
+            <!--
+                Полоса выбора идёт ровно во всю ширину вкладки: отрицательное
+                поле снимает её собственные отступы. Раньше здесь стояло −12
+                при отступах 10, и полоса на два пикселя залезала под соседку.
+            -->
             <Border x:Name="PART_ActiveMarker"
                     Height="2"
                     VerticalAlignment="Bottom"
-                    Margin="-12,0"
+                    Margin="-8,0"
                     Background="{DynamicResource AxAccBrush}"
                     IsVisible="False"/>
           </Panel>
@@ -172,20 +190,28 @@
     <Style Selector="^:selected /template/ ax|AxIcon#PART_CloseIcon">
       <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
     </Style>
+    <!--
+        У крестика своё наведение: ступенью заметнее, чем у самой вкладки, —
+        AxBg4 против AxBg3. Без него наведение на крестик выглядело точь-в-точь
+        как наведение на вкладку, и человек нажимал, не зная, закроет он её или
+        выберет.
+    -->
+    <Style Selector="^ /template/ Border#PART_Close:pointerover">
+      <Setter Property="Background" Value="{DynamicResource AxBg4Brush}"/>
+    </Style>
+    <Style Selector="^ /template/ Border#PART_Close:pointerover ax|AxIcon#PART_CloseIcon">
+      <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    </Style>
 
     <Style Selector="^:selected">
       <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
     </Style>
     <!--
-        Начертание усиливает только вкладку панели: у неё нет ни своего фона,
-        ни рамки, и выбранной её делают цвет, полоса снизу и вес. У вкладки
-        документа для этого есть фон и полоса, и проект веса ей не даёт —
-        жирное имя файла в ряду имён читается как другой уровень, а не как
-        выбор.
+        Веса выбранной вкладке не даёт ни та, ни другая разновидность. Жирное
+        начертание меняет метрику текста, вкладка становится шире — и весь ряд
+        сдвигается на каждое переключение. Выбор показывают цвет и полоса
+        снизу: они не двигают соседей.
     -->
-    <Style Selector="^.compact:selected">
-      <Setter Property="FontWeight" Value="Medium"/>
-    </Style>
     <Style Selector="^:selected /template/ Border#PART_Root">
       <Setter Property="Background" Value="{DynamicResource AxBg1Brush}"/>
     </Style>
@@ -196,31 +222,28 @@
     <!-- Вкладка в шапке панели инструментов: ниже и без своего фона. -->
     <Style Selector="^.compact">
       <Setter Property="Height" Value="32"/>
-      <Setter Property="Padding" Value="10,0"/>
     </Style>
     <Style Selector="^.compact:selected /template/ Border#PART_Root">
       <Setter Property="Background" Value="Transparent"/>
     </Style>
-    <Style Selector="^.compact /template/ Border#PART_ActiveMarker">
-      <Setter Property="Margin" Value="-10,0"/>
-      <!-- У обычной вкладки полоса толще: проект даёт 3 против 2 у документа. -->
-      <Setter Property="Height" Value="3"/>
-    </Style>
     <!--
         Наведение на вкладку в шапке — плашка внутри вкладки, а не сама вкладка.
         Цвет наведенческий, AxBg3 (раздел 3 закрепляет за токеном эту роль,
-        раздел 10 повторяет её селектором), скругление сверху: плашка растёт из
-        полосы под шапкой, как её и рисует карточка «Вкладки».
+        раздел 10 повторяет её селектором).
 
-        Отступы — от того, что вкладка в шапке тянется во всю её высоту и стоит
-        вплотную к соседке. Заливка во всю площадь сливалась с рамкой панели
-        сверху и с разделителем снизу — те же AxBg3, — и от одного слова
-        оставалась плита в тридцать один пиксель от края до края. Два пикселя
-        сверху открывают верхний край плашки, по два с боков оставляют между
-        соседними плашками карточные четыре.
+        Заливка во всю площадь сливалась бы с рамкой панели сверху и с
+        разделителем снизу — те же AxBg3, — и от одного слова оставалась бы
+        плита от края до края. Отступ в два пикселя со всех сторон открывает
+        края плашки, оставляет между соседними плашками карточные четыре и не
+        закрывает полосу выбора: она те же два пикселя снизу.
 
-        По горизонтали отступ отсчитывается от поля вкладки: -10 вернуло бы
-        плашку на всю ширину, -8 оставляет два пикселя. Тем же приёмом мерит
+        Скругление со всех сторон, а не только сверху: плашка стоит внутри
+        вкладки и ни из чего не растёт. Прежняя, скруглённая сверху и на восемь
+        пикселей шире вкладки, залезала на соседку — тем заметнее, чем короче
+        имя.
+
+        По горизонтали отступ отсчитывается от поля вкладки: -8 вернуло бы
+        плашку на всю ширину, -6 оставляет два пикселя. Тем же приёмом мерит
         себя полоса выбора выше.
 
         Размер самой вкладки прежний: раздел 10 запрещает менять размеры на
@@ -232,9 +255,9 @@
     </Style>
     <Style Selector="^.compact:pointerover /template/ Border#PART_Hover">
       <Setter Property="IsVisible" Value="True"/>
-      <Setter Property="Margin" Value="-8,2,-8,0"/>
+      <Setter Property="Margin" Value="-6,2"/>
       <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
-      <Setter Property="CornerRadius" Value="4,4,0,0"/>
+      <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     </Style>
     <!--
         Выключенная строка (раздел 10 спецификации): текст на AxFgDisabled.

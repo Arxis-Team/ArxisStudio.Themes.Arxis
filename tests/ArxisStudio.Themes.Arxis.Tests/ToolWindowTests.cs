@@ -131,14 +131,14 @@ public class ToolWindowTests
     }
 
     /// <summary>
-    /// Выбранную вкладку в шапке видно цветом, начертанием и полосой — но не
-    /// фоном.
+    /// Выбранную вкладку в шапке видно цветом и полосой — но не фоном и не
+    /// начертанием.
     /// </summary>
     /// <remarks>
     /// Фон остаётся вкладке редактора, где ряд имён стоит на общей подложке и
-    /// выбранное имя поднимается над ней. Панельной карточка даёт три знака:
-    /// цвет, начертание 500 и полосу в три пикселя — на один толще, чем у
-    /// документа, потому что фона, который держал бы выбор, здесь нет.
+    /// выбранное имя поднимается над ней. Веса же не даётся ни той, ни другой:
+    /// жирное начертание меняет метрику текста, вкладка становится шире, и весь
+    /// ряд сдвигается на каждое переключение.
     /// </remarks>
     [AvaloniaTheory]
     [InlineData("Light")]
@@ -157,8 +157,8 @@ public class ToolWindowTests
         var marker = (Border)Part(selected, "PART_ActiveMarker");
 
         Assert.True(marker.IsVisible, "полосы выбора не видно");
-        Assert.Equal(3d, marker.Bounds.Height);
-        Assert.Equal(FontWeight.Medium, selected.FontWeight);
+        Assert.Equal(2d, marker.Bounds.Height);
+        Assert.Equal(FontWeight.Normal, selected.FontWeight);
         Assert.Equal(Resource(window, "AxAccColor", variant), Colour(marker.Background));
         // Прозрачная кисть, а не её отсутствие: своего фона у вкладки нет, но
         // сама кисть нужна — без неё вкладку не поймать курсором.
