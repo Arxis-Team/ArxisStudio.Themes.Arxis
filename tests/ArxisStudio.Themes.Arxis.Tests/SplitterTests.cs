@@ -1,6 +1,7 @@
 using ArxisStudio.Controls;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
+using Avalonia.Input;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Styling;
@@ -62,6 +63,71 @@ public class SplitterTests
         Assert.True(
             splitter.Bounds.Height > Line(splitter).Bounds.Height,
             "за линию нельзя взяться: полоса захвата не шире её самой");
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// За границу берутся и с клавиатуры.
+    /// </summary>
+    /// <remarks>
+    /// Стрелки и Home/End базовый контрол разбирает сам, но только в фокусе, а
+    /// <c>Focusable</c> ему объявлял шаблон Fluent — свой шаблон его не
+    /// наследует. Без объявления в теме клавиатура теряла разделитель целиком:
+    /// границу областей нельзя было сдвинуть, не взявшись за неё мышью.
+    /// </remarks>
+    [AvaloniaFact]
+    public void The_splitter_is_reachable_from_the_keyboard()
+    {
+        var (splitter, window) = Shown(Orientation.Horizontal);
+
+        Assert.True(splitter.Focusable, "разделитель не берётся в фокус: клавиатурой границу не сдвинуть");
+        Assert.True(splitter.Focus(), "разделитель не принял фокус");
+        Assert.True(splitter.IsFocused, "фокус на разделителе не удержался");
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Стрелка с клавиатуры двигает границу.
+    /// </summary>
+    /// <remarks>
+    /// Половина, ради которой фокус и нужен: доказывать, что контрол умеет его
+    /// принять, толку мало, если доли от этого не меняются. Здесь разделитель
+    /// стоит между двумя долями, как в доке, и проверяется то, что увидит
+    /// человек, — что доли разъехались.
+    /// </remarks>
+    [AvaloniaFact]
+    public void An_arrow_key_moves_the_border()
+    {
+        var splitter = new AxSplitter { Orientation = Orientation.Horizontal };
+
+        var grid = new Grid { RowDefinitions = new RowDefinitions("*,Auto,*") };
+
+        grid.Children.Add(new Border());
+        grid.Children.Add(splitter);
+        grid.Children.Add(new Border());
+
+        Grid.SetRow(grid.Children[0], 0);
+        Grid.SetRow(splitter, 1);
+        Grid.SetRow(grid.Children[2], 2);
+
+        var window = new Window { Width = 240, Height = 240, Content = grid };
+
+        window.Show();
+        window.UpdateLayout();
+
+        var before = grid.RowDefinitions[0].ActualHeight;
+
+        Assert.True(splitter.Focus(), "разделитель не принял фокус");
+
+        splitter.RaiseEvent(new KeyEventArgs { RoutedEvent = InputElement.KeyDownEvent, Key = Key.Down });
+
+        window.UpdateLayout();
+
+        Assert.True(
+            grid.RowDefinitions[0].ActualHeight > before,
+            $"доля не сдвинулась: было {before:F0}, стало {grid.RowDefinitions[0].ActualHeight:F0}");
 
         window.Close();
     }
