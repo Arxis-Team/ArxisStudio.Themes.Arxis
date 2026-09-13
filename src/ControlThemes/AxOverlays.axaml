@@ -20,7 +20,7 @@
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
-    <Setter Property="Padding" Value="10,6"/>
+    <Setter Property="Padding" Value="{DynamicResource AxTooltipPadding}"/>
     <Setter Property="MaxWidth" Value="400"/>
     <Setter Property="Template">
       <ControlTemplate>
@@ -48,7 +48,7 @@
     <Setter Property="Width" Value="250"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
-    <Setter Property="Padding" Value="14,12"/>
+    <Setter Property="Padding" Value="{DynamicResource AxCardPadding}"/>
     <Setter Property="MaxWidth" Value="250"/>
     <Setter Property="Template">
       <ControlTemplate>
@@ -59,7 +59,7 @@
                 BoxShadow="{DynamicResource AxPopupShadow}"
                 Padding="{TemplateBinding Padding}"
                 Margin="6">
-          <StackPanel Spacing="6">
+          <StackPanel Spacing="{DynamicResource AxSpaceSnug}">
             <TextBlock Text="{TemplateBinding Title}"
                        FontWeight="SemiBold"
                        TextWrapping="Wrap"
@@ -68,7 +68,7 @@
                               ContentTemplate="{TemplateBinding ContentTemplate}"
                               TextBlock.Foreground="{DynamicResource AxFg2Brush}"
                               TextBlock.TextWrapping="Wrap"/>
-            <DockPanel Margin="0,4,0,0">
+            <DockPanel Margin="{DynamicResource AxSpaceTightAboveThickness}">
               <TextBlock Text="{TemplateBinding StepText}"
                          Foreground="{DynamicResource AxFg2Brush}"
                          FontSize="{DynamicResource AxFontSizeSmall}"
@@ -91,7 +91,7 @@
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusCard}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
-    <Setter Property="Padding" Value="14,12"/>
+    <Setter Property="Padding" Value="{DynamicResource AxCardPadding}"/>
     <Setter Property="Width" Value="340"/>
     <Setter Property="Template">
       <ControlTemplate>
@@ -105,7 +105,7 @@
           <DockPanel>
             <ax:AxIcon x:Name="PART_Icon"
                        DockPanel.Dock="Left"
-                       Margin="0,1,8,0"
+                       Margin="0,1,6,0"
                        VerticalAlignment="Top"
                        Data="{x:Static ax:AxIcons.Info}"
                        Foreground="{DynamicResource AxAccBrush}"/>
@@ -113,11 +113,11 @@
                          x:Name="PART_Close"
                          Classes="icon"
                          VerticalAlignment="Top"
-                         Margin="8,0,0,0">
+                         Margin="{DynamicResource AxSpaceLeadingThickness}">
               <ax:AxIcon Classes="small" Data="{x:Static ax:AxIcons.Close}"
                          Foreground="{Binding $parent[ax:AxButton].Foreground}"/>
             </ax:AxButton>
-            <StackPanel Spacing="4">
+            <StackPanel Spacing="{DynamicResource AxSpaceTight}">
               <TextBlock Text="{TemplateBinding Title}"
                          FontWeight="SemiBold"
                          TextWrapping="Wrap"
@@ -127,7 +127,7 @@
                                 TextBlock.Foreground="{DynamicResource AxFg2Brush}"
                                 TextBlock.TextWrapping="Wrap"/>
               <ContentPresenter Content="{TemplateBinding Actions}"
-                                Margin="0,4,0,0"
+                                Margin="{DynamicResource AxSpaceTightAboveThickness}"
                                 IsVisible="{TemplateBinding Actions, Converter={x:Static ObjectConverters.IsNotNull}}"/>
             </StackPanel>
           </DockPanel>
@@ -172,10 +172,10 @@
             <Border DockPanel.Dock="Top"
                     BorderBrush="{DynamicResource AxBrdBrush}"
                     BorderThickness="0,0,0,1"
-                    Padding="12,10">
+                    Padding="{DynamicResource AxQuickSearchFieldPadding}">
               <DockPanel>
                 <ax:AxIcon DockPanel.Dock="Left"
-                           Margin="0,0,8,0"
+                           Margin="{DynamicResource AxGapIconTextThickness}"
                            Data="{x:Static ax:AxIcons.Search}"
                            Foreground="{DynamicResource AxFg2Brush}"
                            VerticalAlignment="Center"/>
@@ -192,13 +192,13 @@
             <Border DockPanel.Dock="Bottom"
                     BorderBrush="{DynamicResource AxBrdBrush}"
                     BorderThickness="0,1,0,0"
-                    Padding="12,8">
+                    Padding="{DynamicResource AxQuickSearchHintsPadding}">
               <TextBlock Text="{TemplateBinding Hints}"
                          Foreground="{DynamicResource AxFg2Brush}"
                          FontSize="{DynamicResource AxFontSizeSmall}"/>
             </Border>
             <ax:AxListBox x:Name="PART_List"
-                          Margin="4"
+                          Margin="{DynamicResource AxSpaceTightThickness}"
                           ItemsSource="{TemplateBinding ItemsSource}"
                           ItemTemplate="{TemplateBinding ItemTemplate}"
                           SelectedItem="{TemplateBinding SelectedItem, Mode=TwoWay}"/>

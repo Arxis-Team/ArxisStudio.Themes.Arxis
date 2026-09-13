@@ -60,6 +60,27 @@ public class SpacingTokenTests
         }
     }
 
+    /// <summary>
+    /// Направленные зазоры: сторона в имени, ступень в значении.
+    /// </summary>
+    /// <remarks>
+    /// Заводятся по требованию точки вызова, поэтому список растёт миграцией,
+    /// а не заранее. Имя механическое — ступень плюс сторона, — чтобы его
+    /// можно было вывести, а не вспомнить.
+    /// </remarks>
+    private static readonly (string Key, double Left, double Top, double Right, double Bottom)[] Directed =
+    [
+        ("AxSpaceSnugTrailingThickness", 0, 0, 6, 0),
+        ("AxSpaceLeadingThickness", 8, 0, 0, 0),
+        ("AxSpaceTightAboveThickness", 0, 4, 0, 0),
+    ];
+
+    /// <summary>Смысловое имя направленного зазора и его основание.</summary>
+    private static readonly (string Alias, string Directed)[] NamedDirections =
+    [
+        ("AxGapIconTextThickness", "AxSpaceSnugTrailingThickness"),
+    ];
+
     /// <summary>Смысловое имя и ступень, на которую оно ссылается.</summary>
     private static readonly (string Alias, string Step)[] Named =
     [
@@ -68,6 +89,34 @@ public class SpacingTokenTests
         ("AxGapFormRow", "AxSpaceWide"),
         ("AxGapGroup", "AxSpaceLoose"),
     ];
+
+    /// <summary>Направленный зазор и его четыре стороны.</summary>
+    public static TheoryData<string, double, double, double, double> Sides
+    {
+        get
+        {
+            var data = new TheoryData<string, double, double, double, double>();
+
+            foreach (var (key, left, top, right, bottom) in Directed)
+                data.Add(key, left, top, right, bottom);
+
+            return data;
+        }
+    }
+
+    /// <summary>Псевдоним направленного зазора и его основание.</summary>
+    public static TheoryData<string, string> Directions
+    {
+        get
+        {
+            var data = new TheoryData<string, string>();
+
+            foreach (var (alias, directed) in NamedDirections)
+                data.Add(alias, directed);
+
+            return data;
+        }
+    }
 
     /// <summary>Псевдоним и ступень, на которую он ссылается.</summary>
     public static TheoryData<string, string> Aliases
@@ -145,6 +194,42 @@ public class SpacingTokenTests
         window.Close();
     }
 
+    /// <summary>Направленный зазор кладёт ступень на названную сторону.</summary>
+    /// <remarks>
+    /// Остальные стороны обязаны быть нулём: направленный зазор тем и
+    /// отличается от равностороннего, что отбивает соседа с одной стороны.
+    /// </remarks>
+    [AvaloniaTheory]
+    [MemberData(nameof(Sides))]
+    public void A_directed_gap_puts_its_step_on_the_side_it_names(
+        string key, double left, double top, double right, double bottom)
+    {
+        var window = Shown();
+
+        Assert.True(window.TryFindResource(key, window.ActualThemeVariant, out var value), $"нет ключа {key}");
+        Assert.Equal(new Thickness(left, top, right, bottom), Assert.IsType<Thickness>(value));
+
+        // Сторона одна: ступень стоит ровно в одном из четырёх чисел.
+        Assert.Equal(1, new[] { left, top, right, bottom }.Count(side => side != 0));
+
+        window.Close();
+    }
+
+    /// <summary>Смысловое имя направленного зазора — это он сам.</summary>
+    [AvaloniaTheory]
+    [MemberData(nameof(Directions))]
+    public void A_named_direction_is_the_gap_it_names(string alias, string directed)
+    {
+        var window = Shown();
+
+        Assert.True(window.TryFindResource(alias, window.ActualThemeVariant, out var named), $"нет ключа {alias}");
+        Assert.True(window.TryFindResource(directed, window.ActualThemeVariant, out var gap), $"нет ключа {directed}");
+
+        Assert.Equal(gap, named);
+
+        window.Close();
+    }
+
     /// <summary>
     /// Шкала в файле и шкала в этом тесте — одна шкала.
     /// </summary>
@@ -170,8 +255,12 @@ public class SpacingTokenTests
             .ToDictionary(group => group.Key, group => group.OrderBy(key => key, StringComparer.Ordinal).ToList());
 
         var steps = Scale.Select(step => step.Key).OrderBy(key => key, StringComparer.Ordinal);
-        var thicknesses = Scale.Select(step => step.Key + "Thickness").OrderBy(key => key, StringComparer.Ordinal);
-        var aliases = Named.Select(name => name.Alias).OrderBy(key => key, StringComparer.Ordinal);
+        var thicknesses = Scale.Select(step => step.Key + "Thickness")
+            .Concat(Directed.Select(gap => gap.Key))
+            .OrderBy(key => key, StringComparer.Ordinal);
+        var aliases = Named.Select(name => name.Alias)
+            .Concat(NamedDirections.Select(name => name.Alias))
+            .OrderBy(key => key, StringComparer.Ordinal);
 
         Assert.Equal(steps, declared.GetValueOrDefault("x:Double", []));
         Assert.Equal(thicknesses, declared.GetValueOrDefault("Thickness", []));

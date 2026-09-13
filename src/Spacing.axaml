@@ -65,6 +65,17 @@
   <Thickness x:Key="AxSpaceScreenThickness">40</Thickness>
 
   <!--
+      Направленные зазоры: сторона в имени, ступень в значении. Заводятся по
+      требованию точки вызова, а не заранее: восемь ступеней в четырёх
+      направлениях дали бы тридцать два ключа, из которых нужны единицы.
+      Нужны они там, где промежуток некому держать, — DockPanel и Grid его не
+      знают, и зазор приходится вешать полем на соседа.
+  -->
+  <Thickness x:Key="AxSpaceSnugTrailingThickness">0,0,6,0</Thickness>
+  <Thickness x:Key="AxSpaceLeadingThickness">8,0,0,0</Thickness>
+  <Thickness x:Key="AxSpaceTightAboveThickness">0,4,0,0</Thickness>
+
+  <!--
       Смысловые имена ступеней. Они и есть то, ради чего заведена шкала:
       число выбирают заново каждый раз, а названный зазор берут готовым — и
       шестёрка в дереве, семёрка в поле и восьмёрка в списке перестают быть
@@ -74,5 +85,6 @@
   <StaticResource x:Key="AxGapControls" ResourceKey="AxSpace"/>
   <StaticResource x:Key="AxGapFormRow" ResourceKey="AxSpaceWide"/>
   <StaticResource x:Key="AxGapGroup" ResourceKey="AxSpaceLoose"/>
+  <StaticResource x:Key="AxGapIconTextThickness" ResourceKey="AxSpaceSnugTrailingThickness"/>
 
 </ResourceDictionary>
