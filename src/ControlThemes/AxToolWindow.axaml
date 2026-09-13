@@ -93,6 +93,31 @@
     <Style Selector="^[ShowHeaderSeparator=True] /template/ Border#PART_Header">
       <Setter Property="BorderThickness" Value="0,0,0,1"/>
     </Style>
+
+    <!--
+        Активная панель — та, в которой сейчас клавиатура.
+
+        Без этого состояния у среды с десятком панелей нет ответа на вопрос
+        «куда пойдёт нажатие», и человек узнаёт его, только нажав. В Rider и в
+        Unity Editor активная панель названа всегда; здесь этого не было ни в
+        одном состоянии ни одной темы.
+
+        Сказано двумя способами сразу, и оба нужны. Шапка поднимается на
+        ступень — это видно боковым зрением и не требует искать глазами тонкую
+        линию. Линия под шапкой становится акцентной — это точное указание, и
+        оно же роднит панель с выбранной вкладкой, у которой полоса того же
+        цвета.
+
+        Заголовок для этого не годится: в докинге он всегда пуст — там его
+        работу делают вкладки, — и покрасить нечего.
+
+        focus-within, а не focus: фокус стоит на контроле внутри панели, у
+        самой панели его не бывает никогда.
+    -->
+    <Style Selector="^:focus-within /template/ Border#PART_Header">
+      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxAccBrush}"/>
+    </Style>
   </ControlTheme>
 
 </ResourceDictionary>
