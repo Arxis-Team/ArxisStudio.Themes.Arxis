@@ -64,6 +64,74 @@ public class ContrastTests
     }
 
     /// <summary>
+    /// Третичный текст читается лучше выключенного, а не хуже.
+    /// </summary>
+    /// <remarks>
+    /// Порядок, а не порог, и он обязателен. Приглушение — признак
+    /// недоступности; выключенный текст, читающийся лучше включённого
+    /// второстепенного, говорит человеку обратное тому, что есть. По таблице
+    /// мокапа так и было: в тёмной теме 4,75:1 у выключенного против 3,46 у
+    /// третичного, в светлой — один и тот же цвет у обоих.
+    /// </remarks>
+    [AvaloniaTheory]
+    [InlineData("Light")]
+    [InlineData("Dark")]
+    public void Tertiary_text_reads_better_than_disabled_text(string variant)
+    {
+        var tertiary = Ratio("fg3", "bg1", variant);
+        var disabled = Ratio("fgDis", "bg1", variant);
+
+        Assert.True(
+            tertiary > disabled,
+            $"третичный {tertiary:F2}:1 не ярче выключенного {disabled:F2}:1 — смысл состояния перевёрнут");
+    }
+
+    /// <summary>
+    /// Третичный текст различим на каждой поверхности, на которой стоит.
+    /// </summary>
+    /// <remarks>
+    /// Порог здесь 3:1, а не 4,5, и это названо решением, а не умолчано. Шкала
+    /// Int UI следующей ступени под третичный текст не имеет — она уже занята
+    /// <c>AxFg2</c>, — поэтому 4,5 берётся на основном фоне тёмной темы и не
+    /// берётся на панели и на плашке. Что этим красят пути, даты и подписи,
+    /// записано в дизайн-спецификации студии вместе с ценой решения.
+    /// </remarks>
+    [AvaloniaTheory]
+    [InlineData("bg1", "Light")]
+    [InlineData("bg1", "Dark")]
+    [InlineData("bg2", "Light")]
+    [InlineData("bg2", "Dark")]
+    [InlineData("bg3", "Light")]
+    [InlineData("bg3", "Dark")]
+    public void Tertiary_text_stays_visible_on_every_surface(string ground, string variant)
+        => Assert.True(
+            Ratio("fg3", ground, variant) >= Visible,
+            $"третичный на {ground} [{variant}] даёт {Ratio("fg3", ground, variant):F2}:1");
+
+    /// <summary>
+    /// Рамка и наведённая плашка — один цвет, и это решение мокапа.
+    /// </summary>
+    /// <remarks>
+    /// Здесь закреплено не качество, а намерение. Рамки этой палитры —
+    /// разделители, а не опознаватели: контрол опознаётся заливкой, и порога
+    /// 3:1 не берёт ни один токен рамки ни на одной поверхности (лучшее —
+    /// 2,07:1 у <c>AxBrd2</c> на поле ввода в тёмной теме). Совпадение
+    /// <c>AxBrd</c> с <c>AxBg3</c> — крайний случай того же решения: на
+    /// наведённой плашке рамка не даёт ни одного своего пикселя.
+    /// <para>
+    /// Следствие, ради которого тест и стоит: рамкой на плашке <c>AxBg3</c>
+    /// ничего не размечают — размечает сама плашка. Понадобится обратное —
+    /// понадобится новый токен, и этот тест заставит сказать об этом вслух, а
+    /// не подвинуть значение молча.
+    /// </para>
+    /// </remarks>
+    [AvaloniaTheory]
+    [InlineData("Light")]
+    [InlineData("Dark")]
+    public void The_border_and_the_hover_plate_are_one_colour_on_purpose(string variant)
+        => Assert.Equal(1d, Ratio("brd", "bg3", variant), 3);
+
+    /// <summary>
     /// Иконка различима на поверхности, на которой её рисуют.
     /// </summary>
     /// <remarks>
@@ -199,6 +267,8 @@ public class ContrastTests
             "bg2" => "AxBg2Color",
             "bg3" => "AxBg3Color",
             "bg4" => "AxBg4Color",
+            "brd" => "AxBrdColor",
+            "brd2" => "AxBrd2Color",
             "inp" => "AxInpColor",
             "inpDis" => "AxInpDisabledColor",
             "acc" => "AxAccColor",

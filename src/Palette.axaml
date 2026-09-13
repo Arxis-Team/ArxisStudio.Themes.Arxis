@@ -86,8 +86,21 @@
       <Color x:Key="AxBrd2Color">#4E5157</Color>
       <Color x:Key="AxFgColor">#DFE1E5</Color>
       <Color x:Key="AxFg2Color">#9DA0A8</Color>
-      <Color x:Key="AxFg3Color">#6F737A</Color>
-      <Color x:Key="AxFgDisabledColor">#868A91</Color>
+      <!--
+          Третичный и выключенный поменялись ступенями, и это правка против
+          таблицы мокапа. Там третичный стоял на Gray7, выключенный на Gray8 —
+          то есть выключенный текст читался ЛУЧШЕ включённого второстепенного
+          (4,75:1 против 3,46:1 на основном фоне). Смысл состояния был
+          перевёрнут: приглушение — признак недоступности, а приглушён был не
+          он.
+
+          Обе ступени с той же шкалы Int UI, ничего не выдумано. Третичный на
+          Gray8 берёт 4,75:1 на основном фоне, 3,98 на панели и 3,23 на плашке;
+          порог 4,5 взят не везде, и следующая ступень его не добавит — Gray9
+          это уже AxFg2, то есть третичного текста не станет вовсе.
+      -->
+      <Color x:Key="AxFg3Color">#868A91</Color>
+      <Color x:Key="AxFgDisabledColor">#6F737A</Color>
       <Color x:Key="AxAccColor">#3574F0</Color>
       <Color x:Key="AxAccHoverColor">#467FF2</Color>
       <Color x:Key="AxAccPressedColor">#366ACE</Color>
@@ -337,7 +350,16 @@
       <Color x:Key="AxBrd2Color">#C9CCD6</Color>
       <Color x:Key="AxFgColor">#27282E</Color>
       <Color x:Key="AxFg2Color">#6C707E</Color>
-      <Color x:Key="AxFg3Color">#A8ADBD</Color>
+      <!--
+          В светлой теме третичный и выключенный были одним цветом: Gray8 и там
+          и там. Различить «недоступно» и «доступно, но второстепенно» было
+          нельзя ничем.
+
+          Третичный поднят на ступень, до Gray7: 3,67:1 на белом против прежних
+          2,24. Выключенный остался на Gray8 и теперь тусклее, как и положено.
+          Дальше третичный не двигается — Gray6 это AxFg2.
+      -->
+      <Color x:Key="AxFg3Color">#818594</Color>
       <Color x:Key="AxFgDisabledColor">#A8ADBD</Color>
       <Color x:Key="AxAccColor">#3574F0</Color>
       <Color x:Key="AxAccHoverColor">#3369D6</Color>

@@ -82,7 +82,12 @@ public class ControlStateColorTests
                         {
                             "transparent" => "#00000000",
                             _ when literal => named,
-                            _ => design.Variables[named][variant],
+
+                            // Через тот же список расхождений, что и сверка
+                            // токенов: проект называет один цвет дважды — здесь
+                            // переменной, там токеном, — и разойдись эти две
+                            // сверки, тема прошла бы одну и провалила другую.
+                            _ => DesignDecisions.Variable(named, variant, design.Variables[named][variant]),
                         };
 
                         data.Add(state, property, variant, expected);

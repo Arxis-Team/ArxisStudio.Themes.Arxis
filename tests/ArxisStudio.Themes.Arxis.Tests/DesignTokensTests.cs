@@ -21,20 +21,6 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 /// </remarks>
 public class DesignTokensTests
 {
-    /// <summary>
-    /// Единственное место, где тема намеренно расходится с таблицей раздела 3.
-    /// </summary>
-    /// <remarks>
-    /// Ссылка в светлой теме: таблица даёт #3574F0, но это 4,28:1 на белом —
-    /// ниже порога. Раздел 6 приёмки решает «взять AxBlue3 #3369D6 — 4,9:1», и
-    /// макеты студии определяют свой <c>--link</c> ровно этим значением. Три
-    /// источника из четырёх сходятся против одной строки таблицы.
-    /// </remarks>
-    private static readonly Dictionary<(string Token, string Variant), string> Decided = new()
-    {
-        [("AxLink", "Light")] = "#3369D6",
-    };
-
     public static TheoryData<string, string, string> Scales => Load(design => design.Scales);
 
     public static TheoryData<string, string, string> Semantic => Load(design => design.Semantic);
@@ -47,7 +33,7 @@ public class DesignTokensTests
     [AvaloniaTheory]
     [MemberData(nameof(Semantic))]
     public void Semantic_token_matches_the_design_project(string key, string variant, string expected)
-        => AssertColor(key + "Color", variant, Decided.GetValueOrDefault((key, variant), expected));
+        => AssertColor(key + "Color", variant, DesignDecisions.Token(key, variant, expected));
 
     /// <summary>Метрики и типографика раздела 5 — теми же значениями.</summary>
     [AvaloniaTheory]
