@@ -170,10 +170,29 @@
                     Margin="-8,0"
                     Background="{DynamicResource AxAccBrush}"
                     IsVisible="False"/>
+            <!--
+                Кольцо строки лежит внутри, а не снаружи, и это не мелочь. У
+                кнопки оно вынесено наружу отрицательным полем — там вокруг
+                есть место. Строка занимает всю ширину списка, и вынесенное
+                кольцо срезал бы сам список: остались бы две вертикальные
+                чёрточки по бокам. Толщина поэтому своя.
+
+                Стоит последним, значит поверх заливки выделения: иначе
+                выбранная строка в фокусе прятала бы кольцо под собой.
+            -->
+            <Border x:Name="PART_FocusRing"
+                    BorderThickness="{DynamicResource AxFocusOutlineInset}"
+                    BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    IsVisible="False"/>
           </Panel>
         </Border>
       </ControlTemplate>
     </Setter>
+
+    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
 
     <Style Selector="^:pointerover /template/ Border#PART_Root">
       <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>

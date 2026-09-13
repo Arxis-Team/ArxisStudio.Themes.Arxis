@@ -43,6 +43,7 @@
     <Setter Property="Template">
       <ControlTemplate>
         <StackPanel>
+          <Panel>
           <Border x:Name="PART_Root"
                   Height="{DynamicResource AxRowHeight}"
                   CornerRadius="{DynamicResource AxCornerRadius}"
@@ -100,6 +101,20 @@
                                 VerticalAlignment="Center"/>
             </DockPanel>
           </Border>
+            <!--
+                Кольцо строки лежит внутри, а не снаружи: строка дерева
+                занимает всю его ширину, и вынесенное наружу кольцо срезал бы
+                сам список. Панель обнимает только PART_Root — детей строка не
+                содержит, они идут отдельной частью ниже, и обводить их вместе
+                с родителем значило бы обводить пол-дерева.
+            -->
+            <Border x:Name="PART_FocusRing"
+                    BorderThickness="{DynamicResource AxFocusOutlineInset}"
+                    BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                    CornerRadius="{DynamicResource AxCornerRadius}"
+                    Height="{DynamicResource AxRowHeight}"
+                    IsVisible="False"/>
+          </Panel>
           <ItemsPresenter x:Name="PART_ItemsPresenter"
                           IsVisible="{TemplateBinding IsExpanded}"
                           ItemsPanel="{TemplateBinding ItemsPanel}"/>
@@ -132,6 +147,10 @@
         ветка предков. PART_Root детей не содержит, они идут отдельной частью
         ниже, поэтому его наведение — ровно одна строка.
     -->
+    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+
     <Style Selector="^ /template/ Border#PART_Root:pointerover">
       <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
     </Style>

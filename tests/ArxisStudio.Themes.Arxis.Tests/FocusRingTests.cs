@@ -43,6 +43,81 @@ public class FocusRingTests
     ];
 
     /// <summary>
+    /// Строки и вкладки: кольцо у них лежит внутри, а не снаружи.
+    /// </summary>
+    /// <remarks>
+    /// Все они фокусируемы — наследуют <c>ListBoxItem</c> или
+    /// <c>TreeViewItem</c>, у которых <c>Focusable</c> по умолчанию
+    /// <c>true</c>, — и до этой работы ни один не показывал, что стоит на нём.
+    /// Клавиатурный обход полосы вкладок или дерева шёл вслепую.
+    /// </remarks>
+    public static TheoryData<Type> Rows =>
+    [
+        typeof(AxListBoxItem),
+        typeof(AxComboBoxItem),
+        typeof(AxTreeViewItem),
+        typeof(AxTabItem),
+        typeof(AxSegmentItem),
+    ];
+
+    /// <summary>С клавиатуры кольцо строки видно.</summary>
+    [AvaloniaTheory]
+    [MemberData(nameof(Rows))]
+    public void Keyboard_focus_shows_the_ring_of_a_row(Type controlType)
+    {
+        var (control, window) = Shown(controlType);
+
+        Reach(control).Focus(NavigationMethod.Tab);
+        window.UpdateLayout();
+
+        Assert.True(Shows(control), $"{controlType.Name}: с клавиатуры кольца не видно");
+
+        window.Close();
+    }
+
+    /// <summary>Указателем — не видно, как и у всех остальных.</summary>
+    [AvaloniaTheory]
+    [MemberData(nameof(Rows))]
+    public void Pointer_focus_leaves_the_ring_of_a_row_hidden(Type controlType)
+    {
+        var (control, window) = Shown(controlType);
+
+        Reach(control).Focus(NavigationMethod.Pointer);
+        window.UpdateLayout();
+
+        Assert.False(Shows(control), $"{controlType.Name}: щелчок зажёг кольцо");
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Кольцо строки не выходит за её пределы.
+    /// </summary>
+    /// <remarks>
+    /// Правило, обратное кнопочному, и обратное нарочно. Кнопка стоит среди
+    /// воздуха, и её кольцо вынесено наружу отрицательным полем. Строка
+    /// занимает всю ширину своего хозяина, и вынесенное наружу кольцо срезал бы
+    /// сам хозяин: от него остались бы две вертикальные чёрточки по бокам.
+    /// </remarks>
+    [AvaloniaTheory]
+    [MemberData(nameof(Rows))]
+    public void The_ring_of_a_row_stays_inside_it(Type controlType)
+    {
+        var (control, window) = Shown(controlType);
+
+        Reach(control).Focus(NavigationMethod.Tab);
+        window.UpdateLayout();
+
+        var ring = Rings(control).First(candidate => candidate.IsVisible);
+
+        Assert.True(
+            ring.Bounds.Width <= control.Bounds.Width,
+            $"{controlType.Name}: кольцо {ring.Bounds.Width} шире строки {control.Bounds.Width} — хозяин его срежет");
+
+        window.Close();
+    }
+
+    /// <summary>
     /// Контрол с кольцом не обрезает себя по своим границам.
     /// </summary>
     /// <remarks>

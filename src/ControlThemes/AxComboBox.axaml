@@ -108,15 +108,35 @@
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <ContentPresenter x:Name="PART_ContentPresenter"
-                          Background="{TemplateBinding Background}"
-                          CornerRadius="{TemplateBinding CornerRadius}"
-                          Content="{TemplateBinding Content}"
-                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                          Padding="{TemplateBinding Padding}"
-                          VerticalContentAlignment="Center"/>
+        <Panel>
+          <ContentPresenter x:Name="PART_ContentPresenter"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Padding="{TemplateBinding Padding}"
+                            VerticalContentAlignment="Center"/>
+            <!--
+                Кольцо строки лежит внутри, а не снаружи, и это не мелочь. У
+                кнопки оно вынесено наружу отрицательным полем — там вокруг
+                есть место. Строка занимает всю ширину списка, и вынесенное
+                кольцо срезал бы сам список: остались бы две вертикальные
+                чёрточки по бокам. Толщина поэтому своя.
+
+                Стоит последним, значит поверх заливки выделения: иначе
+                выбранная строка в фокусе прятала бы кольцо под собой.
+            -->
+            <Border x:Name="PART_FocusRing"
+                    BorderThickness="{DynamicResource AxFocusOutlineInset}"
+                    BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    IsVisible="False"/>
+        </Panel>
       </ControlTemplate>
     </Setter>
+    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
     </Style>
