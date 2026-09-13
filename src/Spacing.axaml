@@ -1,0 +1,78 @@
+<!--
+    Шкала отступов темы «Arxis».
+
+    Дизайн-проект шкалы не задаёт. Раздел 5 перечисляет отступы каждого
+    контрола порознь — 12×6 у кнопки, 9 у поля, 6×2 у списка, — и числа эти
+    сняты с макетов поштучно. Отсюда и разброс: один и тот же смысловой зазор
+    написан шестёркой в дереве, семёркой в поле ввода и восьмёркой в списке.
+    Шкала здесь — решение, а не выгрузка из проекта, и объявляется она решением.
+
+    Шаг 4, и две половины, которые уже в ходу: 2 на волосяной зазор и 6 на
+    расстояние от иконки до её подписи. Выше двенадцати половин нет: выбор
+    между 16 и 20 — это уже не зазор, а вёрстка, и делать его должен тот, кто
+    видит экран целиком.
+
+    Отступ внутрь контрола — не отсюда. Кнопка, поле и выпадающий список
+    отступают внутрь себя так, как показал макет: AxButtonPadding,
+    AxTextFieldPadding, AxComboBoxPadding объявлены в Metrics.axaml и на шкалу
+    не садятся — 9 и 14 это числа компонента, а не системы. Шкала мерит
+    расстояние между вещами, а не воздух внутри одной. Тем же разделением
+    объясняется, почему десятки в шкале нет, хотя в разметке она вторая по
+    частоте: все её вхождения — отступы внутрь контрола.
+
+    Две формы, как у контура фокуса: x:Double для Spacing= и Thickness для
+    Margin= и Padding=. Thickness здесь всегда равносторонний. Направленный
+    зазор — 0,0,8,0 у иконки перед текстом — равносторонним не выражается, а
+    заводить восемь ступеней в четырёх направлениях значит получить тридцать
+    два ключа, из которых нужны шесть. Сторона решается там, где зазор стоит.
+
+    Псевдонимы в конце — только Double: они называют величину зазора, а не его
+    стороны, и ссылаются на ступень, а не повторяют её число.
+-->
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- Волосяной зазор: подпись под полем, иконка в строке, точки списка. -->
+  <x:Double x:Key="AxSpaceHair">2</x:Double>
+  <Thickness x:Key="AxSpaceHairThickness">2</Thickness>
+
+  <!-- Ступень шкалы. -->
+  <x:Double x:Key="AxSpaceTight">4</x:Double>
+  <Thickness x:Key="AxSpaceTightThickness">4</Thickness>
+
+  <!-- Половина ступени: иконка и её подпись стоят ближе, чем два контрола. -->
+  <x:Double x:Key="AxSpaceSnug">6</x:Double>
+  <Thickness x:Key="AxSpaceSnugThickness">6</Thickness>
+
+  <!-- Основная ступень: зазор между соседями по строке. -->
+  <x:Double x:Key="AxSpace">8</x:Double>
+  <Thickness x:Key="AxSpaceThickness">8</Thickness>
+
+  <!-- Ступень шкалы: строки формы, поля карточки. -->
+  <x:Double x:Key="AxSpaceWide">12</x:Double>
+  <Thickness x:Key="AxSpaceWideThickness">12</Thickness>
+
+  <!-- Ступень шкалы: группы внутри одной панели. -->
+  <x:Double x:Key="AxSpaceLoose">16</x:Double>
+  <Thickness x:Key="AxSpaceLooseThickness">16</Thickness>
+
+  <!-- Раздел от раздела. -->
+  <x:Double x:Key="AxSpaceSection">24</x:Double>
+  <Thickness x:Key="AxSpaceSectionThickness">24</Thickness>
+
+  <!-- Поля экрана: Welcome, настройки, диалог во всю высоту. -->
+  <x:Double x:Key="AxSpaceScreen">40</x:Double>
+  <Thickness x:Key="AxSpaceScreenThickness">40</Thickness>
+
+  <!--
+      Смысловые имена ступеней. Они и есть то, ради чего заведена шкала:
+      число выбирают заново каждый раз, а названный зазор берут готовым — и
+      шестёрка в дереве, семёрка в поле и восьмёрка в списке перестают быть
+      тремя мнениями об одном расстоянии.
+  -->
+  <StaticResource x:Key="AxGapIconText" ResourceKey="AxSpaceSnug"/>
+  <StaticResource x:Key="AxGapControls" ResourceKey="AxSpace"/>
+  <StaticResource x:Key="AxGapFormRow" ResourceKey="AxSpaceWide"/>
+  <StaticResource x:Key="AxGapGroup" ResourceKey="AxSpaceLoose"/>
+
+</ResourceDictionary>

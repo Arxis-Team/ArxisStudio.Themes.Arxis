@@ -28,4 +28,14 @@
         <EmbeddedResource Include="design-tokens.json"/>
     </ItemGroup>
 
+    <!--
+        Разметка темы едет в сборке тестов текстом: храповик LiteralSpacingTests
+        считает отступы, написанные числом, а скомпилированная разметка чисел
+        уже не показывает. Шаблон берётся звёздочкой, чтобы новый файл темы
+        попадал под счёт сам, а не тогда, когда о нём вспомнят.
+    -->
+    <ItemGroup>
+        <EmbeddedResource Include="../../src/**/*.axaml" LogicalName="axaml/%(RecursiveDir)%(Filename)%(Extension)"/>
+    </ItemGroup>
+
 </Project>

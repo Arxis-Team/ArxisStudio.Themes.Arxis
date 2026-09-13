@@ -53,6 +53,13 @@ ThemeVariant.Dark / Light` — все токены объявлены в theme d
 - `Metrics.axaml` — размеры: `AxControlHeight` и `AxControlHeightCompact`,
   `AxRowHeight`, `AxFocusOutlineWidth`, радиусы 4 / 8 / 3, отступы кнопки, поля и
   комбобокса, размер флажка и тумблера, размер и обводка иконки.
+- `Spacing.axaml` — шкала расстояний: ступени `AxSpaceHair 2`, `AxSpaceTight 4`,
+  `AxSpaceSnug 6`, `AxSpace 8`, `AxSpaceWide 12`, `AxSpaceLoose 16`,
+  `AxSpaceSection 24`, `AxSpaceScreen 40` — каждая в двух формах (`x:Double` для
+  `Spacing=` и `Thickness` с суффиксом для `Margin=`/`Padding=`), — и смысловые
+  имена поверх них: `AxGapIconText`, `AxGapControls`, `AxGapFormRow`,
+  `AxGapGroup`. Шкала мерит расстояние **между** вещами; отступ внутрь контрола
+  — это `Ax*Padding` в `Metrics.axaml`, и на шкалу он не садится.
 - `ControlThemes/` — темы всех Ax\*-контролов, меню и контекстных меню, тултипа,
   тонких скроллбаров (8px) ключом `{x:Type ScrollBar}` для всего приложения.
 - Глобальные стили: база окна (фон, цвет, шрифт), задержка тултипа и текстовые

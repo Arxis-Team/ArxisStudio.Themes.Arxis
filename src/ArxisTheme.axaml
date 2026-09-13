@@ -18,6 +18,7 @@
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/Palette.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/Typography.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/Metrics.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/Spacing.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxButton.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxTextBox.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxCheckBox.axaml"/>

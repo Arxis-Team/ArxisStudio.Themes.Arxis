@@ -36,6 +36,15 @@ public class MetricsScaleTests
         "AxScrollThumbSizeHover",
         "AxToggleWidth",
         "AxFocusOutlineWidth",
+        // Ступени шкалы отступов: расстояние — такая же длина раскладки.
+        "AxSpaceHair",
+        "AxSpaceTight",
+        "AxSpaceSnug",
+        "AxSpace",
+        "AxSpaceWide",
+        "AxSpaceLoose",
+        "AxSpaceSection",
+        "AxSpaceScreen",
     ];
 
     /// <summary>
