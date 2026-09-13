@@ -12,7 +12,7 @@
   -->
   <ControlTheme x:Key="{x:Type MenuItem}" TargetType="MenuItem">
     <Setter Property="MinHeight" Value="{DynamicResource AxRowHeight}"/>
-    <Setter Property="Padding" Value="8,0"/>
+    <Setter Property="Padding" Value="{DynamicResource AxMenuItemPadding}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
@@ -66,7 +66,7 @@
                     BorderThickness="1"
                     CornerRadius="{DynamicResource AxCornerRadiusLarge}"
                     BoxShadow="{DynamicResource AxPopupShadow}"
-                    Padding="4"
+                    Padding="{DynamicResource AxMenuPadding}"
                     Margin="8">
               <ScrollViewer>
                 <ItemsPresenter x:Name="PART_ItemsPresenter"
@@ -113,7 +113,7 @@
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
-    <Setter Property="Padding" Value="4"/>
+    <Setter Property="Padding" Value="{DynamicResource AxMenuPadding}"/>
     <Setter Property="MaxWidth" Value="456"/>
     <Setter Property="MinWidth" Value="160"/>
     <Setter Property="Template">
@@ -139,7 +139,7 @@
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
-    <Setter Property="Padding" Value="4"/>
+    <Setter Property="Padding" Value="{DynamicResource AxMenuPadding}"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}"
@@ -162,7 +162,7 @@
   <ControlTheme x:Key="{x:Type Separator}" TargetType="Separator">
     <Setter Property="Background" Value="{DynamicResource AxBrdBrush}"/>
     <Setter Property="Height" Value="1"/>
-    <Setter Property="Margin" Value="6,4"/>
+    <Setter Property="Margin" Value="{DynamicResource AxMenuSeparatorMargin}"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}"/>

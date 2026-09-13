@@ -74,6 +74,8 @@
   <Thickness x:Key="AxSpaceSnugTrailingThickness">0,0,6,0</Thickness>
   <Thickness x:Key="AxSpaceLeadingThickness">8,0,0,0</Thickness>
   <Thickness x:Key="AxSpaceTightAboveThickness">0,4,0,0</Thickness>
+  <Thickness x:Key="AxSpaceWideLeadingThickness">12,0,0,0</Thickness>
+  <Thickness x:Key="AxSpaceWideTrailingThickness">0,0,12,0</Thickness>
 
   <!--
       Смысловые имена ступеней. Они и есть то, ради чего заведена шкала:

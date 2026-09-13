@@ -27,7 +27,7 @@
                   и текст встают колонкой рядом с ним, и уйти оттуда можно
                   только кнопкой — решение обязательно.
               -->
-              <DockPanel x:Name="PART_Header" DockPanel.Dock="Top" Margin="16,12">
+              <DockPanel x:Name="PART_Header" DockPanel.Dock="Top" Margin="{DynamicResource AxDialogBandPadding}">
                 <ax:AxButton DockPanel.Dock="Right"
                              x:Name="PART_Close"
                              Classes="icon"
@@ -45,11 +45,11 @@
                       DockPanel.Dock="Bottom"
                       BorderBrush="{DynamicResource AxBrdBrush}"
                       BorderThickness="0,1,0,0"
-                      Padding="16,12">
+                      Padding="{DynamicResource AxDialogBandPadding}">
                 <DockPanel>
                   <ContentPresenter Content="{TemplateBinding Buttons}"
                                     DockPanel.Dock="Right"
-                                    Margin="12,0,0,0"
+                                    Margin="{DynamicResource AxSpaceWideLeadingThickness}"
                                     HorizontalAlignment="Right"
                                     IsVisible="{TemplateBinding Buttons, Converter={x:Static ObjectConverters.IsNotNull}}"/>
                   <ContentPresenter Content="{TemplateBinding FooterContent}"
@@ -62,14 +62,14 @@
                   Тело. У алерта в него въезжают значок слева и заголовок над
                   текстом — оба прячутся, пока значка нет.
               -->
-              <DockPanel x:Name="PART_Body" Margin="16,0,16,16">
+              <DockPanel x:Name="PART_Body" Margin="{DynamicResource AxDialogBodyMargin}">
                 <ContentPresenter x:Name="PART_AlertIcon"
                                   DockPanel.Dock="Left"
-                                  Margin="0,0,12,0"
+                                  Margin="{DynamicResource AxSpaceWideTrailingThickness}"
                                   VerticalAlignment="Top"
                                   Content="{TemplateBinding AlertIcon}"
                                   IsVisible="False"/>
-                <StackPanel Spacing="4">
+                <StackPanel Spacing="{DynamicResource AxSpaceTight}">
                   <TextBlock x:Name="PART_AlertTitle"
                              Text="{TemplateBinding Title}"
                              FontWeight="SemiBold"
@@ -96,7 +96,7 @@
       <Setter Property="IsVisible" Value="False"/>
     </Style>
     <Style Selector="^:alert /template/ DockPanel#PART_Body">
-      <Setter Property="Margin" Value="16"/>
+      <Setter Property="Margin" Value="{DynamicResource AxSpaceLooseThickness}"/>
     </Style>
     <Style Selector="^:alert /template/ ContentPresenter#PART_AlertIcon">
       <Setter Property="IsVisible" Value="True"/>
