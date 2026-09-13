@@ -13,7 +13,7 @@
     <Setter Property="Foreground" Value="{DynamicResource AxOnAccBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSizeCaption}"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
-    <Setter Property="Padding" Value="4,0"/>
+    <Setter Property="Padding" Value="{DynamicResource AxBadgePadding}"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}"
@@ -30,7 +30,7 @@
 
   <!-- Чип-метка: bg3-пилюля; accent — выделенная; kbd — вид клавиши. -->
   <ControlTheme x:Key="{x:Type ax:AxChip}" TargetType="ax:AxChip">
-    <Setter Property="Padding" Value="8,2"/>
+    <Setter Property="Padding" Value="{DynamicResource AxChipPadding}"/>
     <Setter Property="CornerRadius" Value="10"/>
     <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
@@ -68,7 +68,7 @@
       <Setter Property="FontWeight" Value="Medium"/>
       <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
       <Setter Property="Height" Value="20"/>
-      <Setter Property="Padding" Value="6,0"/>
+      <Setter Property="Padding" Value="{DynamicResource AxChipPaddingKey}"/>
     </Style>
   </ControlTheme>
 
@@ -78,7 +78,7 @@
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
-    <Setter Property="Padding" Value="14"/>
+    <Setter Property="Padding" Value="{DynamicResource AxCardPadding}"/>
     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
     <Setter Property="VerticalContentAlignment" Value="Stretch"/>
     <Setter Property="Template">

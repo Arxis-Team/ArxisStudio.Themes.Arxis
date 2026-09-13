@@ -66,7 +66,7 @@
     <Setter Property="Margin" Value="4,0,6,0"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <StackPanel Orientation="Horizontal" Spacing="2">
+        <StackPanel Orientation="Horizontal" Spacing="{DynamicResource AxSpaceHair}">
           <Button x:Name="PART_Minimize" Theme="{StaticResource AxWindowButton}">
             <ax:AxIcon Data="{x:Static ax:AxIcons.Minus}"
                        Foreground="{Binding $parent[Button].Foreground}"/>

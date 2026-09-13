@@ -160,7 +160,7 @@
                 BasedOn="{StaticResource {x:Type ax:AxTextBox}}">
     <Setter Property="InnerLeftContent">
       <Template>
-        <ax:AxIcon Margin="0,0,7,0"
+        <ax:AxIcon Margin="{DynamicResource AxGapIconTextThickness}"
                    Data="{x:Static ax:AxIcons.Search}"
                    Foreground="{DynamicResource AxFg2Brush}"/>
       </Template>
@@ -174,7 +174,7 @@
       <Template>
         <ax:AxButton x:Name="PART_Clear"
                      Theme="{StaticResource AxInlineIconButton}"
-                     Margin="7,0,0,0"
+                     Margin="{DynamicResource AxSpaceSnugLeadingThickness}"
                      AutomationProperties.Name="Очистить поиск"
                      IsVisible="{Binding Text, RelativeSource={RelativeSource AncestorType=ax:AxSearchField},
                                          Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
@@ -196,7 +196,7 @@
         здесь первая строка иначе прижимается к рамке. Компонента на этот
         случай в проекте нет, значение выбрано по горизонтальному.
     -->
-    <Setter Property="Padding" Value="9,6"/>
+    <Setter Property="Padding" Value="{DynamicResource AxTextAreaPadding}"/>
     <Setter Property="AcceptsReturn" Value="True"/>
     <Setter Property="TextWrapping" Value="Wrap"/>
     <Setter Property="VerticalContentAlignment" Value="Top"/>

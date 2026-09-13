@@ -34,7 +34,7 @@ public class LiteralSpacingTests
     /// ступени, — это или отступ внутрь контрола, и тогда ему место в
     /// Metrics.axaml рядом с AxButtonPadding, или разговор о самой шкале.
     /// </remarks>
-    private const int Ceiling = 48;
+    private const int Ceiling = 16;
 
     /// <summary>
     /// Объявления отступа: атрибутом и сеттером.

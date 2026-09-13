@@ -17,7 +17,7 @@
         Отступы свои, не кнопочные: справа шеврон, и ему нужно меньше места,
         чем тексту слева. Проект так и объявляет — 10 слева, 8 справа.
     -->
-    <Setter Property="Padding" Value="10,0,8,0"/>
+    <Setter Property="Padding" Value="{DynamicResource AxDropDownButtonPadding}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
@@ -52,7 +52,7 @@
               <ax:AxIcon Grid.Column="1"
                          x:Name="PART_Chevron"
                          Classes="small"
-                         Margin="6,0,0,0"
+                         Margin="{DynamicResource AxSpaceSnugLeadingThickness}"
                          Data="{x:Static ax:AxIcons.ChevronDown}"
                          Foreground="{DynamicResource AxFg2Brush}"
                          VerticalAlignment="Center"/>

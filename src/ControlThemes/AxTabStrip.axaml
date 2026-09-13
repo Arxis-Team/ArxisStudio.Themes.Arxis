@@ -98,7 +98,7 @@
         до крестика 8px». Десять стояли здесь с первой вёрстки и не значили
         ничего, кроме лишней ширины у каждой вкладки в ряду.
     -->
-    <Setter Property="Padding" Value="{DynamicResource AxTabPadding}"/>
+    <Setter Property="Padding" Value="{DynamicResource AxRowPadding}"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>

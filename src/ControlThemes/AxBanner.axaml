@@ -13,7 +13,7 @@
     <Setter Property="BorderBrush" Value="{DynamicResource AxInfoBorderBrush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
-    <Setter Property="Padding" Value="12,8"/>
+    <Setter Property="Padding" Value="{DynamicResource AxBannerPadding}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="HorizontalAlignment" Value="Stretch"/>
     <Setter Property="Template">
@@ -28,7 +28,7 @@
                  баннера по центру, а не по верху. -->
             <ax:AxIcon x:Name="PART_Icon"
                        DockPanel.Dock="Left"
-                       Margin="0,0,10,0"
+                       Margin="{DynamicResource AxGapIconTextThickness}"
                        VerticalAlignment="Center"
                        Data="{x:Static ax:AxIcons.Info}"
                        Foreground="{DynamicResource AxAccBrush}"/>
@@ -54,7 +54,7 @@
             </ax:AxButton>
             <ContentPresenter x:Name="PART_Actions"
                               DockPanel.Dock="Right"
-                              Margin="12,0,0,0"
+                              Margin="{DynamicResource AxSpaceWideLeadingThickness}"
                               VerticalAlignment="Center"
                               Content="{TemplateBinding Actions}"
                               IsVisible="{TemplateBinding Actions, Converter={x:Static ObjectConverters.IsNotNull}}"/>

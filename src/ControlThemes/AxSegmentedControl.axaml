@@ -8,7 +8,7 @@
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
-    <Setter Property="Padding" Value="2"/>
+    <Setter Property="Padding" Value="{DynamicResource AxSpaceHairThickness}"/>
     <!--
         Высота задана, а не набрана содержимым: раздел 5 «Основ» перечисляет
         сегменты среди того, что стоит на AxControlHeight, рядом с кнопкой,
@@ -43,7 +43,7 @@
         половины, как и всё остальное на фиксированной высоте. Радиус —
         контрольный 4, а не бейджевый 3: сегмент это контрол.
     -->
-    <Setter Property="Padding" Value="12,0"/>
+    <Setter Property="Padding" Value="{DynamicResource AxButtonPadding}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>

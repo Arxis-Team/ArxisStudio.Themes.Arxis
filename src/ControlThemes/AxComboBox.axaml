@@ -43,7 +43,7 @@
                             VerticalAlignment="Center"/>
             <ax:AxIcon Grid.Column="1"
                        x:Name="PART_Chevron"
-                       Margin="6,0,0,0"
+                       Margin="{DynamicResource AxSpaceSnugLeadingThickness}"
                        Data="{x:Static ax:AxIcons.ChevronDown}"
                        Foreground="{DynamicResource AxFg2Brush}"
                        VerticalAlignment="Center"/>
@@ -58,11 +58,11 @@
                       BorderThickness="1"
                       CornerRadius="{DynamicResource AxCornerRadiusLarge}"
                       BoxShadow="{DynamicResource AxPopupShadow}"
-                      Margin="0,4,0,0">
+                      Margin="{DynamicResource AxSpaceTightAboveThickness}">
                 <ScrollViewer>
                   <ItemsPresenter x:Name="PART_ItemsPresenter"
                                   ItemsPanel="{TemplateBinding ItemsPanel}"
-                                  Margin="4"/>
+                                  Margin="{DynamicResource AxSpaceTightThickness}"/>
                 </ScrollViewer>
               </Border>
             </Popup>
@@ -100,7 +100,7 @@
 
   <!-- Элемент выпадающего списка. -->
   <ControlTheme x:Key="{x:Type ax:AxComboBoxItem}" TargetType="ax:AxComboBoxItem">
-    <Setter Property="Padding" Value="8,0"/>
+    <Setter Property="Padding" Value="{DynamicResource AxRowPadding}"/>
     <Setter Property="MinHeight" Value="{DynamicResource AxRowHeight}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>

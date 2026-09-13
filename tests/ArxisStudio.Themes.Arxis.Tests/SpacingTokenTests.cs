@@ -75,6 +75,8 @@ public class SpacingTokenTests
         ("AxSpaceTightAboveThickness", 0, 4, 0, 0),
         ("AxSpaceWideLeadingThickness", 12, 0, 0, 0),
         ("AxSpaceWideTrailingThickness", 0, 0, 12, 0),
+        ("AxSpaceSnugLeadingThickness", 6, 0, 0, 0),
+        ("AxSpaceTrailingThickness", 0, 0, 8, 0),
     ];
 
     /// <summary>
@@ -89,6 +91,7 @@ public class SpacingTokenTests
     [
         ("AxSpaceTightSidesThickness", 4, 0),
         ("AxSpaceWideSidesThickness", 12, 0),
+        ("AxSpaceHairSidesThickness", 2, 0),
     ];
 
     /// <summary>Смысловое имя направленного зазора и его основание.</summary>

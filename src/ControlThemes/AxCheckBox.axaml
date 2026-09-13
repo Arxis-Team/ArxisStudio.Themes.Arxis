@@ -72,7 +72,7 @@
                     IsVisible="False"/>
             </Panel>
             <ContentPresenter Grid.Column="1"
-                              Margin="5,0,0,0"
+                              Margin="{DynamicResource AxCheckboxGapThickness}"
                               Content="{TemplateBinding Content}"
                               ContentTemplate="{TemplateBinding ContentTemplate}"
                               VerticalAlignment="Center"

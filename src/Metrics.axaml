@@ -76,6 +76,17 @@
       снимком старого кода в §5; строки в §6 про это нет, значит прав проект.
   -->
   <Thickness x:Key="AxComboBoxPadding">9,0,6,0</Thickness>
+  <Thickness x:Key="AxDropDownButtonPadding">10,0,8,0</Thickness>
+  <!--
+      Кнопка-призрак отступает меньше залитой: рамки у неё нет, и лишний
+      воздух по бокам отрывал бы подпись от того, что рядом.
+  -->
+  <Thickness x:Key="AxButtonPaddingGhost">10,0</Thickness>
+  <!--
+      Многострочное поле: девять по горизонтали, как у однострочного, и шесть
+      по вертикали — высота там не фиксирована, и текст по центру не встанет.
+  -->
+  <Thickness x:Key="AxTextAreaPadding">9,6</Thickness>
 
   <!--
       Отступы внутрь остальных поверхностей. Тултип; карточка — подсказка,
@@ -87,22 +98,33 @@
       внутри одной.
   -->
   <Thickness x:Key="AxTooltipPadding">10,6</Thickness>
-  <Thickness x:Key="AxCardPadding">14,12</Thickness>
+  <Thickness x:Key="AxSurfacePadding">14,12</Thickness>
   <Thickness x:Key="AxListItemPadding">8,2</Thickness>
-  <Thickness x:Key="AxTabPadding">8,0</Thickness>
   <Thickness x:Key="AxTreeViewPadding">2,4</Thickness>
   <Thickness x:Key="AxTreeViewItemPadding">0,0,8,0</Thickness>
   <Thickness x:Key="AxBreadcrumbPadding">4,0</Thickness>
   <Thickness x:Key="AxBreadcrumbItemPadding">6,2</Thickness>
+  <Thickness x:Key="AxBannerPadding">12,8</Thickness>
+  <Thickness x:Key="AxBadgePadding">4,0</Thickness>
+  <Thickness x:Key="AxChipPadding">8,2</Thickness>
+  <Thickness x:Key="AxChipPaddingKey">6,0</Thickness>
+  <Thickness x:Key="AxCardPadding">14</Thickness>
+  <Thickness x:Key="AxDataGridCellPadding">10,0</Thickness>
+  <!--
+      Строка внутри списка: пункт меню, вкладка, строка выпадающего списка.
+      Одно решение на три шаблона — до сих пор восьмёрка стояла в каждом
+      порознь, и разъехаться им было нечем помешать.
+  -->
+  <Thickness x:Key="AxRowPadding">8,0</Thickness>
   <Thickness x:Key="AxQuickSearchFieldPadding">12,10</Thickness>
   <Thickness x:Key="AxQuickSearchHintsPadding">12,8</Thickness>
 
   <!--
-      Меню. Пункт отступает внутрь по горизонтали, полотно — со всех сторон
-      (меню, контекстное меню и MenuFlyout отступают одинаково, и это одно
-      решение на три шаблона), разделителю нужен воздух по бокам линии.
+      Меню. Полотно отступает внутрь со всех сторон — меню, контекстное меню
+      и MenuFlyout одинаково, и это одно решение на три шаблона; разделителю
+      нужен воздух по бокам линии. Пункт отступает как строка списка, поэтому
+      своего ключа у него нет.
   -->
-  <Thickness x:Key="AxMenuItemPadding">8,0</Thickness>
   <Thickness x:Key="AxMenuPadding">4</Thickness>
   <Thickness x:Key="AxMenuSeparatorMargin">6,4</Thickness>
 
@@ -152,5 +174,15 @@
   <x:Double x:Key="AxScrollBarLane">12</x:Double>
   <x:Double x:Key="AxScrollThumbSize">6</x:Double>
   <x:Double x:Key="AxScrollThumbSizeHover">8</x:Double>
+  <!--
+      Отбивка ползунка от дальнего края полосы. Число не выбрано, а посчитано:
+      полоса 12, ползунок 6 — остаётся по три с каждой стороны, под курсором
+      ползунок 8 и остаётся по два. Пары, как и у самих размеров: по одной на
+      каждую ориентацию.
+  -->
+  <Thickness x:Key="AxScrollThumbInset">0,0,3,0</Thickness>
+  <Thickness x:Key="AxScrollThumbInsetBottom">0,0,0,3</Thickness>
+  <Thickness x:Key="AxScrollThumbInsetHover">0,0,2,0</Thickness>
+  <Thickness x:Key="AxScrollThumbInsetHoverBottom">0,0,0,2</Thickness>
 
 </ResourceDictionary>

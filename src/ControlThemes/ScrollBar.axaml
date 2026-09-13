@@ -41,7 +41,7 @@
                 <Thumb x:Name="PART_Thumb"
                        Theme="{StaticResource AxScrollThumb}"
                        Width="{DynamicResource AxScrollThumbSize}"
-                       Margin="0,0,3,0"
+                       Margin="{DynamicResource AxScrollThumbInset}"
                        HorizontalAlignment="Right"/>
               </Track.Thumb>
             </Track>
@@ -64,7 +64,7 @@
                 <Thumb x:Name="PART_Thumb"
                        Theme="{StaticResource AxScrollThumb}"
                        Height="{DynamicResource AxScrollThumbSize}"
-                       Margin="0,0,0,3"
+                       Margin="{DynamicResource AxScrollThumbInsetBottom}"
                        VerticalAlignment="Bottom"/>
               </Track.Thumb>
             </Track>
@@ -82,19 +82,19 @@
     -->
     <Style Selector="^:vertical:expanded /template/ Thumb#PART_Thumb">
       <Setter Property="Width" Value="{DynamicResource AxScrollThumbSizeHover}"/>
-      <Setter Property="Margin" Value="0,0,2,0"/>
+      <Setter Property="Margin" Value="{DynamicResource AxScrollThumbInsetHover}"/>
     </Style>
     <Style Selector="^:vertical:pointerover /template/ Thumb#PART_Thumb">
       <Setter Property="Width" Value="{DynamicResource AxScrollThumbSizeHover}"/>
-      <Setter Property="Margin" Value="0,0,2,0"/>
+      <Setter Property="Margin" Value="{DynamicResource AxScrollThumbInsetHover}"/>
     </Style>
     <Style Selector="^:horizontal:expanded /template/ Thumb#PART_Thumb">
       <Setter Property="Height" Value="{DynamicResource AxScrollThumbSizeHover}"/>
-      <Setter Property="Margin" Value="0,0,0,2"/>
+      <Setter Property="Margin" Value="{DynamicResource AxScrollThumbInsetHoverBottom}"/>
     </Style>
     <Style Selector="^:horizontal:pointerover /template/ Thumb#PART_Thumb">
       <Setter Property="Height" Value="{DynamicResource AxScrollThumbSizeHover}"/>
-      <Setter Property="Margin" Value="0,0,0,2"/>
+      <Setter Property="Margin" Value="{DynamicResource AxScrollThumbInsetHoverBottom}"/>
     </Style>
 
     <Style Selector="^:expanded /template/ Thumb#PART_Thumb">
