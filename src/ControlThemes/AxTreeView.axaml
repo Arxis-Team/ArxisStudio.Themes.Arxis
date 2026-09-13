@@ -21,7 +21,7 @@
         её подпись вправо от соседних — здесь они отданы панели, так заливка
         встаёт как в карточке, а подписи всех строк остаются в одной колонке.
     -->
-    <Setter Property="Padding" Value="2,4"/>
+    <Setter Property="Padding" Value="{DynamicResource AxTreeViewPadding}"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}"
@@ -39,7 +39,7 @@
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
-    <Setter Property="Padding" Value="0,0,8,0"/>
+    <Setter Property="Padding" Value="{DynamicResource AxTreeViewItemPadding}"/>
     <Setter Property="Template">
       <ControlTemplate>
         <StackPanel>
@@ -53,7 +53,7 @@
               <ToggleButton x:Name="PART_ExpandCollapseChevron"
                             DockPanel.Dock="Left"
                             Width="{DynamicResource AxIconSizeSmall}" Height="{DynamicResource AxRowHeight}"
-                            Margin="0,0,6,0"
+                            Margin="{DynamicResource AxGapIconTextThickness}"
                             VerticalAlignment="Center"
                             Background="Transparent"
                             BorderThickness="0"
@@ -90,7 +90,7 @@
               -->
               <ContentPresenter x:Name="PART_Icon"
                                 DockPanel.Dock="Left"
-                                Margin="0,0,6,0"
+                                Margin="{DynamicResource AxGapIconTextThickness}"
                                 VerticalAlignment="Center"
                                 Content="{TemplateBinding Icon}"
                                 IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}"/>

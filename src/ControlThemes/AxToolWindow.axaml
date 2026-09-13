@@ -56,7 +56,7 @@
               <DockPanel>
                 <ContentPresenter x:Name="PART_Actions"
                                   DockPanel.Dock="Right"
-                                  Margin="12,0"
+                                  Margin="{DynamicResource AxSpaceWideSidesThickness}"
                                   Content="{TemplateBinding Actions}"
                                   VerticalAlignment="Center"
                                   IsVisible="{TemplateBinding Actions, Converter={x:Static ObjectConverters.IsNotNull}}"/>
@@ -68,7 +68,7 @@
                 -->
                 <TextBlock x:Name="PART_Title"
                            Text="{TemplateBinding Title}"
-                           Margin="12,0"
+                           Margin="{DynamicResource AxSpaceWideSidesThickness}"
                            FontWeight="SemiBold"
                            Foreground="{TemplateBinding Foreground}"
                            VerticalAlignment="Center"

@@ -26,7 +26,7 @@
 
   <!-- Строка списка: hover — bg3, выделение — sel. -->
   <ControlTheme x:Key="{x:Type ax:AxListBoxItem}" TargetType="ax:AxListBoxItem">
-    <Setter Property="Padding" Value="8,2"/>
+    <Setter Property="Padding" Value="{DynamicResource AxListItemPadding}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="MinHeight" Value="{DynamicResource AxRowHeight}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>

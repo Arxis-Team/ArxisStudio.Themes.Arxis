@@ -36,7 +36,7 @@
           -->
           <!-- Просвет в пиксель: у класса accent половина залита акцентом. -->
           <Border x:Name="PART_FocusRing"
-                  Margin="-3"
+                  Margin="{DynamicResource AxFocusOutlineRowMargin}"
                   CornerRadius="6"
                   BorderThickness="{DynamicResource AxFocusOutlineThickness}"
                   BorderBrush="{DynamicResource AxOutlineFocusedBrush}"

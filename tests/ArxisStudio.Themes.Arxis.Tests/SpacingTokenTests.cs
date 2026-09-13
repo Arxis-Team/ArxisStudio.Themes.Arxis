@@ -77,6 +77,20 @@ public class SpacingTokenTests
         ("AxSpaceWideTrailingThickness", 0, 0, 12, 0),
     ];
 
+    /// <summary>
+    /// Парные зазоры: ступень на двух противоположных сторонах.
+    /// </summary>
+    /// <remarks>
+    /// Отбивка по бокам — не то же, что зазор между соседями: она отступает
+    /// содержимое от обоих краёв сразу, и написать её двумя направленными
+    /// нельзя, полем владеет один контрол.
+    /// </remarks>
+    private static readonly (string Key, double Horizontal, double Vertical)[] Paired =
+    [
+        ("AxSpaceTightSidesThickness", 4, 0),
+        ("AxSpaceWideSidesThickness", 12, 0),
+    ];
+
     /// <summary>Смысловое имя направленного зазора и его основание.</summary>
     private static readonly (string Alias, string Directed)[] NamedDirections =
     [
@@ -101,6 +115,20 @@ public class SpacingTokenTests
 
             foreach (var (key, left, top, right, bottom) in Directed)
                 data.Add(key, left, top, right, bottom);
+
+            return data;
+        }
+    }
+
+    /// <summary>Парный зазор и его две величины.</summary>
+    public static TheoryData<string, double, double> Pairs
+    {
+        get
+        {
+            var data = new TheoryData<string, double, double>();
+
+            foreach (var (key, horizontal, vertical) in Paired)
+                data.Add(key, horizontal, vertical);
 
             return data;
         }
@@ -217,6 +245,23 @@ public class SpacingTokenTests
         window.Close();
     }
 
+    /// <summary>Парный зазор стоит на двух противоположных сторонах.</summary>
+    [AvaloniaTheory]
+    [MemberData(nameof(Pairs))]
+    public void A_paired_gap_stands_on_two_opposite_sides(string key, double horizontal, double vertical)
+    {
+        var window = Shown();
+
+        Assert.True(window.TryFindResource(key, window.ActualThemeVariant, out var value), $"нет ключа {key}");
+
+        var pair = Assert.IsType<Thickness>(value);
+
+        Assert.Equal(new Thickness(horizontal, vertical, horizontal, vertical), pair);
+        Assert.NotEqual(pair.Left, pair.Top);
+
+        window.Close();
+    }
+
     /// <summary>Смысловое имя направленного зазора — это он сам.</summary>
     [AvaloniaTheory]
     [MemberData(nameof(Directions))]
@@ -259,6 +304,7 @@ public class SpacingTokenTests
         var steps = Scale.Select(step => step.Key).OrderBy(key => key, StringComparer.Ordinal);
         var thicknesses = Scale.Select(step => step.Key + "Thickness")
             .Concat(Directed.Select(gap => gap.Key))
+            .Concat(Paired.Select(gap => gap.Key))
             .OrderBy(key => key, StringComparer.Ordinal);
         var aliases = Named.Select(name => name.Alias)
             .Concat(NamedDirections.Select(name => name.Alias))

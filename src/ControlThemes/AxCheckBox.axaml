@@ -33,7 +33,7 @@
               Три пикселя поля — это два кольца плюс просвет.
           -->
           <Border x:Name="PART_FocusRing"
-                  Margin="-3"
+                  Margin="{DynamicResource AxFocusOutlineRowMargin}"
                   CornerRadius="6"
                   BorderThickness="{DynamicResource AxFocusOutlineThickness}"
                   BorderBrush="{DynamicResource AxOutlineFocusedBrush}"

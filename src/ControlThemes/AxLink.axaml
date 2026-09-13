@@ -31,7 +31,7 @@
         -->
         <Border x:Name="PART_FocusRing"
                 Padding="1"
-                Margin="-3"
+                Margin="{DynamicResource AxFocusOutlineRowMargin}"
                 CornerRadius="{DynamicResource AxCornerRadiusSmall}"
                 BorderThickness="{DynamicResource AxFocusOutlineThickness}"
                 BorderBrush="Transparent">

@@ -32,7 +32,7 @@
               карточке — outline-offset:1px во всех фокусных состояниях.
           -->
           <Border x:Name="PART_FocusRing"
-                  Margin="-3"
+                  Margin="{DynamicResource AxFocusOutlineRowMargin}"
                   CornerRadius="6"
                   BorderThickness="{DynamicResource AxFocusOutlineThickness}"
                   BorderBrush="{DynamicResource AxOutlineFocusedBrush}"

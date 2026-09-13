@@ -29,7 +29,7 @@
               же акцентом, и вплотную кольцо сливалось с ней в одно пятно.
           -->
           <Border x:Name="PART_FocusRing"
-                  Margin="-3"
+                  Margin="{DynamicResource AxFocusOutlineRowMargin}"
                   CornerRadius="6"
                   BorderThickness="{DynamicResource AxFocusOutlineThickness}"
                   BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
@@ -44,7 +44,7 @@
                        StrokeThickness="1"/>
             </Panel>
             <ContentPresenter Grid.Column="1"
-                              Margin="5,0,0,0"
+                              Margin="{DynamicResource AxCheckboxGapThickness}"
                               Content="{TemplateBinding Content}"
                               ContentTemplate="{TemplateBinding ContentTemplate}"
                               VerticalAlignment="Center"
@@ -202,7 +202,7 @@
           -->
           <ax:AxIcon x:Name="PART_Chevron"
                      Classes="small"
-                     Margin="0,0,8,0"
+                     Margin="{DynamicResource AxGapIconTextThickness}"
                      Data="{x:Static ax:AxIcons.ChevronRight}"
                      Foreground="{DynamicResource AxFg2Brush}"
                      VerticalAlignment="Center"
@@ -215,7 +215,7 @@
           <!-- Счётчик: сколько всего в группе. Вторичным текстом и мельче. -->
           <ContentPresenter x:Name="PART_Counter"
                             Grid.Column="2"
-                            Margin="8,0,0,0"
+                            Margin="{DynamicResource AxSpaceLeadingThickness}"
                             Content="{TemplateBinding Counter}"
                             TextBlock.Foreground="{DynamicResource AxFg2Brush}"
                             TextBlock.FontSize="{DynamicResource AxFontSizeSmall}"
@@ -308,7 +308,7 @@
         <Panel Background="Transparent">
           <!-- Просвет в пиксель: заполненная часть дорожки акцентная. -->
           <Border x:Name="PART_FocusRing"
-                  Margin="-3"
+                  Margin="{DynamicResource AxFocusOutlineRowMargin}"
                   CornerRadius="6"
                   BorderThickness="{DynamicResource AxFocusOutlineThickness}"
                   BorderBrush="{DynamicResource AxOutlineFocusedBrush}"

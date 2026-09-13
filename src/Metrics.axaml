@@ -38,6 +38,14 @@
   <CornerRadius x:Key="AxCornerRadiusFocusOuter">5</CornerRadius>
   <!-- Кольцо ложится наружу, поэтому отступ отрицательный на свою толщину. -->
   <Thickness x:Key="AxFocusOutlineOuterMargin">-1</Thickness>
+  <!--
+      Кольцо, обнимающее строку с подписью: флажок, тумблер, ссылка, элемент
+      списка выбора. Оно стоит от строки на просвет в пиксель — у отмеченного
+      флажка коробка залита тем же акцентом, и вплотную кольцо сливалось с ней
+      в одно пятно. Три пикселя поля — это два кольца плюс просвет, и потому
+      число здесь, а не в шести шаблонах порознь.
+  -->
+  <Thickness x:Key="AxFocusOutlineRowMargin">-3</Thickness>
 
   <!-- Скругления: контролы, сегменты, всплывающие панели. -->
   <CornerRadius x:Key="AxCornerRadius">4</CornerRadius>
@@ -70,14 +78,22 @@
   <Thickness x:Key="AxComboBoxPadding">9,0,6,0</Thickness>
 
   <!--
-      Отступы внутрь остальных поверхностей. Тултип; карточка — подсказка и
-      уведомление отступают внутрь одинаково, и это одно решение, а не два
-      совпавших; две полосы окна поиска — поле сверху и подсказки снизу.
-      Числа сняты с макетов, как и у кнопки, и на шкалу расстояний не садятся:
-      она мерит промежуток между вещами, а не воздух внутри одной.
+      Отступы внутрь остальных поверхностей. Тултип; карточка — подсказка,
+      уведомление и блок кода отступают внутрь одинаково, и это одно решение,
+      а не три совпавших; две полосы окна поиска — поле сверху и подсказки
+      снизу; строка списка, вкладка, дерево и его строка, полоса хлебных
+      крошек и звено в ней. Числа сняты с макетов, как и у кнопки, и на шкалу
+      расстояний не садятся: она мерит промежуток между вещами, а не воздух
+      внутри одной.
   -->
   <Thickness x:Key="AxTooltipPadding">10,6</Thickness>
   <Thickness x:Key="AxCardPadding">14,12</Thickness>
+  <Thickness x:Key="AxListItemPadding">8,2</Thickness>
+  <Thickness x:Key="AxTabPadding">8,0</Thickness>
+  <Thickness x:Key="AxTreeViewPadding">2,4</Thickness>
+  <Thickness x:Key="AxTreeViewItemPadding">0,0,8,0</Thickness>
+  <Thickness x:Key="AxBreadcrumbPadding">4,0</Thickness>
+  <Thickness x:Key="AxBreadcrumbItemPadding">6,2</Thickness>
   <Thickness x:Key="AxQuickSearchFieldPadding">12,10</Thickness>
   <Thickness x:Key="AxQuickSearchHintsPadding">12,8</Thickness>
 
@@ -102,6 +118,7 @@
   <!-- Флажок и переключатель. -->
   <x:Double x:Key="AxCheckboxSize">16</x:Double>
   <x:Double x:Key="AxCheckboxGap">5</x:Double>
+  <Thickness x:Key="AxCheckboxGapThickness">5,0,0,0</Thickness>
   <x:Double x:Key="AxToggleWidth">30</x:Double>
   <x:Double x:Key="AxToggleHeight">17</x:Double>
   <x:Double x:Key="AxToggleKnobSize">13</x:Double>
