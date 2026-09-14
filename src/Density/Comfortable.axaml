@@ -1,0 +1,97 @@
+<!--
+    Плотность интерфейса: ступень «просторная».
+
+    Словарь подмешивают поверх темы, а не вместо неё: он переопределяет то, что
+    от плотности зависит, и молчит обо всём остальном. Обычная ступень —
+    та, что объявлена в Metrics.axaml и Spacing.axaml; её словарь пуст.
+
+    Что здесь есть. Высоты строки и контролов — то, ради чего плотность и
+    заводят; ширины кнопок за ними; отступы внутрь трёх контролов строки; вся
+    шкала расстояний в обеих формах вместе с направленными зазорами и
+    смысловыми именами.
+
+    Чего здесь нет, и это решение, а не пропуск:
+
+    — Контур фокуса. Два пикселя — это два пикселя; тонкое кольцо в плотной
+      ступени не плотнее, оно хуже видно.
+    — Скругления. Радиус — лицо набора, а не расстояние.
+    — Размер флажка, тумблера, полоса захвата разделителя и ширина
+      скроллбара. Это цели попадания: мельче — значит труднее попасть мышью,
+      и плотность такой цены не стоит.
+    — Размер иконки. Набор нарисован на клетке 16 и одной толщиной обводки;
+      четырнадцать и восемнадцать дали бы те же пути не по пикселям, а
+      icons.md запрещает менять обводку на отдельных иконках.
+    — Отступы поверхностей: карточки, диалога, страницы настроек, меню.
+      Воздух страницы — не то же, что шаг строки; сжатая карточка выглядит не
+      плотной, а сломанной.
+
+    Файл собран по таблице: направленный зазор берёт величину своей ступени, и
+    это закреплено тестом, а не соблюдено вручную.
+-->
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+  <!-- Высоты строки и контролов, ширины кнопок. -->
+  <x:Double x:Key="AxRowHeight">28</x:Double>
+  <x:Double x:Key="AxControlHeight">32</x:Double>
+  <x:Double x:Key="AxControlHeightCompact">28</x:Double>
+  <x:Double x:Key="AxControlHeightSmall">30</x:Double>
+  <x:Double x:Key="AxButtonMinWidth">80</x:Double>
+  <x:Double x:Key="AxButtonMinWidthCompact">72</x:Double>
+  <x:Double x:Key="AxDialogButtonMinWidth">104</x:Double>
+
+  <!-- Отступы внутрь контролов строки. -->
+  <Thickness x:Key="AxButtonPadding">16,0</Thickness>
+  <Thickness x:Key="AxTextFieldPadding">11,0</Thickness>
+  <Thickness x:Key="AxComboBoxPadding">11,0,8,0</Thickness>
+
+  <!-- Шкала расстояний в обеих формах. -->
+  <x:Double x:Key="AxSpaceHair">4</x:Double>
+  <Thickness x:Key="AxSpaceHairThickness">4</Thickness>
+  <x:Double x:Key="AxSpaceTight">6</x:Double>
+  <Thickness x:Key="AxSpaceTightThickness">6</Thickness>
+  <x:Double x:Key="AxSpaceSnug">8</x:Double>
+  <Thickness x:Key="AxSpaceSnugThickness">8</Thickness>
+  <x:Double x:Key="AxSpace">10</x:Double>
+  <Thickness x:Key="AxSpaceThickness">10</Thickness>
+  <x:Double x:Key="AxSpaceWide">16</x:Double>
+  <Thickness x:Key="AxSpaceWideThickness">16</Thickness>
+  <x:Double x:Key="AxSpaceLoose">20</x:Double>
+  <Thickness x:Key="AxSpaceLooseThickness">20</Thickness>
+  <x:Double x:Key="AxSpaceSection">32</x:Double>
+  <Thickness x:Key="AxSpaceSectionThickness">32</Thickness>
+  <x:Double x:Key="AxSpaceScreen">48</x:Double>
+  <Thickness x:Key="AxSpaceScreenThickness">48</Thickness>
+
+  <!-- Направленные и парные зазоры: величина — из своей ступени. -->
+  <Thickness x:Key="AxSpaceSnugTrailingThickness">0,0,8,0</Thickness>
+  <Thickness x:Key="AxSpaceLeadingThickness">10,0,0,0</Thickness>
+  <Thickness x:Key="AxSpaceTightAboveThickness">0,6,0,0</Thickness>
+  <Thickness x:Key="AxSpaceWideLeadingThickness">16,0,0,0</Thickness>
+  <Thickness x:Key="AxSpaceWideTrailingThickness">0,0,16,0</Thickness>
+  <Thickness x:Key="AxSpaceTightSidesThickness">6,0</Thickness>
+  <Thickness x:Key="AxSpaceWideSidesThickness">16,0</Thickness>
+  <Thickness x:Key="AxSpaceHairSidesThickness">4,0</Thickness>
+  <Thickness x:Key="AxSpaceSnugLeadingThickness">8,0,0,0</Thickness>
+  <Thickness x:Key="AxSpaceTrailingThickness">0,0,10,0</Thickness>
+  <Thickness x:Key="AxSpaceSidesThickness">10,0</Thickness>
+  <Thickness x:Key="AxSpaceLooseSidesThickness">20,0</Thickness>
+  <Thickness x:Key="AxSpaceEndsThickness">0,10</Thickness>
+  <Thickness x:Key="AxSpaceHairAboveThickness">0,4,0,0</Thickness>
+  <Thickness x:Key="AxSpaceLooseAboveThickness">0,20,0,0</Thickness>
+  <Thickness x:Key="AxSpaceSectionAboveThickness">0,32,0,0</Thickness>
+  <Thickness x:Key="AxSpaceWideBelowThickness">0,0,0,16</Thickness>
+
+  <!--
+      Смысловые имена. Ссылка разрешается при разборе словаря, поэтому
+      переопределить ступень мало — имя над ней осталось бы на прежнем
+      значении. Здесь они объявлены заново, и полноту проверяет тест.
+  -->
+  <StaticResource x:Key="AxGapIconText" ResourceKey="AxSpaceSnug"/>
+  <StaticResource x:Key="AxGapControls" ResourceKey="AxSpace"/>
+  <StaticResource x:Key="AxGapFormRow" ResourceKey="AxSpaceWide"/>
+  <StaticResource x:Key="AxGapGroup" ResourceKey="AxSpaceLoose"/>
+  <StaticResource x:Key="AxGapIconTextThickness" ResourceKey="AxSpaceSnugTrailingThickness"/>
+
+</ResourceDictionary>
