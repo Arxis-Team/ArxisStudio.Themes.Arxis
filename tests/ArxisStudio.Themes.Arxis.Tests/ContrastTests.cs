@@ -87,26 +87,56 @@ public class ContrastTests
     }
 
     /// <summary>
-    /// Третичный текст различим на каждой поверхности, на которой стоит.
+    /// Текст читается на тех поверхностях, где он стоит, — по порогу 4,5.
     /// </summary>
     /// <remarks>
-    /// Порог здесь 3:1, а не 4,5, и это названо решением, а не умолчано. Шкала
-    /// Int UI следующей ступени под третичный текст не имеет — она уже занята
-    /// <c>AxFg2</c>, — поэтому 4,5 берётся на основном фоне тёмной темы и не
-    /// берётся на панели и на плашке. Что этим красят пути, даты и подписи,
-    /// записано в дизайн-спецификации студии вместе с ценой решения.
+    /// Пары из карты состояний проекта этого не ловили: там компонент говорит о
+    /// своём фоне, а подпись в боковой колонке или путь в списке недавних стоит
+    /// на фоне хозяина, и хозяином бывает панель. Живой замер нашёл третичный
+    /// текст на панели с 3,98:1 в тёмной и 3,46:1 в светлой, второстепенный на
+    /// плашке — с 4,28:1.
+    /// <para>
+    /// Правило по поверхностям: основной текст — на любой, второстепенный — на
+    /// основном фоне, панели и плашке, третичный — на основном фоне и панели.
+    /// На плашке третичным не пишут: ниже проверено, что он там хотя бы
+    /// различим, но читаемым он там не обязан быть и не будет.
+    /// </para>
     /// </remarks>
     [AvaloniaTheory]
-    [InlineData("bg1", "Light")]
-    [InlineData("bg1", "Dark")]
-    [InlineData("bg2", "Light")]
-    [InlineData("bg2", "Dark")]
-    [InlineData("bg3", "Light")]
-    [InlineData("bg3", "Dark")]
-    public void Tertiary_text_stays_visible_on_every_surface(string ground, string variant)
+    [InlineData("fg", "bg1")]
+    [InlineData("fg", "bg2")]
+    [InlineData("fg", "bg3")]
+    [InlineData("fg", "bg4")]
+    [InlineData("fg2", "bg1")]
+    [InlineData("fg2", "bg2")]
+    [InlineData("fg2", "bg3")]
+    [InlineData("fg3", "bg1")]
+    [InlineData("fg3", "bg2")]
+    public void Text_reads_on_the_surfaces_it_stands_on(string fg, string ground)
+    {
+        foreach (var variant in new[] { "Light", "Dark" })
+        {
+            Assert.True(
+                Ratio(fg, ground, variant) >= Readable,
+                $"{fg} на {ground} [{variant}] даёт {Ratio(fg, ground, variant):F2}:1 при пороге {Readable}");
+        }
+    }
+
+    /// <summary>
+    /// Третичный текст на плашке хотя бы различим.
+    /// </summary>
+    /// <remarks>
+    /// Порог 3:1, а не 4,5, и это не послабление, а граница правила выше: на
+    /// плашке третичным не пишут то, что нужно прочесть. Но плашка — это и
+    /// наведённая строка, и под курсором её подсказка не должна пропадать.
+    /// </remarks>
+    [AvaloniaTheory]
+    [InlineData("Light")]
+    [InlineData("Dark")]
+    public void Tertiary_text_stays_visible_on_a_plate(string variant)
         => Assert.True(
-            Ratio("fg3", ground, variant) >= Visible,
-            $"третичный на {ground} [{variant}] даёт {Ratio("fg3", ground, variant):F2}:1");
+            Ratio("fg3", "bg3", variant) >= Visible,
+            $"третичный на bg3 [{variant}] даёт {Ratio("fg3", "bg3", variant):F2}:1");
 
     /// <summary>
     /// Рамка и наведённая плашка — один цвет, и это решение мокапа.
