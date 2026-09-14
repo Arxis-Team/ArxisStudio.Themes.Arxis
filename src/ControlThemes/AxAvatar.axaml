@@ -35,7 +35,7 @@
     </Setter>
 
     <Style Selector="^.round">
-      <Setter Property="CornerRadius" Value="1000"/>
+      <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusPill}"/>
     </Style>
 
     <!--

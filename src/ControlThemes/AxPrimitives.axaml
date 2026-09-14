@@ -13,7 +13,7 @@
     <Setter Property="MinWidth" Value="16"/>
     <Setter Property="MinHeight" Value="16"/>
     <Setter Property="VerticalAlignment" Value="Center"/>
-    <Setter Property="CornerRadius" Value="8"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusPill}"/>
     <!-- Счётчик — текст на заливке: AxAccStrong (приёмка, раздел 6). -->
     <Setter Property="Background" Value="{DynamicResource AxAccStrongBrush}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxOnAccBrush}"/>
@@ -37,7 +37,7 @@
   <!-- Чип-метка: bg3-пилюля; accent — выделенная; kbd — вид клавиши. -->
   <ControlTheme x:Key="{x:Type ax:AxChip}" TargetType="ax:AxChip">
     <Setter Property="Padding" Value="{DynamicResource AxChipPadding}"/>
-    <Setter Property="CornerRadius" Value="10"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusPill}"/>
     <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSizeCaption}"/>

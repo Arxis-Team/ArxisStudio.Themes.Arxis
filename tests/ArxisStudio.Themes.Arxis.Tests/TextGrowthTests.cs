@@ -147,6 +147,31 @@ public class TextGrowthTests
         window.Close();
     }
 
+    /// <summary>Пилюля остаётся пилюлей, когда растёт с кеглем.</summary>
+    /// <remarks>
+    /// Бейдж скруглялся числом — половиной своих шестнадцати, — чип десяткой при высоте около
+    /// двадцати. Выросши с кеглем, оба стали бы прямоугольниками со скруглёнными углами, а
+    /// полукруглый торец и есть то, чем пилюля отличается от плашки.
+    /// </remarks>
+    [AvaloniaTheory]
+    [InlineData("AxBadge")]
+    [InlineData("AxChip")]
+    public void A_pill_stays_a_pill_when_it_grows(string sample)
+    {
+        var control = Assert.IsAssignableFrom<Avalonia.Controls.Primitives.TemplatedControl>(Samples[sample]());
+        var window = Shown(control);
+        var height = control.Bounds.Height;
+
+        Enlarge(window);
+
+        Assert.True(control.Bounds.Height > height, $"{sample}: высота {height} не выросла с кеглем — проверять нечего");
+        Assert.True(
+            control.CornerRadius.TopLeft * 2 >= control.Bounds.Height,
+            $"{sample}: радиус {control.CornerRadius.TopLeft} при высоте {control.Bounds.Height} — торцы уже не полукруглые");
+
+        window.Close();
+    }
+
     /// <summary>Вкладки шапки панели — со своей темой, как их ставит студия.</summary>
     private static AxTabStrip HeaderTabs()
     {

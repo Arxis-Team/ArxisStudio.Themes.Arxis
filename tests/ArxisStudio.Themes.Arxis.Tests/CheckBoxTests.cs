@@ -121,6 +121,23 @@ public class CheckBoxTests
         window.Close();
     }
 
+    /// <summary>Кольцо строки концентрично коробке: его радиус — радиус коробки плюс поле кольца.</summary>
+    /// <remarks>
+    /// Шестёрка стояла числом в пяти шаблонах колец. Теперь это ключ темы, а тест держит не само
+    /// число, а соотношение: поменяй малый радиус или поле строки порознь — кольцо перестанет
+    /// повторять угол коробки, и это будет видно здесь, а не на глаз в форме.
+    /// </remarks>
+    [AvaloniaFact]
+    public void The_row_ring_is_concentric_with_the_box()
+    {
+        var (box, _, window) = Shown();
+        var ring = Part<Border>(box.FindAncestorOfType<AxCheckBox>()!, "PART_FocusRing");
+
+        Assert.Equal(box.CornerRadius.TopLeft - ring.Margin.Left, ring.CornerRadius.TopLeft);
+
+        window.Close();
+    }
+
     private static (Border Box, Path Mark, Window Window) Shown(
         bool isChecked = false, bool error = false, bool enabled = true, string variant = "Dark")
     {

@@ -11,7 +11,7 @@
         Полоса вкладок документа скруглена сверху и прижата к краю: вкладки
         начинаются от самой границы, как в карточке проекта.
     -->
-    <Setter Property="CornerRadius" Value="6,6,0,0"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusMediumTop}"/>
     <Setter Property="Padding" Value="0"/>
     <Setter Property="ItemsPanel">
       <ItemsPanelTemplate>
