@@ -13,14 +13,23 @@
     <Setter Property="FontWeight" Value="SemiBold"/>
     <Setter Property="Template">
       <ControlTemplate>
+        <!--
+            Инициалы вписываются в плитку, а не срезаются ею. Плитка — картинка
+            постоянного размера, а кегль инициалов идёт за шкалой темы: вырасти
+            он вдвое, и «FF» в плитке двадцать два на двадцать два потеряли бы
+            половину букв. Viewbox только уменьшает — в обычном кегле инициалы
+            стоят как стояли.
+        -->
         <Border Background="{TemplateBinding TileBrush}"
                 CornerRadius="{TemplateBinding CornerRadius}">
-          <TextBlock Text="{TemplateBinding Initials}"
-                     Foreground="{TemplateBinding Foreground}"
-                     FontSize="{TemplateBinding FontSize}"
-                     FontWeight="{TemplateBinding FontWeight}"
-                     HorizontalAlignment="Center"
-                     VerticalAlignment="Center"/>
+          <Viewbox StretchDirection="DownOnly" Margin="{DynamicResource AxSpaceHairThickness}">
+            <TextBlock Text="{TemplateBinding Initials}"
+                       Foreground="{TemplateBinding Foreground}"
+                       FontSize="{TemplateBinding FontSize}"
+                       FontWeight="{TemplateBinding FontWeight}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+          </Viewbox>
         </Border>
       </ControlTemplate>
     </Setter>

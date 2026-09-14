@@ -65,7 +65,9 @@
       <Setter Property="Background" Value="{DynamicResource AxBgSunkenBrush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
       <Setter Property="BorderThickness" Value="1"/>
-      <Setter Property="Height" Value="{DynamicResource AxControlHeight}"/>
+      <!-- Наименьшая и по центру — звено растёт с кеглем темы, как кнопка. -->
+      <Setter Property="MinHeight" Value="{DynamicResource AxControlHeight}"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
       <Setter Property="Padding" Value="{DynamicResource AxBreadcrumbPadding}"/>
     </Style>
   </ControlTheme>

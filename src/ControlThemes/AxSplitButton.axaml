@@ -95,7 +95,9 @@
   <ControlTheme x:Key="{x:Type ax:AxSplitButton}" TargetType="ax:AxSplitButton">
     <!-- Не обрезаем себя: кольцо фокуса половины выходит за общие границы. -->
     <Setter Property="ClipToBounds" Value="False"/>
-    <Setter Property="Height" Value="{DynamicResource AxControlHeight}"/>
+    <!-- Наименьшая высота и центр — по той же причине, что у кнопки. -->
+    <Setter Property="MinHeight" Value="{DynamicResource AxControlHeight}"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
     <Setter Property="MinWidth" Value="{DynamicResource AxButtonMinWidth}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Background" Value="Transparent"/>

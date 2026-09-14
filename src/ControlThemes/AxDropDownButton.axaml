@@ -11,7 +11,9 @@
     <!-- Не обрезаем себя: кольцо фокуса выходит за границы контрола. -->
     <Setter Property="ClipToBounds" Value="False"/>
 
-    <Setter Property="Height" Value="{DynamicResource AxControlHeight}"/>
+    <!-- Наименьшая высота и центр — по той же причине, что у кнопки. -->
+    <Setter Property="MinHeight" Value="{DynamicResource AxControlHeight}"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
     <Setter Property="MinWidth" Value="{DynamicResource AxButtonMinWidth}"/>
     <!--
         Отступы свои, не кнопочные: справа шеврон, и ему нужно меньше места,

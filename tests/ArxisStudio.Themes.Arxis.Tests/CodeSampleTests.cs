@@ -32,7 +32,7 @@ public class CodeSampleTests
     {
         var (key, window) = Key(variant);
 
-        Assert.Equal(20d, key.Height);
+        Assert.Equal(20d, key.Bounds.Height);
         Assert.Equal(new Thickness(6, 0), key.Padding);
         Assert.Equal(new CornerRadius(4), key.CornerRadius);
         Assert.Equal(FontWeight.Medium, key.FontWeight);

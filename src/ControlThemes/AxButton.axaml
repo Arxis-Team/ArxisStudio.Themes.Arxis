@@ -22,7 +22,19 @@
     -->
     <Setter Property="ClipToBounds" Value="False"/>
 
-    <Setter Property="Height" Value="{DynamicResource AxControlHeight}"/>
+    <!--
+        Высота — наименьшая, а не единственная. Двадцать восемь это высота
+        кнопки при кегле темы; вырасти кегль — вместе с настройкой размера
+        текста или у крупного шрифта плагина, — и прибитая высота срезала бы
+        подпись снизу, ни словом об этом не сказав. Проверено прогоном с
+        удвоенной шкалой кеглей: срезались все кнопки студии до одной.
+
+        Выравнивание по центру держит прежнее поведение там, где кнопка стоит в
+        ячейке выше себя: прибитая высота в растянутой ячейке и так вставала по
+        центру, а наименьшая без этого растянулась бы на всю ячейку.
+    -->
+    <Setter Property="MinHeight" Value="{DynamicResource AxControlHeight}"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
     <Setter Property="MinWidth" Value="{DynamicResource AxButtonMinWidth}"/>
     <Setter Property="Padding" Value="{DynamicResource AxButtonPadding}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
@@ -124,6 +136,12 @@
     <Style Selector="^.icon">
       <Setter Property="Width" Value="{DynamicResource AxControlHeightCompact}"/>
       <Setter Property="Height" Value="{DynamicResource AxControlHeightCompact}"/>
+      <!--
+          Под одну иконку текста нет, и расти нечему: квадрат цели нажатия
+          прибит сознательно. Наименьшая высота базы — двадцать восемь — иначе
+          распёрла бы его до прямоугольника.
+      -->
+      <Setter Property="MinHeight" Value="0"/>
       <Setter Property="MinWidth" Value="0"/>
       <Setter Property="Padding" Value="0"/>
       <Setter Property="BorderThickness" Value="0"/>
@@ -157,7 +175,7 @@
 
     <!-- Кнопка в тесном месте: панель инструментов, подвал панели. -->
     <Style Selector="^.compact">
-      <Setter Property="Height" Value="{DynamicResource AxControlHeightCompact}"/>
+      <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
       <Setter Property="MinWidth" Value="{DynamicResource AxButtonMinWidthCompact}"/>
       <Setter Property="Padding" Value="{DynamicResource AxButtonPadding}"/>
       <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
@@ -197,6 +215,8 @@
                 BasedOn="{StaticResource {x:Type ax:AxButton}}">
     <Setter Property="Width" Value="{DynamicResource AxControlHeightCompact}"/>
     <Setter Property="Height" Value="{DynamicResource AxControlHeightCompact}"/>
+    <!-- Квадрат без текста: наименьшая высота базы распёрла бы полосу поля и баннера. -->
+    <Setter Property="MinHeight" Value="0"/>
     <Setter Property="MinWidth" Value="0"/>
     <Setter Property="Padding" Value="0"/>
     <Setter Property="BorderThickness" Value="0"/>

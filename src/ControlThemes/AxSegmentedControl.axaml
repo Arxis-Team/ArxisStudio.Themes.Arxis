@@ -14,8 +14,12 @@
         сегменты среди того, что стоит на AxControlHeight, рядом с кнопкой,
         полем и комбобоксом. Набранная высота давала 26, и сегменты стояли
         ниже соседей в одной строке.
+
+        Задана наименьшей: подпись сегмента растёт вместе с кеглем темы, и
+        прибитая высота её срезала бы.
     -->
-    <Setter Property="Height" Value="{DynamicResource AxControlHeight}"/>
+    <Setter Property="MinHeight" Value="{DynamicResource AxControlHeight}"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
     <Setter Property="HorizontalAlignment" Value="Left"/>
     <Setter Property="ItemsPanel">
       <ItemsPanelTemplate>

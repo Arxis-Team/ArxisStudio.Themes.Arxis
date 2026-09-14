@@ -24,12 +24,17 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 public class ControlGeometryTests
 {
     /// <summary>Кнопка: 28 высотой, минимум 72 в ширину, отступы 12, радиус 4.</summary>
+    /// <remarks>
+    /// Высота меряется показанной, а не читается из свойства: у кнопки она
+    /// наименьшая, а не прибитая, — подпись растёт с кеглем темы, — и свойство
+    /// <c>Height</c> у неё не задано вовсе.
+    /// </remarks>
     [AvaloniaFact]
     public void Button_matches_the_component()
     {
         var button = Shown(new AxButton { Content = "Button" });
 
-        Assert.Equal(28d, button.Height);
+        Assert.Equal(28d, button.Bounds.Height);
         Assert.Equal(72d, button.MinWidth);
         // Вертикальный отступ у кнопки нулевой: компонент центрирует текст
         // флексом при высоте 28, а не отступами. Ненулевой съедал высоту, и
@@ -45,13 +50,18 @@ public class ControlGeometryTests
     {
         var button = Shown(new AxButton { Classes = { "ghost" }, Content = "Button" });
 
-        Assert.Equal(28d, button.Height);
+        Assert.Equal(28d, button.Bounds.Height);
         Assert.Equal(0d, button.MinWidth);
         Assert.Equal(new Thickness(10, 0), button.Padding);
         Assert.Equal(new Thickness(0), button.BorderThickness);
     }
 
     /// <summary>Иконочная кнопка: 24 × 24 без отступов.</summary>
+    /// <remarks>
+    /// Меряется и показанная высота: наименьшая высота обычной кнопки — 28, и
+    /// не сними её иконочная, квадрат вытянулся бы в столбик при тех же
+    /// свойствах <c>Width</c> и <c>Height</c>.
+    /// </remarks>
     [AvaloniaFact]
     public void Icon_button_matches_the_component()
     {
@@ -59,6 +69,7 @@ public class ControlGeometryTests
 
         Assert.Equal(24d, button.Width);
         Assert.Equal(24d, button.Height);
+        Assert.Equal(24d, button.Bounds.Height);
         Assert.Equal(0d, button.MinWidth);
         Assert.Equal(new Thickness(0), button.Padding);
         Assert.Equal(new CornerRadius(4), button.CornerRadius);
@@ -70,7 +81,7 @@ public class ControlGeometryTests
     {
         var button = Shown(new AxButton { Classes = { "compact" }, Content = "Slim" });
 
-        Assert.Equal(24d, button.Height);
+        Assert.Equal(24d, button.Bounds.Height);
     }
 
     /// <summary>Поле ввода: 28 высотой, отступы 9, радиус 4.</summary>

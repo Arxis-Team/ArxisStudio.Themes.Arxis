@@ -2,11 +2,17 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
-  <!-- Бейдж-счётчик: акцентная пилюля 15px. -->
+  <!-- Бейдж-счётчик: акцентная пилюля 16px. -->
   <ControlTheme x:Key="{x:Type ax:AxBadge}" TargetType="ax:AxBadge">
-    <!-- Чётный размер: правило раздела 12, целые пиксели при 125 % и 150 %. -->
+    <!--
+        Чётный размер: правило раздела 12, целые пиксели при 125 % и 150 %.
+        Высота наименьшая, а не прибитая: цифры растут с кеглем темы, и
+        прибитые шестнадцать срезали бы их. Центр — чтобы в ячейке выше себя
+        бейдж вставал там же, где вставал прибитый.
+    -->
     <Setter Property="MinWidth" Value="16"/>
-    <Setter Property="Height" Value="16"/>
+    <Setter Property="MinHeight" Value="16"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
     <Setter Property="CornerRadius" Value="8"/>
     <!-- Счётчик — текст на заливке: AxAccStrong (приёмка, раздел 6). -->
     <Setter Property="Background" Value="{DynamicResource AxAccStrongBrush}"/>
@@ -67,7 +73,9 @@
       <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
       <Setter Property="FontWeight" Value="Medium"/>
       <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
-      <Setter Property="Height" Value="20"/>
+      <!-- Наименьшая и по центру — по той же причине, что у бейджа. -->
+      <Setter Property="MinHeight" Value="20"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
       <Setter Property="Padding" Value="{DynamicResource AxChipPaddingKey}"/>
     </Style>
   </ControlTheme>

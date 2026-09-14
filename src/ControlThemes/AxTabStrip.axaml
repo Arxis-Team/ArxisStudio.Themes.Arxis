@@ -68,6 +68,7 @@
         -->
         <Style Selector="^.compact">
           <Setter Property="Height" Value="NaN"/>
+          <Setter Property="MinHeight" Value="0"/>
         </Style>
         <!--
             Выбранной вкладку в шапке делает одна полоса: своего фона у неё
@@ -91,8 +92,13 @@
         34, а не 36: столько даёт и витрина проекта для вкладок редактора, и
         макеты экранов. Лишние два пикселя разъезжались со строкой заголовка,
         рядом с которой вкладка и стоит.
+
+        Высота наименьшая, а не прибитая: имя вкладки растёт с кеглем темы. По
+        центру — чтобы в ячейке выше себя вкладка вставала там же, где вставала
+        прибитая. Вкладка в шапке панели растягивается своей темой выше.
     -->
-    <Setter Property="Height" Value="34"/>
+    <Setter Property="MinHeight" Value="34"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
     <!--
         Восемь — число раздела 3 спецификации: «отступы вкладок 8px, промежуток
         до крестика 8px». Десять стояли здесь с первой вёрстки и не значили
@@ -240,7 +246,7 @@
 
     <!-- Вкладка в шапке панели инструментов: ниже и без своего фона. -->
     <Style Selector="^.compact">
-      <Setter Property="Height" Value="32"/>
+      <Setter Property="MinHeight" Value="32"/>
     </Style>
     <Style Selector="^.compact:selected /template/ Border#PART_Root">
       <Setter Property="Background" Value="Transparent"/>
