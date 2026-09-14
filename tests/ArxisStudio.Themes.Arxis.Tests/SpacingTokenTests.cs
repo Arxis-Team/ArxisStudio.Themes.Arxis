@@ -92,6 +92,8 @@ public class SpacingTokenTests
         ("AxSpaceTightSidesThickness", 4, 0),
         ("AxSpaceWideSidesThickness", 12, 0),
         ("AxSpaceHairSidesThickness", 2, 0),
+        ("AxSpaceSidesThickness", 8, 0),
+        ("AxSpaceLooseSidesThickness", 16, 0),
     ];
 
     /// <summary>Смысловое имя направленного зазора и его основание.</summary>
