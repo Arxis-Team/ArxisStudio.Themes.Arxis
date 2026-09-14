@@ -2,6 +2,7 @@ using ArxisStudio.Controls;
 using ArxisStudio.Icons;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Media;
 using Avalonia.VisualTree;
@@ -71,11 +72,88 @@ public class IconRenderTests
         var icon = new AxIcon { Data = AxIcons.Plus };
         var window = Shown(icon);
 
-        var path = icon.GetVisualDescendants()
-            .OfType<Avalonia.Controls.Shapes.Path>()
-            .Single();
+        Assert.Equal(1.2d, Stroke(icon));
 
-        Assert.Equal(1.2d, path.StrokeThickness);
+        window.Close();
+    }
+
+    /// <summary>
+    /// Клетка в два пикселя — обводка ровно в клетку: заданные 1.2 легли бы
+    /// 2.4 пикселя, и ось на границе пикселя обросла бы каймой с обеих сторон.
+    /// У неквадратной рамки клетку задаёт короткая сторона — по ней путь и вписан.
+    /// </summary>
+    [AvaloniaTheory]
+    [InlineData(32d, 32d)]
+    [InlineData(48d, 48d)]
+    [InlineData(40d, 32d)]
+    public void On_whole_pixels_a_cell_the_stroke_is_one_cell(double width, double height)
+    {
+        var icon = new AxIcon { Data = AxIcons.Plus, Width = width, Height = height };
+        var window = Shown(icon);
+
+        Assert.Equal(1d, Stroke(icon), 6);
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Между целыми клетками — и в мелком шевроне — обводка остаётся той, что
+    /// задана: полуклетка там падает на доли пикселя, и толщина её не соберёт.
+    /// </summary>
+    [AvaloniaTheory]
+    [InlineData(12d)]
+    [InlineData(24d)]
+    [InlineData(40d)]
+    public void Between_whole_cells_the_stroke_stays_as_given(double size)
+    {
+        var icon = new AxIcon { Data = AxIcons.Plus, Width = size, Height = size };
+        var window = Shown(icon);
+
+        Assert.Equal(1.2d, Stroke(icon));
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Иконка, сжатая обратно в 16, возвращает заданную обводку и слушает своё
+    /// свойство дальше: сведённое значение не остаётся на пути навсегда.
+    /// </summary>
+    [AvaloniaFact]
+    public void A_shrunk_icon_gets_the_stroke_of_its_property_back()
+    {
+        var icon = new AxIcon { Data = AxIcons.Plus, Width = 32, Height = 32 };
+        var window = Shown(icon);
+
+        icon.Width = icon.Height = Cell;
+        window.UpdateLayout();
+
+        Assert.Equal(1.2d, Stroke(icon));
+
+        icon.StrokeThickness = 1.5;
+
+        Assert.Equal(1.5d, Stroke(icon));
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Окно, переехавшее на экран с другим масштабом, сводит обводку заново:
+    /// та же иконка в 16 точек при 200% получает клетку, при 150% — заданную.
+    /// </summary>
+    [AvaloniaFact]
+    public void The_stroke_follows_the_scale_of_the_screen()
+    {
+        var icon = new AxIcon { Data = AxIcons.Plus };
+        var window = Shown(icon);
+
+        window.SetRenderScaling(2);
+        Assert.Equal(1d, Stroke(icon), 6);
+
+        window.SetRenderScaling(1.5);
+        Assert.Equal(1.2d, Stroke(icon));
+
+        window.SetRenderScaling(3);
+        Assert.Equal(1d, Stroke(icon), 6);
 
         window.Close();
     }
@@ -85,6 +163,13 @@ public class IconRenderTests
 
     private static Geometry Icon(string name)
         => (Geometry)typeof(AxIcons).GetProperty(name)!.GetValue(null)!;
+
+    /// <summary>Толщина, которой путь в шаблоне действительно рисуется.</summary>
+    private static double Stroke(AxIcon icon)
+        => icon.GetVisualDescendants()
+            .OfType<Avalonia.Controls.Shapes.Path>()
+            .Single()
+            .StrokeThickness;
 
     /// <summary>Клетка внутри Viewbox: её размер и есть знаменатель масштаба.</summary>
     private static Rect Inner(AxIcon icon)
