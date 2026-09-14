@@ -78,8 +78,15 @@
 
       Стиль стоит в общих стилях, а не в теме строки: предок в селекторе теме
       контрола не виден, и строка, однажды загоревшись, уже не гасла.
+
+      Строка названа своим типом, а не «всякий наследник ListBoxItem». Так
+      было, и правило доставало до всего, что построено на списке: у
+      сегментного переключателя выбранный сегмент под фокусом терял акцентную
+      заливку и красился цветом выделения строки — ровно после щелчка по нему.
+      Спецификация говорит «активный сегмент acc», и в покое так и было.
+      Вкладку спасало только то, что часть в её шаблоне названа иначе.
   -->
-  <Style Selector=":is(ListBox):focus-within :is(ListBoxItem):selected /template/ ContentPresenter#PART_ContentPresenter">
+  <Style Selector=":is(ListBox):focus-within ax|AxListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
     <Setter Property="Background" Value="{DynamicResource AxSelBrush}"/>
   </Style>
   <Style Selector=":is(TreeView):focus-within :is(TreeViewItem):selected /template/ Border#PART_Root">

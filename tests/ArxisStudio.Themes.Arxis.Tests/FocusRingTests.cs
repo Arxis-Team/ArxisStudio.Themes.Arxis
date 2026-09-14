@@ -409,6 +409,43 @@ public class FocusRingTests
         window.Close();
     }
 
+    /// <summary>
+    /// Выбранный сегмент под фокусом остаётся акцентным.
+    /// </summary>
+    /// <remarks>
+    /// Сегментный переключатель построен на списке, и правило «выделение в
+    /// списке говорит о фокусе» доставало и до него: после щелчка — а щелчок и
+    /// даёт фокус — выбранный сегмент красился цветом выделения строки, хотя
+    /// спецификация говорит «активный сегмент acc». Найдено живьём, на
+    /// переключателе плотности; тест на список выше этого не видел, потому что
+    /// спрашивал только список.
+    /// </remarks>
+    [AvaloniaFact]
+    public void A_focused_segmented_control_keeps_the_accent_on_its_selection()
+    {
+        var segments = new AxSegmentedControl
+        {
+            ItemsSource = new[] { new AxSegmentItem { Content = "Тёмная" }, new AxSegmentItem { Content = "Светлая" } },
+            SelectedIndex = 0,
+        };
+        var window = new Window { Content = new StackPanel { Children = { segments } } };
+
+        window.Show();
+        window.UpdateLayout();
+
+        var selected = segments.GetVisualDescendants().OfType<AxSegmentItem>().First();
+
+        selected.Focus(NavigationMethod.Tab);
+        window.UpdateLayout();
+
+        Assert.True(segments.IsKeyboardFocusWithin, "фокус до переключателя не дошёл — проверять нечего");
+        Assert.Equal(
+            Resource(window, "AxAccStrongColor"),
+            Colour(Part(selected, "PART_ContentPresenter").GetValue(Border.BackgroundProperty)));
+
+        window.Close();
+    }
+
     private static Control Part(Control control, string name)
     {
         var part = control.GetVisualDescendants().OfType<Control>().FirstOrDefault(c => c.Name == name);
