@@ -58,7 +58,8 @@
           </Border>
           <Popup x:Name="PART_Popup"
                  Placement="RightEdgeAlignedTop"
-                 HorizontalOffset="-4"
+                 HorizontalOffset="{DynamicResource AxSubmenuHorizontalOffset}"
+                 VerticalOffset="{DynamicResource AxSubmenuVerticalOffset}"
                  IsLightDismissEnabled="False"
                  IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}">
             <Border Background="{DynamicResource AxBg2Brush}"
@@ -67,7 +68,7 @@
                     CornerRadius="{DynamicResource AxCornerRadiusLarge}"
                     BoxShadow="{DynamicResource AxPopupShadow}"
                     Padding="{DynamicResource AxMenuPadding}"
-                    Margin="8">
+                    Margin="{DynamicResource AxPopupShadowRoom}">
               <ScrollViewer>
                 <ItemsPresenter x:Name="PART_ItemsPresenter"
                                 ItemsPanel="{TemplateBinding ItemsPanel}"/>
@@ -124,7 +125,7 @@
                 CornerRadius="{TemplateBinding CornerRadius}"
                 BoxShadow="{DynamicResource AxPopupShadow}"
                 Padding="{TemplateBinding Padding}"
-                Margin="8">
+                Margin="{DynamicResource AxPopupShadowRoom}">
           <ScrollViewer>
             <ItemsPresenter x:Name="PART_ItemsPresenter"
                             ItemsPanel="{TemplateBinding ItemsPanel}"/>
@@ -148,7 +149,7 @@
                 CornerRadius="{TemplateBinding CornerRadius}"
                 BoxShadow="{DynamicResource AxPopupShadow}"
                 Padding="{TemplateBinding Padding}"
-                Margin="8">
+                Margin="{DynamicResource AxPopupShadowRoom}">
           <ScrollViewer>
             <ItemsPresenter x:Name="PART_ItemsPresenter"
                             ItemsPanel="{TemplateBinding ItemsPanel}"/>

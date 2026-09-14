@@ -18,7 +18,7 @@
           <Border Background="{DynamicResource AxBg1Brush}"
                   CornerRadius="{DynamicResource AxCornerRadiusFloating}"
                   BoxShadow="{DynamicResource AxModalShadow}"
-                  Margin="24"
+                  Margin="{DynamicResource AxModalShadowRoom}"
                   MinWidth="320"
                   ClipToBounds="False">
             <DockPanel>

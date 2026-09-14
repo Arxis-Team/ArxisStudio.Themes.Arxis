@@ -12,7 +12,10 @@
       сходящееся в обоих вариантах. AxBrd остаётся разделителям внутри.
   -->
 
-  <!-- Тултип: тема родного ToolTip, ключом типа — как ScrollBar. -->
+  <!--
+      Тултип: тема родного ToolTip, ключом типа — как ScrollBar. Подсказка живёт
+      всегда в окне попапа, и поле под тень у неё то же, что у меню.
+  -->
   <ControlTheme x:Key="{x:Type ToolTip}" TargetType="ToolTip">
     <Setter Property="Background" Value="{DynamicResource AxTooltipBackgroundBrush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxTooltipBorderBrush}"/>
@@ -30,7 +33,7 @@
                 CornerRadius="{TemplateBinding CornerRadius}"
                 BoxShadow="{DynamicResource AxPopupShadow}"
                 Padding="{TemplateBinding Padding}"
-                Margin="6">
+                Margin="{DynamicResource AxPopupShadowRoom}">
           <ContentPresenter Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"/>
         </Border>
@@ -40,6 +43,13 @@
 
   <!-- Подсказка «Понятно»: заголовок, объяснение, счётчик шагов и действие. -->
   <ControlTheme x:Key="{x:Type ax:AxTeachingTip}" TargetType="ax:AxTeachingTip">
+    <!--
+        Не обрезаем себя: контрол с шаблоном обрезает всё по своим границам, и
+        тень, которой поля вокруг карточки не хватает, кончалась бы прямоугольником.
+        Поверхность эту ставит приложение — в слой окна или прямо в разметку, — и
+        тени есть куда лечь; в попапе поле под неё даёт хозяин.
+    -->
+    <Setter Property="ClipToBounds" Value="False"/>
     <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
     <Setter Property="BorderThickness" Value="1"/>
@@ -85,6 +95,8 @@
 
   <!-- Уведомление: событие с действиями-ссылками, исчезает — в отличие от баннера. -->
   <ControlTheme x:Key="{x:Type ax:AxNotificationCard}" TargetType="ax:AxNotificationCard">
+    <!-- Не обрезаем себя — по той же причине, что подсказка выше. -->
+    <Setter Property="ClipToBounds" Value="False"/>
     <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
     <Setter Property="BorderThickness" Value="1"/>
@@ -149,8 +161,16 @@
     </Style>
   </ControlTheme>
 
-  <!-- Попап поиска: строка запроса, результаты и подвал с подсказками клавиш. -->
+  <!--
+      Попап поиска: строка запроса, результаты и подвал с подсказками клавиш.
+
+      Обрезка по скруглению стоит на внутренней рамке, а не на той, что несёт
+      тень: ClipToBounds на рамке обрезает и её собственную тень, и палитра
+      команд студии стояла без тени вовсе.
+  -->
   <ControlTheme x:Key="{x:Type ax:AxQuickSearch}" TargetType="ax:AxQuickSearch">
+    <!-- Не обрезаем себя — по той же причине, что подсказка выше. -->
+    <Setter Property="ClipToBounds" Value="False"/>
     <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
     <Setter Property="BorderThickness" Value="1"/>
@@ -166,8 +186,8 @@
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 BoxShadow="{DynamicResource AxModalShadow}"
-                Margin="10"
-                ClipToBounds="True">
+                Margin="10">
+          <Border CornerRadius="{TemplateBinding CornerRadius}" ClipToBounds="True">
           <DockPanel>
             <Border DockPanel.Dock="Top"
                     BorderBrush="{DynamicResource AxBrdBrush}"
@@ -203,6 +223,7 @@
                           ItemTemplate="{TemplateBinding ItemTemplate}"
                           SelectedItem="{TemplateBinding SelectedItem, Mode=TwoWay}"/>
           </DockPanel>
+          </Border>
         </Border>
       </ControlTemplate>
     </Setter>
