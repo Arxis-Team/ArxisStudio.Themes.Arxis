@@ -80,6 +80,7 @@ public class SpacingTokenTests
         ("AxSpaceHairAboveThickness", 0, 2, 0, 0),
         ("AxSpaceLooseAboveThickness", 0, 16, 0, 0),
         ("AxSpaceSectionAboveThickness", 0, 24, 0, 0),
+        ("AxSpaceWideBelowThickness", 0, 0, 0, 12),
     ];
 
     /// <summary>

@@ -92,6 +92,7 @@
   <Thickness x:Key="AxSpaceHairAboveThickness">0,2,0,0</Thickness>
   <Thickness x:Key="AxSpaceLooseAboveThickness">0,16,0,0</Thickness>
   <Thickness x:Key="AxSpaceSectionAboveThickness">0,24,0,0</Thickness>
+  <Thickness x:Key="AxSpaceWideBelowThickness">0,0,0,12</Thickness>
 
   <!--
       Смысловые имена ступеней. Они и есть то, ради чего заведена шкала:

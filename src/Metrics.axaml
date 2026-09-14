@@ -66,8 +66,21 @@
   <!-- Размеры интерактивных контролов. -->
   <x:Double x:Key="AxControlHeight">28</x:Double>
   <x:Double x:Key="AxControlHeightCompact">24</x:Double>
+  <!--
+      Третья высота, и она не выдумка разметки: раздел 6 перечисляет три —
+      основная кнопка 30, в полосе инструментов 28, малая 26. Двадцать шесть
+      носят кнопки внутри строки карточки, где 28 уже теснят строку.
+  -->
+  <x:Double x:Key="AxControlHeightSmall">26</x:Double>
   <x:Double x:Key="AxButtonMinWidth">72</x:Double>
   <x:Double x:Key="AxButtonMinWidthCompact">64</x:Double>
+  <!--
+      Кнопка подвала диалога шире обычной: «Отмена» и «Сохранить» стоят парой,
+      и семидесяти двух хватает каждой порознь, но пара из них выходит разной
+      ширины на разных языках. Девяносто шесть ровняет их восемью экранами
+      студии — столько мест писало это число руками.
+  -->
+  <x:Double x:Key="AxDialogButtonMinWidth">96</x:Double>
   <Thickness x:Key="AxButtonPadding">12,0</Thickness>
   <Thickness x:Key="AxTextFieldPadding">9,0</Thickness>
   <!--
@@ -125,6 +138,14 @@
       На шкалу не садится и садиться не должно: это поля страницы, а не зазор.
   -->
   <Thickness x:Key="AxWelcomePadding">36,28</Thickness>
+  <!--
+      Настройки. Карточка отступает внутрь по числу спецификации — «карточка
+      radius 10, padding 2px 16px», — строка плагина внутри неё держит высоту
+      44, а страница справа отступает от краёв окна.
+  -->
+  <Thickness x:Key="AxSettingsCardPadding">16,2</Thickness>
+  <Thickness x:Key="AxSettingsRowPadding">14,10</Thickness>
+  <Thickness x:Key="AxSettingsPagePadding">28,24</Thickness>
   <!--
       Строка внутри списка: пункт меню, вкладка, строка выпадающего списка.
       Одно решение на три шаблона — до сих пор восьмёрка стояла в каждом

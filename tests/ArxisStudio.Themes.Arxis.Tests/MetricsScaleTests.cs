@@ -28,6 +28,8 @@ public class MetricsScaleTests
         "AxRowHeight",
         "AxButtonMinWidth",
         "AxButtonMinWidthCompact",
+        "AxControlHeightSmall",
+        "AxDialogButtonMinWidth",
         "AxCheckboxSize",
         "AxIconSize",
         "AxIconSizeSmall",
