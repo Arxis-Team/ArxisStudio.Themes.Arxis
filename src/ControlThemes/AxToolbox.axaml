@@ -234,8 +234,8 @@
       шаг вниз от панели, что у строки дерева контролов.
 
       Кегль в карточке 12.5, в шкале его нет — взят базовый: код здесь не
-      подпись и не бейдж, а содержимое. Высота строки 20 — та же, что даёт
-      карточка своим множителем 1.6.
+      подпись и не бейдж, а содержимое. Строка — кегль в AxCodeLineHeightRatio
+      раз: 20, как у карточки с её множителем 1.6, и растёт вместе с кеглем.
   -->
   <ControlTheme x:Key="{x:Type ax:AxCodeBlock}" TargetType="ax:AxCodeBlock">
     <Setter Property="Background" Value="{DynamicResource AxBgSunkenBrush}"/>
@@ -245,6 +245,7 @@
     <Setter Property="Padding" Value="{DynamicResource AxSurfacePadding}"/>
     <Setter Property="FontFamily" Value="{DynamicResource AxFontFamilyMono}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
+    <Setter Property="LineHeightRatio" Value="{DynamicResource AxCodeLineHeightRatio}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxCodeFgBrush}"/>
     <Setter Property="TagBrush" Value="{DynamicResource AxCodeTagBrush}"/>
     <Setter Property="AttributeBrush" Value="{DynamicResource AxCodeAttrBrush}"/>
@@ -261,8 +262,7 @@
             <SelectableTextBlock x:Name="PART_Text"
                                  FontFamily="{TemplateBinding FontFamily}"
                                  FontSize="{TemplateBinding FontSize}"
-                                 Foreground="{TemplateBinding Foreground}"
-                                 LineHeight="20"/>
+                                 Foreground="{TemplateBinding Foreground}"/>
           </ScrollViewer>
         </Border>
       </ControlTemplate>

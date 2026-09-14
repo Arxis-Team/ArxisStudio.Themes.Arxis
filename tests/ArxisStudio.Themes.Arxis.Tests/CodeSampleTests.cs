@@ -2,6 +2,8 @@ using ArxisStudio.Controls;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Documents;
+using Avalonia.Controls.Templates;
+using Avalonia.Data;
 using Avalonia.Headless.XUnit;
 using Avalonia.Media;
 using Avalonia.Styling;
@@ -77,6 +79,12 @@ public class CodeSampleTests
     }
 
     /// <summary>Код набран моношрифтом базового кегля со строкой в 20.</summary>
+    /// <remarks>
+    /// Строка задана долей кегля, а не числом. Больше двадцати она быть не вправе даже на
+    /// тысячную: раскладка округляет размер вверх до пикселя, и блок вырос бы на пиксель. Где в
+    /// строке стоит текст, меряет студия — там шрифт настоящий, а здесь рисование безголовое и
+    /// метрик шрифта не знает.
+    /// </remarks>
     [AvaloniaFact]
     public void Code_is_set_in_the_mono_face_at_the_base_size()
     {
@@ -84,6 +92,55 @@ public class CodeSampleTests
 
         Assert.Contains("Cascadia Code", code.FontFamily.ToString());
         Assert.Equal(13d, code.FontSize);
+
+        var text = (SelectableTextBlock)Part(code, "PART_Text");
+
+        Assert.True(text.LineHeight is > 19.99 and <= 20, $"строка кода {text.LineHeight}, а в карточке — 20 и не больше");
+
+        window.Close();
+    }
+
+    /// <summary>Кегль вырос вдвое — вдвое выросла и строка.</summary>
+    /// <remarks>
+    /// Прибитые 20 при крупном кегле клали строки кода одну на другую. Кегль меняют уже
+    /// показанному блоку: строка обязана пойти за ним, а не остаться той, что была при шаблоне.
+    /// </remarks>
+    [AvaloniaFact]
+    public void Code_line_grows_with_the_type()
+    {
+        var (code, window) = Code("Dark");
+        var text = (SelectableTextBlock)Part(code, "PART_Text");
+
+        window.Resources["AxFontSize"] = 26d;
+        window.UpdateLayout();
+
+        Assert.Equal(26d, text.FontSize);
+        Assert.True(Math.Abs(text.LineHeight - 40) < 0.02, $"при кегле 26 строка кода {text.LineHeight}, а должна быть 40");
+
+        window.Close();
+    }
+
+    /// <summary>Без доли строку решает шаблон: контрол её не перебивает.</summary>
+    /// <remarks>
+    /// Доля — то, что предлагает тема, а не требование контрола. Шаблон, задавший строку числом,
+    /// получает свою строку, а не естественную высоту шрифта поверх неё. Значение ставится с
+    /// приоритетом шаблона — так ставит свои атрибуты шаблон в разметке.
+    /// </remarks>
+    [AvaloniaFact]
+    public void Without_a_ratio_the_template_keeps_its_line_height()
+    {
+        var code = new AxCodeBlock
+        {
+            Text = "<Button/>",
+            LineHeightRatio = double.NaN,
+            Template = new FuncControlTemplate<AxCodeBlock>((_, scope) =>
+            {
+                var text = new SelectableTextBlock { Name = "PART_Text" };
+                text.SetValue(TextBlock.LineHeightProperty, 20d, BindingPriority.Template);
+                return text.RegisterInNameScope(scope);
+            }),
+        };
+        var window = Shown(code, "Dark");
 
         var text = (SelectableTextBlock)Part(code, "PART_Text");
 
