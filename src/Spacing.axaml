@@ -83,6 +83,15 @@
   <Thickness x:Key="AxSpaceTrailingThickness">0,0,8,0</Thickness>
   <Thickness x:Key="AxSpaceSidesThickness">8,0</Thickness>
   <Thickness x:Key="AxSpaceLooseSidesThickness">16,0</Thickness>
+  <!--
+      Sides — по горизонтали, Ends — по вертикали. Пара всегда симметрична:
+      несимметричное — это отступ поверхности, и ему полагается имя в
+      Metrics.axaml, а не ступень здесь.
+  -->
+  <Thickness x:Key="AxSpaceEndsThickness">0,8</Thickness>
+  <Thickness x:Key="AxSpaceHairAboveThickness">0,2,0,0</Thickness>
+  <Thickness x:Key="AxSpaceLooseAboveThickness">0,16,0,0</Thickness>
+  <Thickness x:Key="AxSpaceSectionAboveThickness">0,24,0,0</Thickness>
 
   <!--
       Смысловые имена ступеней. Они и есть то, ради чего заведена шкала:
