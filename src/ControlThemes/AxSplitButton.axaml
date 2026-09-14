@@ -24,6 +24,13 @@
     <Setter Property="CornerRadius" Value="4,0,0,4"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
     <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <!--
+        Длинная подпись действия — как у кнопки: многоточие, а целиком в
+        подсказке. Стрелке правило не мешает: текста у неё нет, и подсказка не
+        откроется.
+    -->
+    <Setter Property="ToolTip.Tip" Value=""/>
+    <Setter Property="ax:AxTrimmedTip.IsEnabled" Value="True"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Panel>
@@ -49,6 +56,7 @@
                             Padding="{TemplateBinding Padding}"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            TextTrimming="CharacterEllipsis"
                             RecognizesAccessKey="True"/>
         </Panel>
       </ControlTemplate>

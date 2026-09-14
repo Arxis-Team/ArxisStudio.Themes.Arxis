@@ -30,6 +30,9 @@
     <Setter Property="HorizontalContentAlignment" Value="Center"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
     <Setter Property="Cursor" Value="Hand"/>
+    <!-- Длинная подпись — как у кнопки: многоточие, а целиком в подсказке. -->
+    <Setter Property="ToolTip.Tip" Value=""/>
+    <Setter Property="ax:AxTrimmedTip.IsEnabled" Value="True"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Panel>
@@ -50,6 +53,7 @@
                                 ContentTemplate="{TemplateBinding ContentTemplate}"
                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                TextTrimming="CharacterEllipsis"
                                 RecognizesAccessKey="True"/>
               <ax:AxIcon Grid.Column="1"
                          x:Name="PART_Chevron"

@@ -109,6 +109,15 @@
     <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="Cursor" Value="Hand"/>
+    <!--
+        Шире места своей полосы вкладка не мерится — это правило контрола. Имя,
+        которому тогда не хватает ширины, кончается многоточием, а целиком
+        читается в подсказке, как у кнопки. Прежде одинокая вкладка в узкой
+        панели при двойном кегле уходила за край: имя обрывалось на полуслове,
+        крестик пропадал, а под шапкой вылезала полоса прокрутки.
+    -->
+    <Setter Property="ToolTip.Tip" Value=""/>
+    <Setter Property="ax:AxTrimmedTip.IsEnabled" Value="True"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Border x:Name="PART_Root"
@@ -123,15 +132,18 @@
                 текстом, и невидима, пока её не покажет стиль.
             -->
             <Border x:Name="PART_Hover" IsVisible="False"/>
-            <StackPanel Orientation="Horizontal" Spacing="{DynamicResource AxSpace}" VerticalAlignment="Center">
-              <ax:AxIcon Classes="small"
+            <!--
+                Док, а не стопка: в стопке имя получало бы бесконечную ширину и
+                не сокращалось никогда. Значок и крестик стоят по краям, имя
+                берёт остаток. Скрытому значку док зазора не оставляет, как не
+                оставляла стопка.
+            -->
+            <DockPanel HorizontalSpacing="{DynamicResource AxSpace}" VerticalAlignment="Center">
+              <ax:AxIcon DockPanel.Dock="Left"
+                         Classes="small"
                          Data="{TemplateBinding Icon}"
                          Foreground="{TemplateBinding IconBrush}"
                          IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}"/>
-              <ContentPresenter Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                Foreground="{TemplateBinding Foreground}"
-                                VerticalAlignment="Center"/>
               <!--
                   Ловит мышь вся площадка, а не сам путь крестика: попасть по
                   линии в полтора пикселя человек не должен. Прозрачный фон
@@ -143,6 +155,7 @@
                   закроет её, а не выберет.
               -->
               <Border x:Name="PART_Close"
+                      DockPanel.Dock="Right"
                       Width="16" Height="16"
                       CornerRadius="{DynamicResource AxCornerRadius}"
                       Background="Transparent"
@@ -164,7 +177,12 @@
                              Foreground="{DynamicResource AxFg3Brush}"/>
                 </Panel>
               </Border>
-            </StackPanel>
+              <ContentPresenter Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Foreground="{TemplateBinding Foreground}"
+                                TextTrimming="CharacterEllipsis"
+                                VerticalAlignment="Center"/>
+            </DockPanel>
             <!--
                 Полоса выбора идёт ровно во всю ширину вкладки: отрицательное
                 поле снимает её собственные отступы. Раньше здесь стояло −12

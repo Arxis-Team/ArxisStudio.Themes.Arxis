@@ -47,6 +47,19 @@
     <Setter Property="HorizontalContentAlignment" Value="Center"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
     <Setter Property="Cursor" Value="Hand"/>
+    <!--
+        Подпись, которой не хватает ширины, кончается многоточием, а целиком
+        читается в подсказке. Срезанная краем, она обрывалась на полуслове и
+        ничем не говорила, что срезана, — так стояла «Сосчитать файлы проекта»
+        в узкой панели при двойном кегле.
+
+        Пустая подсказка — не подсказка, а условие: без неё Avalonia не
+        спрашивает, открывать ли. Решает AxTrimmedTip в миг открытия — только
+        у сокращённой подписи, — а подсказка, данная кнопке явно, остаётся её
+        собственной.
+    -->
+    <Setter Property="ToolTip.Tip" Value=""/>
+    <Setter Property="ax:AxTrimmedTip.IsEnabled" Value="True"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Panel>
@@ -66,6 +79,7 @@
                             Padding="{TemplateBinding Padding}"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            TextTrimming="CharacterEllipsis"
                             RecognizesAccessKey="True"/>
         </Panel>
       </ControlTemplate>
