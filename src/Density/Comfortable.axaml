@@ -82,6 +82,8 @@
   <Thickness x:Key="AxSpaceLooseAboveThickness">0,20,0,0</Thickness>
   <Thickness x:Key="AxSpaceSectionAboveThickness">0,32,0,0</Thickness>
   <Thickness x:Key="AxSpaceWideBelowThickness">0,0,0,16</Thickness>
+  <Thickness x:Key="AxSpaceAboveThickness">0,10,0,0</Thickness>
+  <Thickness x:Key="AxSpaceWideAboveThickness">0,16,0,0</Thickness>
 
   <!--
       Смысловые имена. Ссылка разрешается при разборе словаря, поэтому

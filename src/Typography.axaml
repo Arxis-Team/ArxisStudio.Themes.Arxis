@@ -31,5 +31,12 @@
   <x:Double x:Key="AxFontSizeCaption">10.5</x:Double>
   <x:Double x:Key="AxFontSizeLarge">14</x:Double>
   <x:Double x:Key="AxFontSizeTitle">15</x:Double>
+  <!--
+      Кегль вордмарка на заставке — единственное место, где текст крупнее
+      заголовка экрана. Двадцать шесть стояли числом в разметке заставки и были
+      единственным литеральным кеглем во всём репозитории; заставка теперь в
+      спецификации, и её кегль объявлен рядом с остальными.
+  -->
+  <x:Double x:Key="AxFontSizeDisplay">26</x:Double>
 
 </ResourceDictionary>
