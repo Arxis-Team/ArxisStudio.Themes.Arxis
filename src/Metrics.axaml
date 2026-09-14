@@ -136,7 +136,15 @@
   -->
   <Thickness x:Key="AxTooltipPadding">10,6</Thickness>
   <Thickness x:Key="AxSurfacePadding">14,12</Thickness>
-  <Thickness x:Key="AxListItemPadding">8,2</Thickness>
+  <!--
+      Справа у строки списка не 8 макета, а ширина полосы прокрутки, 12. В макете
+      полоса тонкая, но отнимает ширину, и строка до неё не доходит; у темы полоса
+      лежит поверх строк, и подпись у правого края — сочетание в палитре, счётчик
+      повторов в журнале — уходила под ползунок. Подсветка строки по-прежнему идёт
+      во всю ширину, отступает только содержимое, и отступает всегда, а не только
+      когда список прокручивается: иначе подпись прыгала бы.
+  -->
+  <Thickness x:Key="AxListItemPadding">8,2,12,2</Thickness>
   <Thickness x:Key="AxTreeViewPadding">2,4</Thickness>
   <Thickness x:Key="AxTreeViewItemPadding">0,0,8,0</Thickness>
   <Thickness x:Key="AxBreadcrumbPadding">4,0</Thickness>
