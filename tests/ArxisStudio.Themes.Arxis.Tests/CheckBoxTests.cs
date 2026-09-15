@@ -85,7 +85,7 @@ public class CheckBoxTests
     {
         var (box, check, window) = Shown(isChecked: true, enabled: false, variant: variant);
 
-        Assert.Equal(Resource(window, "AxHoverColor", variant), Colour(box.Background));
+        Assert.Equal(Resource(window, "AxSurfaceRaisedColor", variant), Colour(box.Background));
         Assert.Equal(Resource(window, "AxTextDisabledColor", variant), Colour(check.Stroke));
 
         window.Close();

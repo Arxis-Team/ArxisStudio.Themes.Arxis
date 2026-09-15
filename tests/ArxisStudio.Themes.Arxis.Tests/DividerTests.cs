@@ -13,10 +13,7 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 /// </summary>
 /// <remarks>
 /// Разделитель — линия в пиксель в обеих ориентациях цвета AxStrokeSubtle, токена
-/// разделителей и слабых рамок.
-///
-/// Цвет остаётся переопределяемым на месте: в полосе окна разделитель стоит
-/// на ступень заметнее — AxPressed вместо AxStrokeSubtle.
+/// разделителей и слабых рамок. Цвет остаётся переопределяемым на месте.
 /// </remarks>
 public class DividerTests
 {
@@ -59,7 +56,7 @@ public class DividerTests
         window.Close();
     }
 
-    /// <summary>Цвет переопределяется на месте: в полосе окна он заметнее.</summary>
+    /// <summary>Цвет переопределяется на месте.</summary>
     [AvaloniaFact]
     public void Colour_set_on_the_spot_wins()
     {

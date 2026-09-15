@@ -22,7 +22,7 @@ public class PrimitiveTests
     /// Цветная монограмма берёт шаг 1 шкалы, а не цвет заливки.
     /// </summary>
     /// <remarks>
-    /// Белые инициалы на AxTintOrange / AxSuccess / AxTintPurple / AxError дают 2,68…3,69:1 — поэтому
+    /// Белые инициалы на AxTintOrange / AxSuccess / AxTintPurple / AxError дают в тёмной теме 2,50…3,44:1 — поэтому
     /// монограмма берёт шаг 1 шкалы, где белый держит 5,9:1 и выше в обоих
     /// вариантах. Значения потому и одни на оба варианта.
     /// </remarks>

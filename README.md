@@ -42,7 +42,8 @@ ThemeVariant.Dark / Light` — все токены объявлены в theme d
 
 - `Palette.axaml` — роли, а не ступени шкал, × 2 варианта: поверхности
   `AxSurfaceSunken/Base/Panel/Raised/Overlay`, взаимодействие
-  `AxHover/AxPressed/AxTrack/AxFillDisabled`, линии `AxStrokeSubtle/Control/Strong`,
+  `AxHover/AxPressed` — полупрозрачные, одной ступенью на любой поверхности — и
+  непрозрачные `AxTrack/AxFillDisabled`, линии `AxStrokeSubtle/Control/Strong`,
   текст `AxTextPrimary/Secondary/Tertiary/Disabled` и `AxTextOnAccent`, акцент
   `AxAccent/AxAccentHover` для графики и `AxAccentFill/AxAccentFillHover/AxAccentFillPressed`
   для залитых поверхностей с текстом, `AxFocusRing`, выделение
@@ -87,7 +88,8 @@ Cascadia Code едет отдельной библиотекой `ArxisStudio.Fo
 `tests/ArxisStudio.Themes.Arxis.Tests` — headless-контракт темы: каждый
 Ax\*-контрол получает шаблон в обоих вариантах и не теряет его при переключении
 `RequestedThemeVariant` у живого окна; токены ролей существуют в обеих темах, а
-текст держит пороги контраста на своих поверхностях; метрики тумблера и иконки
+палитра держит пороги контраста дизайн-системы — текст на поверхностях и плашках,
+граница контрола и кольцо фокуса 3:1, акцент, состояния, код; метрики тумблера и иконки
 отдаёт тема, а не шаблон; моноширинный стек начинается с Cascadia Code; длины
 раскладки чётные, а нечётные исключения названы поимённо; подпись каждого
 контрола цела при тройной шкале кеглей, а в обычной контрол стоит на своей

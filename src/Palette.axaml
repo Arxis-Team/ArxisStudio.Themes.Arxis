@@ -21,66 +21,70 @@
 
     <ResourceDictionary x:Key="Dark">
       <!-- Поверхности: утопленная, основная (документ и поле), панель, приподнятая и всплывающая. -->
-      <Color x:Key="AxSurfaceSunkenColor">#1E1F22</Color>
-      <Color x:Key="AxSurfaceBaseColor">#1E1F22</Color>
-      <Color x:Key="AxSurfacePanelColor">#2B2D30</Color>
-      <Color x:Key="AxSurfaceRaisedColor">#393B40</Color>
-      <Color x:Key="AxSurfaceOverlayColor">#2B2D30</Color>
+      <Color x:Key="AxSurfaceSunkenColor">#111316</Color>
+      <Color x:Key="AxSurfaceBaseColor">#171A1D</Color>
+      <Color x:Key="AxSurfacePanelColor">#1E2124</Color>
+      <Color x:Key="AxSurfaceRaisedColor">#2C2E32</Color>
+      <Color x:Key="AxSurfaceOverlayColor">#25282C</Color>
 
-      <!-- Взаимодействие: наведение, нажатие, дорожка и заливка выключенного. -->
-      <Color x:Key="AxHoverColor">#393B40</Color>
-      <Color x:Key="AxPressedColor">#43454A</Color>
-      <Color x:Key="AxTrackColor">#43454A</Color>
-      <Color x:Key="AxFillDisabledColor">#2B2D30</Color>
+      <!--
+          Взаимодействие. Наведение и нажатие полупрозрачны: контрол стоит и на панели, и во
+          всплывающем окне, и в поднятой шапке, и непрозрачная плашка на одной из них сливалась
+          бы с фоном. Дорожка и заливка выключенного непрозрачны.
+      -->
+      <Color x:Key="AxHoverColor">#10FFFFFF</Color>
+      <Color x:Key="AxPressedColor">#1EFFFFFF</Color>
+      <Color x:Key="AxTrackColor">#37393D</Color>
+      <Color x:Key="AxFillDisabledColor">#1E2124</Color>
 
-      <!-- Линии: разделитель, граница контрола и разделитель, который читается сильнее обычного. -->
-      <Color x:Key="AxStrokeSubtleColor">#393B40</Color>
-      <Color x:Key="AxStrokeControlColor">#4E5157</Color>
-      <Color x:Key="AxStrokeStrongColor">#43454A</Color>
+      <!-- Линии: разделитель; граница контрола, по которой его узнают (3:1 к основному фону и панели); граница сильнее контрольной. -->
+      <Color x:Key="AxStrokeSubtleColor">#2F3236</Color>
+      <Color x:Key="AxStrokeControlColor">#696C71</Color>
+      <Color x:Key="AxStrokeStrongColor">#83868B</Color>
 
       <!-- Текст: четыре уровня и текст на акцентной заливке. -->
-      <Color x:Key="AxTextPrimaryColor">#DFE1E5</Color>
-      <Color x:Key="AxTextSecondaryColor">#B4B8BF</Color>
-      <Color x:Key="AxTextTertiaryColor">#9DA0A8</Color>
-      <Color x:Key="AxTextDisabledColor">#6F737A</Color>
+      <Color x:Key="AxTextPrimaryColor">#E1E3E7</Color>
+      <Color x:Key="AxTextSecondaryColor">#B6B9BE</Color>
+      <Color x:Key="AxTextTertiaryColor">#979A9F</Color>
+      <Color x:Key="AxTextDisabledColor">#66696E</Color>
       <Color x:Key="AxTextOnAccentColor">#FFFFFF</Color>
 
       <!-- Акцент: графика, заливка основного действия и кольцо фокуса. -->
-      <Color x:Key="AxAccentColor">#3574F0</Color>
-      <Color x:Key="AxAccentHoverColor">#467FF2</Color>
-      <Color x:Key="AxAccentFillColor">#3369D6</Color>
-      <Color x:Key="AxAccentFillHoverColor">#315FBD</Color>
-      <Color x:Key="AxAccentFillPressedColor">#366ACE</Color>
-      <Color x:Key="AxFocusRingColor">#3574F0</Color>
+      <Color x:Key="AxAccentColor">#5A8FF3</Color>
+      <Color x:Key="AxAccentHoverColor">#4D82EA</Color>
+      <Color x:Key="AxAccentFillColor">#3C6ECF</Color>
+      <Color x:Key="AxAccentFillHoverColor">#3062C2</Color>
+      <Color x:Key="AxAccentFillPressedColor">#2957AF</Color>
+      <Color x:Key="AxFocusRingColor">#5A8FF3</Color>
 
       <!-- Выделение: пока клавиатура внутри области и когда она ушла. -->
-      <Color x:Key="AxSelectionActiveColor">#2E436E</Color>
-      <Color x:Key="AxSelectionInactiveColor">#393B40</Color>
+      <Color x:Key="AxSelectionActiveColor">#263D68</Color>
+      <Color x:Key="AxSelectionInactiveColor">#383B3E</Color>
 
       <!-- Ссылки; на залитой плашке ссылка берёт свой шаг. -->
-      <Color x:Key="AxLinkColor">#548AF7</Color>
-      <Color x:Key="AxLinkHoverColor">#6B9BFA</Color>
-      <Color x:Key="AxLinkPressedColor">#366ACE</Color>
-      <Color x:Key="AxLinkVisitedColor">#B589EC</Color>
-      <Color x:Key="AxLinkOnPlateColor">#6B9BFA</Color>
+      <Color x:Key="AxLinkColor">#77A4F6</Color>
+      <Color x:Key="AxLinkHoverColor">#93B7F9</Color>
+      <Color x:Key="AxLinkPressedColor">#6493EE</Color>
+      <Color x:Key="AxLinkVisitedColor">#B69BF2</Color>
+      <Color x:Key="AxLinkOnPlateColor">#A3C2FA</Color>
 
       <!-- Состояния: графика, текст, контур поля, заливка и рамка сообщения. -->
-      <Color x:Key="AxErrorColor">#DB5C5C</Color>
-      <Color x:Key="AxWarningColor">#D6AE58</Color>
-      <Color x:Key="AxSuccessColor">#5FAD65</Color>
-      <Color x:Key="AxErrorTextColor">#EB938D</Color>
-      <Color x:Key="AxWarningTextColor">#D6AE58</Color>
-      <Color x:Key="AxSuccessTextColor">#5FAD65</Color>
-      <Color x:Key="AxErrorOutlineColor">#DB5C5C</Color>
-      <Color x:Key="AxWarningOutlineColor">#D6AE58</Color>
-      <Color x:Key="AxInfoFillColor">#25324D</Color>
-      <Color x:Key="AxSuccessFillColor">#253627</Color>
-      <Color x:Key="AxWarningFillColor">#3D3223</Color>
-      <Color x:Key="AxErrorFillColor">#402929</Color>
-      <Color x:Key="AxInfoStrokeColor">#35538F</Color>
-      <Color x:Key="AxSuccessStrokeColor">#436946</Color>
-      <Color x:Key="AxWarningStrokeColor">#9E814A</Color>
-      <Color x:Key="AxErrorStrokeColor">#7A4343</Color>
+      <Color x:Key="AxErrorColor">#E8665E</Color>
+      <Color x:Key="AxWarningColor">#DBA548</Color>
+      <Color x:Key="AxSuccessColor">#5BB673</Color>
+      <Color x:Key="AxErrorTextColor">#F07F77</Color>
+      <Color x:Key="AxWarningTextColor">#E6B55D</Color>
+      <Color x:Key="AxSuccessTextColor">#69C27E</Color>
+      <Color x:Key="AxErrorOutlineColor">#E8665E</Color>
+      <Color x:Key="AxWarningOutlineColor">#DBA548</Color>
+      <Color x:Key="AxInfoFillColor">#1B2840</Color>
+      <Color x:Key="AxSuccessFillColor">#1B2C21</Color>
+      <Color x:Key="AxWarningFillColor">#30271A</Color>
+      <Color x:Key="AxErrorFillColor">#35201F</Color>
+      <Color x:Key="AxInfoStrokeColor">#2E4876</Color>
+      <Color x:Key="AxSuccessStrokeColor">#2E5537</Color>
+      <Color x:Key="AxWarningStrokeColor">#66512A</Color>
+      <Color x:Key="AxErrorStrokeColor">#673432</Color>
 
       <!-- Оттенки значков типов и плитки монограмм: белые инициалы держат на них 5,9:1 и выше. -->
       <Color x:Key="AxTintOrangeColor">#E08855</Color>
@@ -91,8 +95,8 @@
       <Color x:Key="AxMonogramRedColor">#AD2B38</Color>
 
       <!-- Подсказка и ползунок прокрутки: полупрозрачная накладка поверх содержимого. -->
-      <Color x:Key="AxToolTipFillColor">#393B40</Color>
-      <Color x:Key="AxToolTipStrokeColor">#4E5157</Color>
+      <Color x:Key="AxToolTipFillColor">#2C2E32</Color>
+      <Color x:Key="AxToolTipStrokeColor">#3C3F44</Color>
       <Color x:Key="AxScrollThumbColor">#33FFFFFF</Color>
       <Color x:Key="AxScrollThumbHoverColor">#59FFFFFF</Color>
 
@@ -101,7 +105,7 @@
       <Color x:Key="AxCodeTagColor">#E8BF6A</Color>
       <Color x:Key="AxCodeAttributeColor">#BCBEC4</Color>
       <Color x:Key="AxCodeStringColor">#6AAB73</Color>
-      <Color x:Key="AxCodeCommentColor">#7A7E85</Color>
+      <Color x:Key="AxCodeCommentColor">#868A91</Color>
 
       <!-- Тени всплывающего окна и модального диалога. -->
       <BoxShadows x:Key="AxShadowPopup">0 4 16 0 #73000000</BoxShadows>
@@ -173,66 +177,70 @@
 
     <ResourceDictionary x:Key="Light">
       <!-- Поверхности: утопленная, основная (документ и поле), панель, приподнятая и всплывающая. -->
-      <Color x:Key="AxSurfaceSunkenColor">#F7F8FA</Color>
+      <Color x:Key="AxSurfaceSunkenColor">#EFF0F3</Color>
       <Color x:Key="AxSurfaceBaseColor">#FFFFFF</Color>
       <Color x:Key="AxSurfacePanelColor">#F7F8FA</Color>
-      <Color x:Key="AxSurfaceRaisedColor">#EBECF0</Color>
-      <Color x:Key="AxSurfaceOverlayColor">#F7F8FA</Color>
+      <Color x:Key="AxSurfaceRaisedColor">#EBEDF0</Color>
+      <Color x:Key="AxSurfaceOverlayColor">#FFFFFF</Color>
 
-      <!-- Взаимодействие: наведение, нажатие, дорожка и заливка выключенного. -->
-      <Color x:Key="AxHoverColor">#EBECF0</Color>
-      <Color x:Key="AxPressedColor">#DFE1E5</Color>
-      <Color x:Key="AxTrackColor">#DFE1E5</Color>
+      <!--
+          Взаимодействие. Наведение и нажатие полупрозрачны: контрол стоит и на панели, и во
+          всплывающем окне, и в поднятой шапке, и непрозрачная плашка на одной из них сливалась
+          бы с фоном. Дорожка и заливка выключенного непрозрачны.
+      -->
+      <Color x:Key="AxHoverColor">#0C000000</Color>
+      <Color x:Key="AxPressedColor">#18000000</Color>
+      <Color x:Key="AxTrackColor">#DDE0E4</Color>
       <Color x:Key="AxFillDisabledColor">#F7F8FA</Color>
 
-      <!-- Линии: разделитель, граница контрола и разделитель, который читается сильнее обычного. -->
-      <Color x:Key="AxStrokeSubtleColor">#EBECF0</Color>
-      <Color x:Key="AxStrokeControlColor">#C9CCD6</Color>
-      <Color x:Key="AxStrokeStrongColor">#DFE1E5</Color>
+      <!-- Линии: разделитель; граница контрола, по которой его узнают (3:1 к основному фону и панели); граница сильнее контрольной. -->
+      <Color x:Key="AxStrokeSubtleColor">#DFE1E5</Color>
+      <Color x:Key="AxStrokeControlColor">#898C92</Color>
+      <Color x:Key="AxStrokeStrongColor">#6E7278</Color>
 
       <!-- Текст: четыре уровня и текст на акцентной заливке. -->
-      <Color x:Key="AxTextPrimaryColor">#27282E</Color>
-      <Color x:Key="AxTextSecondaryColor">#5A5D6B</Color>
-      <Color x:Key="AxTextTertiaryColor">#6C707E</Color>
-      <Color x:Key="AxTextDisabledColor">#A8ADBD</Color>
+      <Color x:Key="AxTextPrimaryColor">#1F2227</Color>
+      <Color x:Key="AxTextSecondaryColor">#4F5359</Color>
+      <Color x:Key="AxTextTertiaryColor">#686C73</Color>
+      <Color x:Key="AxTextDisabledColor">#A2A5AA</Color>
       <Color x:Key="AxTextOnAccentColor">#FFFFFF</Color>
 
       <!-- Акцент: графика, заливка основного действия и кольцо фокуса. -->
-      <Color x:Key="AxAccentColor">#3574F0</Color>
-      <Color x:Key="AxAccentHoverColor">#3369D6</Color>
-      <Color x:Key="AxAccentFillColor">#3369D6</Color>
-      <Color x:Key="AxAccentFillHoverColor">#315FBD</Color>
-      <Color x:Key="AxAccentFillPressedColor">#315FBD</Color>
-      <Color x:Key="AxFocusRingColor">#3574F0</Color>
+      <Color x:Key="AxAccentColor">#396ED6</Color>
+      <Color x:Key="AxAccentHoverColor">#3062C2</Color>
+      <Color x:Key="AxAccentFillColor">#3065CC</Color>
+      <Color x:Key="AxAccentFillHoverColor">#2759BC</Color>
+      <Color x:Key="AxAccentFillPressedColor">#224FA7</Color>
+      <Color x:Key="AxFocusRingColor">#396ED6</Color>
 
       <!-- Выделение: пока клавиатура внутри области и когда она ушла. -->
-      <Color x:Key="AxSelectionActiveColor">#D4E2FF</Color>
-      <Color x:Key="AxSelectionInactiveColor">#EBECF0</Color>
+      <Color x:Key="AxSelectionActiveColor">#CEDFFD</Color>
+      <Color x:Key="AxSelectionInactiveColor">#DCDFE4</Color>
 
       <!-- Ссылки; на залитой плашке ссылка берёт свой шаг. -->
-      <Color x:Key="AxLinkColor">#3369D6</Color>
-      <Color x:Key="AxLinkHoverColor">#3369D6</Color>
-      <Color x:Key="AxLinkPressedColor">#315FBD</Color>
-      <Color x:Key="AxLinkVisitedColor">#55339C</Color>
-      <Color x:Key="AxLinkOnPlateColor">#315FBD</Color>
+      <Color x:Key="AxLinkColor">#285CC2</Color>
+      <Color x:Key="AxLinkHoverColor">#224FA7</Color>
+      <Color x:Key="AxLinkPressedColor">#1D4592</Color>
+      <Color x:Key="AxLinkVisitedColor">#6A41B6</Color>
+      <Color x:Key="AxLinkOnPlateColor">#1E4DA3</Color>
 
       <!-- Состояния: графика, текст, контур поля, заливка и рамка сообщения. -->
-      <Color x:Key="AxErrorColor">#DB3B4B</Color>
-      <Color x:Key="AxWarningColor">#A46704</Color>
-      <Color x:Key="AxSuccessColor">#208A3C</Color>
-      <Color x:Key="AxErrorTextColor">#AD2B38</Color>
-      <Color x:Key="AxWarningTextColor">#A14916</Color>
-      <Color x:Key="AxSuccessTextColor">#1E6B33</Color>
-      <Color x:Key="AxErrorOutlineColor">#DB3B4B</Color>
-      <Color x:Key="AxWarningOutlineColor">#FFAF0F</Color>
-      <Color x:Key="AxInfoFillColor">#EDF3FF</Color>
-      <Color x:Key="AxSuccessFillColor">#F2FCF3</Color>
-      <Color x:Key="AxWarningFillColor">#FFF5DB</Color>
-      <Color x:Key="AxErrorFillColor">#FFF7F7</Color>
-      <Color x:Key="AxInfoStrokeColor">#C2D6FC</Color>
-      <Color x:Key="AxSuccessStrokeColor">#C5E5CC</Color>
-      <Color x:Key="AxWarningStrokeColor">#FED277</Color>
-      <Color x:Key="AxErrorStrokeColor">#FAD4D8</Color>
+      <Color x:Key="AxErrorColor">#D33F3C</Color>
+      <Color x:Key="AxWarningColor">#B47A0A</Color>
+      <Color x:Key="AxSuccessColor">#2C8A47</Color>
+      <Color x:Key="AxErrorTextColor">#B63132</Color>
+      <Color x:Key="AxWarningTextColor">#9A6000</Color>
+      <Color x:Key="AxSuccessTextColor">#1D7D3E</Color>
+      <Color x:Key="AxErrorOutlineColor">#D33F3C</Color>
+      <Color x:Key="AxWarningOutlineColor">#B47A0A</Color>
+      <Color x:Key="AxInfoFillColor">#EAF1FE</Color>
+      <Color x:Key="AxSuccessFillColor">#EAF6EC</Color>
+      <Color x:Key="AxWarningFillColor">#FDF3DD</Color>
+      <Color x:Key="AxErrorFillColor">#FDEDEC</Color>
+      <Color x:Key="AxInfoStrokeColor">#BCD2FB</Color>
+      <Color x:Key="AxSuccessStrokeColor">#BFE0C6</Color>
+      <Color x:Key="AxWarningStrokeColor">#EDCB84</Color>
+      <Color x:Key="AxErrorStrokeColor">#F0BDB9</Color>
 
       <!-- Оттенки значков типов и плитки монограмм: белые инициалы держат на них 5,9:1 и выше. -->
       <Color x:Key="AxTintOrangeColor">#A14916</Color>
@@ -244,16 +252,16 @@
 
       <!-- Подсказка и ползунок прокрутки: полупрозрачная накладка поверх содержимого. -->
       <Color x:Key="AxToolTipFillColor">#F7F8FA</Color>
-      <Color x:Key="AxToolTipStrokeColor">#DFE1E5</Color>
+      <Color x:Key="AxToolTipStrokeColor">#DADDE2</Color>
       <Color x:Key="AxScrollThumbColor">#33000000</Color>
       <Color x:Key="AxScrollThumbHoverColor">#59000000</Color>
 
       <!-- Подсветка кода. -->
-      <Color x:Key="AxCodeTextColor">#080808</Color>
+      <Color x:Key="AxCodeTextColor">#1F2227</Color>
       <Color x:Key="AxCodeTagColor">#0033B3</Color>
       <Color x:Key="AxCodeAttributeColor">#174AD4</Color>
       <Color x:Key="AxCodeStringColor">#067D17</Color>
-      <Color x:Key="AxCodeCommentColor">#8C8C8C</Color>
+      <Color x:Key="AxCodeCommentColor">#686B71</Color>
 
       <!-- Тени всплывающего окна и модального диалога. -->
       <BoxShadows x:Key="AxShadowPopup">0 4 16 0 #24000000</BoxShadows>

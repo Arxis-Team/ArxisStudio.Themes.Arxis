@@ -15,9 +15,9 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 /// Прогресс: полоса в четыре пикселя и бегунок бесконечного режима.
 /// </summary>
 /// <remarks>
-/// Заполнение лежит на дорожке цвета нажатия. Наведение сюда не годится: под
+/// Заполнение лежит на дорожке AxTrack. Наведение сюда не годится: под
 /// заполнением дорожка обязана читаться как жёлоб, а не как подсветка строки,
-/// поэтому она на шаг темнее.
+/// и одним цветом на любой поверхности, поэтому она непрозрачна.
 ///
 /// Бесконечный режим проходит полосу за 1.2 секунды — это второе и последнее
 /// разрешённое движение рядом с лоадером.
@@ -36,7 +36,7 @@ public class ProgressTests
         window.Close();
     }
 
-    /// <summary>Дорожка — ступень нажатия, заполнение — акцент.</summary>
+    /// <summary>Дорожка — AxTrack, заполнение — акцент.</summary>
     [AvaloniaTheory]
     [InlineData("Light")]
     [InlineData("Dark")]
@@ -44,7 +44,7 @@ public class ProgressTests
     {
         var (bar, window) = Shown(indeterminate: false, variant);
 
-        Assert.Equal(Resource(window, "AxPressedColor", variant), Colour(bar.Background));
+        Assert.Equal(Resource(window, "AxTrackColor", variant), Colour(bar.Background));
         Assert.Equal(Resource(window, "AxAccentColor", variant), Colour(bar.Foreground));
         Assert.Equal(
             Resource(window, "AxAccentColor", variant),
