@@ -107,6 +107,14 @@
     <Setter Property="Padding" Value="{DynamicResource AxRowPadding}"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+    <!--
+        Значок без своего цвета идёт за подписью — вторичный, основной у
+        выбранной, выключенный у выключенной. Привязкой, а не тем же ключом:
+        состояния меняют подпись стилями ниже, и ключ пришлось бы повторять в
+        каждом. Данный вкладке цвет — локальное значение — сильнее сеттера.
+        Раньше умолчания не было, и значок без цвета не рисовался вовсе.
+    -->
+    <Setter Property="IconBrush" Value="{Binding $self.Foreground}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="Cursor" Value="Hand"/>
     <!--
@@ -134,16 +142,11 @@
             <Border x:Name="PART_Hover" IsVisible="False"/>
             <!--
                 Док, а не стопка: в стопке имя получало бы бесконечную ширину и
-                не сокращалось никогда. Значок и крестик стоят по краям, имя
-                берёт остаток. Скрытому значку док зазора не оставляет, как не
+                не сокращалось никогда. Крестик стоит у края, имя со значком
+                берут остаток. Скрытому крестику док зазора не оставляет, как не
                 оставляла стопка.
             -->
             <DockPanel HorizontalSpacing="{DynamicResource AxSpace}" VerticalAlignment="Center">
-              <ax:AxIcon DockPanel.Dock="Left"
-                         Classes="small"
-                         Data="{TemplateBinding Icon}"
-                         Foreground="{TemplateBinding IconBrush}"
-                         IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}"/>
               <!--
                   Ловит мышь вся площадка, а не сам путь крестика: попасть по
                   линии в полтора пикселя человек не должен. Прозрачный фон
@@ -177,11 +180,34 @@
                              Foreground="{DynamicResource AxFg3Brush}"/>
                 </Panel>
               </Border>
-              <ContentPresenter Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                Foreground="{TemplateBinding Foreground}"
-                                TextTrimming="CharacterEllipsis"
-                                VerticalAlignment="Center"/>
+              <!--
+                  Значок с именем — своим доком, а не в общем ряду. Значок и имя
+                  — одна мысль, крестик — другое действие: общий зазор отодвинул
+                  бы значок от имени так же далеко, как крестик, и вкладка
+                  читалась бы тремя вещами вместо двух. Между значком и именем —
+                  зазор значка и текста, как у строки дерева; скрытый значок
+                  места не держит.
+
+                  Клетка целая, 16, а не мелкая: набор нарисован в клетке 16, и
+                  обводка ложится в пиксели только там, где клетка в них ложится.
+                  Цвет — IconBrush, а его умолчание в сеттере темы идёт за
+                  подписью: глиф панели своего цвета не несёт и красится, как
+                  текст рядом, а тип документа красит свой значок сам.
+              -->
+              <DockPanel>
+                <ax:AxIcon x:Name="PART_Icon"
+                           DockPanel.Dock="Left"
+                           Margin="{DynamicResource AxGapIconTextThickness}"
+                           VerticalAlignment="Center"
+                           Data="{TemplateBinding Icon}"
+                           Foreground="{TemplateBinding IconBrush}"
+                           IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                <ContentPresenter Content="{TemplateBinding Content}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  Foreground="{TemplateBinding Foreground}"
+                                  TextTrimming="CharacterEllipsis"
+                                  VerticalAlignment="Center"/>
+              </DockPanel>
             </DockPanel>
             <!--
                 Полоса выбора идёт ровно во всю ширину вкладки: отрицательное

@@ -1,6 +1,8 @@
 using ArxisStudio.Controls;
+using ArxisStudio.Icons;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
@@ -281,6 +283,138 @@ public class TabStripTests
     }
 
     /// <summary>
+    /// Значок вкладки — целая клетка набора, а не мелкий шеврон.
+    /// </summary>
+    /// <remarks>
+    /// Набор нарисован в клетке 16, и обводка ложится в пиксели только там, где клетка в них
+    /// ложится. Двенадцать — размер шеврона в тесной строке: глиф панели в нём мутнел бы при любом
+    /// обычном масштабе экрана, а по весу расходился бы с тем же глифом на кнопке полосы.
+    /// </remarks>
+    [AvaloniaTheory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void The_icon_of_a_tab_is_a_whole_cell(bool compact)
+    {
+        var (tab, window) = Shown(compact, "Dark");
+
+        tab.Icon = AxIcons.Terminal;
+        window.UpdateLayout();
+
+        var icon = Part(tab, "PART_Icon");
+
+        Assert.True(icon.IsVisible, "значок задан, а вкладка его не показывает");
+        Assert.True(window.TryFindResource("AxIconSize", out var size), "AxIconSize");
+        Assert.Equal(new Size((double)size!, (double)size!), icon.Bounds.Size);
+
+        window.Close();
+    }
+
+    /// <summary>Нет значка — нет и места под него: подпись стоит от самого края.</summary>
+    [AvaloniaFact]
+    public void A_tab_without_an_icon_keeps_no_room_for_it()
+    {
+        var (tab, window) = Shown(compact: true, "Dark");
+
+        Assert.False(Part(tab, "PART_Icon").IsVisible, "значка не давали, а он виден");
+        Assert.Equal(tab.Padding.Left, Name(tab).TranslatePoint(default, tab)!.Value.X);
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// От значка до подписи — зазор значка и текста, от подписи до крестика — прежний.
+    /// </summary>
+    /// <remarks>
+    /// Значок и подпись — одна мысль, крестик — другое действие. Раздели их один зазор, значок
+    /// отошёл бы от своего имени так же далеко, как крестик, и читался бы третьим элементом
+    /// вкладки. Зазор значка и текста — тот же, что у строки дерева и у поля поиска.
+    /// </remarks>
+    [AvaloniaTheory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void The_icon_stands_close_to_the_name_and_the_cross_keeps_its_distance(bool compact)
+    {
+        var (tab, window) = Shown(compact, "Dark");
+
+        tab.Icon = AxIcons.Terminal;
+        window.UpdateLayout();
+
+        var icon = Part(tab, "PART_Icon");
+        var name = Name(tab);
+        var close = Part(tab, "PART_Close");
+
+        Assert.True(window.TryFindResource("AxGapIconText", out var gap), "AxGapIconText");
+        Assert.True(window.TryFindResource("AxSpace", out var space), "AxSpace");
+
+        var iconEnd = icon.TranslatePoint(new Point(icon.Bounds.Width, 0), tab)!.Value.X;
+        var nameStart = name.TranslatePoint(default, tab)!.Value.X;
+        var nameEnd = name.TranslatePoint(new Point(name.Bounds.Width, 0), tab)!.Value.X;
+        var closeStart = close.TranslatePoint(default, tab)!.Value.X;
+
+        Assert.Equal((double)gap!, nameStart - iconEnd, 3);
+        Assert.Equal((double)space!, closeStart - nameEnd, 3);
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Без своего цвета значок красится подписью — и меняется вместе с ней.
+    /// </summary>
+    /// <remarks>
+    /// Цвет значка у вкладки заведён для документа: тип файла красит свой значок сам. Глиф панели
+    /// своего цвета не несёт — он из набора студии и красится темой, как кнопка полосы. Раньше путь
+    /// без данного цвета оставался без кисти и не рисовался вовсе; теперь он идёт за подписью:
+    /// вторичный у невыбранной вкладки, основной у выбранной, выключенный у выключенной.
+    /// </remarks>
+    [AvaloniaTheory]
+    [InlineData("Light")]
+    [InlineData("Dark")]
+    public void Without_a_brush_the_icon_takes_the_colour_of_the_name(string variant)
+    {
+        foreach (var compact in new[] { false, true })
+        {
+            var (tab, window) = Shown(compact, variant);
+
+            tab.Icon = AxIcons.Terminal;
+            window.UpdateLayout();
+
+            Assert.Equal(Resource(window, "AxFg2Color", variant), Colour(Stroke(tab)));
+
+            ((IPseudoClasses)tab.Classes).Set(":selected", true);
+            window.UpdateLayout();
+
+            Assert.Equal(Resource(window, "AxFgColor", variant), Colour(Stroke(tab)));
+
+            tab.IsEnabled = false;
+            window.UpdateLayout();
+
+            Assert.Equal(Resource(window, "AxFgDisabledColor", variant), Colour(Stroke(tab)));
+
+            window.Close();
+        }
+    }
+
+    /// <summary>Данный вкладке цвет значка красит его сам — и выбор его не перебивает.</summary>
+    [AvaloniaFact]
+    public void A_given_brush_paints_the_icon_whatever_the_state()
+    {
+        var (tab, window) = Shown(compact: false, "Dark");
+
+        tab.Icon = AxIcons.Document;
+        tab.IconBrush = Brushes.Orange;
+        window.UpdateLayout();
+
+        Assert.Equal(Colors.Orange, Colour(Stroke(tab)));
+
+        ((IPseudoClasses)tab.Classes).Set(":selected", true);
+        window.UpdateLayout();
+
+        Assert.Equal(Colors.Orange, Colour(Stroke(tab)));
+
+        window.Close();
+    }
+
+    /// <summary>
     /// Правая кнопка вкладку не закрывает.
     /// </summary>
     /// <remarks>
@@ -336,6 +470,14 @@ public class TabStripTests
         Assert.True(part is not null, $"в шаблоне нет части {name}");
         return part!;
     }
+
+    /// <summary>Подпись вкладки: тот презентер, что показывает её содержимое.</summary>
+    private static ContentPresenter Name(AxTabItem tab) =>
+        tab.GetVisualDescendants().OfType<ContentPresenter>().Single(presenter => Equals(presenter.Content, tab.Content));
+
+    /// <summary>Кисть, которой путь значка действительно рисуется.</summary>
+    private static IBrush? Stroke(AxTabItem tab) =>
+        Part(tab, "PART_Icon").GetVisualDescendants().OfType<Avalonia.Controls.Shapes.Path>().Single().Stroke;
 
     private static Color? Colour(IBrush? brush) => (brush as ISolidColorBrush)?.Color;
 
