@@ -1,519 +1,327 @@
 <!--
-    Палитра темы «Arxis». Устроена в два слоя:
+    Палитра темы «Arxis»: роли, а не ступени шкал. Роль — пара Color и Brush в
+    словаре каждого варианта; что за роль и какие пороги контраста она держит,
+    записано в docs/design-system.md студии, а пороги проверяют тесты темы.
 
-    1. Шкалы — Gray 1…14, Blue 1…13, Green, Red, Yellow, Orange, Purple, Teal.
-       В тёмной теме шкала идёт от тёмного к светлому, в светлой — наоборот,
-       поэтому один и тот же номер означает роль, а не яркость.
-    2. Семантические токены поверх шкал: фон панели, рамки, текст, выделение,
-       контур фокуса. Интерфейс пользуется ими, а не номерами — тогда правка
-       палитры не превращается в поиск по всем шаблонам.
+    Цвет роли записан числом, а не ссылкой на ступень: анализатор SDK читает
+    ровно такие пары и по ним называет расширению кисть вместо числа.
 
-    Имена вида AxBg1/AxFg2 остались из первой версии темы и работают как
-    семантические алиасы: на них уже написан интерфейс студии.
+    Кисти объявлены внутри словаря варианта, а не общим списком: общая кисть
+    разрешала бы свой Color на уровне приложения, и ThemeVariantScope (светлая
+    и тёмная половины галереи, предпросмотр плагина) не мог бы её переокрасить.
+    Шаблоны берут кисти через DynamicResource, поэтому вариант меняется и у
+    живого окна.
+
+    Тени: BoxShadows не собирается из кисти ресурсом, поэтому цвет тени записан
+    прямо в ней.
 -->
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <ResourceDictionary.ThemeDictionaries>
 
     <ResourceDictionary x:Key="Dark">
-      <!-- Шкала Gray: от фона окна к самому светлому тексту. -->
-      <Color x:Key="AxGray1">#1E1F22</Color>
-      <Color x:Key="AxGray2">#2B2D30</Color>
-      <Color x:Key="AxGray3">#393B40</Color>
-      <Color x:Key="AxGray4">#43454A</Color>
-      <Color x:Key="AxGray5">#4E5157</Color>
-      <Color x:Key="AxGray6">#5A5D63</Color>
-      <Color x:Key="AxGray7">#6F737A</Color>
-      <Color x:Key="AxGray8">#868A91</Color>
-      <Color x:Key="AxGray9">#9DA0A8</Color>
-      <Color x:Key="AxGray10">#B4B8BF</Color>
-      <Color x:Key="AxGray11">#CED0D6</Color>
-      <Color x:Key="AxGray12">#DFE1E5</Color>
-      <Color x:Key="AxGray13">#F0F1F2</Color>
-      <Color x:Key="AxGray14">#FFFFFF</Color>
+      <!-- Поверхности: утопленная, основная (документ и поле), панель, приподнятая и всплывающая. -->
+      <Color x:Key="AxSurfaceSunkenColor">#1E1F22</Color>
+      <Color x:Key="AxSurfaceBaseColor">#1E1F22</Color>
+      <Color x:Key="AxSurfacePanelColor">#2B2D30</Color>
+      <Color x:Key="AxSurfaceRaisedColor">#393B40</Color>
+      <Color x:Key="AxSurfaceOverlayColor">#2B2D30</Color>
 
-      <Color x:Key="AxBlue1">#25324D</Color>
-      <Color x:Key="AxBlue2">#2E436E</Color>
-      <Color x:Key="AxBlue3">#35538F</Color>
-      <Color x:Key="AxBlue4">#375FAD</Color>
-      <Color x:Key="AxBlue5">#366ACE</Color>
-      <Color x:Key="AxBlue6">#3574F0</Color>
-      <Color x:Key="AxBlue7">#467FF2</Color>
-      <Color x:Key="AxBlue8">#548AF7</Color>
-      <Color x:Key="AxBlue9">#6B9BFA</Color>
-      <Color x:Key="AxBlue10">#83ACFC</Color>
-      <Color x:Key="AxBlue11">#99BBFF</Color>
-      <Color x:Key="AxBlue12">#B5CEFF</Color>
-      <Color x:Key="AxBlue13">#D1E0FF</Color>
+      <!-- Взаимодействие: наведение, нажатие, дорожка и заливка выключенного. -->
+      <Color x:Key="AxHoverColor">#393B40</Color>
+      <Color x:Key="AxPressedColor">#43454A</Color>
+      <Color x:Key="AxTrackColor">#43454A</Color>
+      <Color x:Key="AxFillDisabledColor">#2B2D30</Color>
 
-      <Color x:Key="AxGreen1">#253627</Color>
-      <Color x:Key="AxGreen4">#436946</Color>
-      <Color x:Key="AxGreen6">#57965C</Color>
-      <Color x:Key="AxGreen7">#5FAD65</Color>
-      <Color x:Key="AxGreen9">#89CC8E</Color>
+      <!-- Линии: разделитель, граница контрола и разделитель, который читается сильнее обычного. -->
+      <Color x:Key="AxStrokeSubtleColor">#393B40</Color>
+      <Color x:Key="AxStrokeControlColor">#4E5157</Color>
+      <Color x:Key="AxStrokeStrongColor">#43454A</Color>
 
-      <Color x:Key="AxRed1">#402929</Color>
-      <Color x:Key="AxRed4">#7A4343</Color>
-      <Color x:Key="AxRed6">#BD5757</Color>
-      <Color x:Key="AxRed7">#DB5C5C</Color>
-      <Color x:Key="AxRed9">#EB938D</Color>
+      <!-- Текст: четыре уровня и текст на акцентной заливке. -->
+      <Color x:Key="AxTextPrimaryColor">#DFE1E5</Color>
+      <Color x:Key="AxTextSecondaryColor">#B4B8BF</Color>
+      <Color x:Key="AxTextTertiaryColor">#9DA0A8</Color>
+      <Color x:Key="AxTextDisabledColor">#6F737A</Color>
+      <Color x:Key="AxTextOnAccentColor">#FFFFFF</Color>
 
-      <Color x:Key="AxYellow1">#3D3223</Color>
-      <Color x:Key="AxYellow4">#9E814A</Color>
-      <Color x:Key="AxYellow6">#D6AE58</Color>
-      <Color x:Key="AxYellow7">#F2C55C</Color>
+      <!-- Акцент: графика, заливка основного действия и кольцо фокуса. -->
+      <Color x:Key="AxAccentColor">#3574F0</Color>
+      <Color x:Key="AxAccentHoverColor">#467FF2</Color>
+      <Color x:Key="AxAccentFillColor">#3369D6</Color>
+      <Color x:Key="AxAccentFillHoverColor">#315FBD</Color>
+      <Color x:Key="AxAccentFillPressedColor">#366ACE</Color>
+      <Color x:Key="AxFocusRingColor">#3574F0</Color>
 
-      <Color x:Key="AxOrange1">#45322B</Color>
-      <Color x:Key="AxOrange6">#E08855</Color>
-      <Color x:Key="AxOrange7">#E5986C</Color>
+      <!-- Выделение: пока клавиатура внутри области и когда она ушла. -->
+      <Color x:Key="AxSelectionActiveColor">#2E436E</Color>
+      <Color x:Key="AxSelectionInactiveColor">#393B40</Color>
 
-      <Color x:Key="AxPurple1">#2F2936</Color>
-      <Color x:Key="AxPurple7">#955AE0</Color>
-      <Color x:Key="AxPurple8">#A571E6</Color>
-      <Color x:Key="AxPurple9">#B589EC</Color>
-
-      <Color x:Key="AxTeal1">#1D3838</Color>
-      <Color x:Key="AxTeal7">#24A394</Color>
-
-      <!-- Семантические токены. -->
-      <Color x:Key="AxBg1Color">#1E1F22</Color>
-      <Color x:Key="AxBg2Color">#2B2D30</Color>
-      <Color x:Key="AxBg3Color">#393B40</Color>
-      <Color x:Key="AxBg4Color">#43454A</Color>
-      <Color x:Key="AxBrdColor">#393B40</Color>
-      <Color x:Key="AxBrd2Color">#4E5157</Color>
-      <Color x:Key="AxFgColor">#DFE1E5</Color>
-      <!--
-          Второстепенный и третичный стоят на ступень светлее исходных значений,
-          и это вторая правка этой пары. Первая развела третичный с выключенным:
-          по исходным значениям выключенный читался лучше второстепенного. Она же записала,
-          что «дальше двигать некуда — следующая ступень это AxFg2», и в этом
-          была права лишь наполовину: некуда было двигать ОДИН третичный.
-
-          Живой замер показал цену. Третичный на Gray8 держал 4,75:1 только на
-          основном фоне, а текст стоит и на панели: подзаголовок боковой колонки
-          Welcome, пути недавних проектов, описания плагинов — 3,98 при пороге
-          4,5. Второстепенный на Gray9 падал до 4,28 на плашке.
-
-          Поэтому ступень сдвинута у обоих: второстепенный на Gray10, третичный
-          на Gray9. Все значения с той же шкалы, иерархия цела — четыре уровня,
-          и выключенный, как и положено, тусклее всех. Итог по порогу 4,5:
-          третичный проходит на основном фоне и на панели, второстепенный — ещё
-          и на плашке. Текст на плашке третичным не пишут.
-      -->
-      <Color x:Key="AxFg2Color">#B4B8BF</Color>
-      <Color x:Key="AxFg3Color">#9DA0A8</Color>
-      <Color x:Key="AxFgDisabledColor">#6F737A</Color>
-      <Color x:Key="AxAccColor">#3574F0</Color>
-      <Color x:Key="AxAccHoverColor">#467FF2</Color>
-      <Color x:Key="AxAccPressedColor">#366ACE</Color>
-      <!--
-          Залитая акцентом поверхность, на которой стоит текст: кнопка, счётчик,
-          активный сегмент. AxAcc даёт белому тексту 4,28:1 — недобор; этот шаг
-          держит 5,1:1. Наведение темнеет в обоих вариантах, иначе контраст падает.
-      -->
-      <Color x:Key="AxAccStrongColor">#3369D6</Color>
-      <Color x:Key="AxAccStrongHoverColor">#315FBD</Color>
-      <Color x:Key="AxOnAccColor">#FFFFFF</Color>
-      <Color x:Key="AxSelColor">#2E436E</Color>
-      <Color x:Key="AxSelInactiveColor">#393B40</Color>
-      <Color x:Key="AxCanvasColor">#191A1D</Color>
-      <Color x:Key="AxDotColor">#33353A</Color>
-      <Color x:Key="AxInpColor">#1E1F22</Color>
-      <Color x:Key="AxInpDisabledColor">#2B2D30</Color>
-      <Color x:Key="AxGrnColor">#5FAD65</Color>
-      <Color x:Key="AxRedColor">#DB5C5C</Color>
-      <Color x:Key="AxYelColor">#D6AE58</Color>
-      <Color x:Key="AxOrgColor">#E08855</Color>
-      <Color x:Key="AxPurColor">#A571E6</Color>
+      <!-- Ссылки; на залитой плашке ссылка берёт свой шаг. -->
       <Color x:Key="AxLinkColor">#548AF7</Color>
       <Color x:Key="AxLinkHoverColor">#6B9BFA</Color>
+      <Color x:Key="AxLinkPressedColor">#366ACE</Color>
       <Color x:Key="AxLinkVisitedColor">#B589EC</Color>
-      <!--
-          Акцентный текст и иконка на залитой плашке (AxBg3, AxSel): AxLink там
-          даёт 4,18:1, этот шаг — 5,0:1 и выше.
-      -->
-      <Color x:Key="AxLinkOnColor">#6B9BFA</Color>
+      <Color x:Key="AxLinkOnPlateColor">#6B9BFA</Color>
 
-      <!--
-          Смысловые цвета ТЕКСТА. Заливки и иконки остаются на AxGrn/AxRed/AxYel:
-          им довольно 3:1, а тексту нужно 4,5:1 на фактическом фоне.
-      -->
-      <Color x:Key="AxGreenTextColor">#5FAD65</Color>
-      <Color x:Key="AxRedTextColor">#EB938D</Color>
-      <Color x:Key="AxYellowTextColor">#D6AE58</Color>
+      <!-- Состояния: графика, текст, контур поля, заливка и рамка сообщения. -->
+      <Color x:Key="AxErrorColor">#DB5C5C</Color>
+      <Color x:Key="AxWarningColor">#D6AE58</Color>
+      <Color x:Key="AxSuccessColor">#5FAD65</Color>
+      <Color x:Key="AxErrorTextColor">#EB938D</Color>
+      <Color x:Key="AxWarningTextColor">#D6AE58</Color>
+      <Color x:Key="AxSuccessTextColor">#5FAD65</Color>
+      <Color x:Key="AxErrorOutlineColor">#DB5C5C</Color>
+      <Color x:Key="AxWarningOutlineColor">#D6AE58</Color>
+      <Color x:Key="AxInfoFillColor">#25324D</Color>
+      <Color x:Key="AxSuccessFillColor">#253627</Color>
+      <Color x:Key="AxWarningFillColor">#3D3223</Color>
+      <Color x:Key="AxErrorFillColor">#402929</Color>
+      <Color x:Key="AxInfoStrokeColor">#35538F</Color>
+      <Color x:Key="AxSuccessStrokeColor">#436946</Color>
+      <Color x:Key="AxWarningStrokeColor">#9E814A</Color>
+      <Color x:Key="AxErrorStrokeColor">#7A4343</Color>
 
-      <!-- Контур фокуса и состояния проверки ввода. -->
-      <Color x:Key="AxOutlineFocusedColor">#3574F0</Color>
-      <Color x:Key="AxOutlineErrorColor">#DB5C5C</Color>
-      <Color x:Key="AxOutlineWarningColor">#D6AE58</Color>
-
-      <!-- Фоны сообщений: информация, успех, предупреждение, ошибка. -->
-      <Color x:Key="AxInfoBackgroundColor">#25324D</Color>
-      <Color x:Key="AxSuccessBackgroundColor">#253627</Color>
-      <Color x:Key="AxWarningBackgroundColor">#3D3223</Color>
-      <Color x:Key="AxErrorBackgroundColor">#402929</Color>
-      <!--
-          Ползунок скроллбара: полупрозрачная накладка, а не цвет шкалы. Он
-          лежит поверх содержимого и обязан его пропускать — сплошной серый на
-          коде и на списке читался бы как чужая полоса. Прозрачность 0.20 в
-          покое, 0.35 под курсором.
-      -->
-      <!--
-          Плитки монограмм. Аватар на AxOrg / AxGrn / AxPur /
-          AxRed даёт белым инициалам 2,68…3,69:1 — решено брать шаг 1 шкалы,
-          там белый держит 5,9:1 и выше. Значения одни на оба варианта: плитка
-          с монограммой темнеет и светлеет вместе с текстом на ней, а текст на
-          ней всегда белый.
-      -->
+      <!-- Оттенки значков типов и плитки монограмм: белые инициалы держат на них 5,9:1 и выше. -->
+      <Color x:Key="AxTintOrangeColor">#E08855</Color>
+      <Color x:Key="AxTintPurpleColor">#A571E6</Color>
       <Color x:Key="AxMonogramOrangeColor">#A14916</Color>
       <Color x:Key="AxMonogramGreenColor">#1E6B33</Color>
       <Color x:Key="AxMonogramPurpleColor">#55339C</Color>
       <Color x:Key="AxMonogramRedColor">#AD2B38</Color>
 
+      <!-- Подсказка и ползунок прокрутки: полупрозрачная накладка поверх содержимого. -->
+      <Color x:Key="AxToolTipFillColor">#393B40</Color>
+      <Color x:Key="AxToolTipStrokeColor">#4E5157</Color>
       <Color x:Key="AxScrollThumbColor">#33FFFFFF</Color>
       <Color x:Key="AxScrollThumbHoverColor">#59FFFFFF</Color>
 
-      <!--
-          Утопленная полоса на панели: строка дерева контролов в дизайнере.
-          Она уходит от фона половины на ступень вниз, но половины
-          стоят на разных токенах — светлая на AxBg1, тёмная на AxBg2, — и
-          «ступень вниз» получается то AxBg2, то AxBg1. Одним ключом это не
-          выразить, поэтому здесь свой, как заведены тултип и рамки баннеров.
-      -->
-      <Color x:Key="AxBgSunkenColor">#1E1F22</Color>
-
-      <!--
-          Тултип поднимается над своей поверхностью на шаг, и шаг этот в двух
-          вариантах разный: в светлой он темнеет от белого до AxBg2, в тёмной
-          светлеет от панели до AxBg3. Одним токеном это не выразить, поэтому
-          у подсказки свой — как заведены рамки баннеров.
-      -->
-      <Color x:Key="AxTooltipBackgroundColor">#393B40</Color>
-      <Color x:Key="AxTooltipBorderColor">#4E5157</Color>
-
-      <!-- Рамки баннеров: шаг шкалы к каждому фону сообщения. -->
-      <Color x:Key="AxInfoBorderColor">#35538F</Color>
-      <Color x:Key="AxSuccessBorderColor">#436946</Color>
-      <Color x:Key="AxWarningBorderColor">#9E814A</Color>
-      <Color x:Key="AxErrorBorderColor">#7A4343</Color>
-
-      <!-- Подсветка кода: разметка в AxCodeBlock. -->
-      <Color x:Key="AxCodeFgColor">#BCBEC4</Color>
+      <!-- Подсветка кода. -->
+      <Color x:Key="AxCodeTextColor">#BCBEC4</Color>
       <Color x:Key="AxCodeTagColor">#E8BF6A</Color>
-      <Color x:Key="AxCodeAttrColor">#BCBEC4</Color>
+      <Color x:Key="AxCodeAttributeColor">#BCBEC4</Color>
       <Color x:Key="AxCodeStringColor">#6AAB73</Color>
       <Color x:Key="AxCodeCommentColor">#7A7E85</Color>
 
-      <Color x:Key="AxShadowColor">#73000000</Color>
-      <Color x:Key="AxAbShadowColor">#8C000000</Color>
+      <!-- Тени всплывающего окна и модального диалога. -->
+      <BoxShadows x:Key="AxShadowPopup">0 4 16 0 #73000000</BoxShadows>
+      <BoxShadows x:Key="AxShadowModal">0 8 40 0 #8C000000</BoxShadows>
 
-      <!--
-          Готовые тени: BoxShadows не собирается из кисти ресурсом, поэтому
-          цвет тени повторён здесь — и только здесь. AxPopupShadow — попапы,
-          меню, тултипы (AxShadow); AxModalShadow — диалоги (AxAbShadow).
-      -->
-      <BoxShadows x:Key="AxPopupShadow">0 4 16 0 #73000000</BoxShadows>
-      <BoxShadows x:Key="AxModalShadow">0 8 40 0 #8C000000</BoxShadows>
-
-      <!--
-          Кисти поверх токенов — внутри словаря варианта, а не общим списком:
-          общая кисть разрешала бы свой Color на уровне приложения, и
-          ThemeVariantScope (светлая и тёмная половины галереи, предпросмотр
-          плагина) не мог бы её переокрасить. Шаблоны берут кисти через
-          DynamicResource, поэтому вариант меняется и у живого окна.
-      -->
-      <SolidColorBrush x:Key="AxBg1Brush" Color="{StaticResource AxBg1Color}"/>
-      <SolidColorBrush x:Key="AxBg2Brush" Color="{StaticResource AxBg2Color}"/>
-      <SolidColorBrush x:Key="AxBg3Brush" Color="{StaticResource AxBg3Color}"/>
-      <SolidColorBrush x:Key="AxBg4Brush" Color="{StaticResource AxBg4Color}"/>
-      <SolidColorBrush x:Key="AxBrdBrush" Color="{StaticResource AxBrdColor}"/>
-      <SolidColorBrush x:Key="AxBrd2Brush" Color="{StaticResource AxBrd2Color}"/>
-      <SolidColorBrush x:Key="AxFgBrush" Color="{StaticResource AxFgColor}"/>
-      <SolidColorBrush x:Key="AxFg2Brush" Color="{StaticResource AxFg2Color}"/>
-      <SolidColorBrush x:Key="AxFg3Brush" Color="{StaticResource AxFg3Color}"/>
-      <SolidColorBrush x:Key="AxFgDisabledBrush" Color="{StaticResource AxFgDisabledColor}"/>
-      <SolidColorBrush x:Key="AxAccBrush" Color="{StaticResource AxAccColor}"/>
-      <SolidColorBrush x:Key="AxAccHoverBrush" Color="{StaticResource AxAccHoverColor}"/>
-      <SolidColorBrush x:Key="AxAccPressedBrush" Color="{StaticResource AxAccPressedColor}"/>
-      <SolidColorBrush x:Key="AxAccStrongBrush" Color="{StaticResource AxAccStrongColor}"/>
-      <SolidColorBrush x:Key="AxAccStrongHoverBrush" Color="{StaticResource AxAccStrongHoverColor}"/>
-      <SolidColorBrush x:Key="AxOnAccBrush" Color="{StaticResource AxOnAccColor}"/>
-      <SolidColorBrush x:Key="AxSelBrush" Color="{StaticResource AxSelColor}"/>
-      <SolidColorBrush x:Key="AxSelInactiveBrush" Color="{StaticResource AxSelInactiveColor}"/>
-      <SolidColorBrush x:Key="AxCanvasBrush" Color="{StaticResource AxCanvasColor}"/>
-      <SolidColorBrush x:Key="AxDotBrush" Color="{StaticResource AxDotColor}"/>
-      <SolidColorBrush x:Key="AxInpBrush" Color="{StaticResource AxInpColor}"/>
-      <SolidColorBrush x:Key="AxInpDisabledBrush" Color="{StaticResource AxInpDisabledColor}"/>
-      <SolidColorBrush x:Key="AxGrnBrush" Color="{StaticResource AxGrnColor}"/>
-      <SolidColorBrush x:Key="AxRedBrush" Color="{StaticResource AxRedColor}"/>
-      <SolidColorBrush x:Key="AxYelBrush" Color="{StaticResource AxYelColor}"/>
-      <SolidColorBrush x:Key="AxOrgBrush" Color="{StaticResource AxOrgColor}"/>
-      <SolidColorBrush x:Key="AxPurBrush" Color="{StaticResource AxPurColor}"/>
+      <!-- Кисти ролей. -->
+      <SolidColorBrush x:Key="AxSurfaceSunkenBrush" Color="{StaticResource AxSurfaceSunkenColor}"/>
+      <SolidColorBrush x:Key="AxSurfaceBaseBrush" Color="{StaticResource AxSurfaceBaseColor}"/>
+      <SolidColorBrush x:Key="AxSurfacePanelBrush" Color="{StaticResource AxSurfacePanelColor}"/>
+      <SolidColorBrush x:Key="AxSurfaceRaisedBrush" Color="{StaticResource AxSurfaceRaisedColor}"/>
+      <SolidColorBrush x:Key="AxSurfaceOverlayBrush" Color="{StaticResource AxSurfaceOverlayColor}"/>
+      <SolidColorBrush x:Key="AxHoverBrush" Color="{StaticResource AxHoverColor}"/>
+      <SolidColorBrush x:Key="AxPressedBrush" Color="{StaticResource AxPressedColor}"/>
+      <SolidColorBrush x:Key="AxTrackBrush" Color="{StaticResource AxTrackColor}"/>
+      <SolidColorBrush x:Key="AxFillDisabledBrush" Color="{StaticResource AxFillDisabledColor}"/>
+      <SolidColorBrush x:Key="AxStrokeSubtleBrush" Color="{StaticResource AxStrokeSubtleColor}"/>
+      <SolidColorBrush x:Key="AxStrokeControlBrush" Color="{StaticResource AxStrokeControlColor}"/>
+      <SolidColorBrush x:Key="AxStrokeStrongBrush" Color="{StaticResource AxStrokeStrongColor}"/>
+      <SolidColorBrush x:Key="AxTextPrimaryBrush" Color="{StaticResource AxTextPrimaryColor}"/>
+      <SolidColorBrush x:Key="AxTextSecondaryBrush" Color="{StaticResource AxTextSecondaryColor}"/>
+      <SolidColorBrush x:Key="AxTextTertiaryBrush" Color="{StaticResource AxTextTertiaryColor}"/>
+      <SolidColorBrush x:Key="AxTextDisabledBrush" Color="{StaticResource AxTextDisabledColor}"/>
+      <SolidColorBrush x:Key="AxTextOnAccentBrush" Color="{StaticResource AxTextOnAccentColor}"/>
+      <SolidColorBrush x:Key="AxAccentBrush" Color="{StaticResource AxAccentColor}"/>
+      <SolidColorBrush x:Key="AxAccentHoverBrush" Color="{StaticResource AxAccentHoverColor}"/>
+      <SolidColorBrush x:Key="AxAccentFillBrush" Color="{StaticResource AxAccentFillColor}"/>
+      <SolidColorBrush x:Key="AxAccentFillHoverBrush" Color="{StaticResource AxAccentFillHoverColor}"/>
+      <SolidColorBrush x:Key="AxAccentFillPressedBrush" Color="{StaticResource AxAccentFillPressedColor}"/>
+      <SolidColorBrush x:Key="AxFocusRingBrush" Color="{StaticResource AxFocusRingColor}"/>
+      <SolidColorBrush x:Key="AxSelectionActiveBrush" Color="{StaticResource AxSelectionActiveColor}"/>
+      <SolidColorBrush x:Key="AxSelectionInactiveBrush" Color="{StaticResource AxSelectionInactiveColor}"/>
       <SolidColorBrush x:Key="AxLinkBrush" Color="{StaticResource AxLinkColor}"/>
       <SolidColorBrush x:Key="AxLinkHoverBrush" Color="{StaticResource AxLinkHoverColor}"/>
+      <SolidColorBrush x:Key="AxLinkPressedBrush" Color="{StaticResource AxLinkPressedColor}"/>
       <SolidColorBrush x:Key="AxLinkVisitedBrush" Color="{StaticResource AxLinkVisitedColor}"/>
-      <SolidColorBrush x:Key="AxLinkOnBrush" Color="{StaticResource AxLinkOnColor}"/>
-      <SolidColorBrush x:Key="AxGreenTextBrush" Color="{StaticResource AxGreenTextColor}"/>
-      <SolidColorBrush x:Key="AxRedTextBrush" Color="{StaticResource AxRedTextColor}"/>
-      <SolidColorBrush x:Key="AxYellowTextBrush" Color="{StaticResource AxYellowTextColor}"/>
-      <SolidColorBrush x:Key="AxOutlineFocusedBrush" Color="{StaticResource AxOutlineFocusedColor}"/>
-      <SolidColorBrush x:Key="AxOutlineErrorBrush" Color="{StaticResource AxOutlineErrorColor}"/>
-      <SolidColorBrush x:Key="AxOutlineWarningBrush" Color="{StaticResource AxOutlineWarningColor}"/>
-      <SolidColorBrush x:Key="AxInfoBackgroundBrush" Color="{StaticResource AxInfoBackgroundColor}"/>
-      <SolidColorBrush x:Key="AxSuccessBackgroundBrush" Color="{StaticResource AxSuccessBackgroundColor}"/>
-      <SolidColorBrush x:Key="AxWarningBackgroundBrush" Color="{StaticResource AxWarningBackgroundColor}"/>
-      <SolidColorBrush x:Key="AxErrorBackgroundBrush" Color="{StaticResource AxErrorBackgroundColor}"/>
-      <SolidColorBrush x:Key="AxBgSunkenBrush" Color="{StaticResource AxBgSunkenColor}"/>
+      <SolidColorBrush x:Key="AxLinkOnPlateBrush" Color="{StaticResource AxLinkOnPlateColor}"/>
+      <SolidColorBrush x:Key="AxErrorBrush" Color="{StaticResource AxErrorColor}"/>
+      <SolidColorBrush x:Key="AxWarningBrush" Color="{StaticResource AxWarningColor}"/>
+      <SolidColorBrush x:Key="AxSuccessBrush" Color="{StaticResource AxSuccessColor}"/>
+      <SolidColorBrush x:Key="AxErrorTextBrush" Color="{StaticResource AxErrorTextColor}"/>
+      <SolidColorBrush x:Key="AxWarningTextBrush" Color="{StaticResource AxWarningTextColor}"/>
+      <SolidColorBrush x:Key="AxSuccessTextBrush" Color="{StaticResource AxSuccessTextColor}"/>
+      <SolidColorBrush x:Key="AxErrorOutlineBrush" Color="{StaticResource AxErrorOutlineColor}"/>
+      <SolidColorBrush x:Key="AxWarningOutlineBrush" Color="{StaticResource AxWarningOutlineColor}"/>
+      <SolidColorBrush x:Key="AxInfoFillBrush" Color="{StaticResource AxInfoFillColor}"/>
+      <SolidColorBrush x:Key="AxSuccessFillBrush" Color="{StaticResource AxSuccessFillColor}"/>
+      <SolidColorBrush x:Key="AxWarningFillBrush" Color="{StaticResource AxWarningFillColor}"/>
+      <SolidColorBrush x:Key="AxErrorFillBrush" Color="{StaticResource AxErrorFillColor}"/>
+      <SolidColorBrush x:Key="AxInfoStrokeBrush" Color="{StaticResource AxInfoStrokeColor}"/>
+      <SolidColorBrush x:Key="AxSuccessStrokeBrush" Color="{StaticResource AxSuccessStrokeColor}"/>
+      <SolidColorBrush x:Key="AxWarningStrokeBrush" Color="{StaticResource AxWarningStrokeColor}"/>
+      <SolidColorBrush x:Key="AxErrorStrokeBrush" Color="{StaticResource AxErrorStrokeColor}"/>
+      <SolidColorBrush x:Key="AxTintOrangeBrush" Color="{StaticResource AxTintOrangeColor}"/>
+      <SolidColorBrush x:Key="AxTintPurpleBrush" Color="{StaticResource AxTintPurpleColor}"/>
       <SolidColorBrush x:Key="AxMonogramOrangeBrush" Color="{StaticResource AxMonogramOrangeColor}"/>
       <SolidColorBrush x:Key="AxMonogramGreenBrush" Color="{StaticResource AxMonogramGreenColor}"/>
       <SolidColorBrush x:Key="AxMonogramPurpleBrush" Color="{StaticResource AxMonogramPurpleColor}"/>
       <SolidColorBrush x:Key="AxMonogramRedBrush" Color="{StaticResource AxMonogramRedColor}"/>
+      <SolidColorBrush x:Key="AxToolTipFillBrush" Color="{StaticResource AxToolTipFillColor}"/>
+      <SolidColorBrush x:Key="AxToolTipStrokeBrush" Color="{StaticResource AxToolTipStrokeColor}"/>
       <SolidColorBrush x:Key="AxScrollThumbBrush" Color="{StaticResource AxScrollThumbColor}"/>
       <SolidColorBrush x:Key="AxScrollThumbHoverBrush" Color="{StaticResource AxScrollThumbHoverColor}"/>
-      <SolidColorBrush x:Key="AxTooltipBackgroundBrush" Color="{StaticResource AxTooltipBackgroundColor}"/>
-      <SolidColorBrush x:Key="AxTooltipBorderBrush" Color="{StaticResource AxTooltipBorderColor}"/>
-      <SolidColorBrush x:Key="AxInfoBorderBrush" Color="{StaticResource AxInfoBorderColor}"/>
-      <SolidColorBrush x:Key="AxSuccessBorderBrush" Color="{StaticResource AxSuccessBorderColor}"/>
-      <SolidColorBrush x:Key="AxWarningBorderBrush" Color="{StaticResource AxWarningBorderColor}"/>
-      <SolidColorBrush x:Key="AxErrorBorderBrush" Color="{StaticResource AxErrorBorderColor}"/>
-      <SolidColorBrush x:Key="AxCodeFgBrush" Color="{StaticResource AxCodeFgColor}"/>
+      <SolidColorBrush x:Key="AxCodeTextBrush" Color="{StaticResource AxCodeTextColor}"/>
       <SolidColorBrush x:Key="AxCodeTagBrush" Color="{StaticResource AxCodeTagColor}"/>
-      <SolidColorBrush x:Key="AxCodeAttrBrush" Color="{StaticResource AxCodeAttrColor}"/>
+      <SolidColorBrush x:Key="AxCodeAttributeBrush" Color="{StaticResource AxCodeAttributeColor}"/>
       <SolidColorBrush x:Key="AxCodeStringBrush" Color="{StaticResource AxCodeStringColor}"/>
       <SolidColorBrush x:Key="AxCodeCommentBrush" Color="{StaticResource AxCodeCommentColor}"/>
-      <SolidColorBrush x:Key="AxShadowBrush" Color="{StaticResource AxShadowColor}"/>
-      <SolidColorBrush x:Key="AxAbShadowBrush" Color="{StaticResource AxAbShadowColor}"/>
     </ResourceDictionary>
 
     <ResourceDictionary x:Key="Light">
-      <Color x:Key="AxGray1">#000000</Color>
-      <Color x:Key="AxGray2">#27282E</Color>
-      <Color x:Key="AxGray3">#383A42</Color>
-      <Color x:Key="AxGray4">#494B57</Color>
-      <Color x:Key="AxGray5">#5A5D6B</Color>
-      <Color x:Key="AxGray6">#6C707E</Color>
-      <Color x:Key="AxGray7">#818594</Color>
-      <Color x:Key="AxGray8">#A8ADBD</Color>
-      <Color x:Key="AxGray9">#C9CCD6</Color>
-      <Color x:Key="AxGray10">#D3D5DB</Color>
-      <Color x:Key="AxGray11">#DFE1E5</Color>
-      <Color x:Key="AxGray12">#EBECF0</Color>
-      <Color x:Key="AxGray13">#F7F8FA</Color>
-      <Color x:Key="AxGray14">#FFFFFF</Color>
+      <!-- Поверхности: утопленная, основная (документ и поле), панель, приподнятая и всплывающая. -->
+      <Color x:Key="AxSurfaceSunkenColor">#F7F8FA</Color>
+      <Color x:Key="AxSurfaceBaseColor">#FFFFFF</Color>
+      <Color x:Key="AxSurfacePanelColor">#F7F8FA</Color>
+      <Color x:Key="AxSurfaceRaisedColor">#EBECF0</Color>
+      <Color x:Key="AxSurfaceOverlayColor">#F7F8FA</Color>
 
-      <Color x:Key="AxBlue1">#2E55A3</Color>
-      <Color x:Key="AxBlue2">#315FBD</Color>
-      <Color x:Key="AxBlue3">#3369D6</Color>
-      <Color x:Key="AxBlue4">#3574F0</Color>
-      <Color x:Key="AxBlue5">#4682FA</Color>
-      <Color x:Key="AxBlue6">#588CF3</Color>
-      <Color x:Key="AxBlue7">#709CF5</Color>
-      <Color x:Key="AxBlue8">#88ADF7</Color>
-      <Color x:Key="AxBlue9">#A0BDF8</Color>
-      <Color x:Key="AxBlue10">#C2D6FC</Color>
-      <Color x:Key="AxBlue11">#D4E2FF</Color>
-      <Color x:Key="AxBlue12">#EDF3FF</Color>
-      <Color x:Key="AxBlue13">#F5F8FE</Color>
+      <!-- Взаимодействие: наведение, нажатие, дорожка и заливка выключенного. -->
+      <Color x:Key="AxHoverColor">#EBECF0</Color>
+      <Color x:Key="AxPressedColor">#DFE1E5</Color>
+      <Color x:Key="AxTrackColor">#DFE1E5</Color>
+      <Color x:Key="AxFillDisabledColor">#F7F8FA</Color>
 
-      <Color x:Key="AxGreen1">#1E6B33</Color>
-      <Color x:Key="AxGreen4">#208A3C</Color>
-      <Color x:Key="AxGreen6">#55A76A</Color>
-      <Color x:Key="AxGreen7">#89C398</Color>
-      <Color x:Key="AxGreen9">#C5E5CC</Color>
+      <!-- Линии: разделитель, граница контрола и разделитель, который читается сильнее обычного. -->
+      <Color x:Key="AxStrokeSubtleColor">#EBECF0</Color>
+      <Color x:Key="AxStrokeControlColor">#C9CCD6</Color>
+      <Color x:Key="AxStrokeStrongColor">#DFE1E5</Color>
 
-      <Color x:Key="AxRed1">#AD2B38</Color>
-      <Color x:Key="AxRed4">#DB3B4B</Color>
-      <Color x:Key="AxRed6">#E46A76</Color>
-      <Color x:Key="AxRed7">#ED99A1</Color>
-      <Color x:Key="AxRed9">#FAD4D8</Color>
+      <!-- Текст: четыре уровня и текст на акцентной заливке. -->
+      <Color x:Key="AxTextPrimaryColor">#27282E</Color>
+      <Color x:Key="AxTextSecondaryColor">#5A5D6B</Color>
+      <Color x:Key="AxTextTertiaryColor">#6C707E</Color>
+      <Color x:Key="AxTextDisabledColor">#A8ADBD</Color>
+      <Color x:Key="AxTextOnAccentColor">#FFFFFF</Color>
 
-      <Color x:Key="AxYellow1">#A46704</Color>
-      <Color x:Key="AxYellow4">#FFAF0F</Color>
-      <Color x:Key="AxYellow6">#FED277</Color>
-      <Color x:Key="AxYellow7">#FEE6B1</Color>
+      <!-- Акцент: графика, заливка основного действия и кольцо фокуса. -->
+      <Color x:Key="AxAccentColor">#3574F0</Color>
+      <Color x:Key="AxAccentHoverColor">#3369D6</Color>
+      <Color x:Key="AxAccentFillColor">#3369D6</Color>
+      <Color x:Key="AxAccentFillHoverColor">#315FBD</Color>
+      <Color x:Key="AxAccentFillPressedColor">#315FBD</Color>
+      <Color x:Key="AxFocusRingColor">#3574F0</Color>
 
-      <Color x:Key="AxOrange1">#A14916</Color>
-      <Color x:Key="AxOrange6">#F2B181</Color>
-      <Color x:Key="AxOrange7">#F9D2B6</Color>
+      <!-- Выделение: пока клавиатура внутри области и когда она ушла. -->
+      <Color x:Key="AxSelectionActiveColor">#D4E2FF</Color>
+      <Color x:Key="AxSelectionInactiveColor">#EBECF0</Color>
 
-      <Color x:Key="AxPurple1">#55339C</Color>
-      <Color x:Key="AxPurple7">#DCCBFB</Color>
-      <Color x:Key="AxPurple8">#EFE5FF</Color>
-      <Color x:Key="AxPurple9">#F5EDFF</Color>
-
-      <Color x:Key="AxTeal1">#096A6E</Color>
-      <Color x:Key="AxTeal7">#B6E4E5</Color>
-
-      <Color x:Key="AxBg1Color">#FFFFFF</Color>
-      <Color x:Key="AxBg2Color">#F7F8FA</Color>
-      <Color x:Key="AxBg3Color">#EBECF0</Color>
-      <Color x:Key="AxBg4Color">#DFE1E5</Color>
-      <Color x:Key="AxBrdColor">#EBECF0</Color>
-      <Color x:Key="AxBrd2Color">#C9CCD6</Color>
-      <Color x:Key="AxFgColor">#27282E</Color>
-      <!--
-          В светлой теме третичный и выключенный были одним цветом: Gray8 и там
-          и там. Первая правка подняла третичный до Gray7 — и оставила его ниже
-          порога даже на белом: 3,67:1. Живой замер нашёл это на путях недавних
-          проектов и датах в Welcome.
-
-          Как и в тёмной, ступень сдвинута у обоих: второстепенный на Gray5,
-          третичный на Gray6. Третичный держит 4,93 на белом и 4,64 на панели,
-          второстепенный — ещё и 5,54 на плашке. Выключенный остаётся на Gray8
-          и тусклее всех.
-      -->
-      <Color x:Key="AxFg2Color">#5A5D6B</Color>
-      <Color x:Key="AxFg3Color">#6C707E</Color>
-      <Color x:Key="AxFgDisabledColor">#A8ADBD</Color>
-      <Color x:Key="AxAccColor">#3574F0</Color>
-      <Color x:Key="AxAccHoverColor">#3369D6</Color>
-      <Color x:Key="AxAccPressedColor">#315FBD</Color>
-      <Color x:Key="AxAccStrongColor">#3369D6</Color>
-      <Color x:Key="AxAccStrongHoverColor">#315FBD</Color>
-      <Color x:Key="AxOnAccColor">#FFFFFF</Color>
-      <Color x:Key="AxSelColor">#D4E2FF</Color>
-      <Color x:Key="AxSelInactiveColor">#EBECF0</Color>
-      <Color x:Key="AxCanvasColor">#EDEEF1</Color>
-      <Color x:Key="AxDotColor">#D5D7DE</Color>
-      <Color x:Key="AxInpColor">#FFFFFF</Color>
-      <Color x:Key="AxInpDisabledColor">#F7F8FA</Color>
-      <Color x:Key="AxGrnColor">#208A3C</Color>
-      <Color x:Key="AxRedColor">#DB3B4B</Color>
-      <Color x:Key="AxYelColor">#A46704</Color>
-      <Color x:Key="AxOrgColor">#A14916</Color>
-      <Color x:Key="AxPurColor">#55339C</Color>
-      <!--
-          Ссылка в светлой теме — AxBlue3, не AxBlue4: #3574F0 на белом даёт
-          4,28:1, этот — 4,9:1. Наведение отличается
-          подчёркиванием.
-      -->
+      <!-- Ссылки; на залитой плашке ссылка берёт свой шаг. -->
       <Color x:Key="AxLinkColor">#3369D6</Color>
       <Color x:Key="AxLinkHoverColor">#3369D6</Color>
+      <Color x:Key="AxLinkPressedColor">#315FBD</Color>
       <Color x:Key="AxLinkVisitedColor">#55339C</Color>
-      <Color x:Key="AxLinkOnColor">#315FBD</Color>
+      <Color x:Key="AxLinkOnPlateColor">#315FBD</Color>
 
-      <Color x:Key="AxGreenTextColor">#1E6B33</Color>
-      <Color x:Key="AxRedTextColor">#AD2B38</Color>
-      <Color x:Key="AxYellowTextColor">#A14916</Color>
+      <!-- Состояния: графика, текст, контур поля, заливка и рамка сообщения. -->
+      <Color x:Key="AxErrorColor">#DB3B4B</Color>
+      <Color x:Key="AxWarningColor">#A46704</Color>
+      <Color x:Key="AxSuccessColor">#208A3C</Color>
+      <Color x:Key="AxErrorTextColor">#AD2B38</Color>
+      <Color x:Key="AxWarningTextColor">#A14916</Color>
+      <Color x:Key="AxSuccessTextColor">#1E6B33</Color>
+      <Color x:Key="AxErrorOutlineColor">#DB3B4B</Color>
+      <Color x:Key="AxWarningOutlineColor">#FFAF0F</Color>
+      <Color x:Key="AxInfoFillColor">#EDF3FF</Color>
+      <Color x:Key="AxSuccessFillColor">#F2FCF3</Color>
+      <Color x:Key="AxWarningFillColor">#FFF5DB</Color>
+      <Color x:Key="AxErrorFillColor">#FFF7F7</Color>
+      <Color x:Key="AxInfoStrokeColor">#C2D6FC</Color>
+      <Color x:Key="AxSuccessStrokeColor">#C5E5CC</Color>
+      <Color x:Key="AxWarningStrokeColor">#FED277</Color>
+      <Color x:Key="AxErrorStrokeColor">#FAD4D8</Color>
 
-      <Color x:Key="AxOutlineFocusedColor">#3574F0</Color>
-      <Color x:Key="AxOutlineErrorColor">#DB3B4B</Color>
-      <Color x:Key="AxOutlineWarningColor">#FFAF0F</Color>
-
-      <Color x:Key="AxInfoBackgroundColor">#EDF3FF</Color>
-      <Color x:Key="AxSuccessBackgroundColor">#F2FCF3</Color>
-      <Color x:Key="AxWarningBackgroundColor">#FFF5DB</Color>
-      <Color x:Key="AxErrorBackgroundColor">#FFF7F7</Color>
-      <!-- Ползунок скроллбара — см. пару в тёмном варианте. -->
-      <!--
-          Плитки монограмм. Аватар на AxOrg / AxGrn / AxPur /
-          AxRed даёт белым инициалам 2,68…3,69:1 — решено брать шаг 1 шкалы,
-          там белый держит 5,9:1 и выше. Значения одни на оба варианта: плитка
-          с монограммой темнеет и светлеет вместе с текстом на ней, а текст на
-          ней всегда белый.
-      -->
+      <!-- Оттенки значков типов и плитки монограмм: белые инициалы держат на них 5,9:1 и выше. -->
+      <Color x:Key="AxTintOrangeColor">#A14916</Color>
+      <Color x:Key="AxTintPurpleColor">#55339C</Color>
       <Color x:Key="AxMonogramOrangeColor">#A14916</Color>
       <Color x:Key="AxMonogramGreenColor">#1E6B33</Color>
       <Color x:Key="AxMonogramPurpleColor">#55339C</Color>
       <Color x:Key="AxMonogramRedColor">#AD2B38</Color>
 
+      <!-- Подсказка и ползунок прокрутки: полупрозрачная накладка поверх содержимого. -->
+      <Color x:Key="AxToolTipFillColor">#F7F8FA</Color>
+      <Color x:Key="AxToolTipStrokeColor">#DFE1E5</Color>
       <Color x:Key="AxScrollThumbColor">#33000000</Color>
       <Color x:Key="AxScrollThumbHoverColor">#59000000</Color>
 
-      <!-- Утопленная полоса на панели — см. пару в тёмном варианте. -->
-      <Color x:Key="AxBgSunkenColor">#F7F8FA</Color>
-
-      <Color x:Key="AxTooltipBackgroundColor">#F7F8FA</Color>
-      <Color x:Key="AxTooltipBorderColor">#DFE1E5</Color>
-
-      <Color x:Key="AxInfoBorderColor">#C2D6FC</Color>
-      <Color x:Key="AxSuccessBorderColor">#C5E5CC</Color>
-      <Color x:Key="AxWarningBorderColor">#FED277</Color>
-      <Color x:Key="AxErrorBorderColor">#FAD4D8</Color>
-
-      <Color x:Key="AxCodeFgColor">#080808</Color>
+      <!-- Подсветка кода. -->
+      <Color x:Key="AxCodeTextColor">#080808</Color>
       <Color x:Key="AxCodeTagColor">#0033B3</Color>
-      <Color x:Key="AxCodeAttrColor">#174AD4</Color>
+      <Color x:Key="AxCodeAttributeColor">#174AD4</Color>
       <Color x:Key="AxCodeStringColor">#067D17</Color>
       <Color x:Key="AxCodeCommentColor">#8C8C8C</Color>
 
-      <Color x:Key="AxShadowColor">#24000000</Color>
-      <Color x:Key="AxAbShadowColor">#2E1E283C</Color>
+      <!-- Тени всплывающего окна и модального диалога. -->
+      <BoxShadows x:Key="AxShadowPopup">0 4 16 0 #24000000</BoxShadows>
+      <BoxShadows x:Key="AxShadowModal">0 8 40 0 #2E1E283C</BoxShadows>
 
-      <BoxShadows x:Key="AxPopupShadow">0 4 16 0 #24000000</BoxShadows>
-      <BoxShadows x:Key="AxModalShadow">0 8 40 0 #2E1E283C</BoxShadows>
-
-      <!--
-          Кисти поверх токенов — внутри словаря варианта, а не общим списком:
-          общая кисть разрешала бы свой Color на уровне приложения, и
-          ThemeVariantScope (светлая и тёмная половины галереи, предпросмотр
-          плагина) не мог бы её переокрасить. Шаблоны берут кисти через
-          DynamicResource, поэтому вариант меняется и у живого окна.
-      -->
-      <SolidColorBrush x:Key="AxBg1Brush" Color="{StaticResource AxBg1Color}"/>
-      <SolidColorBrush x:Key="AxBg2Brush" Color="{StaticResource AxBg2Color}"/>
-      <SolidColorBrush x:Key="AxBg3Brush" Color="{StaticResource AxBg3Color}"/>
-      <SolidColorBrush x:Key="AxBg4Brush" Color="{StaticResource AxBg4Color}"/>
-      <SolidColorBrush x:Key="AxBrdBrush" Color="{StaticResource AxBrdColor}"/>
-      <SolidColorBrush x:Key="AxBrd2Brush" Color="{StaticResource AxBrd2Color}"/>
-      <SolidColorBrush x:Key="AxFgBrush" Color="{StaticResource AxFgColor}"/>
-      <SolidColorBrush x:Key="AxFg2Brush" Color="{StaticResource AxFg2Color}"/>
-      <SolidColorBrush x:Key="AxFg3Brush" Color="{StaticResource AxFg3Color}"/>
-      <SolidColorBrush x:Key="AxFgDisabledBrush" Color="{StaticResource AxFgDisabledColor}"/>
-      <SolidColorBrush x:Key="AxAccBrush" Color="{StaticResource AxAccColor}"/>
-      <SolidColorBrush x:Key="AxAccHoverBrush" Color="{StaticResource AxAccHoverColor}"/>
-      <SolidColorBrush x:Key="AxAccPressedBrush" Color="{StaticResource AxAccPressedColor}"/>
-      <SolidColorBrush x:Key="AxAccStrongBrush" Color="{StaticResource AxAccStrongColor}"/>
-      <SolidColorBrush x:Key="AxAccStrongHoverBrush" Color="{StaticResource AxAccStrongHoverColor}"/>
-      <SolidColorBrush x:Key="AxOnAccBrush" Color="{StaticResource AxOnAccColor}"/>
-      <SolidColorBrush x:Key="AxSelBrush" Color="{StaticResource AxSelColor}"/>
-      <SolidColorBrush x:Key="AxSelInactiveBrush" Color="{StaticResource AxSelInactiveColor}"/>
-      <SolidColorBrush x:Key="AxCanvasBrush" Color="{StaticResource AxCanvasColor}"/>
-      <SolidColorBrush x:Key="AxDotBrush" Color="{StaticResource AxDotColor}"/>
-      <SolidColorBrush x:Key="AxInpBrush" Color="{StaticResource AxInpColor}"/>
-      <SolidColorBrush x:Key="AxInpDisabledBrush" Color="{StaticResource AxInpDisabledColor}"/>
-      <SolidColorBrush x:Key="AxGrnBrush" Color="{StaticResource AxGrnColor}"/>
-      <SolidColorBrush x:Key="AxRedBrush" Color="{StaticResource AxRedColor}"/>
-      <SolidColorBrush x:Key="AxYelBrush" Color="{StaticResource AxYelColor}"/>
-      <SolidColorBrush x:Key="AxOrgBrush" Color="{StaticResource AxOrgColor}"/>
-      <SolidColorBrush x:Key="AxPurBrush" Color="{StaticResource AxPurColor}"/>
+      <!-- Кисти ролей. -->
+      <SolidColorBrush x:Key="AxSurfaceSunkenBrush" Color="{StaticResource AxSurfaceSunkenColor}"/>
+      <SolidColorBrush x:Key="AxSurfaceBaseBrush" Color="{StaticResource AxSurfaceBaseColor}"/>
+      <SolidColorBrush x:Key="AxSurfacePanelBrush" Color="{StaticResource AxSurfacePanelColor}"/>
+      <SolidColorBrush x:Key="AxSurfaceRaisedBrush" Color="{StaticResource AxSurfaceRaisedColor}"/>
+      <SolidColorBrush x:Key="AxSurfaceOverlayBrush" Color="{StaticResource AxSurfaceOverlayColor}"/>
+      <SolidColorBrush x:Key="AxHoverBrush" Color="{StaticResource AxHoverColor}"/>
+      <SolidColorBrush x:Key="AxPressedBrush" Color="{StaticResource AxPressedColor}"/>
+      <SolidColorBrush x:Key="AxTrackBrush" Color="{StaticResource AxTrackColor}"/>
+      <SolidColorBrush x:Key="AxFillDisabledBrush" Color="{StaticResource AxFillDisabledColor}"/>
+      <SolidColorBrush x:Key="AxStrokeSubtleBrush" Color="{StaticResource AxStrokeSubtleColor}"/>
+      <SolidColorBrush x:Key="AxStrokeControlBrush" Color="{StaticResource AxStrokeControlColor}"/>
+      <SolidColorBrush x:Key="AxStrokeStrongBrush" Color="{StaticResource AxStrokeStrongColor}"/>
+      <SolidColorBrush x:Key="AxTextPrimaryBrush" Color="{StaticResource AxTextPrimaryColor}"/>
+      <SolidColorBrush x:Key="AxTextSecondaryBrush" Color="{StaticResource AxTextSecondaryColor}"/>
+      <SolidColorBrush x:Key="AxTextTertiaryBrush" Color="{StaticResource AxTextTertiaryColor}"/>
+      <SolidColorBrush x:Key="AxTextDisabledBrush" Color="{StaticResource AxTextDisabledColor}"/>
+      <SolidColorBrush x:Key="AxTextOnAccentBrush" Color="{StaticResource AxTextOnAccentColor}"/>
+      <SolidColorBrush x:Key="AxAccentBrush" Color="{StaticResource AxAccentColor}"/>
+      <SolidColorBrush x:Key="AxAccentHoverBrush" Color="{StaticResource AxAccentHoverColor}"/>
+      <SolidColorBrush x:Key="AxAccentFillBrush" Color="{StaticResource AxAccentFillColor}"/>
+      <SolidColorBrush x:Key="AxAccentFillHoverBrush" Color="{StaticResource AxAccentFillHoverColor}"/>
+      <SolidColorBrush x:Key="AxAccentFillPressedBrush" Color="{StaticResource AxAccentFillPressedColor}"/>
+      <SolidColorBrush x:Key="AxFocusRingBrush" Color="{StaticResource AxFocusRingColor}"/>
+      <SolidColorBrush x:Key="AxSelectionActiveBrush" Color="{StaticResource AxSelectionActiveColor}"/>
+      <SolidColorBrush x:Key="AxSelectionInactiveBrush" Color="{StaticResource AxSelectionInactiveColor}"/>
       <SolidColorBrush x:Key="AxLinkBrush" Color="{StaticResource AxLinkColor}"/>
       <SolidColorBrush x:Key="AxLinkHoverBrush" Color="{StaticResource AxLinkHoverColor}"/>
+      <SolidColorBrush x:Key="AxLinkPressedBrush" Color="{StaticResource AxLinkPressedColor}"/>
       <SolidColorBrush x:Key="AxLinkVisitedBrush" Color="{StaticResource AxLinkVisitedColor}"/>
-      <SolidColorBrush x:Key="AxLinkOnBrush" Color="{StaticResource AxLinkOnColor}"/>
-      <SolidColorBrush x:Key="AxGreenTextBrush" Color="{StaticResource AxGreenTextColor}"/>
-      <SolidColorBrush x:Key="AxRedTextBrush" Color="{StaticResource AxRedTextColor}"/>
-      <SolidColorBrush x:Key="AxYellowTextBrush" Color="{StaticResource AxYellowTextColor}"/>
-      <SolidColorBrush x:Key="AxOutlineFocusedBrush" Color="{StaticResource AxOutlineFocusedColor}"/>
-      <SolidColorBrush x:Key="AxOutlineErrorBrush" Color="{StaticResource AxOutlineErrorColor}"/>
-      <SolidColorBrush x:Key="AxOutlineWarningBrush" Color="{StaticResource AxOutlineWarningColor}"/>
-      <SolidColorBrush x:Key="AxInfoBackgroundBrush" Color="{StaticResource AxInfoBackgroundColor}"/>
-      <SolidColorBrush x:Key="AxSuccessBackgroundBrush" Color="{StaticResource AxSuccessBackgroundColor}"/>
-      <SolidColorBrush x:Key="AxWarningBackgroundBrush" Color="{StaticResource AxWarningBackgroundColor}"/>
-      <SolidColorBrush x:Key="AxErrorBackgroundBrush" Color="{StaticResource AxErrorBackgroundColor}"/>
-      <SolidColorBrush x:Key="AxBgSunkenBrush" Color="{StaticResource AxBgSunkenColor}"/>
+      <SolidColorBrush x:Key="AxLinkOnPlateBrush" Color="{StaticResource AxLinkOnPlateColor}"/>
+      <SolidColorBrush x:Key="AxErrorBrush" Color="{StaticResource AxErrorColor}"/>
+      <SolidColorBrush x:Key="AxWarningBrush" Color="{StaticResource AxWarningColor}"/>
+      <SolidColorBrush x:Key="AxSuccessBrush" Color="{StaticResource AxSuccessColor}"/>
+      <SolidColorBrush x:Key="AxErrorTextBrush" Color="{StaticResource AxErrorTextColor}"/>
+      <SolidColorBrush x:Key="AxWarningTextBrush" Color="{StaticResource AxWarningTextColor}"/>
+      <SolidColorBrush x:Key="AxSuccessTextBrush" Color="{StaticResource AxSuccessTextColor}"/>
+      <SolidColorBrush x:Key="AxErrorOutlineBrush" Color="{StaticResource AxErrorOutlineColor}"/>
+      <SolidColorBrush x:Key="AxWarningOutlineBrush" Color="{StaticResource AxWarningOutlineColor}"/>
+      <SolidColorBrush x:Key="AxInfoFillBrush" Color="{StaticResource AxInfoFillColor}"/>
+      <SolidColorBrush x:Key="AxSuccessFillBrush" Color="{StaticResource AxSuccessFillColor}"/>
+      <SolidColorBrush x:Key="AxWarningFillBrush" Color="{StaticResource AxWarningFillColor}"/>
+      <SolidColorBrush x:Key="AxErrorFillBrush" Color="{StaticResource AxErrorFillColor}"/>
+      <SolidColorBrush x:Key="AxInfoStrokeBrush" Color="{StaticResource AxInfoStrokeColor}"/>
+      <SolidColorBrush x:Key="AxSuccessStrokeBrush" Color="{StaticResource AxSuccessStrokeColor}"/>
+      <SolidColorBrush x:Key="AxWarningStrokeBrush" Color="{StaticResource AxWarningStrokeColor}"/>
+      <SolidColorBrush x:Key="AxErrorStrokeBrush" Color="{StaticResource AxErrorStrokeColor}"/>
+      <SolidColorBrush x:Key="AxTintOrangeBrush" Color="{StaticResource AxTintOrangeColor}"/>
+      <SolidColorBrush x:Key="AxTintPurpleBrush" Color="{StaticResource AxTintPurpleColor}"/>
       <SolidColorBrush x:Key="AxMonogramOrangeBrush" Color="{StaticResource AxMonogramOrangeColor}"/>
       <SolidColorBrush x:Key="AxMonogramGreenBrush" Color="{StaticResource AxMonogramGreenColor}"/>
       <SolidColorBrush x:Key="AxMonogramPurpleBrush" Color="{StaticResource AxMonogramPurpleColor}"/>
       <SolidColorBrush x:Key="AxMonogramRedBrush" Color="{StaticResource AxMonogramRedColor}"/>
+      <SolidColorBrush x:Key="AxToolTipFillBrush" Color="{StaticResource AxToolTipFillColor}"/>
+      <SolidColorBrush x:Key="AxToolTipStrokeBrush" Color="{StaticResource AxToolTipStrokeColor}"/>
       <SolidColorBrush x:Key="AxScrollThumbBrush" Color="{StaticResource AxScrollThumbColor}"/>
       <SolidColorBrush x:Key="AxScrollThumbHoverBrush" Color="{StaticResource AxScrollThumbHoverColor}"/>
-      <SolidColorBrush x:Key="AxTooltipBackgroundBrush" Color="{StaticResource AxTooltipBackgroundColor}"/>
-      <SolidColorBrush x:Key="AxTooltipBorderBrush" Color="{StaticResource AxTooltipBorderColor}"/>
-      <SolidColorBrush x:Key="AxInfoBorderBrush" Color="{StaticResource AxInfoBorderColor}"/>
-      <SolidColorBrush x:Key="AxSuccessBorderBrush" Color="{StaticResource AxSuccessBorderColor}"/>
-      <SolidColorBrush x:Key="AxWarningBorderBrush" Color="{StaticResource AxWarningBorderColor}"/>
-      <SolidColorBrush x:Key="AxErrorBorderBrush" Color="{StaticResource AxErrorBorderColor}"/>
-      <SolidColorBrush x:Key="AxCodeFgBrush" Color="{StaticResource AxCodeFgColor}"/>
+      <SolidColorBrush x:Key="AxCodeTextBrush" Color="{StaticResource AxCodeTextColor}"/>
       <SolidColorBrush x:Key="AxCodeTagBrush" Color="{StaticResource AxCodeTagColor}"/>
-      <SolidColorBrush x:Key="AxCodeAttrBrush" Color="{StaticResource AxCodeAttrColor}"/>
+      <SolidColorBrush x:Key="AxCodeAttributeBrush" Color="{StaticResource AxCodeAttributeColor}"/>
       <SolidColorBrush x:Key="AxCodeStringBrush" Color="{StaticResource AxCodeStringColor}"/>
       <SolidColorBrush x:Key="AxCodeCommentBrush" Color="{StaticResource AxCodeCommentColor}"/>
-      <SolidColorBrush x:Key="AxShadowBrush" Color="{StaticResource AxShadowColor}"/>
-      <SolidColorBrush x:Key="AxAbShadowBrush" Color="{StaticResource AxAbShadowColor}"/>
     </ResourceDictionary>
 
   </ResourceDictionary.ThemeDictionaries>
-
 </ResourceDictionary>

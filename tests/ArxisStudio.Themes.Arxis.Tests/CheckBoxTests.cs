@@ -19,7 +19,7 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 /// наведения, фокуса, ошибки и выключенному. Коробка везде одна: 16 на 16 с
 /// малым радиусом 3.
 ///
-/// Заливка отмеченного идёт на AxAcc, а не на AxAccStrong, как у залитых
+/// Заливка отмеченного идёт на AxAccent, а не на AxAccentFill, как у залитых
 /// кнопок: знак флажка — графика, а не текст, и белому знаку на акценте
 /// довольно 3:1.
 /// </remarks>
@@ -36,8 +36,8 @@ public class CheckBoxTests
         Assert.Equal(16d, box.Width);
         Assert.Equal(16d, box.Height);
         Assert.Equal(new CornerRadius(3), box.CornerRadius);
-        Assert.Equal(Resource(window, "AxBrd2Color", variant), Colour(box.BorderBrush));
-        Assert.Equal(Resource(window, "AxInpColor", variant), Colour(box.Background));
+        Assert.Equal(Resource(window, "AxStrokeControlColor", variant), Colour(box.BorderBrush));
+        Assert.Equal(Resource(window, "AxSurfaceBaseColor", variant), Colour(box.Background));
 
         window.Close();
     }
@@ -51,8 +51,8 @@ public class CheckBoxTests
         var (box, check, window) = Shown(isChecked: true, variant: variant);
 
         Assert.True(check.IsVisible);
-        Assert.Equal(Resource(window, "AxAccColor", variant), Colour(box.Background));
-        Assert.Equal(Resource(window, "AxOnAccColor", variant), Colour(check.Stroke));
+        Assert.Equal(Resource(window, "AxAccentColor", variant), Colour(box.Background));
+        Assert.Equal(Resource(window, "AxTextOnAccentColor", variant), Colour(check.Stroke));
 
         window.Close();
     }
@@ -65,8 +65,8 @@ public class CheckBoxTests
     {
         var (box, _, window) = Shown(error: true, variant: variant);
 
-        Assert.Equal(Resource(window, "AxOutlineErrorColor", variant), Colour(box.BorderBrush));
-        Assert.Equal(Resource(window, "AxErrorBackgroundColor", variant), Colour(box.Background));
+        Assert.Equal(Resource(window, "AxErrorOutlineColor", variant), Colour(box.BorderBrush));
+        Assert.Equal(Resource(window, "AxErrorFillColor", variant), Colour(box.Background));
 
         window.Close();
     }
@@ -85,8 +85,8 @@ public class CheckBoxTests
     {
         var (box, check, window) = Shown(isChecked: true, enabled: false, variant: variant);
 
-        Assert.Equal(Resource(window, "AxBg3Color", variant), Colour(box.Background));
-        Assert.Equal(Resource(window, "AxFgDisabledColor", variant), Colour(check.Stroke));
+        Assert.Equal(Resource(window, "AxHoverColor", variant), Colour(box.Background));
+        Assert.Equal(Resource(window, "AxTextDisabledColor", variant), Colour(check.Stroke));
 
         window.Close();
     }
@@ -99,7 +99,7 @@ public class CheckBoxTests
     {
         var (box, _, window) = Shown(enabled: false, variant: variant);
 
-        Assert.Equal(Resource(window, "AxInpDisabledColor", variant), Colour(box.Background));
+        Assert.Equal(Resource(window, "AxFillDisabledColor", variant), Colour(box.Background));
 
         window.Close();
     }

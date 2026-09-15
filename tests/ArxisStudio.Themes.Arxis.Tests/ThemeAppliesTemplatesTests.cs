@@ -1,3 +1,4 @@
+using System.Xml.Linq;
 using ArxisStudio.Controls;
 using ArxisStudio.Icons;
 using Avalonia;
@@ -200,10 +201,10 @@ public class ThemeAppliesTemplatesTests
         window.Show();
 
         window.RequestedThemeVariant = ThemeVariant.Dark;
-        Assert.True(window.TryFindResource("AxBg1Color", ThemeVariant.Dark, out var dark));
+        Assert.True(window.TryFindResource("AxSurfaceBaseColor", ThemeVariant.Dark, out var dark));
 
         window.RequestedThemeVariant = ThemeVariant.Light;
-        Assert.True(window.TryFindResource("AxBg1Color", ThemeVariant.Light, out var light));
+        Assert.True(window.TryFindResource("AxSurfaceBaseColor", ThemeVariant.Light, out var light));
 
         Assert.NotEqual(dark, light);
         window.Close();
@@ -226,23 +227,41 @@ public class ThemeAppliesTemplatesTests
         static ThemeVariant ActualThemeVariantOf(Window window) => window.ActualThemeVariant;
     }
 
-    [AvaloniaTheory]
-    [InlineData("AxGray1")]
-    [InlineData("AxGray14")]
-    [InlineData("AxBlue6")]
-    [InlineData("AxOutlineFocusedColor")]
-    [InlineData("AxErrorBackgroundColor")]
-    public void Palette_scales_are_available_in_both_variants(string key)
+    /// <summary>
+    /// Варианты палитры объявляют одни и те же роли, и у каждого цвета роли есть кисть.
+    /// </summary>
+    /// <remarks>
+    /// Роль, забытая в одном варианте, не валит ни сборку, ни показ: DynamicResource молча
+    /// отдаёт пустоту, и контрол в этой теме остаётся без фона. Список ключей руками такую
+    /// дыру пропустил бы — новая роль в него не попадает сама, — поэтому сверяются словари.
+    /// Кисть без цвета тоже дыра: анализатор SDK называет расширению кисть по паре, и
+    /// роль без пары из его подсказок выпадает.
+    /// </remarks>
+    [Fact]
+    public void Palette_variants_declare_the_same_roles_each_with_a_brush()
     {
-        var window = new Window();
-        window.Show();
+        var variants = XDocument.Parse(ThemeSources.Text("Palette.axaml")).Root!
+            .Descendants()
+            .Where(element => element.Name.LocalName == "ResourceDictionary" && Key(element) is not null)
+            .ToDictionary(element => Key(element)!, element => element.Elements().Select(Key).OfType<string>().ToHashSet(StringComparer.Ordinal));
 
-        Assert.True(window.TryFindResource(key, ThemeVariant.Dark, out var dark));
-        Assert.True(window.TryFindResource(key, ThemeVariant.Light, out var light));
-        Assert.NotNull(dark);
-        Assert.NotNull(light);
+        Assert.True(variants.Count == 2 && variants.ContainsKey("Dark") && variants.ContainsKey("Light"),
+            "у палитры должно быть ровно два варианта, Dark и Light, а их: " + string.Join(", ", variants.Keys));
 
-        window.Close();
+        var dark = variants["Dark"];
+        var light = variants["Light"];
+
+        Assert.True(dark.SetEquals(light),
+            $"варианты разошлись: только в тёмном — {string.Join(", ", dark.Except(light))}; только в светлом — {string.Join(", ", light.Except(dark))}");
+
+        foreach (var key in dark.Where(key => key.EndsWith("Color", StringComparison.Ordinal)))
+            Assert.True(dark.Contains(key[..^"Color".Length] + "Brush"), $"у цвета {key} нет кисти");
+
+        foreach (var key in dark.Where(key => key.EndsWith("Brush", StringComparison.Ordinal)))
+            Assert.True(dark.Contains(key[..^"Brush".Length] + "Color"), $"у кисти {key} нет цвета");
+
+        static string? Key(XElement element) =>
+            element.Attribute(XName.Get("Key", "http://schemas.microsoft.com/winfx/2006/xaml"))?.Value;
     }
 
     [AvaloniaFact]
@@ -283,12 +302,12 @@ public class ThemeAppliesTemplatesTests
         window.RequestedThemeVariant = ThemeVariant.Dark;
         window.Show();
 
-        Assert.True(window.TryFindResource("AxBg1Color", window.ActualThemeVariant, out var darkBg));
+        Assert.True(window.TryFindResource("AxSurfaceBaseColor", window.ActualThemeVariant, out var darkBg));
         Assert.NotNull(button.Template);
 
         window.RequestedThemeVariant = ThemeVariant.Light;
 
-        Assert.True(window.TryFindResource("AxBg1Color", window.ActualThemeVariant, out var lightBg));
+        Assert.True(window.TryFindResource("AxSurfaceBaseColor", window.ActualThemeVariant, out var lightBg));
         Assert.NotNull(button.Template);
         Assert.NotEqual(darkBg, lightBg);
 
@@ -297,23 +316,23 @@ public class ThemeAppliesTemplatesTests
 
     /// <summary>Токены текста, сообщений, кода и теней существуют в обоих вариантах — палитра не дырявая.</summary>
     [AvaloniaTheory]
-    [InlineData("AxAccStrongColor")]
-    [InlineData("AxAccStrongHoverColor")]
-    [InlineData("AxLinkOnColor")]
-    [InlineData("AxGreenTextColor")]
-    [InlineData("AxRedTextColor")]
-    [InlineData("AxYellowTextColor")]
-    [InlineData("AxInfoBorderColor")]
-    [InlineData("AxSuccessBorderColor")]
-    [InlineData("AxWarningBorderColor")]
-    [InlineData("AxErrorBorderColor")]
+    [InlineData("AxAccentFillColor")]
+    [InlineData("AxAccentFillHoverColor")]
+    [InlineData("AxLinkOnPlateColor")]
+    [InlineData("AxSuccessTextColor")]
+    [InlineData("AxErrorTextColor")]
+    [InlineData("AxWarningTextColor")]
+    [InlineData("AxInfoStrokeColor")]
+    [InlineData("AxSuccessStrokeColor")]
+    [InlineData("AxWarningStrokeColor")]
+    [InlineData("AxErrorStrokeColor")]
     [InlineData("AxCodeTagColor")]
-    [InlineData("AxCodeAttrColor")]
+    [InlineData("AxCodeAttributeColor")]
     [InlineData("AxCodeStringColor")]
     [InlineData("AxCodeCommentColor")]
-    [InlineData("AxCodeFgColor")]
-    [InlineData("AxPopupShadow")]
-    [InlineData("AxModalShadow")]
+    [InlineData("AxCodeTextColor")]
+    [InlineData("AxShadowPopup")]
+    [InlineData("AxShadowModal")]
     public void Role_tokens_exist_in_both_variants(string key)
     {
         var window = new Window();

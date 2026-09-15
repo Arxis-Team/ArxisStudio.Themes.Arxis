@@ -11,8 +11,8 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 /// </summary>
 /// <remarks>
 /// Шаг подъёма в вариантах разный: в светлой подсказка темнеет от белого до
-/// AxBg2, в тёмной светлеет от панели до AxBg3. Одним токеном это не
-/// выражается, и пока тема брала AxBg2 в обоих, в тёмной подсказка сливалась
+/// AxSurfacePanel, в тёмной светлеет от панели до AxHover. Одним токеном это не
+/// выражается, и пока тема брала AxSurfacePanel в обоих, в тёмной подсказка сливалась
 /// с панелью, над которой висит.
 ///
 /// Тест спрашивает не имя токена, а результат: подсказка обязана отличаться
@@ -39,7 +39,7 @@ public class TooltipTests
 
         // Над окном подсказка обязана быть видна как отдельный слой: и заливкой
         // против поверхности под ней, и рамкой против собственной заливки.
-        Assert.NotEqual(Resource(window, "AxBg1Color", theme), background);
+        Assert.NotEqual(Resource(window, "AxSurfaceBaseColor", theme), background);
         Assert.NotEqual(background, border);
 
         window.Close();
@@ -47,10 +47,10 @@ public class TooltipTests
 
     /// <summary>Значения токенов подсказки закреплены.</summary>
     [AvaloniaTheory]
-    [InlineData("AxTooltipBackgroundColor", "Light", "#F7F8FA")]
-    [InlineData("AxTooltipBackgroundColor", "Dark", "#393B40")]
-    [InlineData("AxTooltipBorderColor", "Light", "#DFE1E5")]
-    [InlineData("AxTooltipBorderColor", "Dark", "#4E5157")]
+    [InlineData("AxToolTipFillColor", "Light", "#F7F8FA")]
+    [InlineData("AxToolTipFillColor", "Dark", "#393B40")]
+    [InlineData("AxToolTipStrokeColor", "Light", "#DFE1E5")]
+    [InlineData("AxToolTipStrokeColor", "Dark", "#4E5157")]
     public void Tooltip_token_keeps_its_value(string key, string variant, string expected)
     {
         var theme = variant == "Light" ? ThemeVariant.Light : ThemeVariant.Dark;

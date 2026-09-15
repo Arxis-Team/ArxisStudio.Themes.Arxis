@@ -149,11 +149,11 @@ public class ContrastTests
     /// Здесь закреплено не качество, а намерение. Рамки этой палитры —
     /// разделители, а не опознаватели: контрол опознаётся заливкой, и порога
     /// 3:1 не берёт ни один токен рамки ни на одной поверхности (лучшее —
-    /// 2,07:1 у <c>AxBrd2</c> на поле ввода в тёмной теме). Совпадение
-    /// <c>AxBrd</c> с <c>AxBg3</c> — крайний случай того же решения: на
+    /// 2,07:1 у <c>AxStrokeControl</c> на поле ввода в тёмной теме). Совпадение
+    /// <c>AxStrokeSubtle</c> с <c>AxHover</c> — крайний случай того же решения: на
     /// наведённой плашке рамка не даёт ни одного своего пикселя.
     /// <para>
-    /// Следствие, ради которого тест и стоит: рамкой на плашке <c>AxBg3</c>
+    /// Следствие, ради которого тест и стоит: рамкой на плашке <c>AxHover</c>
     /// ничего не размечают — размечает сама плашка. Понадобится обратное —
     /// понадобится новый токен, и этот тест заставит сказать об этом вслух, а
     /// не подвинуть значение молча.
@@ -180,15 +180,15 @@ public class ContrastTests
             $"{fg} на {bg} [{variant}] даёт {Ratio(fg, bg, variant):F2}:1");
 
     /// <summary>
-    /// На залитой плашке акцентный текст и иконка берут AxLinkOn.
+    /// На залитой плашке акцентный текст и иконка берут AxLinkOnPlate.
     /// </summary>
     /// <remarks>
-    /// Ради этого токен и заведён: AxAcc на AxBg3 даёт 2,62:1 в тёмной теме и
-    /// 3,62 в светлой, на AxSel — 2,29 и 3,28. Здесь правило измерено: AxLinkOn
+    /// Ради этого токен и заведён: AxAccent на AxHover даёт 2,62:1 в тёмной теме и
+    /// 3,62 в светлой, на AxSelectionActive — 2,29 и 3,28. Здесь правило измерено: AxLinkOnPlate
     /// держит порог на обеих плашках в обоих вариантах.
     ///
     /// Заливки правило не касается: полоса прогресса и заполнение ползунка
-    /// остаются на AxAcc — дорожка bg3, заполнение acc, а подпись рядом уже
+    /// остаются на AxAccent — дорожка bg3, заполнение acc, а подпись рядом уже
     /// linkOn.
     /// </remarks>
     [AvaloniaTheory]
@@ -199,11 +199,11 @@ public class ContrastTests
     public void Accent_on_a_plate_uses_the_token_made_for_it(string plate, string variant)
     {
         Assert.True(Ratio("acc", plate, variant) < Visible || variant == "Light",
-            "AxAcc внезапно проходит порог — отдельный токен для плашки стоит пересмотреть");
+            "AxAccent внезапно проходит порог — отдельный токен для плашки стоит пересмотреть");
 
         Assert.True(
             Ratio("linkOn", plate, variant) >= Visible,
-            $"AxLinkOn на {plate} [{variant}] даёт {Ratio("linkOn", plate, variant):F2}:1");
+            $"AxLinkOnPlate на {plate} [{variant}] даёт {Ratio("linkOn", plate, variant):F2}:1");
     }
 
     public static TheoryData<string, string, string> IconPairs
@@ -261,35 +261,35 @@ public class ContrastTests
     {
         var key = variable switch
         {
-            "fg" => "AxFgColor",
-            "fg2" => "AxFg2Color",
-            "fg3" => "AxFg3Color",
-            "fgDis" => "AxFgDisabledColor",
-            "bg1" => "AxBg1Color",
-            "bg2" => "AxBg2Color",
-            "bg3" => "AxBg3Color",
-            "bg4" => "AxBg4Color",
-            "brd" => "AxBrdColor",
-            "brd2" => "AxBrd2Color",
-            "inp" => "AxInpColor",
-            "inpDis" => "AxInpDisabledColor",
-            "acc" => "AxAccColor",
-            "accS" => "AxAccStrongColor",
-            "accSH" => "AxAccStrongHoverColor",
-            "accP" => "AxAccPressedColor",
-            "onacc" => "AxOnAccColor",
-            "sel" => "AxSelColor",
-            "linkOn" => "AxLinkOnColor",
-            "redT" => "AxRedTextColor",
-            "grnT" => "AxGreenTextColor",
-            "yelT" => "AxYellowTextColor",
-            "grn" => "AxGrnColor",
-            "red" => "AxRedColor",
-            "yel" => "AxYelColor",
-            "org" => "AxOrgColor",
-            "pur" => "AxPurColor",
-            "outF" => "AxOutlineFocusedColor",
-            "outE" => "AxOutlineErrorColor",
+            "fg" => "AxTextPrimaryColor",
+            "fg2" => "AxTextSecondaryColor",
+            "fg3" => "AxTextTertiaryColor",
+            "fgDis" => "AxTextDisabledColor",
+            "bg1" => "AxSurfaceBaseColor",
+            "bg2" => "AxSurfacePanelColor",
+            "bg3" => "AxHoverColor",
+            "bg4" => "AxPressedColor",
+            "brd" => "AxStrokeSubtleColor",
+            "brd2" => "AxStrokeControlColor",
+            "inp" => "AxSurfaceBaseColor",
+            "inpDis" => "AxFillDisabledColor",
+            "acc" => "AxAccentColor",
+            "accS" => "AxAccentFillColor",
+            "accSH" => "AxAccentFillHoverColor",
+            "accP" => "AxAccentFillPressedColor",
+            "onacc" => "AxTextOnAccentColor",
+            "sel" => "AxSelectionActiveColor",
+            "linkOn" => "AxLinkOnPlateColor",
+            "redT" => "AxErrorTextColor",
+            "grnT" => "AxSuccessTextColor",
+            "yelT" => "AxWarningTextColor",
+            "grn" => "AxSuccessColor",
+            "red" => "AxErrorColor",
+            "yel" => "AxWarningColor",
+            "org" => "AxTintOrangeColor",
+            "pur" => "AxTintPurpleColor",
+            "outF" => "AxFocusRingColor",
+            "outE" => "AxErrorOutlineColor",
             _ => throw new ArgumentException($"нет токена под переменную {variable}"),
         };
 

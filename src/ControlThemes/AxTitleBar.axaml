@@ -7,9 +7,9 @@
       Отступ слева появляется только на macOS — под системные кнопки.
   -->
   <ControlTheme x:Key="{x:Type ax:AxTitleBar}" TargetType="ax:AxTitleBar">
-    <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxSurfacePanelBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeSubtleBrush}"/>
     <Setter Property="BorderThickness" Value="0,0,0,1"/>
     <!--
         40: высота полосы, в которой стоят проект, лента вкладов и кнопки окна.
@@ -108,7 +108,7 @@
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusSmall}"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="BorderThickness" Value="0"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
     <Setter Property="HorizontalContentAlignment" Value="Center"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
     <Setter Property="Template">
@@ -123,13 +123,13 @@
     </Setter>
 
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
     </Style>
     <Style Selector="^.close:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxRedBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxErrorBrush}"/>
     </Style>
     <Style Selector="^.close:pointerover">
-      <Setter Property="Foreground" Value="{DynamicResource AxOnAccBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextOnAccentBrush}"/>
     </Style>
   </ControlTheme>
 

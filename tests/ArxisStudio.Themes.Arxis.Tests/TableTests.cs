@@ -39,7 +39,7 @@ public class TableTests
         window.Close();
     }
 
-    /// <summary>Шапка: отбивка снизу, AxFg2, мелкий кегль, строка AxRowHeight.</summary>
+    /// <summary>Шапка: отбивка снизу, AxTextSecondary, мелкий кегль, строка AxRowHeight.</summary>
     [AvaloniaTheory]
     [InlineData("Light")]
     [InlineData("Dark")]
@@ -50,12 +50,12 @@ public class TableTests
         var header = Header(table);
 
         Assert.Equal(new Thickness(0, 0, 0, 1), header.BorderThickness);
-        Assert.Equal(Resource(window, "AxBrdColor", variant), Colour(header.BorderBrush));
+        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(header.BorderBrush));
         Assert.Equal(24d, header.Bounds.Height);
 
         var caption = header.GetVisualDescendants().OfType<TextBlock>().First();
 
-        Assert.Equal(Resource(window, "AxFg2Color", variant), Colour(caption.Foreground));
+        Assert.Equal(Resource(window, "AxTextSecondaryColor", variant), Colour(caption.Foreground));
         Assert.Equal(11.5, caption.FontSize);
 
         window.Close();
@@ -76,10 +76,10 @@ public class TableTests
         window.UpdateLayout();
 
         Assert.Equal(new Thickness(0, 0, 0, 1), Fill(rows[0]).BorderThickness);
-        Assert.Equal(Resource(window, "AxBrdColor", variant), Colour(Fill(rows[0]).BorderBrush));
+        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(Fill(rows[0]).BorderBrush));
 
         Assert.Equal(new Thickness(0), Fill(rows[1]).BorderThickness);
-        Assert.Equal(Resource(window, "AxSelColor", variant), Colour(Fill(rows[1]).Background));
+        Assert.Equal(Resource(window, "AxSelectionActiveColor", variant), Colour(Fill(rows[1]).Background));
 
         Assert.Equal(new Thickness(0, 0, 0, 1), Fill(rows[2]).BorderThickness);
         Assert.Equal(new Thickness(0), Fill(rows[^1]).BorderThickness);

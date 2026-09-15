@@ -24,7 +24,7 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 /// 2, и веса ей не дают: жирное имя файла в ряду имён читается как
 /// другой уровень, а не как выбор.
 ///
-/// Наведение у обеих — AxBg3, токен наведения; AxBg2 сходился с ним в
+/// Наведение у обеих — AxHover, токен наведения; AxSurfacePanel сходился с ним в
 /// светлой теме случайно, а в тёмной вкладка под курсором была темнее, чем
 /// нужно.
 /// </remarks>
@@ -37,7 +37,7 @@ public class TabStripTests
     /// У вкладки документа это её собственный фон: она и есть плитка в ряду
     /// плиток. У вкладки панели — отдельная плашка внутри неё, потому что фон
     /// во всю площадь сливался бы с рамкой панели и разделителем шапки: те же
-    /// AxBg3.
+    /// AxHover.
     /// </remarks>
     [AvaloniaTheory]
     [InlineData("Light")]
@@ -55,7 +55,7 @@ public class TabStripTests
 
             Assert.True(painted.IsVisible, "наведения не видно");
             Assert.Equal(
-                Resource(window, "AxBg3Color", variant),
+                Resource(window, "AxHoverColor", variant),
                 Colour(painted.GetValue(Border.BackgroundProperty)));
 
             window.Close();
@@ -67,7 +67,7 @@ public class TabStripTests
     /// </summary>
     /// <remarks>
     /// Вкладка в шапке тянется во всю её высоту и стоит вплотную к соседке, а
-    /// рамка панели сверху и разделитель снизу — того же AxBg3, что и
+    /// рамка панели сверху и разделитель снизу — того же AxHover, что и
     /// наведение. Заливка во всю площадь сливалась с ними, и от одного слова
     /// оставалась плита от края до края. Отступ в два пикселя со всех сторон
     /// открывает края плашки, оставляет между соседними плашками карточные
@@ -152,7 +152,7 @@ public class TabStripTests
         Assert.True(marker.IsVisible, "полосы выбора не видно");
         Assert.Equal(thickness, marker.Bounds.Height);
         Assert.Equal(
-            Resource(window, "AxAccColor", "Dark"),
+            Resource(window, "AxAccentColor", "Dark"),
             Colour(marker.GetValue(Border.BackgroundProperty)));
 
         window.Close();
@@ -228,8 +228,8 @@ public class TabStripTests
     /// <remarks>
     /// Пока своей подсветки у него не было, наведение на крестик выглядело
     /// точь-в-точь как наведение на вкладку: человек нажимал, не зная, закроет
-    /// он её или выберет. Цвет — ступенью заметнее наведения вкладки: AxBg4
-    /// против AxBg3.
+    /// он её или выберет. Цвет — ступенью заметнее наведения вкладки: AxPressed
+    /// против AxHover.
     /// </remarks>
     [AvaloniaFact]
     public void The_cross_lights_up_under_the_pointer()
@@ -245,7 +245,7 @@ public class TabStripTests
         window.UpdateLayout();
 
         Assert.Equal(
-            Resource(window, "AxBg4Color", "Dark"),
+            Resource(window, "AxPressedColor", "Dark"),
             Colour(close.GetValue(Border.BackgroundProperty)));
 
         window.Close();
@@ -375,17 +375,17 @@ public class TabStripTests
             tab.Icon = AxIcons.Terminal;
             window.UpdateLayout();
 
-            Assert.Equal(Resource(window, "AxFg2Color", variant), Colour(Stroke(tab)));
+            Assert.Equal(Resource(window, "AxTextSecondaryColor", variant), Colour(Stroke(tab)));
 
             ((IPseudoClasses)tab.Classes).Set(":selected", true);
             window.UpdateLayout();
 
-            Assert.Equal(Resource(window, "AxFgColor", variant), Colour(Stroke(tab)));
+            Assert.Equal(Resource(window, "AxTextPrimaryColor", variant), Colour(Stroke(tab)));
 
             tab.IsEnabled = false;
             window.UpdateLayout();
 
-            Assert.Equal(Resource(window, "AxFgDisabledColor", variant), Colour(Stroke(tab)));
+            Assert.Equal(Resource(window, "AxTextDisabledColor", variant), Colour(Stroke(tab)));
 
             window.Close();
         }

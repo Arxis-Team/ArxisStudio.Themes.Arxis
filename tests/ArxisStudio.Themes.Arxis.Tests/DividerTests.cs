@@ -12,11 +12,11 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 /// Разделитель: линия в пиксель, обе ориентации.
 /// </summary>
 /// <remarks>
-/// Разделитель — линия в пиксель в обеих ориентациях цвета AxBrd, токена
+/// Разделитель — линия в пиксель в обеих ориентациях цвета AxStrokeSubtle, токена
 /// разделителей и слабых рамок.
 ///
 /// Цвет остаётся переопределяемым на месте: в полосе окна разделитель стоит
-/// на ступень заметнее — AxBg4 вместо AxBrd.
+/// на ступень заметнее — AxPressed вместо AxStrokeSubtle.
 /// </remarks>
 public class DividerTests
 {
@@ -54,7 +54,7 @@ public class DividerTests
     {
         var (divider, window) = Shown(Orientation.Horizontal, variant);
 
-        Assert.Equal(Resource(window, "AxBrdColor", variant), Colour(divider.Background));
+        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(divider.Background));
 
         window.Close();
     }
@@ -65,11 +65,11 @@ public class DividerTests
     {
         var (divider, window) = Shown(Orientation.Vertical);
 
-        Assert.True(window.TryFindResource("AxBg4Brush", ThemeVariant.Dark, out var brush));
+        Assert.True(window.TryFindResource("AxPressedBrush", ThemeVariant.Dark, out var brush));
         divider.Background = (IBrush)brush!;
         window.UpdateLayout();
 
-        Assert.Equal(Resource(window, "AxBg4Color", "Dark"), Colour(divider.Background));
+        Assert.Equal(Resource(window, "AxPressedColor", "Dark"), Colour(divider.Background));
 
         window.Close();
     }

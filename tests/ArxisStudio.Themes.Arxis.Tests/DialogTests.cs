@@ -67,7 +67,7 @@ public class DialogTests
         var footer = (Border)Part(dialog, "PART_Footer");
 
         Assert.Equal(new Thickness(0, 1, 0, 0), footer.BorderThickness);
-        Assert.Equal(Resource(window, "AxBrdColor", variant), Colour(footer.BorderBrush));
+        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(footer.BorderBrush));
         Assert.Equal(new Thickness(16, 12), footer.Padding);
 
         Close(dialog, window);

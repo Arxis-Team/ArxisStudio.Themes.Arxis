@@ -51,16 +51,16 @@
       <Setter Property="TextBlock.TextDecorations" Value="Underline"/>
     </Style>
     <Style Selector="^:pressed">
-      <Setter Property="Foreground" Value="{DynamicResource AxAccPressedBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxLinkPressedBrush}"/>
     </Style>
     <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
-      <Setter Property="BorderBrush" Value="{DynamicResource AxOutlineFocusedBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxFocusRingBrush}"/>
     </Style>
     <Style Selector="^[IsVisited=True]">
       <Setter Property="Foreground" Value="{DynamicResource AxLinkVisitedBrush}"/>
     </Style>
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
       <Setter Property="Cursor" Value="Arrow"/>
     </Style>
   </ControlTheme>

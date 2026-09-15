@@ -60,8 +60,8 @@
         наведения. Четыре панели плюс шесть звена дают 10 до первой подписи.
     -->
     <Style Selector="^.framed">
-      <Setter Property="Background" Value="{DynamicResource AxBgSunkenBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxSurfaceSunkenBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeSubtleBrush}"/>
       <Setter Property="BorderThickness" Value="1"/>
       <!-- Наименьшая и по центру — звено растёт с кеглем темы, как кнопка. -->
       <Setter Property="MinHeight" Value="{DynamicResource AxControlHeight}"/>
@@ -76,7 +76,7 @@
       текстом. Шеврон-разделитель стоит слева и прячется у первого звена.
   -->
   <ControlTheme x:Key="{x:Type ax:AxBreadcrumbItem}" TargetType="ax:AxBreadcrumbItem">
-    <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <!-- Звено: 6 по горизонтали и 2 по вертикали, радиус контрольный. -->
     <Setter Property="Padding" Value="{DynamicResource AxBreadcrumbItemPadding}"/>
@@ -93,7 +93,7 @@
                      Classes="small"
                      Margin="{DynamicResource AxSpaceTightSidesThickness}"
                      Data="{x:Static ax:AxIcons.ChevronRight}"
-                     Foreground="{DynamicResource AxFg2Brush}"
+                     Foreground="{DynamicResource AxTextSecondaryBrush}"
                      VerticalAlignment="Center"/>
           <Border x:Name="PART_LayoutRoot"
                   Background="Transparent"
@@ -118,10 +118,10 @@
       <Setter Property="IsVisible" Value="False"/>
     </Style>
     <Style Selector="^:pointerover">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     </Style>
     <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
     </Style>
     <!--
         Текущее звено и звено с ошибкой набраны усиленным начертанием: в конце
@@ -129,7 +129,7 @@
         цвет уже занят состоянием.
     -->
     <Style Selector="^.current">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
       <Setter Property="FontWeight" Value="Medium"/>
       <Setter Property="Cursor" Value="Arrow"/>
     </Style>
@@ -137,19 +137,19 @@
       <Setter Property="Background" Value="Transparent"/>
     </Style>
     <Style Selector="^.error">
-      <Setter Property="Foreground" Value="{DynamicResource AxRedTextBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxErrorTextBrush}"/>
       <Setter Property="FontWeight" Value="Medium"/>
     </Style>
     <Style Selector="^.error /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{DynamicResource AxErrorBackgroundBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxErrorFillBrush}"/>
     </Style>
     <!--
-        Выключенная строка: текст на AxFgDisabled.
+        Выключенная строка: текст на AxTextDisabled.
         Стиль стоит последним намеренно — выделение и наведение объявлены выше,
         и без этого выключенная выбранная строка выглядела бы обычной.
     -->
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
     </Style>
     <!--
         Разделитель гаснет вместе со звеном: свой цвет у него задан прямо в
@@ -157,7 +157,7 @@
         целиком — вместе с шевронами.
     -->
     <Style Selector="^:disabled /template/ ax|AxIcon#PART_Separator">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
     </Style>
 
   </ControlTheme>
@@ -177,8 +177,8 @@
   <ControlTheme x:Key="{x:Type ax:AxSpinner}" TargetType="ax:AxSpinner">
     <Setter Property="Width" Value="{DynamicResource AxIconSize}"/>
     <Setter Property="Height" Value="{DynamicResource AxIconSize}"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxBg4Brush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxTrackBrush}"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Viewbox Stretch="Uniform">
@@ -208,7 +208,7 @@
     <Style Selector="^.large">
       <Setter Property="Width" Value="24"/>
       <Setter Property="Height" Value="24"/>
-      <Setter Property="Foreground" Value="{DynamicResource AxAccBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxAccentBrush}"/>
     </Style>
 
     <Style Selector="^ /template/ Canvas#PART_Cell">
@@ -235,17 +235,17 @@
       кеглем.
   -->
   <ControlTheme x:Key="{x:Type ax:AxCodeBlock}" TargetType="ax:AxCodeBlock">
-    <Setter Property="Background" Value="{DynamicResource AxBgSunkenBrush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxSurfaceSunkenBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeSubtleBrush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
     <Setter Property="Padding" Value="{DynamicResource AxSurfacePadding}"/>
     <Setter Property="FontFamily" Value="{DynamicResource AxFontFamilyMono}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="LineHeightRatio" Value="{DynamicResource AxCodeLineHeightRatio}"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxCodeFgBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxCodeTextBrush}"/>
     <Setter Property="TagBrush" Value="{DynamicResource AxCodeTagBrush}"/>
-    <Setter Property="AttributeBrush" Value="{DynamicResource AxCodeAttrBrush}"/>
+    <Setter Property="AttributeBrush" Value="{DynamicResource AxCodeAttributeBrush}"/>
     <Setter Property="StringBrush" Value="{DynamicResource AxCodeStringBrush}"/>
     <Setter Property="CommentBrush" Value="{DynamicResource AxCodeCommentBrush}"/>
     <Setter Property="Template">
@@ -287,7 +287,7 @@
         <Setter Property="CornerRadius" Value="0"/>
 
         <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-          <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+          <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeSubtleBrush}"/>
           <Setter Property="BorderThickness" Value="0,0,0,1"/>
         </Style>
         <!--
@@ -309,13 +309,13 @@
                 BorderThickness="{TemplateBinding BorderThickness}">
           <DockPanel>
             <Border DockPanel.Dock="Top"
-                    BorderBrush="{DynamicResource AxBrdBrush}"
+                    BorderBrush="{DynamicResource AxStrokeSubtleBrush}"
                     BorderThickness="0,0,0,1"
                     MinHeight="{DynamicResource AxRowHeight}"
                     IsVisible="{TemplateBinding Header, Converter={x:Static ObjectConverters.IsNotNull}}">
               <ContentPresenter Content="{TemplateBinding Header}"
                                 VerticalAlignment="Center"
-                                TextBlock.Foreground="{DynamicResource AxFg2Brush}"
+                                TextBlock.Foreground="{DynamicResource AxTextSecondaryBrush}"
                                 TextBlock.FontSize="{DynamicResource AxFontSizeSmall}"/>
             </Border>
             <ScrollViewer x:Name="PART_ScrollViewer">

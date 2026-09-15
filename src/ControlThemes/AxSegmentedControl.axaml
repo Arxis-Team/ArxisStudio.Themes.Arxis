@@ -4,8 +4,8 @@
 
   <!-- Сегментный переключатель: контейнер bg1 с рамкой, активный сегмент — акцент. -->
   <ControlTheme x:Key="{x:Type ax:AxSegmentedControl}" TargetType="ax:AxSegmentedControl">
-    <Setter Property="Background" Value="{DynamicResource AxInpBrush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxSurfaceBaseBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Padding" Value="{DynamicResource AxSpaceHairThickness}"/>
@@ -49,7 +49,7 @@
     <Setter Property="Padding" Value="{DynamicResource AxButtonPadding}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="Template">
@@ -75,7 +75,7 @@
             -->
             <Border x:Name="PART_FocusRing"
                     BorderThickness="{DynamicResource AxFocusOutlineInset}"
-                    BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                    BorderBrush="{DynamicResource AxFocusRingBrush}"
                     CornerRadius="{TemplateBinding CornerRadius}"
                     IsVisible="False"/>
         </Panel>
@@ -85,21 +85,21 @@
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:pointerover">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     </Style>
-    <!-- Активный сегмент несёт текст на заливке — AxAccStrong, не AxAcc. -->
+    <!-- Активный сегмент несёт текст на заливке — AxAccentFill, не AxAccent. -->
     <Style Selector="^:selected">
-      <Setter Property="Background" Value="{DynamicResource AxAccStrongBrush}"/>
-      <Setter Property="Foreground" Value="{DynamicResource AxOnAccBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxAccentFillBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextOnAccentBrush}"/>
       <Setter Property="FontWeight" Value="Medium"/>
     </Style>
     <!--
-        Выключенная строка: текст на AxFgDisabled.
+        Выключенная строка: текст на AxTextDisabled.
         Стиль стоит последним намеренно — выделение и наведение объявлены выше,
         и без этого выключенная выбранная строка выглядела бы обычной.
     -->
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
     </Style>
 
   </ControlTheme>

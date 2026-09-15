@@ -22,7 +22,7 @@ public class PrimitiveTests
     /// Цветная монограмма берёт шаг 1 шкалы, а не цвет заливки.
     /// </summary>
     /// <remarks>
-    /// Белые инициалы на AxOrg / AxGrn / AxPur / AxRed дают 2,68…3,69:1 — поэтому
+    /// Белые инициалы на AxTintOrange / AxSuccess / AxTintPurple / AxError дают 2,68…3,69:1 — поэтому
     /// монограмма берёт шаг 1 шкалы, где белый держит 5,9:1 и выше в обоих
     /// вариантах. Значения потому и одни на оба варианта.
     /// </remarks>
@@ -73,8 +73,8 @@ public class PrimitiveTests
         Assert.Equal(36d, avatar.Width);
         Assert.Equal(36d, avatar.Height);
         Assert.Equal(new CornerRadius(8), avatar.CornerRadius);
-        Assert.Equal(Resource(window, "AxAccStrongColor", variant), Colour(avatar.TileBrush));
-        Assert.Equal(Resource(window, "AxOnAccColor", variant), Colour(avatar.Foreground));
+        Assert.Equal(Resource(window, "AxAccentFillColor", variant), Colour(avatar.TileBrush));
+        Assert.Equal(Resource(window, "AxTextOnAccentColor", variant), Colour(avatar.Foreground));
 
         avatar.Classes.Add("round");
         window.UpdateLayout();

@@ -6,7 +6,7 @@
       Тумблер 30×17 с кнобом 13 (размеры — метрики темы): выключен — дорожка bg4
       и кноб слева, включён — залитая акцентом дорожка и кноб справа. Дорожка
       с текстом не встречается, но кноб стоит на акценте, поэтому включённый —
-      AxAccStrong, как и остальные залитые поверхности.
+      AxAccentFill, как и остальные залитые поверхности.
   -->
   <ControlTheme x:Key="{x:Type ax:AxToggleSwitch}" TargetType="ax:AxToggleSwitch">
     <!-- Не обрезаем себя: кольцо фокуса выходит за границы контрола. -->
@@ -15,7 +15,7 @@
     <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="HorizontalAlignment" Value="Left"/>
     <Setter Property="VerticalAlignment" Value="Center"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
     <Setter Property="Template">
@@ -35,7 +35,7 @@
                   Margin="{DynamicResource AxFocusOutlineRowMargin}"
                   CornerRadius="{DynamicResource AxCornerRadiusFocusRow}"
                   BorderThickness="{DynamicResource AxFocusOutlineThickness}"
-                  BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                  BorderBrush="{DynamicResource AxFocusRingBrush}"
                   IsVisible="False"/>
           <Grid ColumnDefinitions="*,Auto" VerticalAlignment="Center">
             <!-- Подпись идёт слева от дорожки — как в компоненте. -->
@@ -51,12 +51,12 @@
                     Height="{DynamicResource AxToggleHeight}"
                     CornerRadius="{DynamicResource AxCornerRadiusPill}"
                     VerticalAlignment="Center"
-                    Background="{DynamicResource AxBg4Brush}">
+                    Background="{DynamicResource AxTrackBrush}">
               <Ellipse x:Name="PART_Knob"
                        Width="{DynamicResource AxToggleKnobSize}"
                        Height="{DynamicResource AxToggleKnobSize}"
                        Margin="{DynamicResource AxSpaceHairSidesThickness}"
-                       Fill="{DynamicResource AxOnAccBrush}"
+                       Fill="{DynamicResource AxTextOnAccentBrush}"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center"/>
             </Border>
@@ -66,10 +66,10 @@
     </Setter>
 
     <Style Selector="^:checked /template/ Border#PART_Track">
-      <Setter Property="Background" Value="{DynamicResource AxAccStrongBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxAccentFillBrush}"/>
     </Style>
     <Style Selector="^:checked:pointerover /template/ Border#PART_Track">
-      <Setter Property="Background" Value="{DynamicResource AxAccStrongHoverBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxAccentFillHoverBrush}"/>
     </Style>
     <Style Selector="^:checked /template/ Ellipse#PART_Knob">
       <Setter Property="HorizontalAlignment" Value="Right"/>
@@ -79,8 +79,8 @@
     </Style>
     <!--
         Выключенный тумблер компонент перекрашивает, а не гасит: дорожка уходит
-        на AxBg2, бегунок и подпись — на AxFgDisabled. Прозрачность дала бы
-        другой цвет — AxBg4 вполсилы зависит от того, что лежит под контролом,
+        на AxSurfacePanel, бегунок и подпись — на AxTextDisabled. Прозрачность дала бы
+        другой цвет — AxPressed вполсилы зависит от того, что лежит под контролом,
         и на разных фонах выключенный тумблер выглядел бы по-разному.
 
         Положение бегунка при этом остаётся по состоянию: выключенный включённый
@@ -88,14 +88,14 @@
         значении.
     -->
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
       <Setter Property="Cursor" Value="Arrow"/>
     </Style>
     <Style Selector="^:disabled /template/ Border#PART_Track">
-      <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxFillDisabledBrush}"/>
     </Style>
     <Style Selector="^:disabled /template/ Ellipse#PART_Knob">
-      <Setter Property="Fill" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Fill" Value="{DynamicResource AxTextDisabledBrush}"/>
     </Style>
   </ControlTheme>
 

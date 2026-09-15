@@ -37,7 +37,7 @@ public class BreadcrumbTests
     }
 
     /// <summary>
-    /// Разделитель: мелкий шеврон набора в AxFg2, у первого звена его нет.
+    /// Разделитель: мелкий шеврон набора в AxTextSecondary, у первого звена его нет.
     /// </summary>
     /// <remarks>
     /// Он того же серого, что и глиф папки в звене, — а не бледнее.
@@ -59,7 +59,7 @@ public class BreadcrumbTests
 
         Assert.True(chevron.IsVisible);
         Assert.Equal(12d, chevron.Bounds.Width);
-        Assert.Equal(Resource(window, "AxFg2Color", variant), Colour(chevron.Foreground));
+        Assert.Equal(Resource(window, "AxTextSecondaryColor", variant), Colour(chevron.Foreground));
         Assert.Same(AxIcons.ChevronRight, chevron.Data);
 
         window.Close();
@@ -75,7 +75,7 @@ public class BreadcrumbTests
 
         var current = Links(bar).First(l => l.Classes.Contains("current"));
 
-        Assert.Equal(Resource(window, "AxFgColor", variant), Colour(current.Foreground));
+        Assert.Equal(Resource(window, "AxTextPrimaryColor", variant), Colour(current.Foreground));
         Assert.Equal("Medium", current.FontWeight.ToString());
 
         window.Close();
@@ -91,16 +91,16 @@ public class BreadcrumbTests
 
         var broken = Links(bar).First(l => l.Classes.Contains("error"));
 
-        Assert.Equal(Resource(window, "AxRedTextColor", variant), Colour(broken.Foreground));
+        Assert.Equal(Resource(window, "AxErrorTextColor", variant), Colour(broken.Foreground));
         Assert.Equal("Medium", broken.FontWeight.ToString());
         Assert.Equal(
-            Resource(window, "AxErrorBackgroundColor", variant),
+            Resource(window, "AxErrorFillColor", variant),
             Colour(Plate(broken).Background));
 
         window.Close();
     }
 
-    /// <summary>Наведение поднимает под звеном плашку AxBg3.</summary>
+    /// <summary>Наведение поднимает под звеном плашку AxHover.</summary>
     [AvaloniaTheory]
     [InlineData("Light")]
     [InlineData("Dark")]
@@ -112,7 +112,7 @@ public class BreadcrumbTests
         ((IPseudoClasses)link.Classes).Set(":pointerover", true);
         window.UpdateLayout();
 
-        Assert.Equal(Resource(window, "AxBg3Color", variant), Colour(Plate(link).Background));
+        Assert.Equal(Resource(window, "AxHoverColor", variant), Colour(Plate(link).Background));
 
         window.Close();
     }
@@ -132,7 +132,7 @@ public class BreadcrumbTests
         var (bar, window) = Shown(variant);
 
         var dead = Links(bar).First(l => !l.IsEnabled);
-        var expected = Resource(window, "AxFgDisabledColor", variant);
+        var expected = Resource(window, "AxTextDisabledColor", variant);
 
         Assert.Equal(expected, Colour(dead.Foreground));
         Assert.Equal(expected, Colour(Separator(dead).Foreground));
@@ -173,8 +173,8 @@ public class BreadcrumbTests
         Assert.Equal(new Thickness(1), bar.BorderThickness);
         Assert.Equal(new CornerRadius(4), bar.CornerRadius);
         Assert.Equal(new Thickness(4, 0), bar.Padding);
-        Assert.Equal(Resource(window, "AxBgSunkenColor", variant), Colour(bar.Background));
-        Assert.Equal(Resource(window, "AxBrdColor", variant), Colour(bar.BorderBrush));
+        Assert.Equal(Resource(window, "AxSurfaceSunkenColor", variant), Colour(bar.Background));
+        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(bar.BorderBrush));
 
         // 1 рамки, 4 полосы и 6 звена — содержимое первого звена на 11 от края.
         var first = Part(Links(bar).First(), "PART_Icon");

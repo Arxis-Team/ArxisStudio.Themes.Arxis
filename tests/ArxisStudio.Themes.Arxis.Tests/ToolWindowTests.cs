@@ -15,7 +15,7 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 /// <remarks>
 /// Вида шапки три — только заголовок, заголовок с линией, заголовок с
 /// вкладками — и все три на одной и той же обведённой панели с подложкой
-/// AxBg2 и контрольным радиусом.
+/// AxSurfacePanel и контрольным радиусом.
 /// </remarks>
 public class ToolWindowTests
 {
@@ -29,8 +29,8 @@ public class ToolWindowTests
 
         Assert.Equal(new Thickness(1), panel.BorderThickness);
         Assert.Equal(new CornerRadius(4), panel.CornerRadius);
-        Assert.Equal(Resource(window, "AxBg2Color", variant), Colour(panel.Background));
-        Assert.Equal(Resource(window, "AxBrdColor", variant), Colour(panel.BorderBrush));
+        Assert.Equal(Resource(window, "AxSurfacePanelColor", variant), Colour(panel.Background));
+        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(panel.BorderBrush));
 
         // Обрезка: без неё линия под шапкой вылезает за скругление усиками.
         Assert.True(Root(panel).ClipToBounds, "панель не обрезает содержимое по скруглению");
@@ -82,7 +82,7 @@ public class ToolWindowTests
         window.UpdateLayout();
 
         Assert.Equal(new Thickness(0, 0, 0, 1), header.BorderThickness);
-        Assert.Equal(Resource(window, "AxBrdColor", variant), Colour(header.BorderBrush));
+        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(header.BorderBrush));
 
         window.Close();
     }
@@ -97,7 +97,7 @@ public class ToolWindowTests
 
         var title = (TextBlock)Part(panel, "PART_Title");
 
-        Assert.Equal(Resource(window, "AxFgColor", variant), Colour(title.Foreground));
+        Assert.Equal(Resource(window, "AxTextPrimaryColor", variant), Colour(title.Foreground));
         // Avalonia зовёт этот вес DemiBold — то же начертание, другое имя.
         Assert.Equal(FontWeight.SemiBold, title.FontWeight);
         Assert.Equal(13d, title.FontSize);
@@ -154,7 +154,7 @@ public class ToolWindowTests
         Assert.True(marker.IsVisible, "полосы выбора не видно");
         Assert.Equal(2d, marker.Bounds.Height);
         Assert.Equal(FontWeight.Normal, selected.FontWeight);
-        Assert.Equal(Resource(window, "AxAccColor", variant), Colour(marker.Background));
+        Assert.Equal(Resource(window, "AxAccentColor", variant), Colour(marker.Background));
         // Прозрачная кисть, а не её отсутствие: своего фона у вкладки нет, но
         // сама кисть нужна — без неё вкладку не поймать курсором.
         Assert.Equal(0, Colour(((Border)Part(selected, "PART_Root")).Background)!.Value.A);

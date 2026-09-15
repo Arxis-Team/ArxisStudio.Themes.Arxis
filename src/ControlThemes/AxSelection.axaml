@@ -10,7 +10,7 @@
     <!-- Не обрезаем себя: кольцо фокуса выходит за границы контрола. -->
     <Setter Property="ClipToBounds" Value="False"/>
 
-    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
     <Setter Property="Cursor" Value="Hand"/>
@@ -32,15 +32,15 @@
                   Margin="{DynamicResource AxFocusOutlineRowMargin}"
                   CornerRadius="{DynamicResource AxCornerRadiusFocusRow}"
                   BorderThickness="{DynamicResource AxFocusOutlineThickness}"
-                  BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                  BorderBrush="{DynamicResource AxFocusRingBrush}"
                   IsVisible="False"/>
           <Grid ColumnDefinitions="Auto,*" VerticalAlignment="Center">
             <Panel Width="{DynamicResource AxCheckboxSize}"
                    Height="{DynamicResource AxCheckboxSize}"
                    VerticalAlignment="Center">
               <Ellipse x:Name="PART_Circle"
-                       Fill="{DynamicResource AxInpBrush}"
-                       Stroke="{DynamicResource AxBrd2Brush}"
+                       Fill="{DynamicResource AxSurfaceBaseBrush}"
+                       Stroke="{DynamicResource AxStrokeControlBrush}"
                        StrokeThickness="1"/>
             </Panel>
             <ContentPresenter Grid.Column="1"
@@ -56,7 +56,7 @@
     </Setter>
 
     <Style Selector="^:pointerover /template/ Ellipse#PART_Circle">
-      <Setter Property="Stroke" Value="{DynamicResource AxFg2Brush}"/>
+      <Setter Property="Stroke" Value="{DynamicResource AxTextSecondaryBrush}"/>
     </Style>
     <!-- Выбранный вариант — толстое акцентное кольцо со светлым центром. -->
     <!--
@@ -67,38 +67,38 @@
         «выбрано» на залитой поверхности.
     -->
     <Style Selector="^:checked /template/ Ellipse#PART_Circle">
-      <Setter Property="Fill" Value="{DynamicResource AxOnAccBrush}"/>
-      <Setter Property="Stroke" Value="{DynamicResource AxAccBrush}"/>
+      <Setter Property="Fill" Value="{DynamicResource AxTextOnAccentBrush}"/>
+      <Setter Property="Stroke" Value="{DynamicResource AxAccentBrush}"/>
       <Setter Property="StrokeThickness" Value="5"/>
     </Style>
     <Style Selector="^:checked:pointerover /template/ Ellipse#PART_Circle">
-      <Setter Property="Stroke" Value="{DynamicResource AxAccHoverBrush}"/>
+      <Setter Property="Stroke" Value="{DynamicResource AxAccentHoverBrush}"/>
     </Style>
     <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
       <Setter Property="Cursor" Value="Arrow"/>
     </Style>
     <Style Selector="^:disabled /template/ Ellipse#PART_Circle">
-      <Setter Property="Fill" Value="{DynamicResource AxInpDisabledBrush}"/>
-      <Setter Property="Stroke" Value="{DynamicResource AxBrdBrush}"/>
+      <Setter Property="Fill" Value="{DynamicResource AxFillDisabledBrush}"/>
+      <Setter Property="Stroke" Value="{DynamicResource AxStrokeSubtleBrush}"/>
     </Style>
     <!--
         Выключенная включённая обязана остаться включённой на вид. Точка цвета
         поля темнее кольца, и метка пропадала — выбор нельзя было прочитать.
-        Проект разводит их наоборот: кольцо AxBg3, точка AxFg3, светлее кольца.
+        Проект разводит их наоборот: кольцо AxHover, точка AxTextTertiary, светлее кольца.
     -->
     <Style Selector="^:disabled:checked /template/ Ellipse#PART_Circle">
-      <Setter Property="Fill" Value="{DynamicResource AxFg3Brush}"/>
-      <Setter Property="Stroke" Value="{DynamicResource AxBg3Brush}"/>
+      <Setter Property="Fill" Value="{DynamicResource AxTextTertiaryBrush}"/>
+      <Setter Property="Stroke" Value="{DynamicResource AxStrokeSubtleBrush}"/>
     </Style>
   </ControlTheme>
 
   <!-- Разделительная линия в пиксель. -->
   <ControlTheme x:Key="{x:Type ax:AxDivider}" TargetType="ax:AxDivider">
-    <Setter Property="Background" Value="{DynamicResource AxBrdBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxStrokeSubtleBrush}"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}"/>
@@ -136,7 +136,7 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}">
-          <Border x:Name="PART_Line" Background="{DynamicResource AxBrdBrush}"/>
+          <Border x:Name="PART_Line" Background="{DynamicResource AxStrokeSubtleBrush}"/>
         </Border>
       </ControlTemplate>
     </Setter>
@@ -162,19 +162,19 @@
     </Style>
 
     <Style Selector="^:pointerover /template/ Border#PART_Line">
-      <Setter Property="Background" Value="{DynamicResource AxAccBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxAccentBrush}"/>
     </Style>
 
     <Style Selector="^:pressed /template/ Border#PART_Line">
-      <Setter Property="Background" Value="{DynamicResource AxAccBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxAccentBrush}"/>
     </Style>
 
     <Style Selector="^:focus-visible /template/ Border#PART_Line">
-      <Setter Property="Background" Value="{DynamicResource AxAccBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxAccentBrush}"/>
     </Style>
 
     <Style Selector="^:disabled /template/ Border#PART_Line">
-      <Setter Property="Background" Value="{DynamicResource AxBrdBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxStrokeSubtleBrush}"/>
     </Style>
   </ControlTheme>
 
@@ -188,7 +188,7 @@
       стрелка.
   -->
   <ControlTheme x:Key="{x:Type ax:AxGroupHeader}" TargetType="ax:AxGroupHeader">
-    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
     <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -203,7 +203,7 @@
                      Classes="small"
                      Margin="{DynamicResource AxGapIconTextThickness}"
                      Data="{x:Static ax:AxIcons.ChevronRight}"
-                     Foreground="{DynamicResource AxFg2Brush}"
+                     Foreground="{DynamicResource AxTextSecondaryBrush}"
                      VerticalAlignment="Center"
                      IsVisible="{TemplateBinding IsCollapsible}"/>
           <ContentPresenter Grid.Column="1"
@@ -216,7 +216,7 @@
                             Grid.Column="2"
                             Margin="{DynamicResource AxSpaceLeadingThickness}"
                             Content="{TemplateBinding Counter}"
-                            TextBlock.Foreground="{DynamicResource AxFg2Brush}"
+                            TextBlock.Foreground="{DynamicResource AxTextSecondaryBrush}"
                             TextBlock.FontSize="{DynamicResource AxFontSizeSmall}"
                             TextElement.FontWeight="Normal"
                             VerticalAlignment="Center"
@@ -226,7 +226,7 @@
                   Height="1"
                   Margin="10,1,0,0"
                   VerticalAlignment="Center"
-                  Background="{DynamicResource AxBrdBrush}"/>
+                  Background="{DynamicResource AxStrokeSubtleBrush}"/>
         </Grid>
       </ControlTemplate>
     </Setter>
@@ -245,7 +245,7 @@
       объявленный внутри него, до отрисовки не доживает.
   -->
   <ControlTheme x:Key="AxSliderRail" TargetType="RepeatButton">
-    <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxSurfaceRaisedBrush}"/>
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="Focusable" Value="False"/>
     <Setter Property="Template">
@@ -260,15 +260,15 @@
 
   <ControlTheme x:Key="AxSliderFill" TargetType="RepeatButton"
                 BasedOn="{StaticResource AxSliderRail}">
-    <Setter Property="Background" Value="{DynamicResource AxAccBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxAccentBrush}"/>
 
     <!--
         Выключенное заполнение красится, а не гасится: половина прозрачности
         зависит от того, что лежит под ползунком, и на панели он выглядел бы
-        иначе, чем в диалоге. Выключенное состояние — AxFgDisabled.
+        иначе, чем в диалоге. Выключенное состояние — AxTextDisabled.
     -->
     <Style Selector="^:disabled">
-      <Setter Property="Background" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxTextDisabledBrush}"/>
     </Style>
   </ControlTheme>
 
@@ -278,16 +278,16 @@
     <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <Ellipse Fill="{DynamicResource AxBg1Brush}"
-                 Stroke="{DynamicResource AxAccBrush}"
+        <Ellipse Fill="{DynamicResource AxSurfaceBaseBrush}"
+                 Stroke="{DynamicResource AxAccentBrush}"
                  StrokeThickness="{DynamicResource AxFocusOutlineWidth}"/>
       </ControlTemplate>
     </Setter>
     <Style Selector="^:pointerover /template/ Ellipse">
-      <Setter Property="Stroke" Value="{DynamicResource AxAccHoverBrush}"/>
+      <Setter Property="Stroke" Value="{DynamicResource AxAccentHoverBrush}"/>
     </Style>
     <Style Selector="^:disabled /template/ Ellipse">
-      <Setter Property="Stroke" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Stroke" Value="{DynamicResource AxTextDisabledBrush}"/>
     </Style>
     <Style Selector="^:disabled">
       <Setter Property="Cursor" Value="Arrow"/>
@@ -299,8 +299,8 @@
     <!-- Не обрезаем себя: кольцо фокуса выходит за границы контрола. -->
     <Setter Property="ClipToBounds" Value="False"/>
 
-    <Setter Property="Foreground" Value="{DynamicResource AxAccBrush}"/>
-    <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxAccentBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxSurfaceRaisedBrush}"/>
     <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
     <Setter Property="Template">
       <ControlTemplate>
@@ -310,7 +310,7 @@
                   Margin="{DynamicResource AxFocusOutlineRowMargin}"
                   CornerRadius="{DynamicResource AxCornerRadiusFocusRow}"
                   BorderThickness="{DynamicResource AxFocusOutlineThickness}"
-                  BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                  BorderBrush="{DynamicResource AxFocusRingBrush}"
                   IsVisible="False"/>
           <Track Name="PART_Track"
                  Minimum="{TemplateBinding Minimum}"

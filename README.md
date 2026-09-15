@@ -40,16 +40,19 @@ ThemeVariant.Dark / Light` — все токены объявлены в theme d
 
 ## Содержимое
 
-- `Palette.axaml` — восемь шкал (`AxGray1…14`, `AxBlue1…13`, `AxGreen*`,
-  `AxRed*`, `AxYellow*`, `AxOrange*`, `AxPurple*`, `AxTeal*`) и семантические
-  токены поверх них × 2 варианта: фоны `AxBg1…AxBg4`, рамки `AxBrd/AxBrd2`,
-  текст `AxFg/AxFg2/AxFg3/AxFgDisabled`, акцент `AxAcc/AxAccHover/AxAccPressed`
-  и `AxAccStrong/AxAccStrongHover` для залитых поверхностей с текстом, `AxOnAcc`,
-  выделение `AxSel/AxSelInactive`, холст `AxCanvas/AxDot`, поле `AxInp`,
-  смысловые `AxGrn/AxRed/AxYel/AxOrg/AxPur` и отдельно их текстовые пары
-  `AxGreenText/AxRedText/AxYellowText`, ссылки `AxLink*` вместе с `AxLinkOn`,
-  фоны и рамки сообщений, подсветка кода `AxCode*`, тени. Каждый — как `*Color`
-  и `*Brush`; кисти объявлены внутри словарей вариантов, поэтому вложенный
+- `Palette.axaml` — роли, а не ступени шкал, × 2 варианта: поверхности
+  `AxSurfaceSunken/Base/Panel/Raised/Overlay`, взаимодействие
+  `AxHover/AxPressed/AxTrack/AxFillDisabled`, линии `AxStrokeSubtle/Control/Strong`,
+  текст `AxTextPrimary/Secondary/Tertiary/Disabled` и `AxTextOnAccent`, акцент
+  `AxAccent/AxAccentHover` для графики и `AxAccentFill/AxAccentFillHover/AxAccentFillPressed`
+  для залитых поверхностей с текстом, `AxFocusRing`, выделение
+  `AxSelectionActive/AxSelectionInactive`, ссылки `AxLink*` вместе с `AxLinkOnPlate`,
+  состояния `AxError/AxWarning/AxSuccess` с текстовыми парами `*Text`, контуром поля
+  `*Outline` и заливкой с рамкой сообщения `*Fill/*Stroke` (у `AxInfo` — только
+  последние), оттенки `AxTint*` и `AxMonogram*`, подсказка `AxToolTipFill/Stroke`,
+  ползунок прокрутки `AxScrollThumb*`, подсветка кода `AxCode*`, тени
+  `AxShadowPopup/AxShadowModal`. Каждая роль — как `*Color` числом и `*Brush`;
+  кисти объявлены внутри словарей вариантов, поэтому вложенный
   `ThemeVariantScope` перекрашивается вместе с ними.
 - `Typography.axaml` — `AxFontFamily` (Inter), `AxFontFamilyMono` (Cascadia Code,
   едет в сборке темы; системные — запасными), кегли 13 / 11.5 / 10.5 и

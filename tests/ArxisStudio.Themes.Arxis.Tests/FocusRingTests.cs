@@ -310,7 +310,7 @@ public class FocusRingTests
         window.UpdateLayout();
 
         var ring = Rings(control).First(r => r.IsVisible);
-        var accent = Resource(window, "AxOutlineFocusedColor");
+        var accent = Resource(window, "AxFocusRingColor");
 
         // Кольцо снаружи: своей толщины и сдвинуто на неё же плюс просвет.
         // Просвет нужен там, где под кольцом залитая акцентом фигура — без
@@ -375,8 +375,8 @@ public class FocusRingTests
     /// </summary>
     /// <remarks>
     /// Кольца у строк нет и быть не должно: в списке и дереве фокус показывает
-    /// не обводка, а цвет выделения — AxSel, пока список под фокусом, и
-    /// AxSelInactive, когда фокус ушёл. Без второй половины выделение в
+    /// не обводка, а цвет выделения — AxSelectionActive, пока список под фокусом, и
+    /// AxSelectionInactive, когда фокус ушёл. Без второй половины выделение в
     /// оставленном дереве спорило по яркости с тем полем, куда человек перешёл,
     /// и на экране было два «здесь».
     /// </remarks>
@@ -397,13 +397,13 @@ public class FocusRingTests
 
         var fill = () => Colour(Part(row, "PART_ContentPresenter").GetValue(Border.BackgroundProperty));
 
-        Assert.Equal(Resource(window, "AxSelColor"), fill());
+        Assert.Equal(Resource(window, "AxSelectionActiveColor"), fill());
 
         elsewhere.Focus(NavigationMethod.Tab);
         window.UpdateLayout();
 
         Assert.True(row.IsSelected, "строка перестала быть выделенной");
-        Assert.Equal(Resource(window, "AxSelInactiveColor"), fill());
+        Assert.Equal(Resource(window, "AxSelectionInactiveColor"), fill());
 
         window.Close();
     }
@@ -439,7 +439,7 @@ public class FocusRingTests
 
         Assert.True(segments.IsKeyboardFocusWithin, "фокус до переключателя не дошёл — проверять нечего");
         Assert.Equal(
-            Resource(window, "AxAccStrongColor"),
+            Resource(window, "AxAccentFillColor"),
             Colour(Part(selected, "PART_ContentPresenter").GetValue(Border.BackgroundProperty)));
 
         window.Close();

@@ -4,8 +4,8 @@
 
   <!-- Полоса вкладок: ряд вкладок на фоне панели с разделителем снизу. -->
   <ControlTheme x:Key="{x:Type ax:AxTabStrip}" TargetType="ax:AxTabStrip">
-    <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxSurfacePanelBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeSubtleBrush}"/>
     <Setter Property="BorderThickness" Value="0,0,0,1"/>
     <!--
         Полоса вкладок документа скруглена сверху и прижата к краю: вкладки
@@ -105,7 +105,7 @@
     -->
     <Setter Property="Padding" Value="{DynamicResource AxRowPadding}"/>
     <Setter Property="Background" Value="Transparent"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
     <!--
         Значок без своего цвета идёт за подписью — вторичный, основной у
         выбранной, выключенный у выключенной. Привязкой, а не тем же ключом:
@@ -165,7 +165,7 @@
                 <Panel>
                   <Ellipse x:Name="PART_Modified"
                            Width="7" Height="7"
-                           Fill="{DynamicResource AxAccBrush}"
+                           Fill="{DynamicResource AxAccentBrush}"
                            IsVisible="{TemplateBinding IsModified}"/>
                   <!--
                       Крестик стоит на месте, а не появляется на наведении:
@@ -176,7 +176,7 @@
                   <ax:AxIcon x:Name="PART_CloseIcon"
                              Classes="small"
                              Data="{x:Static ax:AxIcons.Close}"
-                             Foreground="{DynamicResource AxFg3Brush}"/>
+                             Foreground="{DynamicResource AxTextTertiaryBrush}"/>
                 </Panel>
               </Border>
               <!--
@@ -217,7 +217,7 @@
                     Height="2"
                     VerticalAlignment="Bottom"
                     Margin="-8,0"
-                    Background="{DynamicResource AxAccBrush}"
+                    Background="{DynamicResource AxAccentBrush}"
                     IsVisible="False"/>
             <!--
                 Кольцо строки лежит внутри, а не снаружи, и это не мелочь. У
@@ -231,7 +231,7 @@
             -->
             <Border x:Name="PART_FocusRing"
                     BorderThickness="{DynamicResource AxFocusOutlineInset}"
-                    BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                    BorderBrush="{DynamicResource AxFocusRingBrush}"
                     CornerRadius="{TemplateBinding CornerRadius}"
                     IsVisible="False"/>
           </Panel>
@@ -244,7 +244,7 @@
     </Style>
 
     <Style Selector="^:pointerover /template/ Border#PART_Root">
-      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
     </Style>
     <Style Selector="^:pointerover /template/ ax|AxIcon#PART_CloseIcon">
       <Setter Property="IsVisible" Value="True"/>
@@ -256,23 +256,23 @@
       <Setter Property="IsVisible" Value="False"/>
     </Style>
     <Style Selector="^:selected /template/ ax|AxIcon#PART_CloseIcon">
-      <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
     </Style>
     <!--
         У крестика своё наведение: ступенью заметнее, чем у самой вкладки, —
-        AxBg4 против AxBg3. Без него наведение на крестик выглядело точь-в-точь
+        AxPressed против AxHover. Без него наведение на крестик выглядело точь-в-точь
         как наведение на вкладку, и человек нажимал, не зная, закроет он её или
         выберет.
     -->
     <Style Selector="^ /template/ Border#PART_Close:pointerover">
-      <Setter Property="Background" Value="{DynamicResource AxBg4Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxPressedBrush}"/>
     </Style>
     <Style Selector="^ /template/ Border#PART_Close:pointerover ax|AxIcon#PART_CloseIcon">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     </Style>
 
     <Style Selector="^:selected">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     </Style>
     <!--
         Веса выбранной вкладке не даёт ни та, ни другая разновидность. Жирное
@@ -281,7 +281,7 @@
         снизу: они не двигают соседей.
     -->
     <Style Selector="^:selected /template/ Border#PART_Root">
-      <Setter Property="Background" Value="{DynamicResource AxBg1Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxSurfaceBaseBrush}"/>
     </Style>
     <Style Selector="^:selected /template/ Border#PART_ActiveMarker">
       <Setter Property="IsVisible" Value="True"/>
@@ -296,10 +296,10 @@
     </Style>
     <!--
         Наведение на вкладку в шапке — плашка внутри вкладки, а не сама вкладка.
-        Цвет наведенческий, AxBg3: эта роль за токеном и закреплена.
+        Цвет наведенческий, AxHover: эта роль за токеном и закреплена.
 
         Заливка во всю площадь сливалась бы с рамкой панели сверху и с
-        разделителем снизу — те же AxBg3, — и от одного слова оставалась бы
+        разделителем снизу — те же AxHover, — и от одного слова оставалась бы
         плита от края до края. Отступ в два пикселя со всех сторон открывает
         края плашки, оставляет между соседними плашками четыре и не
         закрывает полосу выбора: она те же два пикселя снизу.
@@ -322,16 +322,16 @@
     <Style Selector="^.compact:pointerover /template/ Border#PART_Hover">
       <Setter Property="IsVisible" Value="True"/>
       <Setter Property="Margin" Value="-6,2"/>
-      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
       <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     </Style>
     <!--
-        Выключенная строка: текст на AxFgDisabled.
+        Выключенная строка: текст на AxTextDisabled.
         Стиль стоит последним намеренно — выделение и наведение объявлены выше,
         и без этого выключенная выбранная строка выглядела бы обычной.
     -->
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
     </Style>
 
   </ControlTheme>

@@ -4,7 +4,7 @@
 
   <!--
       Кнопка с меню: левая часть — действие, правая (24) открывает Flyout.
-      Класс accent — основное действие, обе части на AxAccStrong; без класса —
+      Класс accent — основное действие, обе части на AxAccentFill; без класса —
       контурная. Разделитель между частями рисует правая половина.
   -->
 
@@ -13,7 +13,7 @@
     <Setter Property="ClipToBounds" Value="False"/>
 
     <Setter Property="Background" Value="Transparent"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="Padding" Value="{DynamicResource AxButtonPadding}"/>
     <!--
@@ -46,7 +46,7 @@
                   Margin="{DynamicResource AxFocusOutlineRowMargin}"
                   CornerRadius="{DynamicResource AxCornerRadiusFocusRow}"
                   BorderThickness="{DynamicResource AxFocusOutlineThickness}"
-                  BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                  BorderBrush="{DynamicResource AxFocusRingBrush}"
                   IsVisible="False"/>
           <ContentPresenter x:Name="PART_ContentPresenter"
                             Background="{TemplateBinding Background}"
@@ -65,10 +65,10 @@
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
     </Style>
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxBg4Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxPressedBrush}"/>
     </Style>
   </ControlTheme>
 
@@ -86,10 +86,10 @@
   <ControlTheme x:Key="AxSplitButtonPrimaryAccent" TargetType="Button"
                 BasedOn="{StaticResource AxSplitButtonPrimary}">
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxAccStrongHoverBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxAccentFillHoverBrush}"/>
     </Style>
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxAccPressedBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxAccentFillPressedBrush}"/>
     </Style>
   </ControlTheme>
 
@@ -109,9 +109,9 @@
     <Setter Property="MinWidth" Value="{DynamicResource AxButtonMinWidth}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Background" Value="Transparent"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
     <Setter Property="BorderThickness" Value="1"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="FontWeight" Value="Medium"/>
     <Setter Property="Cursor" Value="Hand"/>
@@ -133,11 +133,11 @@
                       CommandParameter="{TemplateBinding CommandParameter}"/>
               <Border x:Name="PART_Separator"
                       Grid.Column="1" Width="1"
-                      Background="{DynamicResource AxBrd2Brush}"/>
+                      Background="{DynamicResource AxStrokeControlBrush}"/>
               <Button x:Name="PART_SecondaryButton"
                       Grid.Column="2"
                       Theme="{StaticResource AxSplitButtonSecondary}"
-                      Foreground="{DynamicResource AxFg2Brush}">
+                      Foreground="{DynamicResource AxTextSecondaryBrush}">
                 <ax:AxIcon Data="{x:Static ax:AxIcons.ChevronDown}" Classes="small"
                            Foreground="{Binding $parent[Button].Foreground}"/>
               </Button>
@@ -148,31 +148,31 @@
     </Setter>
 
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
       <Setter Property="Cursor" Value="Arrow"/>
     </Style>
     <Style Selector="^:disabled /template/ Border#PART_Container">
-      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource AxBg3Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxSurfaceRaisedBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxSurfaceRaisedBrush}"/>
     </Style>
     <Style Selector="^:disabled /template/ Button#PART_SecondaryButton">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
     </Style>
     <Style Selector="^:disabled /template/ Border#PART_Separator">
-      <Setter Property="Background" Value="{DynamicResource AxBrdBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxStrokeSubtleBrush}"/>
     </Style>
 
     <!-- Основное действие: обе половины на залитом акценте. -->
     <Style Selector="^.accent">
-      <Setter Property="Background" Value="{DynamicResource AxAccStrongBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource AxAccStrongBrush}"/>
-      <Setter Property="Foreground" Value="{DynamicResource AxOnAccBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxAccentFillBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxAccentFillBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextOnAccentBrush}"/>
     </Style>
     <Style Selector="^.accent /template/ Button#PART_SecondaryButton">
-      <Setter Property="Foreground" Value="{DynamicResource AxOnAccBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextOnAccentBrush}"/>
     </Style>
     <Style Selector="^.accent /template/ Border#PART_Separator">
-      <Setter Property="Background" Value="{DynamicResource AxOnAccBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxTextOnAccentBrush}"/>
       <Setter Property="Opacity" Value="0.45"/>
     </Style>
     <Style Selector="^.accent /template/ Button#PART_PrimaryButton">

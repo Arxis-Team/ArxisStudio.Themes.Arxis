@@ -11,9 +11,9 @@
       Действия прижаты вправо и не уезжают под длинный заголовок.
   -->
   <ControlTheme x:Key="{x:Type ax:AxToolWindow}" TargetType="ax:AxToolWindow">
-    <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxSurfacePanelBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeSubtleBrush}"/>
     <!--
         Панель обведена и скруглена контрольным радиусом. Обрезка нужна линии
         под шапкой: без неё она вылезает за
@@ -115,8 +115,8 @@
         самой панели его не бывает никогда.
     -->
     <Style Selector="^:focus-within /template/ Border#PART_Header">
-      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource AxAccBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxSurfaceRaisedBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxAccentBrush}"/>
     </Style>
   </ControlTheme>
 

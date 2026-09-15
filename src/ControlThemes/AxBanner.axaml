@@ -8,9 +8,9 @@
       в тёмной теме), чтобы полоса читалась, но не спорила с содержимым.
   -->
   <ControlTheme x:Key="{x:Type ax:AxBanner}" TargetType="ax:AxBanner">
-    <Setter Property="Background" Value="{DynamicResource AxInfoBackgroundBrush}"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxInfoBorderBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxInfoFillBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxInfoStrokeBrush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
     <Setter Property="Padding" Value="{DynamicResource AxBannerPadding}"/>
@@ -31,7 +31,7 @@
                        Margin="{DynamicResource AxGapIconTextThickness}"
                        VerticalAlignment="Center"
                        Data="{x:Static ax:AxIcons.Info}"
-                       Foreground="{DynamicResource AxAccBrush}"/>
+                       Foreground="{DynamicResource AxAccentBrush}"/>
             <!--
                 Крестик закрытия: он есть у баннера любой строгости, даже без
                 действий, — сообщение о состоянии перестаёт быть нужным раньше,
@@ -69,32 +69,32 @@
     </Setter>
 
     <Style Selector="^[Severity=Success]">
-      <Setter Property="Background" Value="{DynamicResource AxSuccessBackgroundBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource AxSuccessBorderBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxSuccessFillBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxSuccessStrokeBrush}"/>
     </Style>
     <Style Selector="^[Severity=Success] /template/ ax|AxIcon#PART_Icon">
       <Setter Property="Data" Value="{x:Static ax:AxIcons.Success}"/>
-      <Setter Property="Foreground" Value="{DynamicResource AxGrnBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxSuccessBrush}"/>
     </Style>
 
-    <!-- Значок предупреждения — треугольник и AxOutlineWarning: AxYel рассчитан
+    <!-- Значок предупреждения — треугольник и AxWarningOutline: AxWarning рассчитан
          на текст и в светлой теме слишком тёмный для значка. -->
     <Style Selector="^[Severity=Warning]">
-      <Setter Property="Background" Value="{DynamicResource AxWarningBackgroundBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource AxWarningBorderBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxWarningFillBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxWarningStrokeBrush}"/>
     </Style>
     <Style Selector="^[Severity=Warning] /template/ ax|AxIcon#PART_Icon">
       <Setter Property="Data" Value="{x:Static ax:AxIcons.WarningTriangle}"/>
-      <Setter Property="Foreground" Value="{DynamicResource AxOutlineWarningBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxWarningOutlineBrush}"/>
     </Style>
 
     <Style Selector="^[Severity=Error]">
-      <Setter Property="Background" Value="{DynamicResource AxErrorBackgroundBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource AxErrorBorderBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxErrorFillBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxErrorStrokeBrush}"/>
     </Style>
     <Style Selector="^[Severity=Error] /template/ ax|AxIcon#PART_Icon">
       <Setter Property="Data" Value="{x:Static ax:AxIcons.Error}"/>
-      <Setter Property="Foreground" Value="{DynamicResource AxRedBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxErrorBrush}"/>
     </Style>
   </ControlTheme>
 

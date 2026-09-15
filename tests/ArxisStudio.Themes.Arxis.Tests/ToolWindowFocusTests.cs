@@ -60,7 +60,7 @@ public class ToolWindowFocusTests
         var lit = Paint(header.BorderBrush);
 
         Assert.NotEqual(calm, lit);
-        Assert.Equal(Token(panel, "AxAccBrush"), lit);
+        Assert.Equal(Token(panel, "AxAccentBrush"), lit);
 
         window.Close();
     }

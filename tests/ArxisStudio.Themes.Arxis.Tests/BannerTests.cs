@@ -107,7 +107,7 @@ public class BannerTests
     }
 
     /// <summary>
-    /// Действие на плашке светится AxLinkOn — токеном, заведённым для плашек.
+    /// Действие на плашке светится AxLinkOnPlate — токеном, заведённым для плашек.
     /// </summary>
     [AvaloniaFact]
     public void Action_on_the_plate_takes_the_token_made_for_it()
@@ -115,7 +115,7 @@ public class BannerTests
         var link = new AxLink { Content = "Обновить" };
         var (banner, window) = Shown(actions: link);
 
-        Assert.True(window.TryFindResource("AxLinkOnColor", window.ActualThemeVariant, out var expected));
+        Assert.True(window.TryFindResource("AxLinkOnPlateColor", window.ActualThemeVariant, out var expected));
         Assert.Equal((Color)expected!, (link.Foreground as ISolidColorBrush)?.Color);
 
         window.Close();

@@ -27,10 +27,10 @@ public class ToolBarTests
 {
     /// <summary>Наведение и нажатие: заливка шага, глиф основным текстом.</summary>
     [AvaloniaTheory]
-    [InlineData(":pointerover", "AxBg3Color", "Light")]
-    [InlineData(":pointerover", "AxBg3Color", "Dark")]
-    [InlineData(":pressed", "AxBg4Color", "Light")]
-    [InlineData(":pressed", "AxBg4Color", "Dark")]
+    [InlineData(":pointerover", "AxHoverColor", "Light")]
+    [InlineData(":pointerover", "AxHoverColor", "Dark")]
+    [InlineData(":pressed", "AxPressedColor", "Light")]
+    [InlineData(":pressed", "AxPressedColor", "Dark")]
     public void Touched_tool_takes_the_step_of_its_state(string state, string key, string variant)
     {
         var (button, icon, window) = Shown(variant);
@@ -39,7 +39,7 @@ public class ToolBarTests
         window.UpdateLayout();
 
         Assert.Equal(Resource(window, key, variant), Colour(Plate(button).Background));
-        Assert.Equal(Resource(window, "AxFgColor", variant), Colour(icon.Foreground));
+        Assert.Equal(Resource(window, "AxTextPrimaryColor", variant), Colour(icon.Foreground));
 
         window.Close();
     }
@@ -62,8 +62,8 @@ public class ToolBarTests
         ((IPseudoClasses)button.Classes).Set(":selected", true);
         window.UpdateLayout();
 
-        Assert.Equal(Resource(window, "AxSelColor", variant), Colour(Plate(button).Background));
-        Assert.Equal(Resource(window, "AxAccColor", variant), Colour(icon.Foreground));
+        Assert.Equal(Resource(window, "AxSelectionActiveColor", variant), Colour(Plate(button).Background));
+        Assert.Equal(Resource(window, "AxAccentColor", variant), Colour(icon.Foreground));
 
         window.Close();
     }
@@ -86,7 +86,7 @@ public class ToolBarTests
         window.UpdateLayout();
 
         Assert.Equal(0, Colour(Plate(button).Background)!.Value.A);
-        Assert.Equal(Resource(window, "AxFgDisabledColor", variant), Colour(icon.Foreground));
+        Assert.Equal(Resource(window, "AxTextDisabledColor", variant), Colour(icon.Foreground));
 
         window.Close();
     }
@@ -136,8 +136,8 @@ public class ToolBarTests
 
         Assert.Equal(40d, bar.Bounds.Height);
         Assert.Equal(new Thickness(0, 0, 0, 1), bar.BorderThickness);
-        Assert.Equal(Resource(window, "AxBg2Color", variant), Colour(bar.Background));
-        Assert.Equal(Resource(window, "AxBrdColor", variant), Colour(bar.BorderBrush));
+        Assert.Equal(Resource(window, "AxSurfacePanelColor", variant), Colour(bar.Background));
+        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(bar.BorderBrush));
 
         window.Close();
     }

@@ -27,7 +27,7 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 /// </remarks>
 public class LoaderTests
 {
-    /// <summary>Малый лоадер: 16, кольцо AxBg4, четверть вторичным цветом.</summary>
+    /// <summary>Малый лоадер: 16, кольцо AxPressed, четверть вторичным цветом.</summary>
     [AvaloniaTheory]
     [InlineData("Light")]
     [InlineData("Dark")]
@@ -37,8 +37,8 @@ public class LoaderTests
 
         Assert.Equal(16d, spinner.Width);
         Assert.Equal(16d, spinner.Height);
-        Assert.Equal(Resource(window, "AxBg4Color", variant), Colour(Ring(spinner).Stroke));
-        Assert.Equal(Resource(window, "AxFg2Color", variant), Colour(Arc(spinner).Stroke));
+        Assert.Equal(Resource(window, "AxPressedColor", variant), Colour(Ring(spinner).Stroke));
+        Assert.Equal(Resource(window, "AxTextSecondaryColor", variant), Colour(Arc(spinner).Stroke));
 
         window.Close();
     }
@@ -53,8 +53,8 @@ public class LoaderTests
 
         Assert.Equal(24d, spinner.Width);
         Assert.Equal(24d, spinner.Height);
-        Assert.Equal(Resource(window, "AxBg4Color", variant), Colour(Ring(spinner).Stroke));
-        Assert.Equal(Resource(window, "AxAccColor", variant), Colour(Arc(spinner).Stroke));
+        Assert.Equal(Resource(window, "AxPressedColor", variant), Colour(Ring(spinner).Stroke));
+        Assert.Equal(Resource(window, "AxAccentColor", variant), Colour(Arc(spinner).Stroke));
 
         window.Close();
     }

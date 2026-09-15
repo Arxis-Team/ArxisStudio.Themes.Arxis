@@ -7,15 +7,15 @@
       ключом типа — контекстные меню и Flyout получают вид студии без своих
       контейнеров; AxMenuItem наследует её. Правила: строка AxRowHeight,
       колонка иконок 16 фиксирована — пункт без иконки получает пустой отступ,
-      и текст не съезжает; шорткат прижат вправо и остаётся AxFg3 (декор);
-      подсвеченный пункт — AxSel; деструктивный несёт класс danger.
+      и текст не съезжает; шорткат прижат вправо и остаётся AxTextTertiary (декор);
+      подсвеченный пункт — AxSelectionActive; деструктивный несёт класс danger.
   -->
   <ControlTheme x:Key="{x:Type MenuItem}" TargetType="MenuItem">
     <Setter Property="MinHeight" Value="{DynamicResource AxRowHeight}"/>
     <Setter Property="Padding" Value="{DynamicResource AxRowPadding}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Background" Value="Transparent"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="Template">
       <ControlTemplate>
@@ -44,14 +44,14 @@
               <TextBlock x:Name="PART_InputGestureText"
                          Grid.Column="4"
                          Text="{TemplateBinding InputGesture}"
-                         Foreground="{DynamicResource AxFg3Brush}"
+                         Foreground="{DynamicResource AxTextTertiaryBrush}"
                          FontSize="{DynamicResource AxFontSizeSmall}"
                          VerticalAlignment="Center"/>
               <ax:AxIcon x:Name="PART_SubmenuChevron"
                          Grid.Column="5"
                          Classes="small"
                          Data="{x:Static ax:AxIcons.ChevronRight}"
-                         Foreground="{DynamicResource AxFg2Brush}"
+                         Foreground="{DynamicResource AxTextSecondaryBrush}"
                          VerticalAlignment="Center"
                          IsVisible="False"/>
             </Grid>
@@ -62,11 +62,11 @@
                  VerticalOffset="{DynamicResource AxSubmenuVerticalOffset}"
                  IsLightDismissEnabled="False"
                  IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}">
-            <Border Background="{DynamicResource AxBg2Brush}"
-                    BorderBrush="{DynamicResource AxBrd2Brush}"
+            <Border Background="{DynamicResource AxSurfaceOverlayBrush}"
+                    BorderBrush="{DynamicResource AxStrokeControlBrush}"
                     BorderThickness="1"
                     CornerRadius="{DynamicResource AxCornerRadiusLarge}"
-                    BoxShadow="{DynamicResource AxPopupShadow}"
+                    BoxShadow="{DynamicResource AxShadowPopup}"
                     Padding="{DynamicResource AxMenuPadding}"
                     Margin="{DynamicResource AxPopupShadowRoom}">
               <ScrollViewer>
@@ -80,7 +80,7 @@
     </Setter>
 
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{DynamicResource AxSelBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxSelectionActiveBrush}"/>
     </Style>
     <Style Selector="^:empty /template/ ax|AxIcon#PART_SubmenuChevron">
       <Setter Property="IsVisible" Value="False"/>
@@ -89,18 +89,18 @@
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
     </Style>
     <Style Selector="^:disabled /template/ TextBlock#PART_InputGestureText">
-      <Setter Property="Foreground" Value="{DynamicResource AxBrd2Brush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxStrokeControlBrush}"/>
     </Style>
 
     <!-- Деструктивный пункт: красный текст, шорткат — светлее на шаг. -->
     <Style Selector="^.danger">
-      <Setter Property="Foreground" Value="{DynamicResource AxRedTextBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxErrorTextBrush}"/>
     </Style>
     <Style Selector="^.danger /template/ TextBlock#PART_InputGestureText">
-      <Setter Property="Foreground" Value="{DynamicResource AxRedTextBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxErrorTextBrush}"/>
       <Setter Property="Opacity" Value="0.6"/>
     </Style>
   </ControlTheme>
@@ -110,8 +110,8 @@
 
   <!-- Полотно контекстного меню и MenuFlyout: карточка на тени попапа. -->
   <ControlTheme x:Key="{x:Type MenuFlyoutPresenter}" TargetType="MenuFlyoutPresenter">
-    <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxSurfaceOverlayBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
     <Setter Property="Padding" Value="{DynamicResource AxMenuPadding}"/>
@@ -123,7 +123,7 @@
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
-                BoxShadow="{DynamicResource AxPopupShadow}"
+                BoxShadow="{DynamicResource AxShadowPopup}"
                 Padding="{TemplateBinding Padding}"
                 Margin="{DynamicResource AxPopupShadowRoom}">
           <ScrollViewer>
@@ -136,8 +136,8 @@
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type ContextMenu}" TargetType="ContextMenu">
-    <Setter Property="Background" Value="{DynamicResource AxBg2Brush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxSurfaceOverlayBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
     <Setter Property="Padding" Value="{DynamicResource AxMenuPadding}"/>
@@ -147,7 +147,7 @@
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
-                BoxShadow="{DynamicResource AxPopupShadow}"
+                BoxShadow="{DynamicResource AxShadowPopup}"
                 Padding="{TemplateBinding Padding}"
                 Margin="{DynamicResource AxPopupShadowRoom}">
           <ScrollViewer>
@@ -161,7 +161,7 @@
 
   <!-- Разделитель меню: линия в пиксель с воздухом по бокам. -->
   <ControlTheme x:Key="{x:Type Separator}" TargetType="Separator">
-    <Setter Property="Background" Value="{DynamicResource AxBrdBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxStrokeSubtleBrush}"/>
     <Setter Property="Height" Value="1"/>
     <Setter Property="Margin" Value="{DynamicResource AxMenuSeparatorMargin}"/>
     <Setter Property="Template">

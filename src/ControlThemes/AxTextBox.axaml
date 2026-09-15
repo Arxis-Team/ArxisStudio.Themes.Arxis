@@ -14,15 +14,15 @@
     <Setter Property="MinHeight" Value="{DynamicResource AxControlHeight}"/>
     <Setter Property="Padding" Value="{DynamicResource AxTextFieldPadding}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
-    <Setter Property="Background" Value="{DynamicResource AxInpBrush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxSurfaceBaseBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
     <Setter Property="BorderThickness" Value="1"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
     <!-- Карет акцентный — как в компоненте поля. -->
-    <Setter Property="CaretBrush" Value="{DynamicResource AxAccBrush}"/>
-    <Setter Property="SelectionBrush" Value="{DynamicResource AxSelBrush}"/>
+    <Setter Property="CaretBrush" Value="{DynamicResource AxAccentBrush}"/>
+    <Setter Property="SelectionBrush" Value="{DynamicResource AxSelectionActiveBrush}"/>
     <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
     <!--
@@ -39,7 +39,7 @@
                   Margin="{DynamicResource AxFocusOutlineOuterMargin}"
                   CornerRadius="{DynamicResource AxCornerRadiusFocusOuter}"
                   BorderThickness="{DynamicResource AxFocusOutlineOuter}"
-                  BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                  BorderBrush="{DynamicResource AxFocusRingBrush}"
                   IsVisible="False"/>
           <Border x:Name="PART_BorderElement"
                   Background="{TemplateBinding Background}"
@@ -59,7 +59,7 @@
                 <Panel>
                   <TextBlock x:Name="PART_Watermark"
                              Text="{TemplateBinding PlaceholderText}"
-                             Foreground="{DynamicResource AxFg2Brush}"
+                             Foreground="{DynamicResource AxTextSecondaryBrush}"
                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                              TextWrapping="{TemplateBinding TextWrapping}"
                              IsVisible="{TemplateBinding Text, Converter={x:Static StringConverters.IsNullOrEmpty}}"/>
@@ -85,19 +85,19 @@
     </Setter>
 
     <Style Selector="^:pointerover /template/ Border#PART_BorderElement">
-      <Setter Property="BorderBrush" Value="{DynamicResource AxFg3Brush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxTextTertiaryBrush}"/>
     </Style>
     <Style Selector="^:focus /template/ Border#PART_BorderElement">
-      <Setter Property="BorderBrush" Value="{DynamicResource AxOutlineFocusedBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxFocusRingBrush}"/>
     </Style>
     <Style Selector="^:focus /template/ Border#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
     </Style>
     <Style Selector="^:disabled /template/ Border#PART_BorderElement">
-      <Setter Property="Background" Value="{DynamicResource AxInpDisabledBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxFillDisabledBrush}"/>
     </Style>
 
     <!--
@@ -105,17 +105,17 @@
         а не когда в поле вернулись.
     -->
     <Style Selector="^.error /template/ Border#PART_BorderElement">
-      <Setter Property="BorderBrush" Value="{DynamicResource AxOutlineErrorBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxErrorOutlineBrush}"/>
     </Style>
     <Style Selector="^.error /template/ Border#PART_FocusRing">
-      <Setter Property="BorderBrush" Value="{DynamicResource AxOutlineErrorBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxErrorOutlineBrush}"/>
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^.warning /template/ Border#PART_BorderElement">
-      <Setter Property="BorderBrush" Value="{DynamicResource AxOutlineWarningBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxWarningOutlineBrush}"/>
     </Style>
     <Style Selector="^.warning /template/ Border#PART_FocusRing">
-      <Setter Property="BorderBrush" Value="{DynamicResource AxOutlineWarningBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxWarningOutlineBrush}"/>
       <Setter Property="IsVisible" Value="True"/>
     </Style>
 
@@ -162,7 +162,7 @@
       <Template>
         <ax:AxIcon Margin="{DynamicResource AxGapIconTextThickness}"
                    Data="{x:Static ax:AxIcons.Search}"
-                   Foreground="{DynamicResource AxFg2Brush}"/>
+                   Foreground="{DynamicResource AxTextSecondaryBrush}"/>
       </Template>
     </Setter>
     <!--

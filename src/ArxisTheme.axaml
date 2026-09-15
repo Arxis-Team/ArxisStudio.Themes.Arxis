@@ -48,8 +48,8 @@
 
   <!-- База окна: фон, цвет текста и типографика студии наследуются всем содержимым. -->
   <Style Selector="Window">
-    <Setter Property="Background" Value="{DynamicResource AxBg1Brush}"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxSurfaceBaseBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="FontFamily" Value="{DynamicResource AxFontFamily}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
   </Style>
@@ -65,14 +65,14 @@
     <Setter Property="FontFamily" Value="{DynamicResource AxFontFamilyMono}"/>
   </Style>
   <!--
-      Ссылка на залитой плашке берёт AxLinkOn, и это правило:
-      AxLink на AxBg3 и AxSel даёт 4,18:1, а на цветном фоне баннера
+      Ссылка на залитой плашке берёт AxLinkOnPlate, и это правило:
+      AxLink на AxHover и AxSelectionActive даёт 4,18:1, а на цветном фоне баннера
       тем более. Баннер — плашка, поэтому действие в нём светится этим токеном,
       а не обычным цветом ссылки.
   -->
   <!--
-      Выделение в списке и дереве говорит и о фокусе: AxSel, пока фокус внутри,
-      AxSelInactive, когда он ушёл, — строка остаётся отмеченной, но не спорит
+      Выделение в списке и дереве говорит и о фокусе: AxSelectionActive, пока фокус внутри,
+      AxSelectionInactive, когда он ушёл, — строка остаётся отмеченной, но не спорит
       за внимание с тем полем, куда человек перешёл. Погашенный цвет объявлен
       в темах строк, полный — здесь.
 
@@ -87,14 +87,14 @@
       Вкладку спасало только то, что часть в её шаблоне названа иначе.
   -->
   <Style Selector=":is(ListBox):focus-within ax|AxListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Background" Value="{DynamicResource AxSelBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxSelectionActiveBrush}"/>
   </Style>
   <Style Selector=":is(TreeView):focus-within :is(TreeViewItem):selected /template/ Border#PART_Root">
-    <Setter Property="Background" Value="{DynamicResource AxSelBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxSelectionActiveBrush}"/>
   </Style>
 
   <Style Selector="ax|AxBanner ax|AxLink">
-    <Setter Property="Foreground" Value="{DynamicResource AxLinkOnBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxLinkOnPlateBrush}"/>
   </Style>
 
   <!--
@@ -115,16 +115,16 @@
       зелёный треугольник запуска остаётся зелёным.
   -->
   <Style Selector="ax|AxButton.icon:pointerover ax|AxIcon">
-    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
   </Style>
   <Style Selector="ax|AxButton.icon:pressed ax|AxIcon">
-    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
   </Style>
   <Style Selector="ax|AxButton.icon:selected ax|AxIcon">
-    <Setter Property="Foreground" Value="{DynamicResource AxAccBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxAccentBrush}"/>
   </Style>
   <Style Selector="ax|AxButton.icon:disabled ax|AxIcon">
-    <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
   </Style>
 
   <Style Selector="ax|AxDataGrid TextBlock">
@@ -132,10 +132,10 @@
   </Style>
 
   <Style Selector="TextBlock.dim">
-    <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
   </Style>
   <Style Selector="TextBlock.dimmer">
-    <Setter Property="Foreground" Value="{DynamicResource AxFg3Brush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextTertiaryBrush}"/>
   </Style>
 
   <!--
@@ -155,17 +155,17 @@
   </Style>
   <!-- Смысловые цвета текста: уровень записи в журнале, состояние, итог. -->
   <!--
-      Смысловой ТЕКСТ идёт цветами *Text: AxGrn/AxRed/AxYel рассчитаны на
+      Смысловой ТЕКСТ идёт цветами *Text: AxSuccess/AxError/AxWarning рассчитаны на
       заливки и иконки и на фоне панелей не добирают 4,5:1.
   -->
   <Style Selector="TextBlock.ok">
-    <Setter Property="Foreground" Value="{DynamicResource AxGreenTextBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxSuccessTextBrush}"/>
   </Style>
   <Style Selector="TextBlock.warn">
-    <Setter Property="Foreground" Value="{DynamicResource AxYellowTextBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxWarningTextBrush}"/>
   </Style>
   <Style Selector="TextBlock.bad">
-    <Setter Property="Foreground" Value="{DynamicResource AxRedTextBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxErrorTextBrush}"/>
   </Style>
 
   <!--
@@ -176,7 +176,7 @@
   <Style Selector="TextBlock.section">
     <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
     <Setter Property="LetterSpacing" Value="0.6"/>
   </Style>
 

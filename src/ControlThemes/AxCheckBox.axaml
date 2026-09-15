@@ -7,7 +7,7 @@
     <!-- Не обрезаем себя: кольцо фокуса выходит за границы контрола. -->
     <Setter Property="ClipToBounds" Value="False"/>
 
-    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
     <Setter Property="Cursor" Value="Hand"/>
@@ -36,7 +36,7 @@
                   Margin="{DynamicResource AxFocusOutlineRowMargin}"
                   CornerRadius="{DynamicResource AxCornerRadiusFocusRow}"
                   BorderThickness="{DynamicResource AxFocusOutlineThickness}"
-                  BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                  BorderBrush="{DynamicResource AxFocusRingBrush}"
                   IsVisible="False"/>
           <Grid ColumnDefinitions="Auto,*" VerticalAlignment="Center">
             <Panel VerticalAlignment="Center">
@@ -44,9 +44,9 @@
                       Width="{DynamicResource AxCheckboxSize}"
                       Height="{DynamicResource AxCheckboxSize}"
                       CornerRadius="{DynamicResource AxCornerRadiusSmall}"
-                      BorderBrush="{DynamicResource AxBrd2Brush}"
+                      BorderBrush="{DynamicResource AxStrokeControlBrush}"
                       BorderThickness="1"
-                      Background="{DynamicResource AxInpBrush}"
+                      Background="{DynamicResource AxSurfaceBaseBrush}"
                       VerticalAlignment="Center"/>
               <!--
                   Галочка и черта — пути 16-сетки со штрихом иконок, как в
@@ -57,7 +57,7 @@
                     Width="{DynamicResource AxCheckboxSize}"
                     Height="{DynamicResource AxCheckboxSize}"
                     Data="M 3.5 8.5 L 6.5 11.5 L 12.5 4.5"
-                    Stroke="{DynamicResource AxOnAccBrush}"
+                    Stroke="{DynamicResource AxTextOnAccentBrush}"
                     StrokeThickness="{DynamicResource AxIconStrokeThickness}"
                     StrokeLineCap="Round"
                     StrokeJoin="Round"
@@ -66,7 +66,7 @@
                     Width="{DynamicResource AxCheckboxSize}"
                     Height="{DynamicResource AxCheckboxSize}"
                     Data="M 4.5 8 L 11.5 8"
-                    Stroke="{DynamicResource AxOnAccBrush}"
+                    Stroke="{DynamicResource AxTextOnAccentBrush}"
                     StrokeThickness="{DynamicResource AxIconStrokeThickness}"
                     StrokeLineCap="Round"
                     IsVisible="False"/>
@@ -84,55 +84,55 @@
     </Setter>
 
     <!--
-        Заливка флажка остаётся AxAcc, не AxAccStrong: белой галочке довольно
+        Заливка флажка остаётся AxAccent, не AxAccentFill: белой галочке довольно
         3:1.
     -->
     <Style Selector="^:checked /template/ Border#PART_Box">
-      <Setter Property="Background" Value="{DynamicResource AxAccBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxAccentBrush}"/>
       <Setter Property="BorderThickness" Value="0"/>
     </Style>
     <Style Selector="^:checked /template/ Path#PART_Check">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:checked:pointerover /template/ Border#PART_Box">
-      <Setter Property="Background" Value="{DynamicResource AxAccHoverBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxAccentHoverBrush}"/>
     </Style>
     <Style Selector="^:indeterminate /template/ Border#PART_Box">
-      <Setter Property="Background" Value="{DynamicResource AxAccBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxAccentBrush}"/>
       <Setter Property="BorderThickness" Value="0"/>
     </Style>
     <Style Selector="^:indeterminate /template/ Path#PART_Dash">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:indeterminate:pointerover /template/ Border#PART_Box">
-      <Setter Property="Background" Value="{DynamicResource AxAccHoverBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxAccentHoverBrush}"/>
     </Style>
 
     <!-- Проблема ввода: рамка и фон коробки говорят о ней и без текста рядом. -->
     <Style Selector="^.error /template/ Border#PART_Box">
-      <Setter Property="BorderBrush" Value="{DynamicResource AxOutlineErrorBrush}"/>
-      <Setter Property="Background" Value="{DynamicResource AxErrorBackgroundBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxErrorOutlineBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxErrorFillBrush}"/>
     </Style>
     <!--
         Отмеченный и неопределённый с ошибкой заливаются красным. Без этого
         сюда доставался фон ошибки, светлый, и белый знак на нём пропадал.
     -->
     <Style Selector="^.error:checked /template/ Border#PART_Box, ^.error:indeterminate /template/ Border#PART_Box">
-      <Setter Property="Background" Value="{DynamicResource AxRedBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxErrorBrush}"/>
     </Style>
     <Style Selector="^:pointerover /template/ Border#PART_Box">
-      <Setter Property="BorderBrush" Value="{DynamicResource AxFg2Brush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxTextSecondaryBrush}"/>
     </Style>
     <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
       <Setter Property="Cursor" Value="Arrow"/>
     </Style>
     <Style Selector="^:disabled /template/ Border#PART_Box">
-      <Setter Property="Background" Value="{DynamicResource AxInpDisabledBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource AxBrdBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxFillDisabledBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeSubtleBrush}"/>
     </Style>
     <!--
         Выключенный отмеченный: заливка шагом наведения, а знак — цветом
@@ -140,10 +140,10 @@
         флажок читался как включённый, только побледневший.
     -->
     <Style Selector="^:disabled:checked /template/ Border#PART_Box, ^:disabled:indeterminate /template/ Border#PART_Box">
-      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxSurfaceRaisedBrush}"/>
     </Style>
     <Style Selector="^:disabled /template/ Path#PART_Check, ^:disabled /template/ Path#PART_Dash">
-      <Setter Property="Stroke" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Stroke" Value="{DynamicResource AxTextDisabledBrush}"/>
     </Style>
   </ControlTheme>
 

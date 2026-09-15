@@ -27,10 +27,10 @@ public class ShadowRoomTests
     /// быть верной в обе стороны.
     /// </remarks>
     [AvaloniaTheory]
-    [InlineData("AxPopupShadow", "AxPopupShadowRoom", "Dark")]
-    [InlineData("AxPopupShadow", "AxPopupShadowRoom", "Light")]
-    [InlineData("AxModalShadow", "AxModalShadowRoom", "Dark")]
-    [InlineData("AxModalShadow", "AxModalShadowRoom", "Light")]
+    [InlineData("AxShadowPopup", "AxPopupShadowRoom", "Dark")]
+    [InlineData("AxShadowPopup", "AxPopupShadowRoom", "Light")]
+    [InlineData("AxShadowModal", "AxModalShadowRoom", "Dark")]
+    [InlineData("AxShadowModal", "AxModalShadowRoom", "Light")]
     public void A_room_holds_its_whole_shadow(string shadowKey, string roomKey, string variant)
     {
         var theme = variant == "Light" ? ThemeVariant.Light : ThemeVariant.Dark;

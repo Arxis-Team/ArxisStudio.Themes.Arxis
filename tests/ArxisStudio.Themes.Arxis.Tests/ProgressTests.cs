@@ -44,10 +44,10 @@ public class ProgressTests
     {
         var (bar, window) = Shown(indeterminate: false, variant);
 
-        Assert.Equal(Resource(window, "AxBg4Color", variant), Colour(bar.Background));
-        Assert.Equal(Resource(window, "AxAccColor", variant), Colour(bar.Foreground));
+        Assert.Equal(Resource(window, "AxPressedColor", variant), Colour(bar.Background));
+        Assert.Equal(Resource(window, "AxAccentColor", variant), Colour(bar.Foreground));
         Assert.Equal(
-            Resource(window, "AxAccColor", variant),
+            Resource(window, "AxAccentColor", variant),
             Colour(((Border)Part(bar, "PART_Indicator")).Background));
 
         window.Close();

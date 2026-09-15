@@ -39,7 +39,7 @@ public class CodeSampleTests
         Assert.Equal(new CornerRadius(4), key.CornerRadius);
         Assert.Equal(FontWeight.Medium, key.FontWeight);
         Assert.Equal(11.5, key.FontSize);
-        Assert.Equal(Resource(window, "AxBg3Color", variant), Colour(key.Background));
+        Assert.Equal(Resource(window, "AxHoverColor", variant), Colour(key.Background));
 
         window.Close();
     }
@@ -69,8 +69,8 @@ public class CodeSampleTests
     {
         var (code, window) = Code(variant);
 
-        Assert.Equal(Resource(window, "AxBgSunkenColor", variant), Colour(code.Background));
-        Assert.Equal(Resource(window, "AxBrdColor", variant), Colour(code.BorderBrush));
+        Assert.Equal(Resource(window, "AxSurfaceSunkenColor", variant), Colour(code.Background));
+        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(code.BorderBrush));
         Assert.Equal(new Thickness(1), code.BorderThickness);
         Assert.Equal(new CornerRadius(8), code.CornerRadius);
         Assert.Equal(new Thickness(14, 12), code.Padding);
@@ -157,9 +157,9 @@ public class CodeSampleTests
     {
         var (code, window) = Code(variant);
 
-        Assert.Equal(Resource(window, "AxCodeFgColor", variant), Colour(code.Foreground));
+        Assert.Equal(Resource(window, "AxCodeTextColor", variant), Colour(code.Foreground));
         Assert.Equal(Resource(window, "AxCodeTagColor", variant), Colour(code.TagBrush));
-        Assert.Equal(Resource(window, "AxCodeAttrColor", variant), Colour(code.AttributeBrush));
+        Assert.Equal(Resource(window, "AxCodeAttributeColor", variant), Colour(code.AttributeBrush));
         Assert.Equal(Resource(window, "AxCodeStringColor", variant), Colour(code.StringBrush));
         Assert.Equal(Resource(window, "AxCodeCommentColor", variant), Colour(code.CommentBrush));
 

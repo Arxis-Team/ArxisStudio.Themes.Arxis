@@ -14,7 +14,7 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 /// </summary>
 /// <remarks>
 /// У интерактивного контрола пять состояний, и <c>:disabled</c> среди них:
-/// текст уходит на AxFgDisabled, поле — на AxInpDisabled. Пропустить это
+/// текст уходит на AxTextDisabled, поле — на AxFillDisabled. Пропустить это
 /// состояние легко и заметить трудно: строка
 /// списка, которую нельзя выбрать, выглядит обычной, и человек жмёт на неё,
 /// пока не поймёт, что она не отвечает.
@@ -56,7 +56,7 @@ public class DisabledStateTests
 
         var window = Shown(control);
 
-        Assert.Equal(Resource(window, "AxFgDisabledBrush"), Colour(control.Foreground));
+        Assert.Equal(Resource(window, "AxTextDisabledBrush"), Colour(control.Foreground));
 
         window.Close();
     }
@@ -70,7 +70,7 @@ public class DisabledStateTests
         var slider = new AxSlider { Minimum = 0, Maximum = 100, Value = 60, Width = 140, IsEnabled = false };
         var window = Shown(slider);
 
-        var disabled = Resource(window, "AxFgDisabledBrush");
+        var disabled = Resource(window, "AxTextDisabledBrush");
 
         var fill = slider.GetVisualDescendants().OfType<RepeatButton>().First();
         var thumb = slider.GetVisualDescendants().OfType<Thumb>().Single();

@@ -94,7 +94,7 @@ public class TreeViewTests
         window.Close();
     }
 
-    /// <summary>Шеврон: 12 на 12 в AxFg2, вниз у раскрытого узла.</summary>
+    /// <summary>Шеврон: 12 на 12 в AxTextSecondary, вниз у раскрытого узла.</summary>
     [AvaloniaTheory]
     [InlineData("Light")]
     [InlineData("Dark")]
@@ -107,7 +107,7 @@ public class TreeViewTests
 
         Assert.Equal(12d, chevron.Bounds.Width);
         Assert.Equal(12d, chevron.Bounds.Height);
-        Assert.Equal(Resource(window, "AxFg2Color", variant), Colour(chevron.Foreground));
+        Assert.Equal(Resource(window, "AxTextSecondaryColor", variant), Colour(chevron.Foreground));
         Assert.Same(AxIcons.ChevronDown, chevron.Data);
 
         node.IsExpanded = false;
@@ -142,7 +142,7 @@ public class TreeViewTests
         window.UpdateLayout();
 
         Assert.Equal(
-            Resource(window, "AxBg3Color", "Dark"),
+            Resource(window, "AxHoverColor", "Dark"),
             Colour(((Border)Part(leaf, "PART_Root")).Background));
         Assert.Equal(
             Colors.Transparent.ToUInt32(),
@@ -214,7 +214,7 @@ public class TreeViewTests
         window.Close();
     }
 
-    /// <summary>Выбранная строка: заливка AxSel с радиусом контрола.</summary>
+    /// <summary>Выбранная строка: заливка AxSelectionActive с радиусом контрола.</summary>
     [AvaloniaTheory]
     [InlineData("Light")]
     [InlineData("Dark")]
@@ -225,15 +225,15 @@ public class TreeViewTests
         var row = Rows(tree).First(r => r.ItemCount == 0);
         ((IPseudoClasses)row.Classes).Set(":selected", true);
 
-        // Полный AxSel — цвет выделения в дереве под фокусом; оставленное
-        // дерево гасит его до AxSelInactive, и без этой строки проверялось бы
+        // Полный AxSelectionActive — цвет выделения в дереве под фокусом; оставленное
+        // дерево гасит его до AxSelectionInactive, и без этой строки проверялось бы
         // как раз погашенное.
         row.Focus(NavigationMethod.Tab);
         window.UpdateLayout();
 
         var fill = (Border)Part(row, "PART_Root");
 
-        Assert.Equal(Resource(window, "AxSelColor", variant), Colour(fill.Background));
+        Assert.Equal(Resource(window, "AxSelectionActiveColor", variant), Colour(fill.Background));
         Assert.Equal(new CornerRadius(4), fill.CornerRadius);
 
         window.Close();

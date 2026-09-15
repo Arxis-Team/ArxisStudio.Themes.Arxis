@@ -32,7 +32,7 @@ public class GroupHeaderTests
     {
         var (header, window) = Shown(variant: variant);
 
-        Assert.Equal(Resource(window, "AxFgColor", variant), Colour(header.Foreground));
+        Assert.Equal(Resource(window, "AxTextPrimaryColor", variant), Colour(header.Foreground));
         Assert.Equal(FontWeight.SemiBold, header.FontWeight);
         Assert.Equal(13d, header.FontSize);
 
@@ -51,7 +51,7 @@ public class GroupHeaderTests
 
         Assert.Equal(1d, rule.Bounds.Height);
         Assert.Equal(new Thickness(10, 1, 0, 0), rule.Margin);
-        Assert.Equal(Resource(window, "AxBrdColor", variant), Colour(rule.Background));
+        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(rule.Background));
         Assert.True(rule.Bounds.Width > 100, "линия не дотянулась до конца строки");
 
         window.Close();
@@ -70,7 +70,7 @@ public class GroupHeaderTests
     }
 
     /// <summary>
-    /// Стрелка сворачиваемого: мелкая иконка набора в AxFg2, вниз у раскрытого.
+    /// Стрелка сворачиваемого: мелкая иконка набора в AxTextSecondary, вниз у раскрытого.
     /// </summary>
     [AvaloniaTheory]
     [InlineData("Light")]
@@ -83,7 +83,7 @@ public class GroupHeaderTests
 
         Assert.True(chevron.IsVisible);
         Assert.Equal(12d, chevron.Bounds.Width);
-        Assert.Equal(Resource(window, "AxFg2Color", variant), Colour(chevron.Foreground));
+        Assert.Equal(Resource(window, "AxTextSecondaryColor", variant), Colour(chevron.Foreground));
         Assert.Same(AxIcons.ChevronDown, chevron.Data);
 
         header.IsExpanded = false;
@@ -125,7 +125,7 @@ public class GroupHeaderTests
 
         var text = counter.GetVisualDescendants().OfType<TextBlock>().First();
 
-        Assert.Equal(Resource(window, "AxFg2Color", variant), Colour(text.Foreground));
+        Assert.Equal(Resource(window, "AxTextSecondaryColor", variant), Colour(text.Foreground));
         Assert.Equal(11.5, text.FontSize);
         Assert.Equal(FontWeight.Normal, text.FontWeight);
 

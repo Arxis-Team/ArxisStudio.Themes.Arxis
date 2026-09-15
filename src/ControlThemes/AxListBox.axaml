@@ -30,7 +30,7 @@
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="MinHeight" Value="{DynamicResource AxRowHeight}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="Template">
       <ControlTemplate>
@@ -54,7 +54,7 @@
             -->
             <Border x:Name="PART_FocusRing"
                     BorderThickness="{DynamicResource AxFocusOutlineInset}"
-                    BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                    BorderBrush="{DynamicResource AxFocusRingBrush}"
                     CornerRadius="{TemplateBinding CornerRadius}"
                     IsVisible="False"/>
         </Panel>
@@ -64,10 +64,10 @@
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
     </Style>
     <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxSelInactiveBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxSelectionInactiveBrush}"/>
     </Style>
     <!--
         Погашенное выделение — состояние по умолчанию: полную силу ему даёт
@@ -75,12 +75,12 @@
         контрола предок не виден.
     -->
     <!--
-        Выключенная строка: текст на AxFgDisabled.
+        Выключенная строка: текст на AxTextDisabled.
         Стиль стоит последним намеренно — выделение и наведение объявлены выше,
         и без этого выключенная выбранная строка выглядела бы обычной.
     -->
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
     </Style>
 
   </ControlTheme>

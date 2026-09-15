@@ -10,12 +10,12 @@
     <Setter Property="MinHeight" Value="{DynamicResource AxControlHeight}"/>
     <Setter Property="Padding" Value="{DynamicResource AxComboBoxPadding}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
-    <Setter Property="Background" Value="{DynamicResource AxInpBrush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
+    <Setter Property="Background" Value="{DynamicResource AxSurfaceBaseBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
-    <Setter Property="PlaceholderForeground" Value="{DynamicResource AxFg2Brush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
+    <Setter Property="PlaceholderForeground" Value="{DynamicResource AxTextSecondaryBrush}"/>
     <Setter Property="MaxDropDownHeight" Value="320"/>
     <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="Template">
@@ -25,7 +25,7 @@
                 Margin="{DynamicResource AxFocusOutlineOuterMargin}"
                 CornerRadius="{DynamicResource AxCornerRadiusFocusOuter}"
                 BorderThickness="{DynamicResource AxFocusOutlineOuter}"
-                BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                BorderBrush="{DynamicResource AxFocusRingBrush}"
                 IsVisible="False"/>
         <Border x:Name="PART_Background"
                 Background="{TemplateBinding Background}"
@@ -45,7 +45,7 @@
                        x:Name="PART_Chevron"
                        Margin="{DynamicResource AxSpaceSnugLeadingThickness}"
                        Data="{x:Static ax:AxIcons.ChevronDown}"
-                       Foreground="{DynamicResource AxFg2Brush}"
+                       Foreground="{DynamicResource AxTextSecondaryBrush}"
                        VerticalAlignment="Center"/>
             <Popup x:Name="PART_Popup"
                    IsOpen="{TemplateBinding IsDropDownOpen, Mode=TwoWay}"
@@ -53,11 +53,11 @@
                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
                    IsLightDismissEnabled="True"
                    InheritsTransform="True">
-              <Border Background="{DynamicResource AxBg2Brush}"
-                      BorderBrush="{DynamicResource AxBrd2Brush}"
+              <Border Background="{DynamicResource AxSurfaceOverlayBrush}"
+                      BorderBrush="{DynamicResource AxStrokeControlBrush}"
                       BorderThickness="1"
                       CornerRadius="{DynamicResource AxCornerRadiusLarge}"
-                      BoxShadow="{DynamicResource AxPopupShadow}"
+                      BoxShadow="{DynamicResource AxShadowPopup}"
                       Margin="{DynamicResource AxSpaceTightAboveThickness}">
                 <ScrollViewer>
                   <ItemsPresenter x:Name="PART_ItemsPresenter"
@@ -73,23 +73,23 @@
     </Setter>
 
     <Style Selector="^:pointerover /template/ Border#PART_Background">
-      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
     </Style>
     <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:focus-visible /template/ Border#PART_Background">
-      <Setter Property="BorderBrush" Value="{DynamicResource AxOutlineFocusedBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxFocusRingBrush}"/>
     </Style>
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
       <Setter Property="Cursor" Value="Arrow"/>
     </Style>
     <Style Selector="^:disabled /template/ Border#PART_Background">
-      <Setter Property="Background" Value="{DynamicResource AxInpDisabledBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxFillDisabledBrush}"/>
     </Style>
     <Style Selector="^:disabled /template/ ax|AxIcon#PART_Chevron">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
     </Style>
 
     <!-- Плотная зона: шапка инструментального окна и строки Инспектора. -->
@@ -104,7 +104,7 @@
     <Setter Property="MinHeight" Value="{DynamicResource AxRowHeight}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="Template">
       <ControlTemplate>
@@ -128,7 +128,7 @@
             -->
             <Border x:Name="PART_FocusRing"
                     BorderThickness="{DynamicResource AxFocusOutlineInset}"
-                    BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                    BorderBrush="{DynamicResource AxFocusRingBrush}"
                     CornerRadius="{TemplateBinding CornerRadius}"
                     IsVisible="False"/>
         </Panel>
@@ -138,18 +138,18 @@
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
     </Style>
     <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxSelBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxSelectionActiveBrush}"/>
     </Style>
     <!--
-        Выключенная строка: текст на AxFgDisabled.
+        Выключенная строка: текст на AxTextDisabled.
         Стиль стоит последним намеренно — выделение и наведение объявлены выше,
         и без этого выключенная выбранная строка выглядела бы обычной.
     -->
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
     </Style>
 
   </ControlTheme>

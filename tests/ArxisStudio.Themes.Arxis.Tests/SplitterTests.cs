@@ -15,7 +15,7 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 /// </summary>
 /// <remarks>
 /// От разделителя он отличается одним: за него берутся мышью. Отсюда и всё, что проверяется:
-/// линия остаётся однопиксельной и цветом <c>AxBrd</c>, как у соседа, а полоса
+/// линия остаётся однопиксельной и цветом <c>AxStrokeSubtle</c>, как у соседа, а полоса
 /// захвата вокруг неё шире линии — иначе попасть в границу человек не сможет.
 /// </remarks>
 public class SplitterTests
@@ -139,7 +139,7 @@ public class SplitterTests
     {
         var (splitter, window) = Shown(Orientation.Vertical, variant);
 
-        Assert.Equal(Resource(window, "AxBrdColor", variant), Colour(Line(splitter).Background));
+        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(Line(splitter).Background));
 
         window.Close();
     }

@@ -3,21 +3,21 @@
                     xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
   <!--
-      Диалог: окно без системной рамки на тени AxModalShadow — заголовок с
+      Диалог: окно без системной рамки на тени AxShadowModal — заголовок с
       крестиком, содержимое, полоса кнопок за линией. Основное действие стоит
       крайним справа; слева в полосе живёт FooterContent («Больше не
       спрашивать»). Размер даёт содержимое, позиция — центр окна-владельца.
   -->
   <ControlTheme x:Key="{x:Type ax:AxDialog}" TargetType="ax:AxDialog">
-    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="FontFamily" Value="{DynamicResource AxFontFamily}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="Template">
       <ControlTemplate>
         <VisualLayerManager>
-          <Border Background="{DynamicResource AxBg1Brush}"
+          <Border Background="{DynamicResource AxSurfaceBaseBrush}"
                   CornerRadius="{DynamicResource AxCornerRadiusFloating}"
-                  BoxShadow="{DynamicResource AxModalShadow}"
+                  BoxShadow="{DynamicResource AxShadowModal}"
                   Margin="{DynamicResource AxModalShadowRoom}"
                   MinWidth="320"
                   ClipToBounds="False">
@@ -43,7 +43,7 @@
               </DockPanel>
               <Border x:Name="PART_Footer"
                       DockPanel.Dock="Bottom"
-                      BorderBrush="{DynamicResource AxBrdBrush}"
+                      BorderBrush="{DynamicResource AxStrokeSubtleBrush}"
                       BorderThickness="0,1,0,0"
                       Padding="{DynamicResource AxDialogBandPadding}">
                 <DockPanel>
@@ -79,7 +79,7 @@
                   <ContentPresenter x:Name="PART_ContentPresenter"
                                     Content="{TemplateBinding Content}"
                                     ContentTemplate="{TemplateBinding ContentTemplate}"
-                                    TextBlock.Foreground="{DynamicResource AxFg2Brush}"
+                                    TextBlock.Foreground="{DynamicResource AxTextSecondaryBrush}"
                                     TextBlock.TextWrapping="Wrap"/>
                 </StackPanel>
               </DockPanel>

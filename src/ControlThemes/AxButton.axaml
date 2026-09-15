@@ -39,9 +39,9 @@
     <Setter Property="Padding" Value="{DynamicResource AxButtonPadding}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Background" Value="Transparent"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
     <Setter Property="BorderThickness" Value="1"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="FontWeight" Value="Medium"/>
     <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -67,7 +67,7 @@
                   Margin="{DynamicResource AxFocusOutlineOuterMargin}"
                   CornerRadius="{DynamicResource AxCornerRadiusFocusOuter}"
                   BorderThickness="{DynamicResource AxFocusOutlineOuter}"
-                  BorderBrush="{DynamicResource AxOutlineFocusedBrush}"
+                  BorderBrush="{DynamicResource AxFocusRingBrush}"
                   IsVisible="False"/>
           <ContentPresenter x:Name="PART_ContentPresenter"
                             Background="{TemplateBinding Background}"
@@ -90,49 +90,49 @@
     </Style>
 
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
     </Style>
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxBg4Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxPressedBrush}"/>
     </Style>
     <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
       <Setter Property="Cursor" Value="Arrow"/>
     </Style>
     <!-- Выключенная кнопка: фон выключенного поля, рамка та же. -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxInpDisabledBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxFillDisabledBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
     </Style>
 
     <!-- В фокусе и рамка контрола красится акцентом. -->
     <Style Selector="^:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="{DynamicResource AxOutlineFocusedBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxFocusRingBrush}"/>
     </Style>
 
     <!-- Акцентная кнопка: основное действие диалога или экрана. -->
     <!--
         Акцентная кнопка — залитая поверхность, на которой стоит текст, поэтому
-        AxAccStrong, а не AxAcc: белый на AxAcc даёт 4,28:1. Наведение темнеет
+        AxAccentFill, а не AxAccent: белый на AxAccent даёт 4,28:1. Наведение темнеет
         в обоих вариантах темы.
     -->
     <Style Selector="^.accent">
-      <Setter Property="Background" Value="{DynamicResource AxAccStrongBrush}"/>
-      <Setter Property="Foreground" Value="{DynamicResource AxOnAccBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource AxAccStrongBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxAccentFillBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextOnAccentBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxAccentFillBrush}"/>
     </Style>
     <Style Selector="^.accent:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxAccStrongHoverBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource AxAccStrongHoverBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxAccentFillHoverBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxAccentFillHoverBrush}"/>
     </Style>
     <Style Selector="^.accent:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxAccPressedBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource AxAccPressedBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxAccentFillPressedBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxAccentFillPressedBrush}"/>
     </Style>
     <!-- Выключенный вид один на все классы. -->
     <Style Selector="^.accent:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxInpDisabledBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxFillDisabledBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
     </Style>
 
     <Style Selector="^.ghost">
@@ -140,10 +140,10 @@
       <Setter Property="MinWidth" Value="0"/>
       <Setter Property="Padding" Value="{DynamicResource AxButtonPaddingGhost}"/>
       <Setter Property="FontWeight" Value="Normal"/>
-      <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
     </Style>
     <Style Selector="^.ghost:pointerover">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     </Style>
 
     <!-- Кнопка под одну иконку: без рамки, без минимальной ширины. -->
@@ -160,10 +160,10 @@
       <Setter Property="Padding" Value="0"/>
       <Setter Property="BorderThickness" Value="0"/>
       <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
-      <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
     </Style>
     <Style Selector="^.icon:pointerover">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     </Style>
     <!--
         Выключенная иконочная кнопка гаснет глифом, а не плашкой: своей заливки
@@ -181,10 +181,10 @@
         приложение, а не контрол.
     -->
     <Style Selector="^.icon:selected /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxSelBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxSelectionActiveBrush}"/>
     </Style>
     <Style Selector="^.icon:selected">
-      <Setter Property="Foreground" Value="{DynamicResource AxAccBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxAccentBrush}"/>
     </Style>
 
     <!-- Кнопка в тесном месте: панель инструментов, подвал панели. -->
@@ -201,18 +201,18 @@
     </Style>
 
     <!--
-        Деструктивная кнопка контурная: красный ТЕКСТ (AxRedText, 4,5:1), а не
+        Деструктивная кнопка контурная: красный ТЕКСТ (AxErrorText, 4,5:1), а не
         красная заливка — наведение подсвечивает фон и красит рамку.
     -->
     <Style Selector="^.danger">
-      <Setter Property="Foreground" Value="{DynamicResource AxRedTextBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxErrorTextBrush}"/>
     </Style>
     <Style Selector="^.danger:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxBg3Brush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource AxRedTextBrush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxErrorTextBrush}"/>
     </Style>
     <Style Selector="^.danger:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxBg4Brush}"/>
+      <Setter Property="Background" Value="{DynamicResource AxPressedBrush}"/>
     </Style>
   </ControlTheme>
 
@@ -234,10 +234,10 @@
     <Setter Property="MinWidth" Value="0"/>
     <Setter Property="Padding" Value="0"/>
     <Setter Property="BorderThickness" Value="0"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxFg2Brush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
 
     <Style Selector="^:pointerover">
-      <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     </Style>
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="Transparent"/>
