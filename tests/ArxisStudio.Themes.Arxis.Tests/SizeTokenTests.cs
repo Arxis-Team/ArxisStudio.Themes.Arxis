@@ -53,7 +53,7 @@ public class SizeTokenTests
     [AvaloniaFact]
     public void A_small_icon_follows_the_token_of_its_own()
     {
-        var icon = new AxIcon { Classes = { "small" }, Data = AxIcons.ChevronDown };
+        var icon = new AxIcon { Size = AxIconSize.Small, Data = AxIcons.ChevronDown };
         var window = Shown(icon);
 
         Assert.Equal(new Size(12, 12), icon.Bounds.Size);

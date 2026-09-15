@@ -259,20 +259,20 @@ public class TreeViewTests
         var leaf = new AxTreeViewItem
         {
             Header = "ChatView.axaml",
-            Icon = new Border { Width = 16, Height = 16 },
+            Icon = AxIcons.DocumentCode,
         };
 
-        var views = new AxTreeViewItem { Header = "Views", IsExpanded = true, Icon = new AxIcon() };
+        var views = new AxTreeViewItem { Header = "Views", IsExpanded = true, Icon = AxIcons.Folder };
         views.Items.Add(leaf);
 
         var plain = new AxTreeViewItem { Header = "ChatViewModel.cs" };
-        var models = new AxTreeViewItem { Header = "ViewModels", IsExpanded = true, Icon = new AxIcon() };
+        var models = new AxTreeViewItem { Header = "ViewModels", IsExpanded = true, Icon = AxIcons.Folder };
         models.Items.Add(plain);
 
-        var root = new AxTreeViewItem { Header = "ChatApp", IsExpanded = true, Icon = new AxIcon() };
+        var root = new AxTreeViewItem { Header = "ChatApp", IsExpanded = true, Icon = AxIcons.Folder };
         root.Items.Add(views);
         root.Items.Add(models);
-        root.Items.Add(new AxTreeViewItem { Header = "App.axaml", Icon = new Border { Width = 16, Height = 16 } });
+        root.Items.Add(new AxTreeViewItem { Header = "App.axaml", Icon = AxIcons.DocumentCode });
 
         var tree = new AxTreeView();
         tree.Items.Add(root);

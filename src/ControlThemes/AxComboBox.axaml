@@ -93,7 +93,7 @@
     </Style>
 
     <!-- Плотная зона: шапка инструментального окна и строки Инспектора. -->
-    <Style Selector="^.compact">
+    <Style Selector="^:compact">
       <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
     </Style>
   </ControlTheme>

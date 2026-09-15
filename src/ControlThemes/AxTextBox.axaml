@@ -5,7 +5,7 @@
   <!--
       Поле ввода: 28 высотой, скругление 4, горизонтальный отступ 9
       (8 + пиксель рамки). В фокусе появляется контур 2px, а рамка меняет цвет
-      на акцентный; класс error окрашивает контур красным, warning — жёлтым.
+      на акцентный; AxValidation.State=Error окрашивает контур красным, Warning — жёлтым.
   -->
   <ControlTheme x:Key="{x:Type ax:AxTextBox}" TargetType="ax:AxTextBox">
     <!-- Не обрезаем себя: кольцо фокуса выходит за границы контрола. -->
@@ -53,6 +53,22 @@
               <ContentPresenter DockPanel.Dock="Right"
                                 Content="{TemplateBinding InnerRightContent}"
                                 VerticalAlignment="Center"/>
+              <!--
+                  Крестик очистки — часть шаблона, скрытая у обычного поля стилем ниже:
+                  поле поиска показывает его своей темой, а контрол берёт кнопку по ссылке.
+                  Скрыт стилем, а не значением в шаблоне: значение шаблона сильнее стиля, и
+                  тема поля поиска не смогла бы его показать.
+              -->
+              <ax:AxButton x:Name="PART_Clear"
+                           DockPanel.Dock="Right"
+                           Theme="{StaticResource AxInlineIconButton}"
+                           Margin="{DynamicResource AxSpaceSnugLeadingThickness}"
+                           VerticalAlignment="Center"
+                           AutomationProperties.Name="{DynamicResource AxTextSearchClear}">
+                <ax:AxIcon Size="Small"
+                           Data="{x:Static ax:AxIcons.Close}"
+                           Foreground="{Binding $parent[ax:AxButton].Foreground}"/>
+              </ax:AxButton>
               <ScrollViewer x:Name="PART_ScrollViewer"
                             HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                             VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
@@ -84,6 +100,10 @@
       </ControlTemplate>
     </Setter>
 
+    <Style Selector="^ /template/ ax|AxButton#PART_Clear">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+
     <Style Selector="^:pointerover /template/ Border#PART_BorderElement">
       <Setter Property="BorderBrush" Value="{DynamicResource AxTextTertiaryBrush}"/>
     </Style>
@@ -104,23 +124,23 @@
         Проверка ввода: контур горит и без фокуса — проблему видно сразу,
         а не когда в поле вернулись.
     -->
-    <Style Selector="^.error /template/ Border#PART_BorderElement">
+    <Style Selector="^:validation-error /template/ Border#PART_BorderElement">
       <Setter Property="BorderBrush" Value="{DynamicResource AxErrorOutlineBrush}"/>
     </Style>
-    <Style Selector="^.error /template/ Border#PART_FocusRing">
+    <Style Selector="^:validation-error /template/ Border#PART_FocusRing">
       <Setter Property="BorderBrush" Value="{DynamicResource AxErrorOutlineBrush}"/>
       <Setter Property="IsVisible" Value="True"/>
     </Style>
-    <Style Selector="^.warning /template/ Border#PART_BorderElement">
+    <Style Selector="^:validation-warning /template/ Border#PART_BorderElement">
       <Setter Property="BorderBrush" Value="{DynamicResource AxWarningOutlineBrush}"/>
     </Style>
-    <Style Selector="^.warning /template/ Border#PART_FocusRing">
+    <Style Selector="^:validation-warning /template/ Border#PART_FocusRing">
       <Setter Property="BorderBrush" Value="{DynamicResource AxWarningOutlineBrush}"/>
       <Setter Property="IsVisible" Value="True"/>
     </Style>
 
     <!-- Плотная зона: шапка инструментального окна и строки Инспектора. -->
-    <Style Selector="^.compact">
+    <Style Selector="^:compact">
       <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
     </Style>
   </ControlTheme>
@@ -170,20 +190,11 @@
         пустое поле с крестиком предлагает стереть то, чего нет. Стирает его
         сам контрол — тема только показывает.
     -->
-    <Setter Property="InnerRightContent">
-      <Template>
-        <ax:AxButton x:Name="PART_Clear"
-                     Theme="{StaticResource AxInlineIconButton}"
-                     Margin="{DynamicResource AxSpaceSnugLeadingThickness}"
-                     AutomationProperties.Name="Очистить поиск"
-                     IsVisible="{Binding Text, RelativeSource={RelativeSource AncestorType=ax:AxSearchField},
-                                         Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
-          <ax:AxIcon Classes="small"
-                     Data="{x:Static ax:AxIcons.Close}"
-                     Foreground="{Binding $parent[ax:AxButton].Foreground}"/>
-        </ax:AxButton>
-      </Template>
-    </Setter>
+    <Style Selector="^ /template/ ax|AxButton#PART_Clear">
+      <Setter Property="IsVisible"
+              Value="{Binding Text, RelativeSource={RelativeSource TemplatedParent},
+                              Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+    </Style>
   </ControlTheme>
 
   <!-- Многострочное поле: тот же вид, но растёт по высоте. -->

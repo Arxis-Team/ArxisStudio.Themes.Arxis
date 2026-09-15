@@ -3,8 +3,8 @@
                     xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
   <!--
-      Инструменты каркаса: главный тулбар, хлебные крошки, лоадер, блок кода
-      и таблица-список. Все — плоские: фон им даёт место, где они стоят.
+      Инструменты каркаса: главный тулбар, лоадер, блок кода и таблица-список.
+      Все — плоские: фон им даёт место, где они стоят.
   -->
 
   <!-- Главный тулбар: три слота, живёт внутри AxTitleBar, фона не несёт. -->
@@ -26,140 +26,6 @@
         </Grid>
       </ControlTemplate>
     </Setter>
-  </ControlTheme>
-
-  <!-- Хлебные крошки: строка звеньев, шеврон-разделитель рисует звено. -->
-  <ControlTheme x:Key="{x:Type ax:AxBreadcrumbBar}" TargetType="ax:AxBreadcrumbBar">
-    <Setter Property="Background" Value="Transparent"/>
-    <Setter Property="BorderThickness" Value="0"/>
-    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
-    <Setter Property="ItemsPanel">
-      <ItemsPanelTemplate>
-        <StackPanel Orientation="Horizontal"/>
-      </ItemsPanelTemplate>
-    </Setter>
-    <Setter Property="Template">
-      <ControlTemplate>
-        <Border Background="{TemplateBinding Background}"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                CornerRadius="{TemplateBinding CornerRadius}"
-                Padding="{TemplateBinding Padding}">
-          <ItemsPresenter x:Name="PART_ItemsPresenter"
-                          ItemsPanel="{TemplateBinding ItemsPanel}"/>
-        </Border>
-      </ControlTemplate>
-    </Setter>
-
-    <!--
-        Дерево контролов в дизайнере: та же строка, но в рамке на своей
-        подложке. Высота и радиус — AxControlHeight и AxCornerRadius: своих
-        ступеней под эту полосу шкала не заводит.
-
-        Отбивка 4: звено сохраняет свою отбивку — на ней держится плашка
-        наведения. Четыре панели плюс шесть звена дают 10 до первой подписи.
-    -->
-    <Style Selector="^.framed">
-      <Setter Property="Background" Value="{DynamicResource AxSurfaceSunkenBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeSubtleBrush}"/>
-      <Setter Property="BorderThickness" Value="1"/>
-      <!-- Наименьшая и по центру — звено растёт с кеглем темы, как кнопка. -->
-      <Setter Property="MinHeight" Value="{DynamicResource AxControlHeight}"/>
-      <Setter Property="VerticalAlignment" Value="Center"/>
-      <Setter Property="Padding" Value="{DynamicResource AxBreadcrumbPadding}"/>
-    </Style>
-  </ControlTheme>
-
-  <!--
-      Звено крошек: вторичный текст, ведущий себя как ссылка; текущее (класс
-      current) читается основным, звено с проблемой (класс error) — красным
-      текстом. Шеврон-разделитель стоит слева и прячется у первого звена.
-  -->
-  <ControlTheme x:Key="{x:Type ax:AxBreadcrumbItem}" TargetType="ax:AxBreadcrumbItem">
-    <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
-    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
-    <!-- Звено: 6 по горизонтали и 2 по вертикали, радиус контрольный. -->
-    <Setter Property="Padding" Value="{DynamicResource AxBreadcrumbItemPadding}"/>
-    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
-    <Setter Property="Cursor" Value="Hand"/>
-    <Setter Property="Template">
-      <ControlTemplate>
-        <StackPanel Orientation="Horizontal">
-          <!--
-              Разделитель идёт цветом иконки в покое: того же серого, что и
-              глиф папки в звене, а не бледнее его.
-          -->
-          <ax:AxIcon x:Name="PART_Separator"
-                     Classes="small"
-                     Margin="{DynamicResource AxSpaceTightSidesThickness}"
-                     Data="{x:Static ax:AxIcons.ChevronRight}"
-                     Foreground="{DynamicResource AxTextSecondaryBrush}"
-                     VerticalAlignment="Center"/>
-          <Border x:Name="PART_LayoutRoot"
-                  Background="Transparent"
-                  CornerRadius="{TemplateBinding CornerRadius}"
-                  Padding="{TemplateBinding Padding}">
-            <StackPanel Orientation="Horizontal" Spacing="{DynamicResource AxGapIconText}">
-              <!-- Значок: глиф папки, плашка типа файла или своё. -->
-              <ContentPresenter x:Name="PART_Icon"
-                                Content="{TemplateBinding Icon}"
-                                VerticalAlignment="Center"
-                                IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}"/>
-              <ContentPresenter Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                VerticalAlignment="Center"/>
-            </StackPanel>
-          </Border>
-        </StackPanel>
-      </ControlTemplate>
-    </Setter>
-
-    <Style Selector="^:nth-child(1) /template/ ax|AxIcon#PART_Separator">
-      <Setter Property="IsVisible" Value="False"/>
-    </Style>
-    <Style Selector="^:pointerover">
-      <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
-    </Style>
-    <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
-    </Style>
-    <!--
-        Текущее звено и звено с ошибкой набраны усиленным начертанием: в конце
-        пути это единственное, что отличает цель от пройденных звеньев, когда
-        цвет уже занят состоянием.
-    -->
-    <Style Selector="^.current">
-      <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
-      <Setter Property="FontWeight" Value="Medium"/>
-      <Setter Property="Cursor" Value="Arrow"/>
-    </Style>
-    <Style Selector="^.current:pointerover /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="Transparent"/>
-    </Style>
-    <Style Selector="^.error">
-      <Setter Property="Foreground" Value="{DynamicResource AxErrorTextBrush}"/>
-      <Setter Property="FontWeight" Value="Medium"/>
-    </Style>
-    <Style Selector="^.error /template/ Border#PART_LayoutRoot">
-      <Setter Property="Background" Value="{DynamicResource AxErrorFillBrush}"/>
-    </Style>
-    <!--
-        Выключенная строка: текст на AxTextDisabled.
-        Стиль стоит последним намеренно — выделение и наведение объявлены выше,
-        и без этого выключенная выбранная строка выглядела бы обычной.
-    -->
-    <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
-    </Style>
-    <!--
-        Разделитель гаснет вместе со звеном: свой цвет у него задан прямо в
-        шаблоне и от Foreground звена не зависит, а выключенный путь гаснет
-        целиком — вместе с шевронами.
-    -->
-    <Style Selector="^:disabled /template/ ax|AxIcon#PART_Separator">
-      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
-    </Style>
-
   </ControlTheme>
 
   <!-- Лоадер: дуга на четверть круга, оборот за 0.8 с линейно. -->
@@ -205,7 +71,7 @@
         Крупный лоадер: 24 вместо 16, на акценте — этим он и отличается от
         малого, который идёт вторичным цветом иконки.
     -->
-    <Style Selector="^.large">
+    <Style Selector="^:large">
       <Setter Property="Width" Value="24"/>
       <Setter Property="Height" Value="24"/>
       <Setter Property="Foreground" Value="{DynamicResource AxAccentBrush}"/>

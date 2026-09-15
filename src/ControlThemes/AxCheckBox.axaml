@@ -109,7 +109,7 @@
     </Style>
 
     <!-- Проблема ввода: рамка и фон коробки говорят о ней и без текста рядом. -->
-    <Style Selector="^.error /template/ Border#PART_Box">
+    <Style Selector="^:validation-error /template/ Border#PART_Box">
       <Setter Property="BorderBrush" Value="{DynamicResource AxErrorOutlineBrush}"/>
       <Setter Property="Background" Value="{DynamicResource AxErrorFillBrush}"/>
     </Style>
@@ -117,7 +117,7 @@
         Отмеченный и неопределённый с ошибкой заливаются красным. Без этого
         сюда доставался фон ошибки, светлый, и белый знак на нём пропадал.
     -->
-    <Style Selector="^.error:checked /template/ Border#PART_Box, ^.error:indeterminate /template/ Border#PART_Box">
+    <Style Selector="^:validation-error:checked /template/ Border#PART_Box, ^:validation-error:indeterminate /template/ Border#PART_Box">
       <Setter Property="Background" Value="{DynamicResource AxErrorBrush}"/>
     </Style>
     <Style Selector="^:pointerover /template/ Border#PART_Box">

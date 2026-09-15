@@ -33,9 +33,13 @@
     </Setter>
   </ControlTheme>
 
-  <!-- Вкладки внутри шапки панели инструментов: без своего фона и рамки. -->
+  <!--
+      Вкладки внутри шапки панели инструментов: без своего фона и рамки. Вид вкладок
+      панели эта тема ставит полосе сама — Kind=ToolWindow.
+  -->
   <ControlTheme x:Key="AxToolWindowTabStrip" TargetType="ax:AxTabStrip"
                 BasedOn="{StaticResource {x:Type ax:AxTabStrip}}">
+    <Setter Property="Kind" Value="ToolWindow"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="CornerRadius" Value="0"/>
@@ -60,13 +64,13 @@
       <ControlTheme TargetType="ax:AxTabItem" BasedOn="{StaticResource {x:Type ax:AxTabItem}}">
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <!--
-            Высоту снимает стиль по тому же классу, а не сеттер: своя высота у
-            compact объявлена стилем базовой темы, и сеттер производной ей не
+            Высоту снимает стиль по тому же псевдоклассу, а не сеттер: своя высота
+            у вкладки панели объявлена стилем базовой темы, и сеттер производной ей не
             указ. Оставь её — вкладка переживёт шапку: её тридцать два
             при шапке в тридцать уходят вверх на два пикселя, нижний пиксель
             полосы выбора прячется под разделителем, и от трёх остаётся два.
         -->
-        <Style Selector="^.compact">
+        <Style Selector="^:tool-window">
           <Setter Property="Height" Value="NaN"/>
           <Setter Property="MinHeight" Value="0"/>
         </Style>
@@ -174,7 +178,7 @@
                       на вкладку наводят, чтобы её можно было закрыть.
                   -->
                   <ax:AxIcon x:Name="PART_CloseIcon"
-                             Classes="small"
+                             Size="Small"
                              Data="{x:Static ax:AxIcons.Close}"
                              Foreground="{DynamicResource AxTextTertiaryBrush}"/>
                 </Panel>
@@ -287,11 +291,11 @@
       <Setter Property="IsVisible" Value="True"/>
     </Style>
 
-    <!-- Вкладка в шапке панели инструментов: ниже и без своего фона. -->
-    <Style Selector="^.compact">
+    <!-- Вкладка панели (полоса Kind=ToolWindow): ниже и без своего фона. -->
+    <Style Selector="^:tool-window">
       <Setter Property="MinHeight" Value="32"/>
     </Style>
-    <Style Selector="^.compact:selected /template/ Border#PART_Root">
+    <Style Selector="^:tool-window:selected /template/ Border#PART_Root">
       <Setter Property="Background" Value="Transparent"/>
     </Style>
     <!--
@@ -316,10 +320,10 @@
         Размер самой вкладки прежний: размер на наведении не меняется, да и
         попадать мышью человек должен по вкладке, а не по плашке.
     -->
-    <Style Selector="^.compact:pointerover /template/ Border#PART_Root">
+    <Style Selector="^:tool-window:pointerover /template/ Border#PART_Root">
       <Setter Property="Background" Value="Transparent"/>
     </Style>
-    <Style Selector="^.compact:pointerover /template/ Border#PART_Hover">
+    <Style Selector="^:tool-window:pointerover /template/ Border#PART_Hover">
       <Setter Property="IsVisible" Value="True"/>
       <Setter Property="Margin" Value="-6,2"/>
       <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>

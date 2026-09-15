@@ -54,7 +54,7 @@ public class DividerTests
     {
         var (divider, window) = Shown(Orientation.Horizontal, variant);
 
-        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(divider.Background));
+        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(divider.Fill));
 
         window.Close();
     }
@@ -65,11 +65,11 @@ public class DividerTests
     {
         var (divider, window) = Shown(Orientation.Vertical);
 
-        Assert.True(window.TryFindResource("AxPressedBrush", ThemeVariant.Dark, out var brush));
-        divider.Background = (IBrush)brush!;
+        Assert.True(window.TryFindResource("AxStrokeStrongBrush", ThemeVariant.Dark, out var brush));
+        divider.Fill = (IBrush)brush!;
         window.UpdateLayout();
 
-        Assert.Equal(Resource(window, "AxPressedColor", "Dark"), Colour(divider.Background));
+        Assert.Equal(Resource(window, "AxStrokeStrongColor", "Dark"), Colour(divider.Fill));
 
         window.Close();
     }

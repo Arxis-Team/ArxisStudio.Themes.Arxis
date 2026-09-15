@@ -138,7 +138,7 @@
                       Grid.Column="2"
                       Theme="{StaticResource AxSplitButtonSecondary}"
                       Foreground="{DynamicResource AxTextSecondaryBrush}">
-                <ax:AxIcon Data="{x:Static ax:AxIcons.ChevronDown}" Classes="small"
+                <ax:AxIcon Data="{x:Static ax:AxIcons.ChevronDown}" Size="Small"
                            Foreground="{Binding $parent[Button].Foreground}"/>
               </Button>
             </Grid>
@@ -163,22 +163,22 @@
     </Style>
 
     <!-- Основное действие: обе половины на залитом акценте. -->
-    <Style Selector="^.accent">
+    <Style Selector="^:primary">
       <Setter Property="Background" Value="{DynamicResource AxAccentFillBrush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AxAccentFillBrush}"/>
       <Setter Property="Foreground" Value="{DynamicResource AxTextOnAccentBrush}"/>
     </Style>
-    <Style Selector="^.accent /template/ Button#PART_SecondaryButton">
+    <Style Selector="^:primary /template/ Button#PART_SecondaryButton">
       <Setter Property="Foreground" Value="{DynamicResource AxTextOnAccentBrush}"/>
     </Style>
-    <Style Selector="^.accent /template/ Border#PART_Separator">
+    <Style Selector="^:primary /template/ Border#PART_Separator">
       <Setter Property="Background" Value="{DynamicResource AxTextOnAccentBrush}"/>
       <Setter Property="Opacity" Value="0.45"/>
     </Style>
-    <Style Selector="^.accent /template/ Button#PART_PrimaryButton">
+    <Style Selector="^:primary /template/ Button#PART_PrimaryButton">
       <Setter Property="Theme" Value="{StaticResource AxSplitButtonPrimaryAccent}"/>
     </Style>
-    <Style Selector="^.accent /template/ Button#PART_SecondaryButton">
+    <Style Selector="^:primary /template/ Button#PART_SecondaryButton">
       <Setter Property="Theme" Value="{StaticResource AxSplitButtonSecondaryAccent}"/>
     </Style>
   </ControlTheme>

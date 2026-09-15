@@ -48,19 +48,17 @@ public class ToolBarTests
     /// Включённый инструмент: заливка выделения, глиф акцентом.
     /// </summary>
     /// <remarks>
-    /// Состояние записано псевдоклассом :selected — своего
-    /// свойства у кнопки под это нет: включённость инструмента знает
-    /// приложение, а не контрол.
+    /// Включённость у инструмента — переключатель, <see cref="AxToggleButton"/>, и
+    /// тема видит её штатным <c>:checked</c>.
     /// </remarks>
     [AvaloniaTheory]
     [InlineData("Light")]
     [InlineData("Dark")]
-    public void Selected_tool_is_filled_with_the_selection(string variant)
+    public void Checked_tool_is_filled_with_the_selection(string variant)
     {
-        var (button, icon, window) = Shown(variant);
-
-        ((IPseudoClasses)button.Classes).Set(":selected", true);
-        window.UpdateLayout();
+        var icon = new AxIcon { Data = AxIcons.Plus };
+        var button = new AxToggleButton { Appearance = AxButtonAppearance.Toolbar, Content = icon, IsChecked = true };
+        var window = Show(button, variant);
 
         Assert.Equal(Resource(window, "AxSelectionActiveColor", variant), Colour(Plate(button).Background));
         Assert.Equal(Resource(window, "AxAccentColor", variant), Colour(icon.Foreground));
@@ -259,7 +257,7 @@ public class ToolBarTests
 
         foreach (var glyph in glyphs)
         {
-            Assert.DoesNotContain("small", glyph.Classes);
+            Assert.Equal(AxIconSize.Normal, glyph.Size);
             Assert.Equal(size, glyph.Width);
             Assert.Equal(size, glyph.Height);
             Assert.Equal(stroke, glyph.StrokeThickness);
@@ -291,22 +289,27 @@ public class ToolBarTests
     private static (AxButton Button, AxIcon Icon, Window Window) Shown(string variant)
     {
         var icon = new AxIcon { Data = AxIcons.Plus };
-        var button = new AxButton { Classes = { "icon" }, Content = icon };
+        var button = new AxButton { Appearance = AxButtonAppearance.Toolbar, Content = icon };
 
+        return (button, icon, Show(button, variant));
+    }
+
+    private static Window Show(Control content, string variant)
+    {
         var window = new Window
         {
             RequestedThemeVariant = variant == "Light" ? ThemeVariant.Light : ThemeVariant.Dark,
-            Content = button,
+            Content = content,
         };
 
         window.Show();
         window.UpdateLayout();
 
-        return (button, icon, window);
+        return window;
     }
 
     /// <summary>Плашка кнопки: она несёт заливку состояния.</summary>
-    private static ContentPresenter Plate(AxButton button) =>
+    private static ContentPresenter Plate(Button button) =>
         button.GetVisualDescendants().OfType<ContentPresenter>().First(c => c.Name == "PART_ContentPresenter");
 
     private static Color? Colour(IBrush? brush) => (brush as ISolidColorBrush)?.Color;

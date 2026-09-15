@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
 
   <!--
       Полоса заголовка: содержимое приложения слева, кнопки окна справа.
@@ -33,7 +34,7 @@
                                  IsVisible="{TemplateBinding ShowWindowControls}"/>
             <ContentPresenter Content="{TemplateBinding Content}"
                               ContentTemplate="{TemplateBinding ContentTemplate}"
-                              Margin="{TemplateBinding SystemControlsInset, Converter={x:Static ax:AxInsetConverter.Instance}}"
+                              Margin="{TemplateBinding SystemControlsInset, Converter={x:Static t:AxInsetConverter.Instance}}"
                               Padding="{TemplateBinding Padding}"
                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>

@@ -272,7 +272,7 @@ public class ThemeAppliesTemplatesTests
         {
             Title = "Проект",
             Tabs = tabs,
-            Actions = new AxButton { Classes = { "icon" } },
+            Actions = new AxButton { Appearance = AxButtonAppearance.Toolbar },
             Content = new TextBlock { Text = "содержимое" },
         };
 
@@ -296,7 +296,7 @@ public class ThemeAppliesTemplatesTests
     [AvaloniaFact]
     public void Switching_variant_at_runtime_keeps_resources_alive()
     {
-        var button = new AxButton { Classes = { "accent" }, Content = "Проверка" };
+        var button = new AxButton { Appearance = AxButtonAppearance.Primary, Content = "Проверка" };
         var window = new Window { Content = button };
 
         window.RequestedThemeVariant = ThemeVariant.Dark;

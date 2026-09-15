@@ -120,10 +120,7 @@ public class LoaderTests
 
     private static (AxSpinner Spinner, Window Window) Shown(bool large, string variant)
     {
-        var spinner = new AxSpinner();
-
-        if (large)
-            spinner.Classes.Add("large");
+        var spinner = new AxSpinner { Size = large ? AxSpinnerSize.Large : AxSpinnerSize.Normal };
 
         var window = new Window
         {

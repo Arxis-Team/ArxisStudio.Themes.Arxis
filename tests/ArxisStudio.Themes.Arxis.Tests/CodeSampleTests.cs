@@ -168,7 +168,7 @@ public class CodeSampleTests
 
     private static (AxChip Key, Window Window) Key(string variant)
     {
-        var key = new AxChip { Classes = { "kbd" }, Content = "Shift F10" };
+        var key = new AxChip { Kind = AxChipKind.Key, Content = "Shift F10" };
         var window = Shown(key, variant);
 
         return (key, window);

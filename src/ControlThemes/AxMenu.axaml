@@ -49,7 +49,7 @@
                          VerticalAlignment="Center"/>
               <ax:AxIcon x:Name="PART_SubmenuChevron"
                          Grid.Column="5"
-                         Classes="small"
+                         Size="Small"
                          Data="{x:Static ax:AxIcons.ChevronRight}"
                          Foreground="{DynamicResource AxTextSecondaryBrush}"
                          VerticalAlignment="Center"
@@ -96,10 +96,10 @@
     </Style>
 
     <!-- Деструктивный пункт: красный текст, шорткат — светлее на шаг. -->
-    <Style Selector="^.danger">
+    <Style Selector="^:destructive">
       <Setter Property="Foreground" Value="{DynamicResource AxErrorTextBrush}"/>
     </Style>
-    <Style Selector="^.danger /template/ TextBlock#PART_InputGestureText">
+    <Style Selector="^:destructive /template/ TextBlock#PART_InputGestureText">
       <Setter Property="Foreground" Value="{DynamicResource AxErrorTextBrush}"/>
       <Setter Property="Opacity" Value="0.6"/>
     </Style>

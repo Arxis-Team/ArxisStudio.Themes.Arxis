@@ -3,9 +3,8 @@
                     xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
   <!--
-      Всплывающие поверхности: тултип, подсказка «Понятно», уведомление и
-      попап поиска. Все — карточки: тултип на bg2 с тенью попапа, остальные
-      на bg1; тень диалога — только у модальных окон.
+      Всплывающие поверхности: тултип и попап поиска. Обе — карточки: тултип с
+      тенью попапа, поиск — с тенью модального окна.
 
       Волосяная рамка у всех — AxStrokeControl: у всех всплывающих она одна и та же в
       обоих вариантах. AxStrokeSubtle остаётся разделителям внутри.
@@ -38,126 +37,6 @@
         </Border>
       </ControlTemplate>
     </Setter>
-  </ControlTheme>
-
-  <!-- Подсказка «Понятно»: заголовок, объяснение, счётчик шагов и действие. -->
-  <ControlTheme x:Key="{x:Type ax:AxTeachingTip}" TargetType="ax:AxTeachingTip">
-    <!--
-        Не обрезаем себя: контрол с шаблоном обрезает всё по своим границам, и
-        тень, которой поля вокруг карточки не хватает, кончалась бы прямоугольником.
-        Поверхность эту ставит приложение — в слой окна или прямо в разметку, — и
-        тени есть куда лечь; в попапе поле под неё даёт хозяин.
-    -->
-    <Setter Property="ClipToBounds" Value="False"/>
-    <Setter Property="Background" Value="{DynamicResource AxSurfaceOverlayBrush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
-    <Setter Property="BorderThickness" Value="1"/>
-    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
-    <!-- Ширина у подсказки своя, 250. -->
-    <Setter Property="Width" Value="250"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
-    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
-    <Setter Property="Padding" Value="{DynamicResource AxSurfacePadding}"/>
-    <Setter Property="MaxWidth" Value="250"/>
-    <Setter Property="Template">
-      <ControlTemplate>
-        <Border Background="{TemplateBinding Background}"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                CornerRadius="{TemplateBinding CornerRadius}"
-                BoxShadow="{DynamicResource AxShadowPopup}"
-                Padding="{TemplateBinding Padding}"
-                Margin="6">
-          <StackPanel Spacing="{DynamicResource AxSpaceSnug}">
-            <TextBlock Text="{TemplateBinding Title}"
-                       FontWeight="SemiBold"
-                       TextWrapping="Wrap"
-                       IsVisible="{TemplateBinding Title, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-            <ContentPresenter Content="{TemplateBinding Content}"
-                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                              TextBlock.Foreground="{DynamicResource AxTextSecondaryBrush}"
-                              TextBlock.TextWrapping="Wrap"/>
-            <DockPanel Margin="{DynamicResource AxSpaceTightAboveThickness}">
-              <TextBlock Text="{TemplateBinding StepText}"
-                         Foreground="{DynamicResource AxTextSecondaryBrush}"
-                         FontSize="{DynamicResource AxFontSizeSmall}"
-                         VerticalAlignment="Center"/>
-              <ContentPresenter Content="{TemplateBinding Actions}"
-                                HorizontalAlignment="Right"
-                                IsVisible="{TemplateBinding Actions, Converter={x:Static ObjectConverters.IsNotNull}}"/>
-            </DockPanel>
-          </StackPanel>
-        </Border>
-      </ControlTemplate>
-    </Setter>
-  </ControlTheme>
-
-  <!-- Уведомление: событие с действиями-ссылками, исчезает — в отличие от баннера. -->
-  <ControlTheme x:Key="{x:Type ax:AxNotificationCard}" TargetType="ax:AxNotificationCard">
-    <!-- Не обрезаем себя — по той же причине, что подсказка выше. -->
-    <Setter Property="ClipToBounds" Value="False"/>
-    <Setter Property="Background" Value="{DynamicResource AxSurfaceOverlayBrush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
-    <Setter Property="BorderThickness" Value="1"/>
-    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusCard}"/>
-    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
-    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
-    <Setter Property="Padding" Value="{DynamicResource AxSurfacePadding}"/>
-    <Setter Property="Width" Value="340"/>
-    <Setter Property="Template">
-      <ControlTemplate>
-        <Border Background="{TemplateBinding Background}"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                CornerRadius="{TemplateBinding CornerRadius}"
-                BoxShadow="{DynamicResource AxShadowPopup}"
-                Padding="{TemplateBinding Padding}"
-                Margin="6">
-          <DockPanel>
-            <ax:AxIcon x:Name="PART_Icon"
-                       DockPanel.Dock="Left"
-                       Margin="0,1,6,0"
-                       VerticalAlignment="Top"
-                       Data="{x:Static ax:AxIcons.Info}"
-                       Foreground="{DynamicResource AxAccentBrush}"/>
-            <ax:AxButton DockPanel.Dock="Right"
-                         x:Name="PART_Close"
-                         Classes="icon"
-                         VerticalAlignment="Top"
-                         Margin="{DynamicResource AxSpaceLeadingThickness}">
-              <ax:AxIcon Classes="small" Data="{x:Static ax:AxIcons.Close}"
-                         Foreground="{Binding $parent[ax:AxButton].Foreground}"/>
-            </ax:AxButton>
-            <StackPanel Spacing="{DynamicResource AxSpaceTight}">
-              <TextBlock Text="{TemplateBinding Title}"
-                         FontWeight="SemiBold"
-                         TextWrapping="Wrap"
-                         IsVisible="{TemplateBinding Title, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-              <ContentPresenter Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                TextBlock.Foreground="{DynamicResource AxTextSecondaryBrush}"
-                                TextBlock.TextWrapping="Wrap"/>
-              <ContentPresenter Content="{TemplateBinding Actions}"
-                                Margin="{DynamicResource AxSpaceTightAboveThickness}"
-                                IsVisible="{TemplateBinding Actions, Converter={x:Static ObjectConverters.IsNotNull}}"/>
-            </StackPanel>
-          </DockPanel>
-        </Border>
-      </ControlTemplate>
-    </Setter>
-
-    <Style Selector="^[Severity=Success] /template/ ax|AxIcon#PART_Icon">
-      <Setter Property="Data" Value="{x:Static ax:AxIcons.Success}"/>
-      <Setter Property="Foreground" Value="{DynamicResource AxSuccessBrush}"/>
-    </Style>
-    <Style Selector="^[Severity=Warning] /template/ ax|AxIcon#PART_Icon">
-      <Setter Property="Data" Value="{x:Static ax:AxIcons.WarningTriangle}"/>
-      <Setter Property="Foreground" Value="{DynamicResource AxWarningOutlineBrush}"/>
-    </Style>
-    <Style Selector="^[Severity=Error] /template/ ax|AxIcon#PART_Icon">
-      <Setter Property="Data" Value="{x:Static ax:AxIcons.Error}"/>
-      <Setter Property="Foreground" Value="{DynamicResource AxErrorBrush}"/>
-    </Style>
   </ControlTheme>
 
   <!--

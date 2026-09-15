@@ -143,7 +143,7 @@ public class CheckBoxTests
         var control = new AxCheckBox { IsChecked = isChecked, IsEnabled = enabled, Content = "Флажок" };
 
         if (error)
-            control.Classes.Add("error");
+            AxValidation.SetState(control, AxValidationState.Error);
 
         var window = new Window
         {

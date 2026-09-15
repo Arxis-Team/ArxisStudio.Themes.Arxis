@@ -34,7 +34,7 @@
     </Setter>
   </ControlTheme>
 
-  <!-- Чип-метка: bg3-пилюля; accent — выделенная; kbd — вид клавиши. -->
+  <!-- Чип-метка: пилюля на приподнятой поверхности; Kind=Accent — выделенная; Kind=Key — вид клавиши. -->
   <ControlTheme x:Key="{x:Type ax:AxChip}" TargetType="ax:AxChip">
     <Setter Property="Padding" Value="{DynamicResource AxChipPadding}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusPill}"/>
@@ -54,7 +54,7 @@
       </ControlTemplate>
     </Setter>
     <!-- Акцентный текст на залитой плашке — AxLinkOnPlate: AxAccent там даёт 4,18:1. -->
-    <Style Selector="^.accent">
+    <Style Selector="^:accent">
       <Setter Property="Background" Value="{DynamicResource AxSelectionActiveBrush}"/>
       <Setter Property="Foreground" Value="{DynamicResource AxLinkOnPlateBrush}"/>
     </Style>
@@ -67,7 +67,7 @@
         Клавиша набрана тем же шрифтом, что и подпись рядом: моношрифт отдан
         коду, путям и значениям, а «Shift F10» — ни то, ни другое.
     -->
-    <Style Selector="^.kbd">
+    <Style Selector="^:key">
       <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
       <Setter Property="FontWeight" Value="Medium"/>
       <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>

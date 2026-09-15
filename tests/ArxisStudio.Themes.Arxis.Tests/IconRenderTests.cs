@@ -54,7 +54,7 @@ public class IconRenderTests
     [AvaloniaFact]
     public void Small_icon_scales_the_whole_cell()
     {
-        var icon = new AxIcon { Classes = { "small" }, Data = AxIcons.ChevronDown };
+        var icon = new AxIcon { Size = AxIconSize.Small, Data = AxIcons.ChevronDown };
         var window = Shown(icon);
 
         Assert.Equal(12d, icon.Bounds.Width);

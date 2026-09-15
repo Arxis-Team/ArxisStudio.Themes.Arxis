@@ -4,16 +4,20 @@
 
   <!--
       Кнопка: 28 высотой, скругление 4, отступы 12×6, минимальная ширина 72.
-      Классы: без класса — контурная, accent — акцентная (основное действие),
-      ghost — без рамки до наведения, icon — компактная под одну иконку,
-      compact — пониже и потеснее для панелей, danger — красный акцент на
-      наведении (закрыть, удалить).
+      Вид — свойство Appearance, размер — Size, и тема видит их псевдоклассами:
+      без них — контурная; :primary — акцентная (основное действие); :subtle — без
+      рамки до наведения; :toolbar — квадрат под одну иконку; :danger — красный
+      текст (закрыть, удалить); :compact — пониже и потеснее для панелей.
 
       Контур фокуса рисуется отдельным слоем поверх фона и выходит за границы
       кнопки на 2px: рамка контрола при этом остаётся на месте,
       поэтому кнопка не дёргается, получая фокус.
+
+      Шаблон и виды общие у кнопки и у кнопки-переключателя: у них разные базы
+      Avalonia, и тема ключом AxButtonBase держит одно описание на обе, а
+      переключатель добавляет к нему только включённость.
   -->
-  <ControlTheme x:Key="{x:Type ax:AxButton}" TargetType="ax:AxButton">
+  <ControlTheme x:Key="AxButtonBase" TargetType="Button">
     <!--
         Контрол не обрезает себя: кольцо фокуса выходит за его границы, а
         TemplatedControl в Avalonia обрезает содержимое по ним. Обрезка нужна
@@ -116,38 +120,38 @@
         AxAccentFill, а не AxAccent: белый на AxAccent даёт 4,28:1. Наведение темнеет
         в обоих вариантах темы.
     -->
-    <Style Selector="^.accent">
+    <Style Selector="^:primary">
       <Setter Property="Background" Value="{DynamicResource AxAccentFillBrush}"/>
       <Setter Property="Foreground" Value="{DynamicResource AxTextOnAccentBrush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AxAccentFillBrush}"/>
     </Style>
-    <Style Selector="^.accent:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:primary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource AxAccentFillHoverBrush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AxAccentFillHoverBrush}"/>
     </Style>
-    <Style Selector="^.accent:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:primary:pressed /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource AxAccentFillPressedBrush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AxAccentFillPressedBrush}"/>
     </Style>
-    <!-- Выключенный вид один на все классы. -->
-    <Style Selector="^.accent:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <!-- Выключенный вид один на все виды. -->
+    <Style Selector="^:primary:disabled /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource AxFillDisabledBrush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
     </Style>
 
-    <Style Selector="^.ghost">
+    <Style Selector="^:subtle">
       <Setter Property="BorderThickness" Value="0"/>
       <Setter Property="MinWidth" Value="0"/>
       <Setter Property="Padding" Value="{DynamicResource AxButtonPaddingGhost}"/>
       <Setter Property="FontWeight" Value="Normal"/>
       <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
     </Style>
-    <Style Selector="^.ghost:pointerover">
+    <Style Selector="^:subtle:pointerover">
       <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     </Style>
 
     <!-- Кнопка под одну иконку: без рамки, без минимальной ширины. -->
-    <Style Selector="^.icon">
+    <Style Selector="^:toolbar">
       <Setter Property="Width" Value="{DynamicResource AxControlHeightCompact}"/>
       <Setter Property="Height" Value="{DynamicResource AxControlHeightCompact}"/>
       <!--
@@ -162,7 +166,7 @@
       <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
       <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
     </Style>
-    <Style Selector="^.icon:pointerover">
+    <Style Selector="^:toolbar:pointerover">
       <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     </Style>
     <!--
@@ -170,32 +174,20 @@
         у неё нет и в покое, и в тулбаре выключенная стоит на голом
         фоне. Фон выключенного поля остаётся кнопке с рамкой.
     -->
-    <Style Selector="^.icon:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:toolbar:disabled /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="Transparent"/>
       <Setter Property="BorderBrush" Value="Transparent"/>
     </Style>
-    <!--
-        Включённый инструмент: заливка выделения, глиф акцентом. Состояние
-        ставится псевдоклассом :selected, и своего свойства у кнопки под это
-        нет: включённость инструмента знает
-        приложение, а не контрол.
-    -->
-    <Style Selector="^.icon:selected /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AxSelectionActiveBrush}"/>
-    </Style>
-    <Style Selector="^.icon:selected">
-      <Setter Property="Foreground" Value="{DynamicResource AxAccentBrush}"/>
-    </Style>
 
     <!-- Кнопка в тесном месте: панель инструментов, подвал панели. -->
-    <Style Selector="^.compact">
+    <Style Selector="^:compact">
       <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
       <Setter Property="MinWidth" Value="{DynamicResource AxButtonMinWidthCompact}"/>
       <Setter Property="Padding" Value="{DynamicResource AxButtonPadding}"/>
       <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
     </Style>
-    <!-- Слим-кнопка под одну иконку или в подвале панели: без мин-ширины. -->
-    <Style Selector="^.compact.ghost">
+    <!-- Тесная кнопка без рамки — в полосе или в подвале панели: без мин-ширины. -->
+    <Style Selector="^:compact:subtle">
       <Setter Property="MinWidth" Value="0"/>
       <Setter Property="Padding" Value="{DynamicResource AxButtonPaddingGhost}"/>
     </Style>
@@ -204,15 +196,38 @@
         Деструктивная кнопка контурная: красный ТЕКСТ (AxErrorText, 4,5:1), а не
         красная заливка — наведение подсвечивает фон и красит рамку.
     -->
-    <Style Selector="^.danger">
+    <Style Selector="^:danger">
       <Setter Property="Foreground" Value="{DynamicResource AxErrorTextBrush}"/>
     </Style>
-    <Style Selector="^.danger:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:danger:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AxErrorTextBrush}"/>
     </Style>
-    <Style Selector="^.danger:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="^:danger:pressed /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource AxPressedBrush}"/>
+    </Style>
+  </ControlTheme>
+
+  <ControlTheme x:Key="{x:Type ax:AxButton}" TargetType="ax:AxButton"
+                BasedOn="{StaticResource AxButtonBase}"/>
+
+  <!--
+      Кнопка-переключатель: тот же вид, и включённость поверх него. Включённая
+      лежит на заливке выделения: у иконочной глиф идёт акцентом, у кнопки с
+      подписью текст — основным цветом. Прежде это состояние ставили наследники
+      кнопки псевдоклассом :selected, а текстовую включённую рисовали стили
+      оболочки студии — теме оно было неизвестно.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxToggleButton}" TargetType="ax:AxToggleButton"
+                BasedOn="{StaticResource AxButtonBase}">
+    <Style Selector="^:checked /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource AxSelectionActiveBrush}"/>
+    </Style>
+    <Style Selector="^:checked">
+      <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
+    </Style>
+    <Style Selector="^:toolbar:checked">
+      <Setter Property="Foreground" Value="{DynamicResource AxAccentBrush}"/>
     </Style>
   </ControlTheme>
 

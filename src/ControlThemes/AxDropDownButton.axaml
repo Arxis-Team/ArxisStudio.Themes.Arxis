@@ -57,7 +57,7 @@
                                 RecognizesAccessKey="True"/>
               <ax:AxIcon Grid.Column="1"
                          x:Name="PART_Chevron"
-                         Classes="small"
+                         Size="Small"
                          Margin="{DynamicResource AxSpaceSnugLeadingThickness}"
                          Data="{x:Static ax:AxIcons.ChevronDown}"
                          Foreground="{DynamicResource AxTextSecondaryBrush}"

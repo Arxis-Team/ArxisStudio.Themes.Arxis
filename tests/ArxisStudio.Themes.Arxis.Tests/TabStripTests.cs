@@ -445,13 +445,15 @@ public class TabStripTests
     {
         var tab = new AxTabItem { Content = "MainWindow.axaml", IsClosable = true };
 
-        if (compact)
-            tab.Classes.Add("compact");
+        // Вид вкладки панели даёт полоса: сама вкладка не знает, где стоит.
+        var strip = new AxTabStrip { Kind = compact ? AxTabStripKind.ToolWindow : AxTabStripKind.Document };
+
+        strip.Items.Add(tab);
 
         var window = new Window
         {
             RequestedThemeVariant = variant == "Light" ? ThemeVariant.Light : ThemeVariant.Dark,
-            Content = tab,
+            Content = strip,
         };
 
         window.Show();

@@ -121,21 +121,16 @@ public class ShadowRoomTests
     /// Поверхность, которую ставит приложение, не обрезает свою тень собственными границами.
     /// </summary>
     /// <remarks>
-    /// Контрол с шаблоном обрезает всё по своим границам, а поле вокруг карточки у палитры в 10, у
-    /// подсказки-обучения и карточки уведомления в 6 — тени диалога и попапа туда не помещаются.
-    /// Живёт такая поверхность в слое окна или в разметке, где тени есть куда лечь.
+    /// Контрол с шаблоном обрезает всё по своим границам, а поле вокруг карточки палитры в 10 — тень
+    /// диалога туда не помещается. Живёт такая поверхность в слое окна или в разметке, где тени есть
+    /// куда лечь.
     /// </remarks>
     [AvaloniaFact]
     public void A_surface_placed_by_the_application_lets_its_shadow_out()
     {
-        Control[] surfaces =
-        [
-            new AxQuickSearch { PlaceholderText = "Команда" },
-            new AxTeachingTip { Title = "Подсказка", Content = "Текст" },
-            new AxNotificationCard { Title = "Готово", Content = "Текст" },
-        ];
+        Control[] surfaces = [new AxQuickSearch { PlaceholderText = "Команда" }];
 
-        var window = new Window { Content = new StackPanel { Children = { surfaces[0], surfaces[1], surfaces[2] } } };
+        var window = new Window { Content = new StackPanel { Children = { surfaces[0] } } };
 
         window.Show();
         window.UpdateLayout();

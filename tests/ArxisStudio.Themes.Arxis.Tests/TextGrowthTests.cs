@@ -47,7 +47,7 @@ public class TextGrowthTests
     private static readonly Dictionary<string, Func<Control>> Samples = new(StringComparer.Ordinal)
     {
         ["AxButton"] = () => new AxButton { Content = "Открыть" },
-        ["AxButton.compact"] = () => new AxButton { Classes = { "compact" }, Content = "Открыть" },
+        ["AxButton.compact"] = () => new AxButton { Size = AxControlSize.Compact, Content = "Открыть" },
         ["AxDropDownButton"] = () => new AxDropDownButton { Content = "Сборка" },
         ["AxSplitButton"] = () => new AxSplitButton { Content = "Выключить" },
         ["AxSegmentedControl"] = () => new AxSegmentedControl
@@ -59,15 +59,10 @@ public class TextGrowthTests
         ["AxToolWindow"] = () => new AxToolWindow { Title = "Проект" },
         ["AxToolWindow.tabs"] = () => new AxToolWindow { Title = "Проект", Tabs = HeaderTabs() },
         ["AxTreeView"] = () => new AxTreeView { ItemsSource = new[] { new AxTreeViewItem { Header = "App.axaml" } } },
-        ["AxBreadcrumbBar.framed"] = () => new AxBreadcrumbBar
-        {
-            Classes = { "framed" },
-            ItemsSource = new[] { new AxBreadcrumbItem { Content = "App" }, new AxBreadcrumbItem { Content = "Views" } },
-        },
         ["AxTitleBar"] = () => new AxTitleBar { ShowWindowControls = false, Content = new TextBlock { Text = "Настройки" } },
         ["AxBadge"] = () => new AxBadge { Content = "12" },
         ["AxChip"] = () => new AxChip { Content = "Изменено" },
-        ["AxChip.kbd"] = () => new AxChip { Classes = { "kbd" }, Content = "Ctrl K" },
+        ["AxChip.kbd"] = () => new AxChip { Kind = AxChipKind.Key, Content = "Ctrl K" },
         ["AxAvatar"] = () => new AxAvatar { Initials = "FF" },
         ["AxBanner"] = () => new AxBanner { Content = "Плагин выключен" },
         ["AxGroupHeader"] = () => new AxGroupHeader { Content = "Недавние" },
@@ -124,7 +119,6 @@ public class TextGrowthTests
     [InlineData("AxSplitButton", 28d)]
     [InlineData("AxSegmentedControl", 28d)]
     [InlineData("AxTitleBar", 40d)]
-    [InlineData("AxBreadcrumbBar.framed", 28d)]
     [InlineData("AxBadge", 16d)]
     [InlineData("AxChip.kbd", 20d)]
     public void A_control_in_a_taller_cell_keeps_its_height(string sample, double height)
@@ -179,8 +173,8 @@ public class TextGrowthTests
         {
             ItemsSource = new[]
             {
-                new AxTabItem { Classes = { "compact" }, Content = "Консоль" },
-                new AxTabItem { Classes = { "compact" }, Content = "Терминал" },
+                new AxTabItem { Content = "Консоль" },
+                new AxTabItem { Content = "Терминал" },
             },
         };
 

@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
-  <!-- Плитка с инициалами 36×36; класс round — круглая (пользователь, собеседник). -->
+  <!-- Плитка с инициалами 36×36; Shape=Circle — круглая (пользователь, собеседник). -->
   <ControlTheme x:Key="{x:Type ax:AxAvatar}" TargetType="ax:AxAvatar">
     <Setter Property="Width" Value="36"/>
     <Setter Property="Height" Value="36"/>
@@ -34,32 +34,32 @@
       </ControlTemplate>
     </Setter>
 
-    <Style Selector="^.round">
+    <Style Selector="^:circle">
       <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusPill}"/>
     </Style>
 
     <!--
         Цветные монограммы не ставят на AxTintOrange / AxSuccess / AxTintPurple / AxError: белые
         инициалы дают там 2,68…3,69:1.
-        Классы берут шаг 1 шкалы, где белый держит 5,9:1 и выше, — и берут его
+        Цвета Tint берут роли монограмм, где белый держит 5,9:1 и выше, — и берут их
         отсюда, а не с места: цвет плитки монограммы решает не потребитель.
     -->
-    <Style Selector="^.orange">
+    <Style Selector="^:orange">
       <Setter Property="TileBrush" Value="{DynamicResource AxMonogramOrangeBrush}"/>
     </Style>
-    <Style Selector="^.green">
+    <Style Selector="^:green">
       <Setter Property="TileBrush" Value="{DynamicResource AxMonogramGreenBrush}"/>
     </Style>
-    <Style Selector="^.purple">
+    <Style Selector="^:purple">
       <Setter Property="TileBrush" Value="{DynamicResource AxMonogramPurpleBrush}"/>
     </Style>
-    <Style Selector="^.red">
+    <Style Selector="^:red">
       <Setter Property="TileBrush" Value="{DynamicResource AxMonogramRedBrush}"/>
     </Style>
   </ControlTheme>
 
   <!--
-      Контурная иконка 16×16: обводка Foreground, класс/свойство IsFilled — заливка.
+      Контурная иконка 16×16: обводка Foreground; силуэт (:filled) — заливка.
 
       Срез плоский и стык острый, а не скруглённые. Набор нарисован под
       пиксель: концы штрихов стоят на границах пикселей, углы — в их центрах.
@@ -108,13 +108,17 @@
       </ControlTemplate>
     </Setter>
 
-    <Style Selector="^[IsFilled=True] /template/ Path#PART_Path">
+    <!--
+        Силуэт ставит сам контрол: путь набора, нарисованный силуэтом, или путь,
+        которому хозяин сказал IsFilled.
+    -->
+    <Style Selector="^:filled /template/ Path#PART_Path">
       <Setter Property="Fill" Value="{Binding $parent[ax:AxIcon].Foreground}"/>
       <Setter Property="Stroke" Value="{x:Null}"/>
     </Style>
 
     <!-- Мелкий шеврон в тесной строке — единственное отступление от 16. -->
-    <Style Selector="^.small">
+    <Style Selector="^:small">
       <Setter Property="Width" Value="{DynamicResource AxIconSizeSmall}"/>
       <Setter Property="Height" Value="{DynamicResource AxIconSizeSmall}"/>
     </Style>

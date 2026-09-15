@@ -168,11 +168,10 @@ public class ToolWindowTests
 
         if (tabs)
         {
-            // Класс compact — это и есть вкладка в шапке: за ним начертание
-            // выбранной, толщина полосы под ней и высота, которую задаёт шапка.
+            // Вкладки шапки — вкладки панели: вид им ставит тема полосы шапки.
             var strip = new AxTabStrip();
-            strip.Items.Add(new AxTabItem { Classes = { "compact" }, Content = "Text" });
-            strip.Items.Add(new AxTabItem { Classes = { "compact" }, Content = "Text" });
+            strip.Items.Add(new AxTabItem { Content = "Text" });
+            strip.Items.Add(new AxTabItem { Content = "Text" });
 
             Assert.True(Application.Current!.TryFindResource("AxToolWindowTabStrip", out var theme));
             strip.Theme = (ControlTheme)theme!;

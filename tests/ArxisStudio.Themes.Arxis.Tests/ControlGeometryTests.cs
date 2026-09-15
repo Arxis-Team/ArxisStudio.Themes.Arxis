@@ -47,7 +47,7 @@ public class ControlGeometryTests
     [AvaloniaFact]
     public void Ghost_button_matches_the_component()
     {
-        var button = Shown(new AxButton { Classes = { "ghost" }, Content = "Button" });
+        var button = Shown(new AxButton { Appearance = AxButtonAppearance.Subtle, Content = "Button" });
 
         Assert.Equal(28d, button.Bounds.Height);
         Assert.Equal(0d, button.MinWidth);
@@ -64,7 +64,7 @@ public class ControlGeometryTests
     [AvaloniaFact]
     public void Icon_button_matches_the_component()
     {
-        var button = Shown(new AxButton { Classes = { "icon" } });
+        var button = Shown(new AxButton { Appearance = AxButtonAppearance.Toolbar });
 
         Assert.Equal(24d, button.Width);
         Assert.Equal(24d, button.Height);
@@ -78,7 +78,7 @@ public class ControlGeometryTests
     [AvaloniaFact]
     public void Compact_button_keeps_its_geometry()
     {
-        var button = Shown(new AxButton { Classes = { "compact" }, Content = "Slim" });
+        var button = Shown(new AxButton { Size = AxControlSize.Compact, Content = "Slim" });
 
         Assert.Equal(24d, button.Bounds.Height);
     }
@@ -99,7 +99,7 @@ public class ControlGeometryTests
     [AvaloniaFact]
     public void Compact_text_box_keeps_its_geometry()
     {
-        var box = Shown(new AxTextBox { Classes = { "compact" } });
+        var box = Shown(new AxTextBox { Size = AxControlSize.Compact });
 
         Assert.Equal(24d, box.MinHeight);
     }
@@ -119,7 +119,7 @@ public class ControlGeometryTests
     [AvaloniaFact]
     public void Compact_combo_box_keeps_its_geometry()
     {
-        var combo = Shown(new AxComboBox { Classes = { "compact" } });
+        var combo = Shown(new AxComboBox { Size = AxControlSize.Compact });
 
         Assert.Equal(24d, combo.MinHeight);
     }

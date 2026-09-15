@@ -30,10 +30,11 @@
               <DockPanel x:Name="PART_Header" DockPanel.Dock="Top" Margin="{DynamicResource AxDialogBandPadding}">
                 <ax:AxButton DockPanel.Dock="Right"
                              x:Name="PART_Close"
-                             Classes="icon"
+                             Appearance="Toolbar"
                              VerticalAlignment="Center"
+                             AutomationProperties.Name="{DynamicResource AxTextDialogClose}"
                              IsVisible="{Binding IsCloseVisible, RelativeSource={RelativeSource TemplatedParent}}">
-                  <ax:AxIcon Classes="small" Data="{x:Static ax:AxIcons.Close}"
+                  <ax:AxIcon Size="Small" Data="{x:Static ax:AxIcons.Close}"
                              Foreground="{Binding $parent[ax:AxButton].Foreground}"/>
                 </ax:AxButton>
                 <TextBlock Text="{TemplateBinding Title}"

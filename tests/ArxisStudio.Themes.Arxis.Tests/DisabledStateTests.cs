@@ -38,7 +38,6 @@ public class DisabledStateTests
     [InlineData(typeof(AxTreeViewItem))]
     [InlineData(typeof(AxTabItem))]
     [InlineData(typeof(AxSegmentItem))]
-    [InlineData(typeof(AxBreadcrumbItem))]
     [InlineData(typeof(AxMenuItem))]
     [InlineData(typeof(AxLink))]
     [InlineData(typeof(AxButton))]

@@ -97,13 +97,9 @@
   </ControlTheme>
 
   <!-- Разделительная линия в пиксель. -->
+  <!-- Разделитель рисует себя сам, без шаблона: цвет — Fill, толщина — размер по ориентации. -->
   <ControlTheme x:Key="{x:Type ax:AxDivider}" TargetType="ax:AxDivider">
-    <Setter Property="Background" Value="{DynamicResource AxStrokeSubtleBrush}"/>
-    <Setter Property="Template">
-      <ControlTemplate>
-        <Border Background="{TemplateBinding Background}"/>
-      </ControlTemplate>
-    </Setter>
+    <Setter Property="Fill" Value="{DynamicResource AxStrokeSubtleBrush}"/>
     <Style Selector="^[Orientation=Horizontal]">
       <Setter Property="Height" Value="1"/>
       <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -200,7 +196,7 @@
               толщины обводки: на отдельных иконках её не меняют.
           -->
           <ax:AxIcon x:Name="PART_Chevron"
-                     Classes="small"
+                     Size="Small"
                      Margin="{DynamicResource AxGapIconTextThickness}"
                      Data="{x:Static ax:AxIcons.ChevronRight}"
                      Foreground="{DynamicResource AxTextSecondaryBrush}"

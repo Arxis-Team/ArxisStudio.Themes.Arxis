@@ -76,7 +76,7 @@ public class PrimitiveTests
         Assert.Equal(Resource(window, "AxAccentFillColor", variant), Colour(avatar.TileBrush));
         Assert.Equal(Resource(window, "AxTextOnAccentColor", variant), Colour(avatar.Foreground));
 
-        avatar.Classes.Add("round");
+        avatar.Shape = AxAvatarShape.Circle;
         window.UpdateLayout();
 
         Assert.Equal(new CornerRadius(1000), avatar.CornerRadius);
@@ -89,7 +89,7 @@ public class PrimitiveTests
         var avatar = new AxAvatar { Initials = "ВЧ" };
 
         if (tint is not null)
-            avatar.Classes.Add(tint);
+            avatar.Tint = Enum.Parse<AxAvatarTint>(tint, ignoreCase: true);
 
         var window = new Window
         {

@@ -1,0 +1,18 @@
+<!--
+    Тексты, которые шаблоны темы отдают средствам доступности: имя крестика в поле
+    поиска, в баннере, в диалоге. Экранный диктор читает иконочную кнопку без имени
+    словом «кнопка», и только.
+
+    Значения здесь — запасные, на языке, на котором написана студия. Тема не знает,
+    какой язык выбрал человек, поэтому прямо в шаблоне текста нет: шаблон берёт его
+    ресурсом, а приложение кладёт перевод тем же ключом в свои ресурсы — они сильнее
+    ресурсов темы.
+-->
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <x:String x:Key="AxTextSearchClear">Clear search</x:String>
+  <x:String x:Key="AxTextMessageClose">Close message</x:String>
+  <x:String x:Key="AxTextDialogClose">Close</x:String>
+
+</ResourceDictionary>

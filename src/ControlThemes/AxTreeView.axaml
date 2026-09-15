@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
 
   <!--
       Дерево проекта: строка 24 — та же, что у строки списка,
@@ -40,6 +41,8 @@
     <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="Padding" Value="{DynamicResource AxTreeViewItemPadding}"/>
+    <!-- Значок без своего цвета идёт цветом иконки темы; тип документа красит свой значок сам. -->
+    <Setter Property="IconBrush" Value="{DynamicResource AxTextSecondaryBrush}"/>
     <Setter Property="Template">
       <ControlTemplate>
         <StackPanel>
@@ -49,7 +52,7 @@
                   CornerRadius="{DynamicResource AxCornerRadius}"
                   Background="{TemplateBinding Background}">
             <DockPanel Margin="{Binding Level, RelativeSource={RelativeSource TemplatedParent},
-                                        Converter={x:Static ax:AxTreeIndentConverter.Instance}}">
+                                        Converter={x:Static t:AxTreeIndentConverter.Instance}}">
               <ToggleButton x:Name="PART_ExpandCollapseChevron"
                             DockPanel.Dock="Left"
                             Width="{DynamicResource AxIconSizeSmall}" Height="{DynamicResource AxRowHeight}"
@@ -78,21 +81,21 @@
                     туда не достаёт — шеврон так и остался бы смотреть вправо.
                 -->
                 <ax:AxIcon x:Name="Chevron"
-                           Classes="small"
+                           Size="Small"
                            Data="{x:Static ax:AxIcons.ChevronRight}"
                            Foreground="{DynamicResource AxTextSecondaryBrush}"/>
               </ToggleButton>
               <!--
-                  Значок: слева от подписи стоит то глиф
-                  папки, то плашку типа файла. Место занимается только когда
+                  Значок: путь в клетке 16 и его цвет. Место занимается только когда
                   значок есть — у строки без него подпись не отъезжает.
               -->
-              <ContentPresenter x:Name="PART_Icon"
-                                DockPanel.Dock="Left"
-                                Margin="{DynamicResource AxGapIconTextThickness}"
-                                VerticalAlignment="Center"
-                                Content="{TemplateBinding Icon}"
-                                IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+              <ax:AxIcon x:Name="PART_Icon"
+                         DockPanel.Dock="Left"
+                         Margin="{DynamicResource AxGapIconTextThickness}"
+                         VerticalAlignment="Center"
+                         Data="{TemplateBinding Icon}"
+                         Foreground="{TemplateBinding IconBrush}"
+                         IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}"/>
               <ContentPresenter Content="{TemplateBinding Header}"
                                 ContentTemplate="{TemplateBinding HeaderTemplate}"
                                 Foreground="{TemplateBinding Foreground}"

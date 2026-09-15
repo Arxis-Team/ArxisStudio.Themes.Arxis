@@ -228,12 +228,7 @@ public class LabelTrimmingTests
 
         foreach (var name in names)
         {
-            var tab = new AxTabItem { Content = name, IsClosable = true };
-
-            if (panel)
-                tab.Classes.Add("compact");
-
-            strip.Items.Add(tab);
+            strip.Items.Add(new AxTabItem { Content = name, IsClosable = true });
         }
 
         return strip;

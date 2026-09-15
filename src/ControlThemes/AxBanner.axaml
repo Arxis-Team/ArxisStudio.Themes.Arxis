@@ -47,8 +47,8 @@
                          Theme="{StaticResource AxInlineIconButton}"
                          Margin="8,-4,0,-4"
                          VerticalAlignment="Center"
-                         AutomationProperties.Name="Закрыть сообщение">
-              <ax:AxIcon Classes="small"
+                         AutomationProperties.Name="{DynamicResource AxTextMessageClose}">
+              <ax:AxIcon Size="Small"
                          Data="{x:Static ax:AxIcons.Close}"
                          Foreground="{Binding $parent[ax:AxButton].Foreground}"/>
             </ax:AxButton>
