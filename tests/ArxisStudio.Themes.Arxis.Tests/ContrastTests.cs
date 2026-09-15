@@ -7,17 +7,12 @@ using Xunit;
 namespace ArxisStudio.Themes.Arxis.Tests;
 
 /// <summary>
-/// Контраст обоих вариантов темы — вторая половина пункта 9 приёмки.
+/// Контраст обоих вариантов темы.
 /// </summary>
 /// <remarks>
-/// Правило раздела 12: текст не ниже 4,5:1, иконка не ниже 3:1, замер по
-/// фактическому фону. Фактический фон здесь берётся не на глаз: пары «что на
-/// чём» приходят из карты состояний дизайн-проекта — компонент сам говорит,
-/// какой переменной красит фон и какой текст в каждом состоянии.
-///
-/// Цвета читаются из темы, а пары — из проекта. Поэтому тест ловит и правку
-/// палитры, которая уронит контраст, и правку проекта, которая сведёт вместе
-/// пару, раньше не встречавшуюся.
+/// Текст не ниже 4,5:1, иконка не ниже 3:1, замер по фактическому фону. Пары
+/// «что на чём» названы здесь по шаблонам темы: текст контрола на его
+/// собственной заливке и текст на поверхностях, на которых он стоит.
 /// </remarks>
 public class ContrastTests
 {
@@ -28,19 +23,28 @@ public class ContrastTests
     private const double Visible = 3d;
 
     /// <summary>
-    /// Текст читается на своём фоне.
+    /// Текст контрола читается на его собственной заливке.
     /// </summary>
     /// <remarks>
-    /// Прозрачный фон означает, что контрол стоит на поверхности хозяина, и
-    /// меряется он тогда по обеим: кнопка одинаково законно стоит и на фоне
-    /// окна, и на панели.
+    /// Поле ввода и выпадающий список пишут основным текстом по фону поля,
+    /// акцентная кнопка — текстом на акценте по сильной заливке. Опасная кнопка
+    /// своей заливки не имеет и стоит на поверхности хозяина, поэтому меряется
+    /// по обеим: одинаково законно она стоит и на фоне окна, и на панели.
     /// </remarks>
     [AvaloniaTheory]
-    [MemberData(nameof(TextPairs))]
-    public void Text_keeps_the_readable_ratio(string state, string variant, string fg, string bg)
-        => Assert.True(
-            Ratio(fg, bg, variant) >= Readable,
-            $"{state} [{variant}]: {fg} на {bg} даёт {Ratio(fg, bg, variant):F2}:1");
+    [InlineData("fg", "inp")]
+    [InlineData("onacc", "accS")]
+    [InlineData("redT", "bg1")]
+    [InlineData("redT", "bg2")]
+    public void Control_text_reads_on_its_own_fill(string fg, string ground)
+    {
+        foreach (var variant in new[] { "Light", "Dark" })
+        {
+            Assert.True(
+                Ratio(fg, ground, variant) >= Readable,
+                $"{fg} на {ground} [{variant}] даёт {Ratio(fg, ground, variant):F2}:1 при пороге {Readable}");
+        }
+    }
 
     /// <summary>
     /// Выключенный текст приглушён намеренно — и это единственное исключение.
@@ -69,8 +73,8 @@ public class ContrastTests
     /// <remarks>
     /// Порядок, а не порог, и он обязателен. Приглушение — признак
     /// недоступности; выключенный текст, читающийся лучше включённого
-    /// второстепенного, говорит человеку обратное тому, что есть. По таблице
-    /// мокапа так и было: в тёмной теме 4,75:1 у выключенного против 3,46 у
+    /// второстепенного, говорит человеку обратное тому, что есть. Так и было до
+    /// записи 145: в тёмной теме 4,75:1 у выключенного против 3,46 у
     /// третичного, в светлой — один и тот же цвет у обоих.
     /// </remarks>
     [AvaloniaTheory]
@@ -90,9 +94,9 @@ public class ContrastTests
     /// Текст читается на тех поверхностях, где он стоит, — по порогу 4,5.
     /// </summary>
     /// <remarks>
-    /// Пары из карты состояний проекта этого не ловили: там компонент говорит о
-    /// своём фоне, а подпись в боковой колонке или путь в списке недавних стоит
-    /// на фоне хозяина, и хозяином бывает панель. Живой замер нашёл третичный
+    /// Пары контрола с его заливкой этого не ловят: подпись в боковой колонке
+    /// или путь в списке недавних стоит на фоне хозяина, и хозяином бывает
+    /// панель. Живой замер нашёл третичный
     /// текст на панели с 3,98:1 в тёмной и 3,46:1 в светлой, второстепенный на
     /// плашке — с 4,28:1.
     /// <para>
@@ -139,7 +143,7 @@ public class ContrastTests
             $"третичный на bg3 [{variant}] даёт {Ratio("fg3", "bg3", variant):F2}:1");
 
     /// <summary>
-    /// Рамка и наведённая плашка — один цвет, и это решение мокапа.
+    /// Рамка и наведённая плашка — один цвет, и это решение палитры.
     /// </summary>
     /// <remarks>
     /// Здесь закреплено не качество, а намерение. Рамки этой палитры —
@@ -165,8 +169,8 @@ public class ContrastTests
     /// Иконка различима на поверхности, на которой её рисуют.
     /// </summary>
     /// <remarks>
-    /// Акцент на залитой плашке сюда не входит: раздел 6 приёмки развёл этот
-    /// случай отдельно — см. тест ниже. Всё остальное держит 3:1 само.
+    /// Акцент на залитой плашке сюда не входит: у этого случая свой токен и
+    /// свой тест ниже. Всё остальное держит 3:1 само.
     /// </remarks>
     [AvaloniaTheory]
     [MemberData(nameof(IconPairs))]
@@ -180,13 +184,12 @@ public class ContrastTests
     /// </summary>
     /// <remarks>
     /// Ради этого токен и заведён: AxAcc на AxBg3 даёт 2,62:1 в тёмной теме и
-    /// 3,62 в светлой, на AxSel — 2,29 и 3,28. Раздел 6 приёмки записывает
-    /// правило прямо, и здесь оно измерено: AxLinkOn держит порог на обеих
-    /// плашках в обоих вариантах.
+    /// 3,62 в светлой, на AxSel — 2,29 и 3,28. Здесь правило измерено: AxLinkOn
+    /// держит порог на обеих плашках в обоих вариантах.
     ///
     /// Заливки правило не касается: полоса прогресса и заполнение ползунка
-    /// остаются на AxAcc, потому что так их красит сам проект — дорожка bg3,
-    /// заполнение acc, а подпись рядом уже linkOn.
+    /// остаются на AxAcc — дорожка bg3, заполнение acc, а подпись рядом уже
+    /// linkOn.
     /// </remarks>
     [AvaloniaTheory]
     [InlineData("bg3", "Light")]
@@ -196,42 +199,11 @@ public class ContrastTests
     public void Accent_on_a_plate_uses_the_token_made_for_it(string plate, string variant)
     {
         Assert.True(Ratio("acc", plate, variant) < Visible || variant == "Light",
-            "AxAcc внезапно проходит порог — правило раздела 6 стоит перечитать");
+            "AxAcc внезапно проходит порог — отдельный токен для плашки стоит пересмотреть");
 
         Assert.True(
             Ratio("linkOn", plate, variant) >= Visible,
             $"AxLinkOn на {plate} [{variant}] даёт {Ratio("linkOn", plate, variant):F2}:1");
-    }
-
-    public static TheoryData<string, string, string, string> TextPairs
-    {
-        get
-        {
-            var design = DesignProject.Load();
-            var data = new TheoryData<string, string, string, string>();
-
-            foreach (var (state, declared) in design.States.OrderBy(entry => entry.Key, StringComparer.Ordinal))
-            {
-                // Выключенное состояние освобождено — у него свой тест выше.
-                if (state.Contains("Disabled", StringComparison.OrdinalIgnoreCase))
-                    continue;
-
-                if (!declared.TryGetValue("color", out var fg) || !design.Variables.ContainsKey(fg))
-                    continue;
-
-                var grounds = declared.TryGetValue("background", out var bg) && design.Variables.ContainsKey(bg)
-                    ? [bg]
-                    : new[] { "bg1", "bg2" };
-
-                foreach (var ground in grounds)
-                {
-                    data.Add(state, "Light", fg, ground);
-                    data.Add(state, "Dark", fg, ground);
-                }
-            }
-
-            return data;
-        }
     }
 
     public static TheoryData<string, string, string> IconPairs
@@ -261,7 +233,7 @@ public class ContrastTests
         }
     }
 
-    /// <summary>Отношение контраста по WCAG между двумя переменными макетов.</summary>
+    /// <summary>Отношение контраста по WCAG между двумя цветами темы.</summary>
     private static double Ratio(string first, string second, string variant)
     {
         var theme = variant == "Light" ? ThemeVariant.Light : ThemeVariant.Dark;
@@ -278,11 +250,11 @@ public class ContrastTests
     }
 
     /// <summary>
-    /// Цвет переменной макета, взятый из темы.
+    /// Цвет темы по короткому имени.
     /// </summary>
     /// <remarks>
-    /// Проект называет цвета короткими именами CSS, тема — токенами; таблица
-    /// соответствия одна на оба теста и умещается здесь, потому что имена
+    /// Короткие имена держат случаи теста читаемыми в одну строку; таблица
+    /// соответствия умещается здесь, потому что с ключами темы имена
     /// расходятся только регистром и приставкой.
     /// </remarks>
     private static Color Colour(Window window, string variable, ThemeVariant theme)

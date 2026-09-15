@@ -21,9 +21,9 @@ public class ThemeAppliesTemplatesTests
     /// Все templated-контролы библиотеки — не списком, а перечислением сборки.
     /// </summary>
     /// <remarks>
-    /// Список руками здесь и был дырой, о которой предупреждает раздел 12
-    /// спецификации: контрол, забытый в списке, не проверяется никем и уезжает
-    /// в поставку без шаблона. Перечисление сборки забыть нельзя.
+    /// Список руками здесь и был дырой: контрол, забытый в списке, не
+    /// проверяется никем и уезжает в поставку без шаблона. Перечисление сборки
+    /// забыть нельзя.
     ///
     /// Не попадают трое, и каждый по своей причине: <c>AxDialog</c> — окно, его
     /// в чужое окно не положить, и у него отдельный тест ниже; конвертеры —
@@ -54,31 +54,6 @@ public class ThemeAppliesTemplatesTests
 
             return data;
         }
-    }
-
-    /// <summary>
-    /// Библиотека даёт ровно те контролы, которые называет спецификация.
-    /// </summary>
-    /// <remarks>
-    /// Разделы 8 и 9 перечисляют контрол под каждую карточку макетов: раздел 8 —
-    /// то, что было в M0, раздел 9 — то, что предлагалось дописать. Вместе они
-    /// и есть состав набора, поэтому пропажа имени видна сразу, а не тогда,
-    /// когда экран собирают и контрола не находят.
-    /// </remarks>
-    [AvaloniaFact]
-    public void Library_declares_every_control_the_specification_names()
-    {
-        var declared = typeof(AxButton).Assembly.GetTypes()
-            .Where(type => type.IsPublic && type.Name.StartsWith("Ax", StringComparison.Ordinal))
-            .Select(type => type.Name)
-            .ToHashSet(StringComparer.Ordinal);
-
-        var missing = DesignProject.Load().Controls
-            .Where(name => !declared.Contains(name))
-            .OrderBy(name => name, StringComparer.Ordinal)
-            .ToList();
-
-        Assert.True(missing.Count == 0, "библиотека не объявляет: " + string.Join(", ", missing));
     }
 
     /// <summary>
@@ -235,7 +210,7 @@ public class ThemeAppliesTemplatesTests
     }
 
     [AvaloniaFact]
-    public void Focus_ring_uses_the_int_ui_outline_width()
+    public void Focus_ring_and_row_height_come_from_the_theme()
     {
         var window = new Window();
         window.Show();
@@ -287,8 +262,8 @@ public class ThemeAppliesTemplatesTests
 
         Assert.NotNull(toolWindow.Template);
 
-        // Заголовок и вкладки в Int UI живут в одной строке шапки: вкладки
-        // добавляются к заголовку, а не заменяют его.
+        // Заголовок и вкладки живут в одной строке шапки: вкладки добавляются
+        // к заголовку, а не заменяют его.
         Assert.Equal("Проект", toolWindow.Title);
         Assert.Same(tabs, toolWindow.Tabs);
 
@@ -320,7 +295,7 @@ public class ThemeAppliesTemplatesTests
         window.Close();
     }
 
-    /// <summary>Токены приёмки существуют в обоих вариантах — палитра не дырявая.</summary>
+    /// <summary>Токены текста, сообщений, кода и теней существуют в обоих вариантах — палитра не дырявая.</summary>
     [AvaloniaTheory]
     [InlineData("AxAccStrongColor")]
     [InlineData("AxAccStrongHoverColor")]
@@ -339,7 +314,7 @@ public class ThemeAppliesTemplatesTests
     [InlineData("AxCodeFgColor")]
     [InlineData("AxPopupShadow")]
     [InlineData("AxModalShadow")]
-    public void Acceptance_tokens_exist_in_both_variants(string key)
+    public void Role_tokens_exist_in_both_variants(string key)
     {
         var window = new Window();
         window.Show();
@@ -353,8 +328,8 @@ public class ThemeAppliesTemplatesTests
     }
 
     /// <summary>
-    /// Метрики приёмки: тумблер и обводка иконки объявлены темой — в шаблонах
-    /// этих цифр больше нет.
+    /// Тумблер и обводка иконки объявлены темой — в шаблонах этих цифр больше
+    /// нет.
     /// </summary>
     [AvaloniaFact]
     public void Toggle_and_icon_metrics_come_from_the_theme()
@@ -386,7 +361,7 @@ public class ThemeAppliesTemplatesTests
 
     /// <summary>Моноширинный стек начинается с Cascadia Code — шрифт едет в теме.</summary>
     [AvaloniaFact]
-    public void Mono_font_family_starts_with_fira_code()
+    public void Mono_font_family_starts_with_cascadia_code()
     {
         var window = new Window();
         window.Show();

@@ -7,9 +7,8 @@
       попап поиска. Все — карточки: тултип на bg2 с тенью попапа, остальные
       на bg1; тень диалога — только у модальных окон.
 
-      Волосяная рамка у всех — AxBrd2: в тёмной половине карточек проекта
-      она у всех всплывающих одна и та же, и это единственное прочтение,
-      сходящееся в обоих вариантах. AxBrd остаётся разделителям внутри.
+      Волосяная рамка у всех — AxBrd2: у всех всплывающих она одна и та же в
+      обоих вариантах. AxBrd остаётся разделителям внутри.
   -->
 
   <!--
@@ -54,7 +53,7 @@
     <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
-    <!-- Ширина у подсказки своя: проект объявляет 250. -->
+    <!-- Ширина у подсказки своя, 250. -->
     <Setter Property="Width" Value="250"/>
     <Setter Property="Foreground" Value="{DynamicResource AxFgBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>

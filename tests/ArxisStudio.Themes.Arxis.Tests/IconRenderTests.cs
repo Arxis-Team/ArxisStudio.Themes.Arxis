@@ -35,7 +35,7 @@ public class IconRenderTests
 
     [AvaloniaTheory]
     [MemberData(nameof(Samples))]
-    public void Icon_keeps_the_scale_of_the_design_grid(string name)
+    public void Icon_keeps_the_scale_of_its_grid(string name)
     {
         var icon = new AxIcon { Data = Icon(name) };
         var window = Shown(icon);
@@ -67,7 +67,7 @@ public class IconRenderTests
     /// Обводка остаётся 1.2 — её масштабировала та же подгонка.
     /// </summary>
     [AvaloniaFact]
-    public void Icon_keeps_the_stroke_of_the_specification()
+    public void Icon_keeps_the_stroke_of_the_set()
     {
         var icon = new AxIcon { Data = AxIcons.Plus };
         var window = Shown(icon);

@@ -11,15 +11,14 @@ using Xunit;
 namespace ArxisStudio.Themes.Arxis.Tests;
 
 /// <summary>
-/// Геометрия контролов против компонентов дизайн-проекта.
+/// Геометрия основных контролов при обычной плотности.
 /// </summary>
 /// <remarks>
-/// Пять контролов вынесены в проекте отдельными компонентами — <c>AxButton</c>,
-/// <c>AxTextBox</c>, <c>AxComboBox</c>, <c>AxCheckBox</c>,
-/// <c>AxToggleSwitch.dc.html</c>, — и это самый точный источник размеров:
-/// экраны студии подключают их же. Числа ниже сняты оттуда, а не с картинки.
-/// Тест читает фактические значения у показанного контрола, поэтому ловит и
-/// правку темы, и правку класса, которая размеры перебивает.
+/// Кнопка, поле, выпадающий список, флажок и тумблер — контролы, которые стоят
+/// на каждом экране, и их размеры закреплены числами. Тест читает фактические
+/// значения у показанного контрола, поэтому ловит и правку темы, и правку
+/// класса, которая размеры перебивает. Числа сменит веха метрик редизайна
+/// (docs/design-system.md, §3) вместе с этим тестом.
 /// </remarks>
 public class ControlGeometryTests
 {
@@ -75,9 +74,9 @@ public class ControlGeometryTests
         Assert.Equal(new CornerRadius(4), button.CornerRadius);
     }
 
-    /// <summary>Компактная кнопка: 24 высотой — плотная зона раздела 6.</summary>
+    /// <summary>Компактная кнопка: 24 высотой.</summary>
     [AvaloniaFact]
-    public void Compact_button_matches_the_specification()
+    public void Compact_button_keeps_its_geometry()
     {
         var button = Shown(new AxButton { Classes = { "compact" }, Content = "Slim" });
 
@@ -96,9 +95,9 @@ public class ControlGeometryTests
         Assert.Equal(new Thickness(1), box.BorderThickness);
     }
 
-    /// <summary>Поле в плотной зоне: 24 — то же решение раздела 6.</summary>
+    /// <summary>Компактное поле: 24.</summary>
     [AvaloniaFact]
-    public void Compact_text_box_matches_the_specification()
+    public void Compact_text_box_keeps_its_geometry()
     {
         var box = Shown(new AxTextBox { Classes = { "compact" } });
 
@@ -118,7 +117,7 @@ public class ControlGeometryTests
 
     /// <summary>Компактный комбобокс: 24.</summary>
     [AvaloniaFact]
-    public void Compact_combo_box_matches_the_specification()
+    public void Compact_combo_box_keeps_its_geometry()
     {
         var combo = Shown(new AxComboBox { Classes = { "compact" } });
 
@@ -172,7 +171,7 @@ public class ControlGeometryTests
         Assert.Equal(16d, circle.Bounds.Height);
     }
 
-    /// <summary>Строка списка и дерева: 24 — решение раздела 6 против 26 макета.</summary>
+    /// <summary>Строка списка и дерева: 24, одна высота на оба.</summary>
     [AvaloniaFact]
     public void Row_height_is_the_decided_twenty_four()
     {

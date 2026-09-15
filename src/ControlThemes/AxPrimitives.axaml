@@ -5,7 +5,7 @@
   <!-- Бейдж-счётчик: акцентная пилюля 16px. -->
   <ControlTheme x:Key="{x:Type ax:AxBadge}" TargetType="ax:AxBadge">
     <!--
-        Чётный размер: правило раздела 12, целые пиксели при 125 % и 150 %.
+        Чётный размер: целые пиксели при 125 % и 150 %.
         Высота наименьшая, а не прибитая: цифры растут с кеглем темы, и
         прибитые шестнадцать срезали бы их. Центр — чтобы в ячейке выше себя
         бейдж вставал там же, где вставал прибитый.
@@ -14,7 +14,7 @@
     <Setter Property="MinHeight" Value="16"/>
     <Setter Property="VerticalAlignment" Value="Center"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusPill}"/>
-    <!-- Счётчик — текст на заливке: AxAccStrong (приёмка, раздел 6). -->
+    <!-- Счётчик — текст на заливке: AxAccStrong. -->
     <Setter Property="Background" Value="{DynamicResource AxAccStrongBrush}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxOnAccBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSizeCaption}"/>
@@ -60,14 +60,12 @@
     </Style>
     <!--
         Чип шортката: 20 высотой, отступ только по горизонтали, радиус
-        контрольный. Текст остаётся AxFg, а не вторичным: правило раздела 12
-        требует на залитом AxBg3 именно основной цвет — вторичный там даёт
-        4,18:1.
+        контрольный. Текст остаётся AxFg, а не вторичным: на залитом AxBg3
+        читается основной цвет — вторичный там даёт 4,18:1.
     -->
     <!--
-        Клавиша набрана тем же шрифтом, что и подпись рядом: моношрифт проект
-        отдаёт коду, путям и значениям, а «Shift F10» — ни то, ни другое, и в
-        карточке «Шорткаты и код» клавиши стоят обычным.
+        Клавиша набрана тем же шрифтом, что и подпись рядом: моношрифт отдан
+        коду, путям и значениям, а «Shift F10» — ни то, ни другое.
     -->
     <Style Selector="^.kbd">
       <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
@@ -109,7 +107,7 @@
   <!--
       Прогресс: полоса 4 с радиусом 2, дорожка на ступень нажатия. Наведение
       сюда не годится — под заполнением дорожка обязана читаться как жёлоб, а
-      не как подсветка строки, и в карточке она на шаг темнее.
+      не как подсветка строки, поэтому она на шаг темнее.
   -->
   <ControlTheme x:Key="{x:Type ax:AxProgressBar}" TargetType="ax:AxProgressBar">
     <Setter Property="Height" Value="4"/>
@@ -149,7 +147,7 @@
               Value="{Binding TemplateSettings.ContainerWidth, RelativeSource={RelativeSource TemplatedParent}}"/>
       <Setter Property="HorizontalAlignment" Value="Left"/>
       <Style.Animations>
-        <!-- Проход за 1.2 с, как в карточке; линейно, без разгона. -->
+        <!-- Проход за 1.2 с, линейно, без разгона. -->
         <Animation IterationCount="Infinite" Duration="0:0:1.2">
           <KeyFrame Cue="0%">
             <Setter Property="TranslateTransform.X"

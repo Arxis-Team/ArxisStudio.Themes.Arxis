@@ -3,14 +3,14 @@
                     xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
   <!--
-      Кнопка Int UI: 28 высотой, скругление 4, отступы 12×6, минимальная ширина 72.
+      Кнопка: 28 высотой, скругление 4, отступы 12×6, минимальная ширина 72.
       Классы: без класса — контурная, accent — акцентная (основное действие),
       ghost — без рамки до наведения, icon — компактная под одну иконку,
       compact — пониже и потеснее для панелей, danger — красный акцент на
       наведении (закрыть, удалить).
 
       Контур фокуса рисуется отдельным слоем поверх фона и выходит за границы
-      кнопки на 2px, как в Int UI: рамка контрола при этом остаётся на месте,
+      кнопки на 2px: рамка контрола при этом остаётся на месте,
       поэтому кнопка не дёргается, получая фокус.
   -->
   <ControlTheme x:Key="{x:Type ax:AxButton}" TargetType="ax:AxButton">
@@ -99,13 +99,13 @@
       <Setter Property="Foreground" Value="{DynamicResource AxFgDisabledBrush}"/>
       <Setter Property="Cursor" Value="Arrow"/>
     </Style>
-    <!-- Выключенная кнопка по компоненту: фон выключенного поля, рамка та же. -->
+    <!-- Выключенная кнопка: фон выключенного поля, рамка та же. -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource AxInpDisabledBrush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
     </Style>
 
-    <!-- В фокусе и рамка контрола красится акцентом — как в компоненте. -->
+    <!-- В фокусе и рамка контрола красится акцентом. -->
     <Style Selector="^:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="BorderBrush" Value="{DynamicResource AxOutlineFocusedBrush}"/>
     </Style>
@@ -129,7 +129,7 @@
       <Setter Property="Background" Value="{DynamicResource AxAccPressedBrush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AxAccPressedBrush}"/>
     </Style>
-    <!-- Выключенный вид один на все классы — компонент не различает их. -->
+    <!-- Выключенный вид один на все классы. -->
     <Style Selector="^.accent:disabled /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource AxInpDisabledBrush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AxBrd2Brush}"/>
@@ -167,7 +167,7 @@
     </Style>
     <!--
         Выключенная иконочная кнопка гаснет глифом, а не плашкой: своей заливки
-        у неё нет и в покое, и в карточке тулбара выключенная стоит на голом
+        у неё нет и в покое, и в тулбаре выключенная стоит на голом
         фоне. Фон выключенного поля остаётся кнопке с рамкой.
     -->
     <Style Selector="^.icon:disabled /template/ ContentPresenter#PART_ContentPresenter">
@@ -176,8 +176,8 @@
     </Style>
     <!--
         Включённый инструмент: заливка выделения, глиф акцентом. Состояние
-        ставится псевдоклассом :selected — так его записывает раздел 10, и
-        своего свойства у кнопки под это нет: включённость инструмента знает
+        ставится псевдоклассом :selected, и своего свойства у кнопки под это
+        нет: включённость инструмента знает
         приложение, а не контрол.
     -->
     <Style Selector="^.icon:selected /template/ ContentPresenter#PART_ContentPresenter">
@@ -222,7 +222,7 @@
       Обычная иконочная кнопка кладёт под себя заливку во всю эту цель, и
       внутри поля высотой 28 или полосы баннера она встаёт почти во всю высоту,
       вплотную к краю, — рядом с текстом это читается как вторая кнопка, а не
-      как «стереть» или «закрыть». Проект рисует там голый глиф, и на наведении
+      как «стереть» или «закрыть». Поэтому там голый глиф, и на наведении
       меняется он сам, а не фон под ним.
   -->
   <ControlTheme x:Key="AxInlineIconButton" TargetType="ax:AxButton"

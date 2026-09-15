@@ -7,18 +7,13 @@ using Xunit;
 namespace ArxisStudio.Themes.Arxis.Tests;
 
 /// <summary>
-/// Токены, заведённые разделом 4, стоят на названных им ступенях шкал.
+/// Рамки сообщений стоят на ступенях шкал, а не на своих цветах.
 /// </summary>
 /// <remarks>
-/// Раздел 4 «Основ» перечисляет значения, которых в палитре нет, и закрывает
-/// каждое не цветом, а <b>ступенью шкалы</b>: рамка баннера — AxBlue10 в
-/// светлой и AxBlue3 в тёмной, и так все четыре. Это сильнее любой карточки:
-/// карточка показывает цвет, а раздел 4 говорит, откуда он берётся.
-///
-/// Разница не умозрительная. Галерея зоны 20 рисует тёмные рамки успеха и
-/// предупреждения другими цветами, чем дают эти ступени, — и если бы тема шла
-/// за карточкой, она разошлась бы со шкалой, на которой держится весь набор.
-/// Тест закрепляет правило, а не снимок.
+/// Рамка баннера закрыта не цветом, а <b>ступенью шкалы</b>: AxBlue10 в
+/// светлой и AxBlue3 в тёмной, и так все четыре. Цвет, взятый мимо шкалы,
+/// разошёлся бы с ней, а на шкале держится весь набор. Тест закрепляет
+/// правило, а не снимок.
 /// </remarks>
 public class ScaleStepTests
 {
@@ -27,7 +22,7 @@ public class ScaleStepTests
     [InlineData("AxSuccessBorder", "AxGreen9", "AxGreen4")]
     [InlineData("AxWarningBorder", "AxYellow6", "AxYellow4")]
     [InlineData("AxErrorBorder", "AxRed9", "AxRed4")]
-    public void Token_sits_on_the_step_the_specification_names(string token, string light, string dark)
+    public void Token_sits_on_its_scale_step(string token, string light, string dark)
     {
         var window = new Window();
         window.Show();

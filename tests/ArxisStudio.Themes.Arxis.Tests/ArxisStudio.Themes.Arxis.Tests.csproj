@@ -18,16 +18,6 @@
         <ProjectReference Include="../../src/ArxisStudio.Themes.Arxis.csproj"/>
     </ItemGroup>
 
-
-    <!--
-        Значения дизайн-проекта едут в сборке тестов: сверка должна работать
-        и там, где самого дизайн-проекта рядом нет. Листа иконок здесь нет —
-        форму путей сверяет их собственный репозиторий, ArxisStudio.Icons.
-    -->
-    <ItemGroup>
-        <EmbeddedResource Include="design-tokens.json"/>
-    </ItemGroup>
-
     <!--
         Разметка темы едет в сборке тестов текстом: храповик LiteralSpacingTests
         считает отступы, написанные числом, а скомпилированная разметка чисел

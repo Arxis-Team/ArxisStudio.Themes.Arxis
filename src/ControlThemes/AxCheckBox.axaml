@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
-  <!-- Флажок Int UI 16×16, скругление 3; отмеченный — акцентная заливка с галочкой. -->
+  <!-- Флажок 16×16, скругление 3; отмеченный — акцентная заливка с галочкой. -->
   <ControlTheme x:Key="{x:Type ax:AxCheckBox}" TargetType="ax:AxCheckBox">
     <!-- Не обрезаем себя: кольцо фокуса выходит за границы контрола. -->
     <Setter Property="ClipToBounds" Value="False"/>
@@ -85,7 +85,7 @@
 
     <!--
         Заливка флажка остаётся AxAcc, не AxAccStrong: белой галочке довольно
-        3:1 (приёмка, раздел 6 — «AxAcc остаётся флажкам»).
+        3:1.
     -->
     <Style Selector="^:checked /template/ Border#PART_Box">
       <Setter Property="Background" Value="{DynamicResource AxAccBrush}"/>

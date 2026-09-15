@@ -45,13 +45,13 @@ public class TooltipTests
         window.Close();
     }
 
-    /// <summary>Значения токенов подсказки — те, что объявляет проект.</summary>
+    /// <summary>Значения токенов подсказки закреплены.</summary>
     [AvaloniaTheory]
     [InlineData("AxTooltipBackgroundColor", "Light", "#F7F8FA")]
     [InlineData("AxTooltipBackgroundColor", "Dark", "#393B40")]
     [InlineData("AxTooltipBorderColor", "Light", "#DFE1E5")]
     [InlineData("AxTooltipBorderColor", "Dark", "#4E5157")]
-    public void Tooltip_token_matches_the_design_project(string key, string variant, string expected)
+    public void Tooltip_token_keeps_its_value(string key, string variant, string expected)
     {
         var theme = variant == "Light" ? ThemeVariant.Light : ThemeVariant.Dark;
 
