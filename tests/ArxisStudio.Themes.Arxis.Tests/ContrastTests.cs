@@ -161,30 +161,6 @@ public class ContrastTests
     }
 
     /// <summary>
-    /// Зажжённая полоса выбранной вкладки заметнее спокойной.
-    /// </summary>
-    /// <remarks>
-    /// Полоса под выбранной вкладкой говорит двумя цветами сразу: нейтральным — какая вкладка
-    /// выбрана, акцентным — держит ли эта панель клавиатуру. Два состояния одного указателя обязаны
-    /// различаться не только оттенком: иначе тот, кто не различает цвета, читает обе полосы
-    /// одинаково. Проверено дорогой ценой: сильная граница давала в светлой теме 4,55:1 на панели
-    /// против 4,52 у акцента — спокойная полоса выходила заметнее зажжённой.
-    /// </remarks>
-    [AvaloniaFact]
-    public void The_lit_tab_bar_outshines_the_calm_one()
-    {
-        foreach (var variant in Variants)
-        {
-            foreach (var surface in new[] { "SurfaceBase", "SurfacePanel" })
-            {
-                Assert.True(
-                    Ratio("Accent", surface, variant) > Ratio("StrokeControl", surface, variant),
-                    $"полоса вкладки на {surface} [{variant}]: зажжённая не заметнее спокойной");
-            }
-        }
-    }
-
-    /// <summary>
     /// На залитой плашке акцентный текст берёт <c>AxLinkOnPlate</c> и читается.
     /// </summary>
     /// <remarks>

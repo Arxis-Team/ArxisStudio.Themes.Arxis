@@ -203,8 +203,8 @@ public class ToolWindowTests
     /// жирное начертание меняет метрику текста, вкладка становится шире, и весь
     /// ряд сдвигается на каждое переключение.
     /// <para>
-    /// Полоса здесь нейтральная: панель в этом прогоне клавиатуры не держит. Акцентной она
-    /// становится вместе с областью, и об этом говорит <c>ToolWindowFocusTests</c>.
+    /// Полоса акцентная и без каретки: она говорит о выборе, а не о фокусе. О том, где клавиатура,
+    /// говорит подпись, и об этом — <c>ToolWindowFocusTests</c>.
     /// </para>
     /// </remarks>
     [AvaloniaTheory]
@@ -226,7 +226,7 @@ public class ToolWindowTests
         Assert.True(marker.IsVisible, "полосы выбора не видно");
         Assert.Equal(2d, marker.Bounds.Height);
         Assert.Equal(FontWeight.Normal, selected.FontWeight);
-        Assert.Equal(Resource(window, "AxStrokeControlColor", variant), Colour(marker.Background));
+        Assert.Equal(Resource(window, "AxAccentColor", variant), Colour(marker.Background));
         // Прозрачная кисть, а не её отсутствие: своего фона у вкладки нет, но
         // сама кисть нужна — без неё вкладку не поймать курсором.
         Assert.Equal(0, Colour(((Border)Part(selected, "PART_Root")).Background)!.Value.A);

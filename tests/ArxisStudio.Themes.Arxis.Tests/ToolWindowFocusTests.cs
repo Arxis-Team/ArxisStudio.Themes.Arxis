@@ -10,65 +10,78 @@ using Xunit;
 namespace ArxisStudio.Themes.Arxis.Tests;
 
 /// <summary>
-/// Активная панель: та, в которой сейчас клавиатура.
+/// Выбранная вкладка и активная панель: кто что говорит.
 /// </summary>
 /// <remarks>
-/// У среды с десятком панелей вопрос «куда пойдёт нажатие» должен иметь ответ до нажатия. Отвечает
-/// на него выбранная вкладка: полоса под ней акцентна, а подпись — основным цветом, пока
-/// клавиатура в этой панели, и нейтральна, когда клавиатура ушла. Шапка не меняется вовсе — прежде
-/// поднималась она целиком, и пятно во всю её ширину переезжало между панелями на каждый щелчок по
-/// вкладке.
+/// Вопросов два, и отвечают на них порознь. Какая вкладка выбрана — полоса под ней, акцентная
+/// всегда: панель без каретки показывает свой выбор сразу, а не ждёт, когда в неё придут. Где
+/// сейчас клавиатура — подпись выбранной вкладки: основная в той панели, где каретка, вторичная во
+/// всех остальных. Шапка не говорит ничего: прежде поднималась она целиком, и пятно во всю её
+/// ширину переезжало между панелями на каждый щелчок.
 /// <para>
-/// Проверяется наблюдаемое: чем покрашена полоса выбранной вкладки, чем покрашена её подпись и что
-/// шапка осталась прежней.
+/// Проверяется наблюдаемое: чем покрашены полоса и подпись и что шапка осталась прежней.
 /// </para>
 /// </remarks>
 public class ToolWindowFocusTests
 {
-    /// <summary>Полоса выбранной вкладки становится акцентной, когда в панель приходит каретка.</summary>
-    [AvaloniaFact]
-    public void The_bar_of_the_selected_tab_turns_accent_with_the_keyboard()
+    /// <summary>
+    /// Полоса под выбранной вкладкой акцентная сразу, без всякой каретки.
+    /// </summary>
+    /// <remarks>
+    /// При запуске студии клавиатуры нет ни в одной панели, а вкладка в каждой уже выбрана. Полоса,
+    /// зависевшая от фокуса, выходила в этот миг серой у всех — выбор не показывался вовсе, и это
+    /// читалось поломкой, а не состоянием.
+    /// </remarks>
+    [AvaloniaTheory]
+    [InlineData("Light")]
+    [InlineData("Dark")]
+    public void The_selected_tab_wears_its_bar_from_the_start(string variant)
     {
-        var (panel, inside, tab, window) = Shown();
+        var (panel, _, tab, window) = Shown(variant);
+        var marker = Marker(tab);
 
-        Assert.Equal(Token(panel, "AxStrokeControlBrush"), Paint(Marker(tab).Background));
-
-        Assert.True(inside.Focus(), "контролу внутри панели не досталось фокуса");
-        window.UpdateLayout();
-
-        Assert.Equal(Token(panel, "AxAccentBrush"), Paint(Marker(tab).Background));
-        Assert.Equal(Token(panel, "AxTextPrimaryBrush"), Paint(tab.Foreground));
+        Assert.True(marker.IsVisible, "выбранная вкладка осталась без полосы");
+        Assert.Equal(Token(panel, "AxAccentBrush"), Paint(marker.Background));
 
         window.Close();
     }
 
     /// <summary>
-    /// Панель без каретки всё равно называет свою вкладку.
+    /// Одинокой вкладке полосы не полагается.
     /// </summary>
     /// <remarks>
-    /// Погасить полосу совсем значило бы забрать ответ на другой вопрос — какая вкладка выбрана, —
-    /// а он нужен и в спящей панели: на соседку смотрят, чтобы решить, куда идти.
+    /// Выбирать не из чего, и линия под единственной вкладкой говорит о том, чего никто не
+    /// спрашивает. В доке из одних одиночек ряд таких линий читался бы шумом.
     /// </remarks>
     [AvaloniaFact]
-    public void A_panel_without_the_keyboard_keeps_a_visible_bar()
+    public void A_lone_tab_has_no_bar_at_all()
     {
-        var (panel, inside, tab, window) = Shown();
-        var away = new Border { Focusable = true, Height = 20 };
+        var (_, inside, tab, window) = Shown(tabs: 1);
 
-        ((StackPanel)window.Content!).Children.Add(away);
+        Assert.False(Marker(tab).IsVisible, "у одинокой вкладки есть полоса");
+
+        Assert.True(inside.Focus(), "контролу внутри панели не досталось фокуса");
         window.UpdateLayout();
 
-        Assert.True(inside.Focus());
-        window.UpdateLayout();
+        Assert.False(Marker(tab).IsVisible, "полоса появилась у одинокой вкладки под кареткой");
 
-        Assert.True(away.Focus());
-        window.UpdateLayout();
+        window.Close();
+    }
 
-        var marker = Marker(tab);
+    /// <summary>Подпись выбранной вкладки называет панель, в которой клавиатура.</summary>
+    [AvaloniaTheory]
+    [InlineData("Light")]
+    [InlineData("Dark")]
+    public void The_label_of_the_selected_tab_names_the_panel_with_the_keyboard(string variant)
+    {
+        var (panel, inside, tab, window) = Shown(variant);
 
-        Assert.True(marker.IsVisible, "выбранная вкладка спящей панели осталась без полосы");
-        Assert.Equal(Token(panel, "AxStrokeControlBrush"), Paint(marker.Background));
         Assert.Equal(Token(panel, "AxTextSecondaryBrush"), Paint(tab.Foreground));
+
+        Assert.True(inside.Focus(), "контролу внутри панели не досталось фокуса");
+        window.UpdateLayout();
+
+        Assert.Equal(Token(panel, "AxTextPrimaryBrush"), Paint(tab.Foreground));
 
         window.Close();
     }
@@ -102,35 +115,35 @@ public class ToolWindowFocusTests
         window.Close();
     }
 
-    /// <summary>Акцентная полоса в окне ровно одна.</summary>
+    /// <summary>Подпись горит ровно у одной панели.</summary>
     /// <remarks>
-    /// Состояние, которое видно всегда, не состояние: две панели, обе с акцентом, отвечают на
-    /// вопрос о клавиатуре так же плохо, как две одинаково спящие.
+    /// Состояние, которое видно всегда, не состояние: две панели, обе с основной подписью, отвечают
+    /// на вопрос о клавиатуре так же плохо, как две одинаково спящие.
     /// </remarks>
     [AvaloniaFact]
-    public void Only_one_panel_at_a_time_shows_the_accent_bar()
+    public void Only_one_panel_at_a_time_lights_its_label()
     {
         var (first, inside, tab, window) = Shown();
-        var (second, beside, tabs) = Panel();
+        var (second, beside, tabs) = Panel(2);
 
         ((StackPanel)window.Content!).Children.Add(second);
         window.UpdateLayout();
 
         var other = Chosen(tabs);
-        var accent = Token(first, "AxAccentBrush");
-        var idle = Token(first, "AxStrokeControlBrush");
+        var lit = Token(first, "AxTextPrimaryBrush");
+        var calm = Token(first, "AxTextSecondaryBrush");
 
         Assert.True(inside.Focus());
         window.UpdateLayout();
 
-        Assert.Equal(accent, Paint(Marker(tab).Background));
-        Assert.Equal(idle, Paint(Marker(other).Background));
+        Assert.Equal(lit, Paint(tab.Foreground));
+        Assert.Equal(calm, Paint(other.Foreground));
 
         Assert.True(beside.Focus(), "контролу второй панели не досталось фокуса");
         window.UpdateLayout();
 
-        Assert.Equal(idle, Paint(Marker(tab).Background));
-        Assert.Equal(accent, Paint(Marker(other).Background));
+        Assert.Equal(calm, Paint(tab.Foreground));
+        Assert.Equal(lit, Paint(other.Foreground));
 
         window.Close();
     }
@@ -201,9 +214,10 @@ public class ToolWindowFocusTests
         control.TryFindResource(key, control.ActualThemeVariant, out var found) ? Paint(found as IBrush) : null;
 
     /// <summary>Панель с полосой вкладок и местом для каретки, показанная в окне.</summary>
-    private static (AxToolWindow Panel, Border Inside, AxTabItem Tab, Window Window) Shown(string variant = "Dark")
+    private static (AxToolWindow Panel, Border Inside, AxTabItem Tab, Window Window) Shown(
+        string variant = "Dark", int tabs = 2)
     {
-        var (panel, inside, tabs) = Panel();
+        var (panel, inside, strip) = Panel(tabs);
         var window = new Window
         {
             Content = new StackPanel { Children = { panel } },
@@ -215,33 +229,34 @@ public class ToolWindowFocusTests
         window.Show();
         window.UpdateLayout();
 
-        return (panel, inside, Chosen(tabs), window);
+        return (panel, inside, Chosen(strip), window);
     }
 
     /// <summary>Панель докинга как она есть: шапка из вкладок, заголовка нет.</summary>
-    private static (AxToolWindow Panel, Border Inside, AxTabStrip Tabs) Panel()
+    private static (AxToolWindow Panel, Border Inside, AxTabStrip Tabs) Panel(int tabs)
     {
         var inside = new Border { Focusable = true, Height = 20 };
-        var tabs = new AxTabStrip();
+        var strip = new AxTabStrip();
 
-        tabs.Items.Add(new AxTabItem { Content = "Проект" });
-        tabs.Items.Add(new AxTabItem { Content = "Структура" });
-        tabs.SelectedIndex = 0;
+        foreach (var name in new[] { "Проект", "Структура" }.Take(tabs))
+            strip.Items.Add(new AxTabItem { Content = name });
+
+        strip.SelectedIndex = 0;
 
         // Вкладки шапки — вкладки панели: вид им ставит тема полосы шапки.
         Assert.True(Application.Current!.TryFindResource("AxToolWindowTabStrip", out var theme));
-        tabs.Theme = (ControlTheme)theme!;
+        strip.Theme = (ControlTheme)theme!;
 
         var panel = new AxToolWindow
         {
             ShowHeader = true,
             ShowHeaderSeparator = true,
-            Tabs = tabs,
+            Tabs = strip,
             Content = inside,
             Width = 240,
             Height = 120,
         };
 
-        return (panel, inside, tabs);
+        return (panel, inside, strip);
     }
 }

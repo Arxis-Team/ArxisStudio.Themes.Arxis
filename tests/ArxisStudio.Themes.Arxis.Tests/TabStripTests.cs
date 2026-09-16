@@ -130,16 +130,14 @@ public class TabStripTests
     }
 
     /// <summary>
-    /// Полоса выбора — два пикселя у обеих разновидностей, и два цвета.
+    /// Полоса выбора — два пикселя у обеих разновидностей, и цвет у неё акцентный.
     /// </summary>
     /// <remarks>
     /// Два пикселя, а не три. Панельная вкладка держала три, и в шапке дока нижний пиксель уходил
     /// под разделитель — полоса выходила и громче соседней, и короче себя самой.
     /// <para>
-    /// Цвета два, потому что полоса отвечает сразу на два вопроса: какая вкладка выбрана —
-    /// нейтральной линией, — и держит ли эта область клавиатуру — акцентом. Признак области
-    /// приходит вкладке наследованием от панели; здесь он ставится тем же псевдоклассом, которым
-    /// его ставит область.
+    /// Акцентная всегда: полоса отвечает на вопрос, какая вкладка выбрана, а не на вопрос, где
+    /// клавиатура, — и спящая панель показывает свой выбор сразу.
     /// </para>
     /// </remarks>
     [AvaloniaTheory]
@@ -147,7 +145,7 @@ public class TabStripTests
     [InlineData(true, 2d)]
     public void Selected_tab_marks_itself_with_a_two_pixel_bar(bool compact, double thickness)
     {
-        var (tab, window) = Shown(compact, "Dark");
+        var (tab, window) = Shown(compact, "Dark", alone: false);
 
         ((IPseudoClasses)tab.Classes).Set(":selected", true);
         window.UpdateLayout();
@@ -157,15 +155,37 @@ public class TabStripTests
         Assert.True(marker.IsVisible, "полосы выбора не видно");
         Assert.Equal(thickness, marker.Bounds.Height);
         Assert.Equal(
-            Resource(window, "AxStrokeControlColor", "Dark"),
-            Colour(marker.GetValue(Border.BackgroundProperty)));
-
-        ((IPseudoClasses)tab.Classes).Set(":selection-active", true);
-        window.UpdateLayout();
-
-        Assert.Equal(
             Resource(window, "AxAccentColor", "Dark"),
             Colour(marker.GetValue(Border.BackgroundProperty)));
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Одинокая вкладка обходится без полосы выбора.
+    /// </summary>
+    /// <remarks>
+    /// Выбирать не из чего, и линия под единственной вкладкой говорит о том, чего никто не
+    /// спрашивает. Считает вкладки сама полоса и метит их; появится соседка — появится и линия.
+    /// </remarks>
+    [AvaloniaTheory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void A_lone_tab_goes_without_the_bar(bool compact)
+    {
+        var (tab, window) = Shown(compact, "Dark");
+
+        ((IPseudoClasses)tab.Classes).Set(":selected", true);
+        window.UpdateLayout();
+
+        Assert.False(Part(tab, "PART_ActiveMarker").IsVisible, "у одинокой вкладки есть полоса");
+
+        var strip = Assert.IsType<AxTabStrip>(tab.Parent);
+
+        strip.Items.Add(new AxTabItem { Content = "App.axaml" });
+        window.UpdateLayout();
+
+        Assert.True(Part(tab, "PART_ActiveMarker").IsVisible, "с соседкой полоса не вернулась");
 
         window.Close();
     }
@@ -463,7 +483,7 @@ public class TabStripTests
         window.Close();
     }
 
-    private static (AxTabItem Tab, Window Window) Shown(bool compact, string variant)
+    private static (AxTabItem Tab, Window Window) Shown(bool compact, string variant, bool alone = true)
     {
         var tab = new AxTabItem { Content = "MainWindow.axaml", IsClosable = true };
 
@@ -471,6 +491,10 @@ public class TabStripTests
         var strip = new AxTabStrip { Kind = compact ? AxTabStripKind.ToolWindow : AxTabStripKind.Document };
 
         strip.Items.Add(tab);
+
+        // Соседка нужна там, где проверяют полосу выбора: у одинокой вкладки её нет.
+        if (!alone)
+            strip.Items.Add(new AxTabItem { Content = "App.axaml", IsClosable = true });
 
         var window = new Window
         {
