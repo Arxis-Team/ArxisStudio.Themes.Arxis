@@ -16,7 +16,7 @@
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Background" Value="{DynamicResource AxSurfaceBaseBrush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
-    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineThickness}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -200,7 +200,7 @@
   <!-- Многострочное поле: тот же вид, но растёт по высоте. -->
   <ControlTheme x:Key="{x:Type ax:AxTextArea}" TargetType="ax:AxTextArea"
                 BasedOn="{StaticResource {x:Type ax:AxTextBox}}">
-    <Setter Property="MinHeight" Value="72"/>
+    <Setter Property="MinHeight" Value="{DynamicResource AxTextAreaMinHeight}"/>
     <!--
         Многострочное поле — единственное, где вертикальный отступ нужен:
         у однострочного текст стоит по центру и отступ ему только мешает, а

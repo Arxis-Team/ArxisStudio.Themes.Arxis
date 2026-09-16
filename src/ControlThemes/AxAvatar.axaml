@@ -4,8 +4,8 @@
 
   <!-- Плитка с инициалами 36×36; Shape=Circle — круглая (пользователь, собеседник). -->
   <ControlTheme x:Key="{x:Type ax:AxAvatar}" TargetType="ax:AxAvatar">
-    <Setter Property="Width" Value="36"/>
-    <Setter Property="Height" Value="36"/>
+    <Setter Property="Width" Value="{DynamicResource AxAvatarSize}"/>
+    <Setter Property="Height" Value="{DynamicResource AxAvatarSize}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
     <Setter Property="TileBrush" Value="{DynamicResource AxAccentFillBrush}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxTextOnAccentBrush}"/>
@@ -88,15 +88,15 @@
             viewBox="0 0 16 16" исходного SVG. Масштаб остаётся один на все
             иконки и меняется только вместе с размером самой иконки.
 
-            Шестнадцать здесь числом, а не токеном AxIconSize, и это не
+            Клетка — свой ключ AxIconGrid, а не AxIconSize, и это не
             недосмотр: клетка — система координат, в которой нарисованы пути, а
-            токен — размер, которым иконку показывают. Совпадают они сегодня и
-            расходятся завтра, и тогда Viewbox начнёт вписывать клетку в клетку
-            вместо рисунка в рамку: при токене 24 путь занял бы шестнадцать
+            AxIconSize — размер, которым иконку показывают. Совпадают они сегодня
+            и расходятся завтра, и тогда Viewbox начнёт вписывать клетку в клетку
+            вместо рисунка в рамку: при размере 24 путь занял бы шестнадцать
             единиц в углу двадцатичетырёх, а не всю рамку.
         -->
         <Viewbox Stretch="Uniform">
-          <Canvas Width="16" Height="16">
+          <Canvas Width="{DynamicResource AxIconGrid}" Height="{DynamicResource AxIconGrid}">
             <Path x:Name="PART_Path"
                   Data="{TemplateBinding Data}"
                   Stroke="{TemplateBinding Foreground}"

@@ -41,7 +41,7 @@
               <Ellipse x:Name="PART_Circle"
                        Fill="{DynamicResource AxSurfaceBaseBrush}"
                        Stroke="{DynamicResource AxStrokeControlBrush}"
-                       StrokeThickness="1"/>
+                       StrokeThickness="{DynamicResource AxHairline}"/>
             </Panel>
             <ContentPresenter Grid.Column="1"
                               Margin="{DynamicResource AxCheckboxGapThickness}"
@@ -69,7 +69,7 @@
     <Style Selector="^:checked /template/ Ellipse#PART_Circle">
       <Setter Property="Fill" Value="{DynamicResource AxTextOnAccentBrush}"/>
       <Setter Property="Stroke" Value="{DynamicResource AxAccentBrush}"/>
-      <Setter Property="StrokeThickness" Value="5"/>
+      <Setter Property="StrokeThickness" Value="{DynamicResource AxRadioMarkThickness}"/>
     </Style>
     <Style Selector="^:checked:pointerover /template/ Ellipse#PART_Circle">
       <Setter Property="Stroke" Value="{DynamicResource AxAccentHoverBrush}"/>
@@ -101,11 +101,11 @@
   <ControlTheme x:Key="{x:Type ax:AxDivider}" TargetType="ax:AxDivider">
     <Setter Property="Fill" Value="{DynamicResource AxStrokeSubtleBrush}"/>
     <Style Selector="^[Orientation=Horizontal]">
-      <Setter Property="Height" Value="1"/>
+      <Setter Property="Height" Value="{DynamicResource AxHairline}"/>
       <Setter Property="HorizontalAlignment" Value="Stretch"/>
     </Style>
     <Style Selector="^[Orientation=Vertical]">
-      <Setter Property="Width" Value="1"/>
+      <Setter Property="Width" Value="{DynamicResource AxHairline}"/>
       <Setter Property="VerticalAlignment" Value="Stretch"/>
     </Style>
   </ControlTheme>
@@ -142,7 +142,7 @@
       <Setter Property="HorizontalAlignment" Value="Stretch"/>
       <Setter Property="VerticalAlignment" Value="Center"/>
       <Style Selector="^ /template/ Border#PART_Line">
-        <Setter Property="Height" Value="1"/>
+        <Setter Property="Height" Value="{DynamicResource AxHairline}"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
       </Style>
     </Style>
@@ -152,7 +152,7 @@
       <Setter Property="VerticalAlignment" Value="Stretch"/>
       <Setter Property="HorizontalAlignment" Value="Center"/>
       <Style Selector="^ /template/ Border#PART_Line">
-        <Setter Property="Width" Value="1"/>
+        <Setter Property="Width" Value="{DynamicResource AxHairline}"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
       </Style>
     </Style>
@@ -219,8 +219,8 @@
                             IsVisible="{TemplateBinding Counter, Converter={x:Static ObjectConverters.IsNotNull}}"/>
           <Border x:Name="PART_Rule"
                   Grid.Column="3"
-                  Height="1"
-                  Margin="10,1,0,0"
+                  Height="{DynamicResource AxHairline}"
+                  Margin="{DynamicResource AxGroupRuleMargin}"
                   VerticalAlignment="Center"
                   Background="{DynamicResource AxStrokeSubtleBrush}"/>
         </Grid>
@@ -228,7 +228,7 @@
     </Setter>
 
     <Style Selector="^[IsCollapsible=True] /template/ Border#PART_Rule">
-      <Setter Property="Margin" Value="8,1,0,0"/>
+      <Setter Property="Margin" Value="{DynamicResource AxGroupRuleMarginCollapsible}"/>
     </Style>
     <Style Selector="^[IsExpanded=True] /template/ ax|AxIcon#PART_Chevron">
       <Setter Property="Data" Value="{x:Static ax:AxIcons.ChevronDown}"/>
@@ -247,8 +247,8 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}"
-                Height="4"
-                CornerRadius="2"
+                Height="{DynamicResource AxTrackHeight}"
+                CornerRadius="{DynamicResource AxCornerRadiusTrack}"
                 VerticalAlignment="Center"/>
       </ControlTemplate>
     </Setter>
@@ -269,8 +269,8 @@
   </ControlTheme>
 
   <ControlTheme x:Key="AxSliderThumb" TargetType="Thumb">
-    <Setter Property="Width" Value="14"/>
-    <Setter Property="Height" Value="14"/>
+    <Setter Property="Width" Value="{DynamicResource AxSliderThumbSize}"/>
+    <Setter Property="Height" Value="{DynamicResource AxSliderThumbSize}"/>
     <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="Template">
       <ControlTemplate>

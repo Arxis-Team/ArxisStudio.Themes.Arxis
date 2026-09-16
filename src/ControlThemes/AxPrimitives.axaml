@@ -10,8 +10,8 @@
         прибитые шестнадцать срезали бы их. Центр — чтобы в ячейке выше себя
         бейдж вставал там же, где вставал прибитый.
     -->
-    <Setter Property="MinWidth" Value="16"/>
-    <Setter Property="MinHeight" Value="16"/>
+    <Setter Property="MinWidth" Value="{DynamicResource AxBadgeSize}"/>
+    <Setter Property="MinHeight" Value="{DynamicResource AxBadgeSize}"/>
     <Setter Property="VerticalAlignment" Value="Center"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusPill}"/>
     <!-- Счётчик — текст на заливке: AxAccentFill. -->
@@ -72,7 +72,7 @@
       <Setter Property="FontWeight" Value="Medium"/>
       <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
       <!-- Наименьшая и по центру — по той же причине, что у бейджа. -->
-      <Setter Property="MinHeight" Value="20"/>
+      <Setter Property="MinHeight" Value="{DynamicResource AxChipKeyHeight}"/>
       <Setter Property="VerticalAlignment" Value="Center"/>
       <Setter Property="Padding" Value="{DynamicResource AxChipPaddingKey}"/>
     </Style>
@@ -82,7 +82,7 @@
   <ControlTheme x:Key="{x:Type ax:AxCard}" TargetType="ax:AxCard">
     <Setter Property="Background" Value="{DynamicResource AxSurfacePanelBrush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeSubtleBrush}"/>
-    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineThickness}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
     <Setter Property="Padding" Value="{DynamicResource AxCardPadding}"/>
     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -111,9 +111,9 @@
       непрозрачна.
   -->
   <ControlTheme x:Key="{x:Type ax:AxProgressBar}" TargetType="ax:AxProgressBar">
-    <Setter Property="Height" Value="4"/>
-    <Setter Property="MinHeight" Value="4"/>
-    <Setter Property="CornerRadius" Value="2"/>
+    <Setter Property="Height" Value="{DynamicResource AxTrackHeight}"/>
+    <Setter Property="MinHeight" Value="{DynamicResource AxTrackHeight}"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusTrack}"/>
     <Setter Property="Background" Value="{DynamicResource AxTrackBrush}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxAccentBrush}"/>
     <Setter Property="Template">

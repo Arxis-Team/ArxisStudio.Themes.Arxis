@@ -45,7 +45,7 @@
                       Height="{DynamicResource AxCheckboxSize}"
                       CornerRadius="{DynamicResource AxCornerRadiusSmall}"
                       BorderBrush="{DynamicResource AxStrokeControlBrush}"
-                      BorderThickness="1"
+                      BorderThickness="{DynamicResource AxHairlineThickness}"
                       Background="{DynamicResource AxSurfaceBaseBrush}"
                       VerticalAlignment="Center"/>
               <!--

@@ -19,7 +19,7 @@
         под шапкой: без неё она вылезает за
         скругление и торчит усиками по краям.
     -->
-    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineThickness}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
     <Setter Property="VerticalContentAlignment" Value="Stretch"/>
@@ -91,7 +91,7 @@
     </Setter>
 
     <Style Selector="^[ShowHeaderSeparator=True] /template/ Border#PART_Header">
-      <Setter Property="BorderThickness" Value="0,0,0,1"/>
+      <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineBottomThickness}"/>
     </Style>
 
     <!--

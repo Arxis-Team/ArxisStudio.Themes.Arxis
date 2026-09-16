@@ -17,12 +17,12 @@
   <ControlTheme x:Key="{x:Type ToolTip}" TargetType="ToolTip">
     <Setter Property="Background" Value="{DynamicResource AxToolTipFillBrush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxToolTipStrokeBrush}"/>
-    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineThickness}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="Padding" Value="{DynamicResource AxTooltipPadding}"/>
-    <Setter Property="MaxWidth" Value="400"/>
+    <Setter Property="MaxWidth" Value="{DynamicResource AxToolTipMaxWidth}"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}"
@@ -51,12 +51,12 @@
     <Setter Property="ClipToBounds" Value="False"/>
     <Setter Property="Background" Value="{DynamicResource AxSurfaceOverlayBrush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
-    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineThickness}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusFloating}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
-    <Setter Property="Width" Value="300"/>
-    <Setter Property="MaxHeight" Value="400"/>
+    <Setter Property="Width" Value="{DynamicResource AxQuickSearchWidth}"/>
+    <Setter Property="MaxHeight" Value="{DynamicResource AxQuickSearchMaxHeight}"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}"
@@ -64,12 +64,12 @@
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 BoxShadow="{DynamicResource AxShadowModal}"
-                Margin="10">
+                Margin="{DynamicResource AxDialogWindowMargin}">
           <Border CornerRadius="{TemplateBinding CornerRadius}" ClipToBounds="True">
           <DockPanel>
             <Border DockPanel.Dock="Top"
                     BorderBrush="{DynamicResource AxStrokeSubtleBrush}"
-                    BorderThickness="0,0,0,1"
+                    BorderThickness="{DynamicResource AxHairlineBottomThickness}"
                     Padding="{DynamicResource AxQuickSearchFieldPadding}">
               <DockPanel>
                 <ax:AxIcon DockPanel.Dock="Left"
@@ -89,7 +89,7 @@
             </Border>
             <Border DockPanel.Dock="Bottom"
                     BorderBrush="{DynamicResource AxStrokeSubtleBrush}"
-                    BorderThickness="0,1,0,0"
+                    BorderThickness="{DynamicResource AxHairlineTopThickness}"
                     Padding="{DynamicResource AxQuickSearchHintsPadding}">
               <TextBlock Text="{TemplateBinding Hints}"
                          Foreground="{DynamicResource AxTextSecondaryBrush}"

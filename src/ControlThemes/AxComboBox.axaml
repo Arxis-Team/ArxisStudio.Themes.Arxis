@@ -12,7 +12,7 @@
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="Background" Value="{DynamicResource AxSurfaceBaseBrush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
-    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineThickness}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="PlaceholderForeground" Value="{DynamicResource AxTextSecondaryBrush}"/>
@@ -55,7 +55,7 @@
                    InheritsTransform="True">
               <Border Background="{DynamicResource AxSurfaceOverlayBrush}"
                       BorderBrush="{DynamicResource AxStrokeControlBrush}"
-                      BorderThickness="1"
+                      BorderThickness="{DynamicResource AxHairlineThickness}"
                       CornerRadius="{DynamicResource AxCornerRadiusLarge}"
                       BoxShadow="{DynamicResource AxShadowPopup}"
                       Margin="{DynamicResource AxSpaceTightAboveThickness}">

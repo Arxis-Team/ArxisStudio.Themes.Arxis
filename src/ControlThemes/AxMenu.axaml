@@ -66,7 +66,7 @@
                  IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}">
             <Border Background="{DynamicResource AxSurfaceOverlayBrush}"
                     BorderBrush="{DynamicResource AxStrokeControlBrush}"
-                    BorderThickness="1"
+                    BorderThickness="{DynamicResource AxHairlineThickness}"
                     CornerRadius="{DynamicResource AxCornerRadiusLarge}"
                     BoxShadow="{DynamicResource AxShadowPopup}"
                     Padding="{DynamicResource AxMenuPadding}"
@@ -114,11 +114,11 @@
   <ControlTheme x:Key="{x:Type MenuFlyoutPresenter}" TargetType="MenuFlyoutPresenter">
     <Setter Property="Background" Value="{DynamicResource AxSurfaceOverlayBrush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
-    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineThickness}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
     <Setter Property="Padding" Value="{DynamicResource AxMenuPadding}"/>
-    <Setter Property="MaxWidth" Value="456"/>
-    <Setter Property="MinWidth" Value="160"/>
+    <Setter Property="MaxWidth" Value="{DynamicResource AxMenuMaxWidth}"/>
+    <Setter Property="MinWidth" Value="{DynamicResource AxMenuMinWidth}"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Border Background="{TemplateBinding Background}"
@@ -140,7 +140,7 @@
   <ControlTheme x:Key="{x:Type ContextMenu}" TargetType="ContextMenu">
     <Setter Property="Background" Value="{DynamicResource AxSurfaceOverlayBrush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
-    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineThickness}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
     <Setter Property="Padding" Value="{DynamicResource AxMenuPadding}"/>
     <Setter Property="Template">
@@ -164,7 +164,7 @@
   <!-- Разделитель меню: линия в пиксель с воздухом по бокам. -->
   <ControlTheme x:Key="{x:Type Separator}" TargetType="Separator">
     <Setter Property="Background" Value="{DynamicResource AxStrokeSubtleBrush}"/>
-    <Setter Property="Height" Value="1"/>
+    <Setter Property="Height" Value="{DynamicResource AxHairline}"/>
     <Setter Property="Margin" Value="{DynamicResource AxMenuSeparatorMargin}"/>
     <Setter Property="Template">
       <ControlTemplate>

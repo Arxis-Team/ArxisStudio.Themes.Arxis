@@ -11,7 +11,7 @@
     <Setter Property="Background" Value="{DynamicResource AxSurfacePanelBrush}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeSubtleBrush}"/>
-    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineBottomThickness}"/>
     <!--
         40: высота полосы, в которой стоят проект, лента вкладов и кнопки окна.
 
@@ -66,7 +66,7 @@
   -->
   <ControlTheme x:Key="{x:Type ax:AxWindowControls}" TargetType="ax:AxWindowControls">
     <Setter Property="VerticalAlignment" Value="Center"/>
-    <Setter Property="Margin" Value="4,0,6,0"/>
+    <Setter Property="Margin" Value="{DynamicResource AxWindowControlsMargin}"/>
     <Setter Property="Template">
       <ControlTemplate>
         <StackPanel Orientation="Horizontal" Spacing="{DynamicResource AxSpaceHair}">

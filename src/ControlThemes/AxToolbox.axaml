@@ -48,19 +48,19 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Viewbox Stretch="Uniform">
-          <Canvas x:Name="PART_Cell" Width="16" Height="16">
+          <Canvas x:Name="PART_Cell" Width="{DynamicResource AxIconGrid}" Height="{DynamicResource AxIconGrid}">
             <Canvas.RenderTransform>
               <RotateTransform/>
             </Canvas.RenderTransform>
             <!-- Кольцо: радиус 7, чтобы обводка 2 легла внутрь клетки 16. -->
             <Ellipse Canvas.Left="1" Canvas.Top="1"
-                     Width="14" Height="14"
+                     Width="{DynamicResource AxSpinnerRingSize}" Height="{DynamicResource AxSpinnerRingSize}"
                      Stroke="{TemplateBinding BorderBrush}"
-                     StrokeThickness="2"/>
+                     StrokeThickness="{DynamicResource AxSpinnerStrokeThickness}"/>
             <!-- Верхняя четверть: от 135° до 45°, через самый верх круга. -->
             <Path Data="M 3.05 3.05 A 7 7 0 0 1 12.95 3.05"
                   Stroke="{TemplateBinding Foreground}"
-                  StrokeThickness="2"
+                  StrokeThickness="{DynamicResource AxSpinnerStrokeThickness}"
                   StrokeLineCap="Round"/>
           </Canvas>
         </Viewbox>
@@ -72,8 +72,8 @@
         малого, который идёт вторичным цветом иконки.
     -->
     <Style Selector="^:large">
-      <Setter Property="Width" Value="24"/>
-      <Setter Property="Height" Value="24"/>
+      <Setter Property="Width" Value="{DynamicResource AxSpinnerSizeLarge}"/>
+      <Setter Property="Height" Value="{DynamicResource AxSpinnerSizeLarge}"/>
       <Setter Property="Foreground" Value="{DynamicResource AxAccentBrush}"/>
     </Style>
 
@@ -103,7 +103,7 @@
   <ControlTheme x:Key="{x:Type ax:AxCodeBlock}" TargetType="ax:AxCodeBlock">
     <Setter Property="Background" Value="{DynamicResource AxSurfaceSunkenBrush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeSubtleBrush}"/>
-    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineThickness}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
     <Setter Property="Padding" Value="{DynamicResource AxSurfacePadding}"/>
     <Setter Property="FontFamily" Value="{DynamicResource AxFontFamilyMono}"/>
@@ -154,7 +154,7 @@
 
         <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
           <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeSubtleBrush}"/>
-          <Setter Property="BorderThickness" Value="0,0,0,1"/>
+          <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineBottomThickness}"/>
         </Style>
         <!--
             Ниже базовой отбивки: у последней строки линия висела бы над
@@ -176,7 +176,7 @@
           <DockPanel>
             <Border DockPanel.Dock="Top"
                     BorderBrush="{DynamicResource AxStrokeSubtleBrush}"
-                    BorderThickness="0,0,0,1"
+                    BorderThickness="{DynamicResource AxHairlineBottomThickness}"
                     MinHeight="{DynamicResource AxRowHeight}"
                     IsVisible="{TemplateBinding Header, Converter={x:Static ObjectConverters.IsNotNull}}">
               <ContentPresenter Content="{TemplateBinding Header}"

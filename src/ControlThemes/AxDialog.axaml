@@ -19,7 +19,7 @@
                   CornerRadius="{DynamicResource AxCornerRadiusFloating}"
                   BoxShadow="{DynamicResource AxShadowModal}"
                   Margin="{DynamicResource AxModalShadowRoom}"
-                  MinWidth="320"
+                  MinWidth="{DynamicResource AxDialogMinWidth}"
                   ClipToBounds="False">
             <DockPanel>
               <!--
@@ -45,7 +45,7 @@
               <Border x:Name="PART_Footer"
                       DockPanel.Dock="Bottom"
                       BorderBrush="{DynamicResource AxStrokeSubtleBrush}"
-                      BorderThickness="0,1,0,0"
+                      BorderThickness="{DynamicResource AxHairlineTopThickness}"
                       Padding="{DynamicResource AxDialogBandPadding}">
                 <DockPanel>
                   <ContentPresenter Content="{TemplateBinding Buttons}"

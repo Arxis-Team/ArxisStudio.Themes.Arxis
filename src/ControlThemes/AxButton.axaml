@@ -44,7 +44,7 @@
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
-    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineThickness}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="FontWeight" Value="Medium"/>

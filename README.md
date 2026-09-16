@@ -64,7 +64,11 @@ ThemeVariant.Dark / Light` — все токены объявлены в theme d
   `AxTreeIndent` — всё кратно четырём и идёт за плотностью, — `AxFocusOutlineWidth`,
   радиусы 3 / 4 / 6 / 8 / 10 / 12 и пилюля
   `AxCornerRadiusPill`, радиус кольца строки `AxCornerRadiusFocusRow`, отступы кнопки, поля и
-  комбобокса, размер флажка и тумблера, размер и обводка иконки.
+  комбобокса, размер флажка и тумблера, размер и обводка иконки — и вся прочая геометрия темы:
+  линия в пиксель `AxHairline` с толщинами по сторонам, клетка набора, дорожка и её ручка, полоса
+  вкладки, бейдж, ширины всплывающих поверхностей и экранов студии. Чисел в шаблонах не осталось:
+  их считают храповики `LiteralSpacingTests`, `LiteralRadiusTests` и `LiteralSizeTests`, и все три
+  стоят на нуле.
 - `Spacing.axaml` — шкала расстояний: ступени `AxSpaceHair 2`, `AxSpaceTight 4`,
   `AxSpaceSnug 6`, `AxSpace 8`, `AxSpaceWide 12`, `AxSpaceLoose 16`,
   `AxSpaceSection 24`, `AxSpaceScreen 40` — каждая в двух формах (`x:Double` для

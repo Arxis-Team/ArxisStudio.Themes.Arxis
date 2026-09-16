@@ -21,7 +21,7 @@
         давала обрезка на контейнере — и она же съедала кольцо фокуса, которое
         у половины выходит наружу.
     -->
-    <Setter Property="CornerRadius" Value="4,0,0,4"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusSplitLeading}"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
     <Setter Property="HorizontalContentAlignment" Value="Center"/>
     <!--
@@ -76,7 +76,7 @@
                 BasedOn="{StaticResource AxSplitButtonPrimary}">
     <Setter Property="Padding" Value="0"/>
     <Setter Property="Width" Value="{DynamicResource AxControlHeightCompact}"/>
-    <Setter Property="CornerRadius" Value="0,4,4,0"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusSplitTrailing}"/>
   </ControlTheme>
 
   <!--
@@ -97,7 +97,7 @@
                 BasedOn="{StaticResource AxSplitButtonPrimaryAccent}">
     <Setter Property="Padding" Value="0"/>
     <Setter Property="Width" Value="{DynamicResource AxControlHeightCompact}"/>
-    <Setter Property="CornerRadius" Value="0,4,4,0"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusSplitTrailing}"/>
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type ax:AxSplitButton}" TargetType="ax:AxSplitButton">
@@ -110,7 +110,7 @@
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
-    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineThickness}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="FontWeight" Value="Medium"/>
@@ -132,7 +132,7 @@
                       Command="{TemplateBinding Command}"
                       CommandParameter="{TemplateBinding CommandParameter}"/>
               <Border x:Name="PART_Separator"
-                      Grid.Column="1" Width="1"
+                      Grid.Column="1" Width="{DynamicResource AxHairline}"
                       Background="{DynamicResource AxStrokeControlBrush}"/>
               <Button x:Name="PART_SecondaryButton"
                       Grid.Column="2"

@@ -30,7 +30,7 @@
             перекрасить, и весь контур несёт кольцо.
         -->
         <Border x:Name="PART_FocusRing"
-                Padding="1"
+                Padding="{DynamicResource AxFocusOutlineGap}"
                 Margin="{DynamicResource AxFocusOutlineRowMargin}"
                 CornerRadius="{DynamicResource AxCornerRadiusSmall}"
                 BorderThickness="{DynamicResource AxFocusOutlineThickness}"

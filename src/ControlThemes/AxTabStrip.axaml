@@ -6,7 +6,7 @@
   <ControlTheme x:Key="{x:Type ax:AxTabStrip}" TargetType="ax:AxTabStrip">
     <Setter Property="Background" Value="{DynamicResource AxSurfacePanelBrush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeSubtleBrush}"/>
-    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineBottomThickness}"/>
     <!--
         Полоса вкладок документа скруглена сверху и прижата к краю: вкладки
         начинаются от самой границы.
@@ -164,13 +164,13 @@
               -->
               <Border x:Name="PART_Close"
                       DockPanel.Dock="Right"
-                      Width="16" Height="16"
+                      Width="{DynamicResource AxIconSize}" Height="{DynamicResource AxIconSize}"
                       CornerRadius="{DynamicResource AxCornerRadius}"
                       Background="Transparent"
                       IsVisible="{TemplateBinding IsClosable}">
                 <Panel>
                   <Ellipse x:Name="PART_Modified"
-                           Width="7" Height="7"
+                           Width="{DynamicResource AxTabModifiedDotSize}" Height="{DynamicResource AxTabModifiedDotSize}"
                            Fill="{DynamicResource AxAccentBrush}"
                            IsVisible="{TemplateBinding IsModified}"/>
                   <!--
@@ -220,9 +220,9 @@
                 при отступах 10, и полоса на два пикселя залезала под соседку.
             -->
             <Border x:Name="PART_ActiveMarker"
-                    Height="2"
+                    Height="{DynamicResource AxTabMarkerHeight}"
                     VerticalAlignment="Bottom"
-                    Margin="-8,0"
+                    Margin="{DynamicResource AxTabMarkerMargin}"
                     Background="{DynamicResource AxAccentBrush}"
                     IsVisible="False"/>
             <!--
@@ -324,7 +324,7 @@
     </Style>
     <Style Selector="^:tool-window:pointerover /template/ Border#PART_Hover">
       <Setter Property="IsVisible" Value="True"/>
-      <Setter Property="Margin" Value="-6,2"/>
+      <Setter Property="Margin" Value="{DynamicResource AxTabHoverMargin}"/>
       <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
       <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     </Style>

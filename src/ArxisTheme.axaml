@@ -154,7 +154,7 @@
     <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
     <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
-    <Setter Property="LetterSpacing" Value="0.6"/>
+    <Setter Property="LetterSpacing" Value="{DynamicResource AxLetterSpacingSection}"/>
   </Style>
 
   <!--

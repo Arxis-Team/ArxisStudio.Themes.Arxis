@@ -11,7 +11,7 @@
     <Setter Property="Background" Value="{DynamicResource AxInfoFillBrush}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource AxInfoStrokeBrush}"/>
-    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineThickness}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusLarge}"/>
     <Setter Property="Padding" Value="{DynamicResource AxBannerPadding}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
@@ -45,7 +45,7 @@
             <ax:AxButton x:Name="PART_Close"
                          DockPanel.Dock="Right"
                          Theme="{StaticResource AxInlineIconButton}"
-                         Margin="8,-4,0,-4"
+                         Margin="{DynamicResource AxBannerActionMargin}"
                          VerticalAlignment="Center"
                          AutomationProperties.Name="{DynamicResource AxTextMessageClose}">
               <ax:AxIcon Size="Small"

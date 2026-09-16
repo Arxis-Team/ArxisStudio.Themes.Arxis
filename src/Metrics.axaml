@@ -294,6 +294,119 @@
   <x:Double x:Key="AxIconStrokeThickness">1.2</x:Double>
 
   <!--
+      Линия в пиксель: разделитель, линейка заголовка группы, рамка контрола и
+      поверхности, обводка кольца радиокнопки. Одна величина в двух формах и на
+      каждой стороне порознь — рамка снизу у полосы, сверху у подвала, справа у
+      колонки. До этой вехи единица стояла числом в сорока местах темы и
+      разметки, и «рамка в пиксель» была не решением, а совпадением.
+  -->
+  <x:Double x:Key="AxHairline">1</x:Double>
+  <Thickness x:Key="AxHairlineThickness">1</Thickness>
+  <Thickness x:Key="AxHairlineTopThickness">0,1,0,0</Thickness>
+  <Thickness x:Key="AxHairlineBottomThickness">0,0,0,1</Thickness>
+  <Thickness x:Key="AxHairlineLeadingThickness">1,0,0,0</Thickness>
+  <Thickness x:Key="AxHairlineTrailingThickness">0,0,1,0</Thickness>
+
+  <!-- Плитка с инициалами. -->
+  <x:Double x:Key="AxAvatarSize">36</x:Double>
+  <!--
+      Клетка, в которой нарисован набор: путь значка живёт в ней, а на экран его
+      растягивает Viewbox. Это не размер значка на экране — тот AxIconSize.
+  -->
+  <x:Double x:Key="AxIconGrid">16</x:Double>
+  <!--
+      Спиннер: крупный вдвое от клетки значка, кольцо внутри клетки и его
+      обводка. Кольцо мельче клетки ровно на обводку — иначе оно вышло бы за
+      край и срезалось.
+  -->
+  <x:Double x:Key="AxSpinnerSizeLarge">24</x:Double>
+  <x:Double x:Key="AxSpinnerRingSize">14</x:Double>
+  <x:Double x:Key="AxSpinnerStrokeThickness">2</x:Double>
+  <!--
+      Дорожка: полоса хода и жёлоб ползунка — одна высота и один радиус в
+      половину её, чтобы торцы остались полукруглыми. Ручка ползунка крупнее
+      дорожки и накрывает её.
+  -->
+  <x:Double x:Key="AxTrackHeight">4</x:Double>
+  <CornerRadius x:Key="AxCornerRadiusTrack">2</CornerRadius>
+  <x:Double x:Key="AxSliderThumbSize">14</x:Double>
+  <!-- Полоса выбранной вкладки и точка несохранённых правок на месте крестика. -->
+  <x:Double x:Key="AxTabMarkerHeight">2</x:Double>
+  <x:Double x:Key="AxTabModifiedDotSize">7</x:Double>
+  <!-- Бейдж-счётчик, чип клавиши и наименьшая высота многострочного поля. -->
+  <x:Double x:Key="AxBadgeSize">16</x:Double>
+  <x:Double x:Key="AxChipKeyHeight">20</x:Double>
+  <x:Double x:Key="AxTextAreaMinHeight">72</x:Double>
+  <!--
+      Всплывающие поверхности: ширина попапа поиска и его высота, предел ширины
+      подсказки и меню, наименьшая ширина диалога. Числа эти — вёрстка экрана, а
+      не шкала, и потому названы здесь, а не выведены из ступеней.
+  -->
+  <x:Double x:Key="AxQuickSearchWidth">300</x:Double>
+  <x:Double x:Key="AxQuickSearchMaxHeight">400</x:Double>
+  <x:Double x:Key="AxToolTipMaxWidth">400</x:Double>
+  <x:Double x:Key="AxDialogMinWidth">320</x:Double>
+  <x:Double x:Key="AxMenuMinWidth">160</x:Double>
+  <x:Double x:Key="AxMenuMaxWidth">456</x:Double>
+  <!-- Половины кнопки с раздельным действием: скругление снаружи, стык внутри. -->
+  <CornerRadius x:Key="AxCornerRadiusSplitLeading">4,0,0,4</CornerRadius>
+  <CornerRadius x:Key="AxCornerRadiusSplitTrailing">0,4,4,0</CornerRadius>
+  <!--
+      Кольцо выбранной радиокнопки: обводка в пять при клетке шестнадцать
+      оставляет внутри точку в шесть. Толщина, а не размер точки: точка — это
+      дырка в кольце, и рисуется она им.
+  -->
+  <x:Double x:Key="AxRadioMarkThickness">5</x:Double>
+  <!--
+      Поля, которые держит соседняя геометрия, а не шкала: просвет кольца фокуса
+      у ссылки; действие баннера, вынесенное за его отбивку; карточка диалога в
+      своём окне; линейка заголовка группы от подписи; полоса выбранной вкладки,
+      снимающая её отступ; плашка наведения вкладки панели; кнопки окна у края.
+  -->
+  <Thickness x:Key="AxFocusOutlineGap">1</Thickness>
+  <Thickness x:Key="AxBannerActionMargin">8,-4,0,-4</Thickness>
+  <Thickness x:Key="AxDialogWindowMargin">10</Thickness>
+  <Thickness x:Key="AxGroupRuleMargin">10,1,0,0</Thickness>
+  <Thickness x:Key="AxGroupRuleMarginCollapsible">8,1,0,0</Thickness>
+  <Thickness x:Key="AxTabMarkerMargin">-8,0</Thickness>
+  <Thickness x:Key="AxTabHoverMargin">-6,2</Thickness>
+  <Thickness x:Key="AxWindowControlsMargin">4,0,6,0</Thickness>
+  <!--
+      Экраны студии: ширины колонок и полей, которые держит вёрстка экрана, а не
+      шкала. Студия — такой же потребитель темы, как контрол, и её числа живут
+      здесь по той же причине: второе место значения расходится с первым молча.
+  -->
+  <x:Double x:Key="AxAvatarSizeSmall">22</x:Double>
+  <x:Double x:Key="AxPluginTileSize">32</x:Double>
+  <x:Double x:Key="AxSearchFieldMaxWidth">340</x:Double>
+  <!-- Ширина колонки чтения: длинная строка не растягивается во всю ширину окна. -->
+  <x:Double x:Key="AxReadingWidth">760</x:Double>
+  <x:Double x:Key="AxWelcomeRecentRowHeight">56</x:Double>
+  <x:Double x:Key="AxWelcomeDateColumnWidth">120</x:Double>
+  <x:Double x:Key="AxSettingsFilterWidth">170</x:Double>
+  <x:Double x:Key="AxSettingsFieldWidth">220</x:Double>
+  <x:Double x:Key="AxSettingsActionWidth">112</x:Double>
+  <!-- Рамка подсказки и призрака докинга: вдвое толще линии, её видно поверх чужого окна. -->
+  <Thickness x:Key="AxDockHintThickness">2</Thickness>
+  <x:Double x:Key="AxSettingsRowHeight">44</x:Double>
+  <x:Double x:Key="AxLinkRowHeight">40</x:Double>
+  <!-- Разделитель в полосе заголовка: короче полосы, чтобы не доставать до её краёв. -->
+  <x:Double x:Key="AxToolBarDividerHeight">20</x:Double>
+  <x:Double x:Key="AxTaskProgressWidth">120</x:Double>
+  <x:Double x:Key="AxTaskMessageMaxWidth">220</x:Double>
+  <Thickness x:Key="AxWelcomeSidebarPadding">10,16,10,12</Thickness>
+  <Thickness x:Key="AxWelcomeBrandMargin">8,0,8,16</Thickness>
+  <Thickness x:Key="AxWelcomeFooterPadding">10,8,0,0</Thickness>
+  <Thickness x:Key="AxWelcomeStatusPadding">24,10</Thickness>
+  <!-- Заголовок раздела отходит от предыдущего дальше, чем от своего содержимого. -->
+  <Thickness x:Key="AxSectionTitleMargin">0,16,0,8</Thickness>
+  <!-- Подпись под полем: вправо — чтобы встать под текстом поля, вниз — на волос. -->
+  <Thickness x:Key="AxFieldNoteMargin">2,6,0,0</Thickness>
+
+  <!-- Разрядка заголовка секции: единственная в теме. -->
+  <x:Double x:Key="AxLetterSpacingSection">0.6</x:Double>
+
+  <!--
       Разделитель областей: линия в пиксель, а взяться за неё надо мышью —
       полоса захвата вокруг неё семь. Число из докинга студии, где граница
       областей появилась первой; здесь оно названо, чтобы второй разделитель не
