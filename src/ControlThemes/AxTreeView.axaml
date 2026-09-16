@@ -8,10 +8,11 @@
       выделение — заливка на всю ширину панели, стрелка раскрытия слева от
       содержимого. Отступ по уровню даёт сама Avalonia через TreeViewItem.Level.
 
-      Лестница — 8 → 26 → 44 от левого края строки — держится на
-      арифметике: 8 отбивки, 12 шеврона, 6 зазора дают ровно 26, дальше шаг 18.
-      Поэтому колонка шеврона обязана быть 12, а не 16: лишние 4 сдвигают все
-      подписи, и лестница разъезжается.
+      Лестница — 8 → 28 → 48 от левого края строки: 8 отбивки строки, дальше шаг
+      AxTreeIndent на уровень. Шаг — это и есть клетка шеврона: шеврон 12 стоит в
+      ней по центру, и строка без шеврона ставит значок ровно в его колонку.
+      Отступ считает преобразователь темы, а ширину клетки он берёт у самой
+      колонки — второго места у числа нет, и с плотностью лестница идёт вместе.
   -->
   <ControlTheme x:Key="{x:Type ax:AxTreeView}" TargetType="ax:AxTreeView">
     <Setter Property="Background" Value="Transparent"/>
@@ -50,13 +51,23 @@
           <Border x:Name="PART_Root"
                   MinHeight="{DynamicResource AxRowHeight}"
                   CornerRadius="{DynamicResource AxCornerRadius}"
+                  Padding="{DynamicResource AxSpaceLeadingThickness}"
                   Background="{TemplateBinding Background}">
-            <DockPanel Margin="{Binding Level, RelativeSource={RelativeSource TemplatedParent},
-                                        Converter={x:Static t:AxTreeIndentConverter.Instance}}">
+            <DockPanel>
+              <!--
+                  Отступ уровня: шаг лестницы, умноженный на глубину. Шаг —
+                  ширина клетки шеврона, и берётся он у неё же: число живёт в
+                  одном месте и идёт за плотностью.
+              -->
+              <DockPanel.Margin>
+                <MultiBinding Converter="{x:Static t:AxTreeIndentConverter.Instance}">
+                  <Binding Path="Level" RelativeSource="{RelativeSource TemplatedParent}"/>
+                  <Binding Path="Width" ElementName="PART_ExpandCollapseChevron"/>
+                </MultiBinding>
+              </DockPanel.Margin>
               <ToggleButton x:Name="PART_ExpandCollapseChevron"
                             DockPanel.Dock="Left"
-                            Width="{DynamicResource AxIconSizeSmall}" Height="{DynamicResource AxRowHeight}"
-                            Margin="{DynamicResource AxGapIconTextThickness}"
+                            Width="{DynamicResource AxTreeIndent}" Height="{DynamicResource AxRowHeight}"
                             VerticalAlignment="Center"
                             Background="Transparent"
                             BorderThickness="0"

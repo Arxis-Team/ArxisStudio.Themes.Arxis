@@ -185,9 +185,13 @@ public class TabStripTests
         window.Close();
     }
 
-    /// <summary>Высота: 34 у вкладки документа, 32 у вкладки панели.</summary>
+    /// <summary>Высота — AxTabHeight, одна у вкладки документа и у вкладки панели.</summary>
+    /// <remarks>
+    /// Прежде их было две — 34 и 32, — и обе стояли числами: вкладка документа не
+    /// совпадала ни с вкладкой панели, ни с шапкой, в которой та стоит.
+    /// </remarks>
     [AvaloniaTheory]
-    [InlineData(false, 34d)]
+    [InlineData(false, 32d)]
     [InlineData(true, 32d)]
     public void Height_keeps_its_value(bool compact, double height)
     {

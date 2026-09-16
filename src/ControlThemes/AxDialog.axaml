@@ -39,7 +39,7 @@
                 </ax:AxButton>
                 <TextBlock Text="{TemplateBinding Title}"
                            FontWeight="SemiBold"
-                           FontSize="{DynamicResource AxFontSizeLarge}"
+                           FontSize="{DynamicResource AxFontSizeTitle}"
                            VerticalAlignment="Center"/>
               </DockPanel>
               <Border x:Name="PART_Footer"
@@ -74,7 +74,7 @@
                   <TextBlock x:Name="PART_AlertTitle"
                              Text="{TemplateBinding Title}"
                              FontWeight="SemiBold"
-                             FontSize="{DynamicResource AxFontSizeLarge}"
+                             FontSize="{DynamicResource AxFontSizeTitle}"
                              TextWrapping="Wrap"
                              IsVisible="False"/>
                   <ContentPresenter x:Name="PART_ContentPresenter"

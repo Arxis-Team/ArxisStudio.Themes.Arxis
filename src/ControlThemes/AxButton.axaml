@@ -152,8 +152,8 @@
 
     <!-- Кнопка под одну иконку: без рамки, без минимальной ширины. -->
     <Style Selector="^:toolbar">
-      <Setter Property="Width" Value="{DynamicResource AxControlHeightCompact}"/>
-      <Setter Property="Height" Value="{DynamicResource AxControlHeightCompact}"/>
+      <Setter Property="Width" Value="{DynamicResource AxToolbarButtonSize}"/>
+      <Setter Property="Height" Value="{DynamicResource AxToolbarButtonSize}"/>
       <!--
           Под одну иконку текста нет, и расти нечему: квадрат цели нажатия
           прибит сознательно. Наименьшая высота базы — двадцать восемь — иначе

@@ -188,4 +188,17 @@
     <Setter Property="Foreground" Value="{DynamicResource AxErrorTextBrush}"/>
   </Style>
 
+  <!--
+      Межстрочный интервал получает тот текст, который переносится: у абзаца есть
+      вторая строка, и расстояние между ними — часть набора. Однострочной подписи
+      интервал не нужен и вреден: второй строки у неё нет, а высота строки поднимет
+      её ряд.
+
+      Отбор по самому свойству, а не по роли: многострочным текст делает перенос, а
+      не кегль, и роль у абзаца та же, что у подписи рядом.
+  -->
+  <Style Selector=":is(TextBlock)[TextWrapping=Wrap], :is(TextBlock)[TextWrapping=WrapWithOverflow]">
+    <Setter Property="ax:AxText.LineHeightRatio" Value="{DynamicResource AxLineHeightRatio}"/>
+  </Style>
+
 </Styles>

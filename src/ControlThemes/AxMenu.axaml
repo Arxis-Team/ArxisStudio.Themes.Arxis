@@ -5,13 +5,15 @@
   <!--
       Меню студии. Тема пункта написана для родного MenuItem и перекрывает его
       ключом типа — контекстные меню и Flyout получают вид студии без своих
-      контейнеров; AxMenuItem наследует её. Правила: строка AxRowHeight,
+      контейнеров; AxMenuItem наследует её. Правила: строка AxMenuRowHeight —
+      она выше строки списка на ступень, потому что в меню целятся мышью, а не
+      читают списком,
       колонка иконок 16 фиксирована — пункт без иконки получает пустой отступ,
       и текст не съезжает; шорткат прижат вправо и остаётся AxTextTertiary (декор);
       подсвеченный пункт — AxSelectionActive; деструктивный несёт класс danger.
   -->
   <ControlTheme x:Key="{x:Type MenuItem}" TargetType="MenuItem">
-    <Setter Property="MinHeight" Value="{DynamicResource AxRowHeight}"/>
+    <Setter Property="MinHeight" Value="{DynamicResource AxMenuRowHeight}"/>
     <Setter Property="Padding" Value="{DynamicResource AxRowPadding}"/>
     <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
     <Setter Property="Background" Value="Transparent"/>

@@ -51,7 +51,7 @@ public class DialogTests
         Assert.True(header.IsVisible);
         Assert.Equal(new Thickness(16, 12), header.Margin);
         Assert.Equal(FontWeight.SemiBold, title.FontWeight);
-        Assert.Equal(14d, title.FontSize);
+        Assert.Equal(15d, title.FontSize);
 
         Close(dialog, window);
     }

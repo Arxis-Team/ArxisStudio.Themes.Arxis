@@ -34,7 +34,7 @@ public class BannerTests
         // Полоса по содержимому: строка 16, отступ 8 сверху и снизу, рамка в
         // пиксель — всего 34. Ни цель нажатия крестика в 24, ни кольцо фокуса
         // ссылки распирать её не должны.
-        Assert.Equal(34d, banner.Bounds.Height);
+        Assert.Equal(36d, banner.Bounds.Height);
 
         window.Close();
     }

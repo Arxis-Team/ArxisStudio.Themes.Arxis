@@ -91,10 +91,12 @@
   <x:Double x:Key="AxControlHeight">28</x:Double>
   <x:Double x:Key="AxControlHeightCompact">24</x:Double>
   <!--
-      Третья высота, и она не выдумка разметки: двадцать шесть носят кнопки
-      внутри строки карточки, где 28 уже теснят строку.
+      Третья высота осталась ключом, но своего числа больше не несёт: сетка
+      хрома кратна четырём, и двадцать шесть между 24 и 28 в неё не ложатся.
+      Значение — компактная высота; ключ снимется в 7.0, а до тех пор разметка,
+      назвавшая его, получает то же, что и раньше по виду.
   -->
-  <x:Double x:Key="AxControlHeightSmall">26</x:Double>
+  <x:Double x:Key="AxControlHeightSmall">24</x:Double>
   <x:Double x:Key="AxButtonMinWidth">72</x:Double>
   <x:Double x:Key="AxButtonMinWidthCompact">64</x:Double>
   <!--
@@ -105,11 +107,11 @@
   -->
   <x:Double x:Key="AxDialogButtonMinWidth">96</x:Double>
   <Thickness x:Key="AxButtonPadding">12,0</Thickness>
-  <Thickness x:Key="AxTextFieldPadding">9,0</Thickness>
+  <Thickness x:Key="AxTextFieldPadding">10,0</Thickness>
   <!--
-      Слева 9 — как у текста в поле ввода, справа 6 — воздух шеврона.
+      Слева 10 — как у текста в поле ввода, справа 6 — воздух шеврона.
   -->
-  <Thickness x:Key="AxComboBoxPadding">9,0,6,0</Thickness>
+  <Thickness x:Key="AxComboBoxPadding">10,0,6,0</Thickness>
   <Thickness x:Key="AxDropDownButtonPadding">10,0,8,0</Thickness>
   <!--
       Кнопка-призрак отступает меньше залитой: рамки у неё нет, и лишний
@@ -120,7 +122,7 @@
       Многострочное поле: девять по горизонтали, как у однострочного, и шесть
       по вертикали — высота там не фиксирована, и текст по центру не встанет.
   -->
-  <Thickness x:Key="AxTextAreaPadding">9,6</Thickness>
+  <Thickness x:Key="AxTextAreaPadding">10,6</Thickness>
 
   <!--
       Отступы внутрь остальных поверхностей. Тултип; карточка — подсказка,
@@ -240,13 +242,44 @@
   <Thickness x:Key="AxDialogBandPadding">16,12</Thickness>
   <Thickness x:Key="AxDialogBodyMargin">16,0,16,16</Thickness>
 
-  <!-- Флажок и переключатель. -->
+  <!--
+      Флажок и переключатель. Все длины чётные: 17 и 13 при 150 % давали
+      полпиксели, и бегунок в дорожке 17 стоял по центру только на целом
+      масштабе. Дорожка 30 × 16, бегунок 12 — по два пикселя поля с каждой
+      стороны, как и было.
+  -->
   <x:Double x:Key="AxCheckboxSize">16</x:Double>
-  <x:Double x:Key="AxCheckboxGap">5</x:Double>
-  <Thickness x:Key="AxCheckboxGapThickness">5,0,0,0</Thickness>
+  <x:Double x:Key="AxCheckboxGap">6</x:Double>
+  <Thickness x:Key="AxCheckboxGapThickness">6,0,0,0</Thickness>
   <x:Double x:Key="AxToggleWidth">30</x:Double>
-  <x:Double x:Key="AxToggleHeight">17</x:Double>
-  <x:Double x:Key="AxToggleKnobSize">13</x:Double>
+  <x:Double x:Key="AxToggleHeight">16</x:Double>
+  <x:Double x:Key="AxToggleKnobSize">12</x:Double>
+
+  <!--
+      Хром: высоты, которые идут за плотностью. Все кратны четырём — тогда ни
+      при каком масштабе с шагом 25 % они не встают на полпикселя, — и каждая
+      объявлена ключом, а не числом в своём шаблоне: до этой вехи вкладка (34),
+      шапка панели (30) и полоса заголовка (40) стояли числами и за плотностью
+      не шли вовсе.
+
+      Вкладка и шапка панели — одна высота и один ключ: вкладки стоят в шапке, и
+      разойтись им нельзя. Кнопка полосы — квадрат высотой с контрол: под одну
+      иконку подписи нет, и расти ей нечем. Кнопка окна шире своей высоты —
+      конвенция системной полосы: у края экрана цель тянется за край.
+  -->
+  <x:Double x:Key="AxTabHeight">32</x:Double>
+  <x:Double x:Key="AxTitleBarHeight">40</x:Double>
+  <x:Double x:Key="AxStatusBarHeight">24</x:Double>
+  <x:Double x:Key="AxMenuRowHeight">28</x:Double>
+  <x:Double x:Key="AxToolbarButtonSize">28</x:Double>
+  <x:Double x:Key="AxWindowButtonWidth">36</x:Double>
+  <!--
+      Шаг лестницы дерева: клетка шеврона целиком. Шеврон 12 стоит в ней по
+      центру, и строка без шеврона ставит значок ровно в его колонку. Прежде шаг
+      был константой преобразователя в коде темы (18 = 12 + 6) и за плотностью
+      не шёл.
+  -->
+  <x:Double x:Key="AxTreeIndent">20</x:Double>
 
   <!-- Иконки: единый размер 16 и толщина обводки 1.2 — вес всего набора. -->
   <x:Double x:Key="AxIconSize">16</x:Double>

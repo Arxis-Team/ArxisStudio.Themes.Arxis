@@ -48,7 +48,7 @@ public class ToolWindowTests
     /// панели под ней.
     /// </remarks>
     [AvaloniaFact]
-    public void Header_is_thirty_high()
+    public void Header_is_the_height_of_a_tab()
     {
         var (panel, window) = Shown();
 
@@ -56,7 +56,7 @@ public class ToolWindowTests
         var title = (TextBlock)Part(panel, "PART_Title");
         var actions = Part(panel, "PART_Actions");
 
-        Assert.Equal(30d, header.Bounds.Height);
+        Assert.Equal(32d, header.Bounds.Height);
         Assert.Equal(default, header.Padding);
 
         // Отбивку носят те двое, кому она нужна, — вкладки идут вровень с краем.
@@ -110,7 +110,7 @@ public class ToolWindowTests
     /// </summary>
     /// <remarks>
     /// Полоса выбора обязана лечь на нижний край шапки, вплотную к линии под
-    /// ней; своя высота 34 оставила бы вкладку висеть посреди тридцати восьми.
+    /// ней; своя высота оставила бы вкладку висеть посреди шапки.
     /// </remarks>
     [AvaloniaFact]
     public void Header_tab_fills_the_header()
@@ -119,7 +119,7 @@ public class ToolWindowTests
 
         var tabs = Tabs(panel).ToList();
 
-        Assert.Equal(30d, tabs[0].Bounds.Height);
+        Assert.Equal(32d, tabs[0].Bounds.Height);
         Assert.Equal(tabs[0].Bounds.Right, tabs[1].Bounds.Left);
 
         window.Close();

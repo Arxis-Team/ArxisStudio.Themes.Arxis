@@ -56,7 +56,7 @@ public class TableTests
         var caption = header.GetVisualDescendants().OfType<TextBlock>().First();
 
         Assert.Equal(Resource(window, "AxTextSecondaryColor", variant), Colour(caption.Foreground));
-        Assert.Equal(11.5, caption.FontSize);
+        Assert.Equal(12d, caption.FontSize);
 
         window.Close();
     }

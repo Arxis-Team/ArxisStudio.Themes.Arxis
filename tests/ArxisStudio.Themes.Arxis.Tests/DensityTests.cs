@@ -40,12 +40,35 @@ public class DensityTests
         "AxControlHeight",
         "AxControlHeightCompact",
         "AxControlHeightSmall",
+        "AxTabHeight",
+        "AxTitleBarHeight",
+        "AxStatusBarHeight",
+        "AxMenuRowHeight",
+        "AxToolbarButtonSize",
+        "AxWindowButtonWidth",
+        "AxTreeIndent",
         "AxButtonMinWidth",
         "AxButtonMinWidthCompact",
         "AxDialogButtonMinWidth",
         "AxButtonPadding",
         "AxTextFieldPadding",
         "AxComboBoxPadding",
+    ];
+
+    /// <summary>Высоты хрома: они кратны четырём в каждой ступени.</summary>
+    private static readonly string[] Chrome =
+    [
+        "AxRowHeight",
+        "AxControlHeight",
+        "AxControlHeightCompact",
+        "AxControlHeightSmall",
+        "AxTabHeight",
+        "AxTitleBarHeight",
+        "AxStatusBarHeight",
+        "AxMenuRowHeight",
+        "AxToolbarButtonSize",
+        "AxWindowButtonWidth",
+        "AxTreeIndent",
     ];
 
     private static readonly string[] Tiers = ["Compact.axaml", "Comfortable.axaml"];
@@ -164,6 +187,51 @@ public class DensityTests
         }
 
         Assert.True(checkedGaps >= 20, $"{file}: сверено всего {checkedGaps} зазоров — разбор имён сломался");
+    }
+
+    /// <summary>
+    /// Высота хрома кратна четырём в каждой ступени, а не только в обычной.
+    /// </summary>
+    /// <remarks>
+    /// Кратность держит целый пиксель при 125 %, и ступень плотности — ровно то
+    /// место, где её легче всего потерять: ряд 20 / 24 / 28 напрашивается сам, а
+    /// 22 или 30 посреди него выглядят так же естественно и ломают сетку молча.
+    /// </remarks>
+    [Theory]
+    [InlineData("Metrics.axaml")]
+    [InlineData("Compact.axaml")]
+    [InlineData("Comfortable.axaml")]
+    public void Chrome_heights_are_multiples_of_four_in_every_tier(string file)
+    {
+        var declared = Declared(file);
+
+        foreach (var key in Chrome)
+        {
+            var length = Numbers(declared[key]).Single();
+
+            Assert.True(length % 4 == 0, $"{file}: {key} = {length} — высота хрома не кратна четырём");
+        }
+    }
+
+    /// <summary>Отступ внутрь контрола чётен в каждой ступени.</summary>
+    /// <remarks>
+    /// Нечётный отступ при 150 % — полпикселя: округление раскладки его съедает,
+    /// но слева и справа может разойтись на пиксель, и подпись в поле встаёт не
+    /// по центру.
+    /// </remarks>
+    [Theory]
+    [InlineData("Metrics.axaml")]
+    [InlineData("Compact.axaml")]
+    [InlineData("Comfortable.axaml")]
+    public void Control_paddings_are_even_in_every_tier(string file)
+    {
+        var declared = Declared(file);
+
+        foreach (var key in new[] { "AxButtonPadding", "AxTextFieldPadding", "AxComboBoxPadding" })
+        {
+            foreach (var side in Numbers(declared[key]))
+                Assert.True(side % 2 == 0, $"{file}: {key} = {declared[key]} — сторона {side} нечётна");
+        }
     }
 
     /// <summary>Плотная ступень укорачивает контрол, просторная удлиняет.</summary>

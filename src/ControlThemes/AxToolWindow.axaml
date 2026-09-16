@@ -48,7 +48,7 @@
             -->
             <Border x:Name="PART_Header"
                     DockPanel.Dock="Top"
-                    MinHeight="30"
+                    MinHeight="{DynamicResource AxTabHeight}"
                     Padding="0,0"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="0"

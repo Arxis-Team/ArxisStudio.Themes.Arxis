@@ -126,7 +126,7 @@ public class GroupHeaderTests
         var text = counter.GetVisualDescendants().OfType<TextBlock>().First();
 
         Assert.Equal(Resource(window, "AxTextSecondaryColor", variant), Colour(text.Foreground));
-        Assert.Equal(11.5, text.FontSize);
+        Assert.Equal(12d, text.FontSize);
         Assert.Equal(FontWeight.Normal, text.FontWeight);
 
         window.Close();

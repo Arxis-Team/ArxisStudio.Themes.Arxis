@@ -38,7 +38,7 @@ public class CodeSampleTests
         Assert.Equal(new Thickness(6, 0), key.Padding);
         Assert.Equal(new CornerRadius(4), key.CornerRadius);
         Assert.Equal(FontWeight.Medium, key.FontWeight);
-        Assert.Equal(11.5, key.FontSize);
+        Assert.Equal(12d, key.FontSize);
         Assert.Equal(Resource(window, "AxSurfaceRaisedColor", variant), Colour(key.Background));
 
         window.Close();

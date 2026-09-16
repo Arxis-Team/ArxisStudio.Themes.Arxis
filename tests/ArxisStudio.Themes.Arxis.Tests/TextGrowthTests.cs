@@ -2,6 +2,7 @@ using ArxisStudio.Controls;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
+using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.VisualTree;
 using Xunit;
@@ -162,6 +163,50 @@ public class TextGrowthTests
         Assert.True(
             control.CornerRadius.TopLeft * 2 >= control.Bounds.Height,
             $"{sample}: радиус {control.CornerRadius.TopLeft} при высоте {control.Bounds.Height} — торцы уже не полукруглые");
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Переносимый текст получает межстрочный интервал долей кегля.
+    /// </summary>
+    /// <remarks>
+    /// Абзац читают по строкам, и расстояние между ними — часть набора. Доля, а не
+    /// пиксели: при выросшем кегле прибитая высота строки оставила бы строки на
+    /// месте, а буквы подняла бы друг на друга.
+    /// </remarks>
+    [AvaloniaFact]
+    public void Wrapping_text_takes_the_line_height_of_the_scale()
+    {
+        var text = new TextBlock { Text = "Описание, которое переносится на вторую строку", TextWrapping = TextWrapping.Wrap };
+        var window = Shown(text);
+
+        Assert.True(Application.Current!.TryFindResource("AxLineHeightRatio", out var ratio));
+        Assert.True(Application.Current!.TryFindResource("AxFontSize", out var size));
+
+        var expected = Math.Round((double)size! * (double)ratio!);
+
+        Assert.Equal(expected, text.LineHeight);
+
+        Enlarge(window);
+
+        Assert.Equal(Math.Round((double)size! * Factor * (double)ratio!), text.LineHeight);
+
+        window.Close();
+    }
+
+    /// <summary>Однострочной подписи интервал не ставят: второй строки у неё нет.</summary>
+    /// <remarks>
+    /// Высота строки подняла бы ряд, в котором подпись стоит, — а поднимать его
+    /// нечему: строку в ряду мерит контрол, а не абзац.
+    /// </remarks>
+    [AvaloniaFact]
+    public void A_single_line_label_keeps_the_line_height_of_its_font()
+    {
+        var text = new TextBlock { Text = "Имя формы" };
+        var window = Shown(text);
+
+        Assert.True(double.IsNaN(text.LineHeight), $"подпись получила высоту строки {text.LineHeight}");
 
         window.Close();
     }

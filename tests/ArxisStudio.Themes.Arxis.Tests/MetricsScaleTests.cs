@@ -9,34 +9,52 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 /// Метрики и дробный масштаб экрана.
 /// </summary>
 /// <remarks>
-/// Правило темы: длины в DIP и кратны 2 — «целые пиксели при 125 % и
-/// 150 %». Половина этого обещания арифметически не выполнима: при 125 %
-/// целый пиксель даёт кратность четырём, а не двум (2 × 1,25 = 2,5).
-/// Резкость краёв на дробном масштабе на самом деле держит округление
-/// раскладки Avalonia, а кратность двум гарантирует ровно одно — точные
-/// пропорции при 150 %. Тест закрепляет это: каждая длина чётная, и три
-/// нечётных исключения названы поимённо, чтобы новое нельзя было добавить
-/// молча.
+/// Высоты хрома кратны четырём: при 125 % целый пиксель даёт именно эту
+/// кратность (4 × 1,25 = 5), и тогда вкладка, шапка панели и полоса заголовка
+/// не встают на полпикселя ни при каком масштабе с шагом 25 %. Остальные длины
+/// раскладки чётные — этого хватает для точных пропорций при 150 %, а резкость
+/// краёв держит округление раскладки Avalonia.
+/// <para>
+/// Нечётных длин в теме не осталось: тумблер 30 × 16 с бегунком 12 и зазор
+/// флажка 6 пришли на смену 17, 13 и 5 вместе с сеткой хрома.
+/// </para>
 /// </remarks>
 public class MetricsScaleTests
 {
-    /// <summary>Длины раскладки: высоты, ширины, размеры и радиусы.</summary>
-    public static TheoryData<string> Lengths =>
+    /// <summary>
+    /// Высоты хрома и ступень лестницы дерева: всё, что идёт за плотностью.
+    /// </summary>
+    public static TheoryData<string> Chrome =>
     [
+        "AxRowHeight",
         "AxControlHeight",
         "AxControlHeightCompact",
-        "AxRowHeight",
+        "AxControlHeightSmall",
+        "AxTabHeight",
+        "AxTitleBarHeight",
+        "AxStatusBarHeight",
+        "AxMenuRowHeight",
+        "AxToolbarButtonSize",
+        "AxWindowButtonWidth",
+        "AxTreeIndent",
+    ];
+
+    /// <summary>Остальные длины раскладки: ширины, размеры и толщины.</summary>
+    public static TheoryData<string> Lengths =>
+    [
         "AxButtonMinWidth",
         "AxButtonMinWidthCompact",
-        "AxControlHeightSmall",
         "AxDialogButtonMinWidth",
         "AxCheckboxSize",
+        "AxCheckboxGap",
         "AxIconSize",
         "AxIconSizeSmall",
         "AxScrollBarLane",
         "AxScrollThumbSize",
         "AxScrollThumbSizeHover",
         "AxToggleWidth",
+        "AxToggleHeight",
+        "AxToggleKnobSize",
         "AxFocusOutlineWidth",
         // Ступени шкалы отступов: расстояние — такая же длина раскладки.
         "AxSpaceHair",
@@ -48,14 +66,6 @@ public class MetricsScaleTests
         "AxSpaceSection",
         "AxSpaceScreen",
     ];
-
-    /// <summary>
-    /// Длины, нечётные намеренно: высота тумблера 17 при ширине 30, его бегунок
-    /// 13 и зазор флажка до подписи 5. Их сменит веха метрик редизайна —
-    /// тогда список сократится, а не вырастет.
-    /// </summary>
-    public static TheoryData<string, double> MandatedOdd =>
-        new() { { "AxToggleHeight", 17 }, { "AxToggleKnobSize", 13 }, { "AxCheckboxGap", 5 } };
 
     [AvaloniaTheory]
     [MemberData(nameof(Lengths))]
@@ -76,15 +86,22 @@ public class MetricsScaleTests
         window.Close();
     }
 
+    /// <summary>Высота хрома кратна четырём — целый пиксель и при 125 %.</summary>
     [AvaloniaTheory]
-    [MemberData(nameof(MandatedOdd))]
-    public void Odd_lengths_are_named_one_by_one(string key, double expected)
+    [MemberData(nameof(Chrome))]
+    public void Chrome_heights_are_multiples_of_four(string key)
     {
         var window = new Window();
         window.Show();
 
         Assert.True(window.TryFindResource(key, window.ActualThemeVariant, out var value));
-        Assert.Equal(expected, value);
+        var length = Assert.IsType<double>(value);
+
+        Assert.True(length % 4 == 0, $"{key} = {length}: высота хрома должна быть кратна четырём");
+
+        // Целый пиксель при каждом масштабе с шагом 25 %.
+        foreach (var scale in new[] { 1.25, 1.5, 1.75, 2 })
+            Assert.Equal(length * scale, Math.Round(length * scale));
 
         window.Close();
     }
@@ -121,15 +138,13 @@ public class MetricsScaleTests
     /// оставалось 16, а строке 13-го кегля нужно больше — нижний край букв
     /// срезался, что и было видно на кнопках. Ноль отдаёт всю высоту.
     ///
-    /// Горизонтальные 9 нечётны, и при 150 % это полпикселя. Округление
-    /// раскладки половину съедает, край остаётся резким, но отступ слева и
-    /// справа может разойтись на пиксель; веха метрик редизайна переводит
-    /// отступы на чётные.
+    /// Горизонтальные чётные: девятка давала полпикселя при 150 %, и отступ слева
+    /// и справа мог разойтись на пиксель после округления раскладки.
     /// </remarks>
     [AvaloniaTheory]
     [InlineData("AxButtonPadding", 12, 0, 12, 0)]
-    [InlineData("AxTextFieldPadding", 9, 0, 9, 0)]
-    [InlineData("AxComboBoxPadding", 9, 0, 6, 0)]
+    [InlineData("AxTextFieldPadding", 10, 0, 10, 0)]
+    [InlineData("AxComboBoxPadding", 10, 0, 6, 0)]
     public void Paddings_keep_their_values(
         string key, double left, double top, double right, double bottom)
     {

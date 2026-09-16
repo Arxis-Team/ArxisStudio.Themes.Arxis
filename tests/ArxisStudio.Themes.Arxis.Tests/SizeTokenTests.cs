@@ -73,15 +73,14 @@ public class SizeTokenTests
     }
 
     /// <summary>
-    /// Колонка шеврона в дереве — та же мелкая иконка.
+    /// Колонка шеврона в дереве — шаг лестницы.
     /// </summary>
     /// <remarks>
-    /// В колонке стоит шеврон класса small, и разъедься они — стрелка перестала
-    /// бы попадать в свою клетку. До токена число двенадцать стояло в двух
-    /// местах порознь.
+    /// Клетка шеврона — это и есть шаг лестницы: отступ уровня берёт её ширину, и
+    /// второго места у числа нет. Сам шеврон в ней мельче и стоит по центру.
     /// </remarks>
     [AvaloniaFact]
-    public void The_tree_chevron_column_is_the_small_icon()
+    public void The_tree_chevron_column_is_the_indent_step()
     {
         // Ветка с ребёнком: у пустой шеврона нет вовсе — мерить было бы нечего.
         var item = new AxTreeViewItem
@@ -97,12 +96,12 @@ public class SizeTokenTests
             .OfType<Control>()
             .First(child => child.Name == "PART_ExpandCollapseChevron");
 
-        Assert.Equal(12d, chevron.Bounds.Width);
+        Assert.Equal(20d, chevron.Bounds.Width);
 
-        window.Resources["AxIconSizeSmall"] = 20d;
+        window.Resources["AxTreeIndent"] = 28d;
         window.UpdateLayout();
 
-        Assert.Equal(20d, chevron.Bounds.Width);
+        Assert.Equal(28d, chevron.Bounds.Width);
 
         window.Close();
     }

@@ -93,14 +93,16 @@
   -->
   <ControlTheme x:Key="{x:Type ax:AxTabItem}" TargetType="ax:AxTabItem">
     <!--
-        34, а не 36: лишние два пикселя разъезжались со строкой заголовка,
-        рядом с которой вкладка и стоит.
+        Высота — ключ хрома: вкладка и шапка панели, в которой она стоит, одного
+        роста и идут за плотностью вместе. Прежде вкладка документа носила 34,
+        вкладка панели 32, а шапка 30 — три числа в трёх шаблонах, и ни одно не
+        двигалось с плотностью.
 
         Высота наименьшая, а не прибитая: имя вкладки растёт с кеглем темы. По
         центру — чтобы в ячейке выше себя вкладка вставала там же, где вставала
-        прибитая. Вкладка в шапке панели растягивается своей темой выше.
+        прибитая.
     -->
-    <Setter Property="MinHeight" Value="34"/>
+    <Setter Property="MinHeight" Value="{DynamicResource AxTabHeight}"/>
     <Setter Property="VerticalAlignment" Value="Center"/>
     <!--
         Восемь — отступ вкладки и промежуток до крестика. Десять стояли здесь с
@@ -291,10 +293,7 @@
       <Setter Property="IsVisible" Value="True"/>
     </Style>
 
-    <!-- Вкладка панели (полоса Kind=ToolWindow): ниже и без своего фона. -->
-    <Style Selector="^:tool-window">
-      <Setter Property="MinHeight" Value="32"/>
-    </Style>
+    <!-- Вкладка панели (полоса Kind=ToolWindow): без своего фона; высота общая. -->
     <Style Selector="^:tool-window:selected /template/ Border#PART_Root">
       <Setter Property="Background" Value="Transparent"/>
     </Style>

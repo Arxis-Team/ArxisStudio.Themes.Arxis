@@ -359,17 +359,17 @@ public class ThemeAppliesTemplatesTests
         Assert.True(window.TryFindResource("AxToggleWidth", window.ActualThemeVariant, out var width));
         Assert.Equal(30d, width);
         Assert.True(window.TryFindResource("AxToggleHeight", window.ActualThemeVariant, out var height));
-        Assert.Equal(17d, height);
+        Assert.Equal(16d, height);
         Assert.True(window.TryFindResource("AxToggleKnobSize", window.ActualThemeVariant, out var knob));
-        Assert.Equal(13d, knob);
+        Assert.Equal(12d, knob);
         Assert.True(window.TryFindResource("AxIconStrokeThickness", window.ActualThemeVariant, out var stroke));
         Assert.Equal(1.2d, stroke);
         Assert.True(window.TryFindResource("AxIconSize", window.ActualThemeVariant, out var icon));
         Assert.Equal(16d, icon);
 
-        // Компонент AxComboBox: слева 9 — как у текста поля, справа 6 — шеврон.
+        // Компонент AxComboBox: слева 10 — как у текста поля, справа 6 — шеврон.
         Assert.True(window.TryFindResource("AxComboBoxPadding", window.ActualThemeVariant, out var comboPadding));
-        Assert.Equal(new Avalonia.Thickness(9, 0, 6, 0), comboPadding);
+        Assert.Equal(new Avalonia.Thickness(10, 0, 6, 0), comboPadding);
 
         // Слим-кнопка карточки галереи: 24 высотой, мин-ширина 64.
         Assert.True(window.TryFindResource("AxButtonMinWidthCompact", window.ActualThemeVariant, out var slim));

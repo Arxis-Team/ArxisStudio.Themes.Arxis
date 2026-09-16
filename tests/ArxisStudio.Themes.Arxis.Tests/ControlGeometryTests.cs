@@ -66,9 +66,9 @@ public class ControlGeometryTests
     {
         var button = Shown(new AxButton { Appearance = AxButtonAppearance.Toolbar });
 
-        Assert.Equal(24d, button.Width);
-        Assert.Equal(24d, button.Height);
-        Assert.Equal(24d, button.Bounds.Height);
+        Assert.Equal(28d, button.Width);
+        Assert.Equal(28d, button.Height);
+        Assert.Equal(28d, button.Bounds.Height);
         Assert.Equal(0d, button.MinWidth);
         Assert.Equal(new Thickness(0), button.Padding);
         Assert.Equal(new CornerRadius(4), button.CornerRadius);
@@ -83,14 +83,14 @@ public class ControlGeometryTests
         Assert.Equal(24d, button.Bounds.Height);
     }
 
-    /// <summary>Поле ввода: 28 высотой, отступы 9, радиус 4.</summary>
+    /// <summary>Поле ввода: 28 высотой, отступы 10, радиус 4.</summary>
     [AvaloniaFact]
     public void Text_box_matches_the_component()
     {
         var box = Shown(new AxTextBox());
 
         Assert.Equal(28d, box.MinHeight);
-        Assert.Equal(new Thickness(9, 0), box.Padding);
+        Assert.Equal(new Thickness(10, 0), box.Padding);
         Assert.Equal(new CornerRadius(4), box.CornerRadius);
         Assert.Equal(new Thickness(1), box.BorderThickness);
     }
@@ -104,14 +104,14 @@ public class ControlGeometryTests
         Assert.Equal(24d, box.MinHeight);
     }
 
-    /// <summary>Комбобокс: 28 высотой, отступы 9 слева и 6 справа, радиус 4.</summary>
+    /// <summary>Комбобокс: 28 высотой, отступы 10 слева и 6 справа, радиус 4.</summary>
     [AvaloniaFact]
     public void Combo_box_matches_the_component()
     {
         var combo = Shown(new AxComboBox());
 
         Assert.Equal(28d, combo.MinHeight);
-        Assert.Equal(new Thickness(9, 0, 6, 0), combo.Padding);
+        Assert.Equal(new Thickness(10, 0, 6, 0), combo.Padding);
         Assert.Equal(new CornerRadius(4), combo.CornerRadius);
     }
 
@@ -151,9 +151,9 @@ public class ControlGeometryTests
 
         Assert.Equal(24d, toggle.MinHeight);
         Assert.Equal(30d, track.Width);
-        Assert.Equal(17d, track.Height);
-        Assert.Equal(13d, knob.Width);
-        Assert.Equal(13d, knob.Height);
+        Assert.Equal(16d, track.Height);
+        Assert.Equal(12d, knob.Width);
+        Assert.Equal(12d, knob.Height);
     }
 
     /// <summary>
