@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
 
   <!--
       Всплывающие поверхности: тултип и попап поиска. Обе — карточки: тултип с
@@ -13,6 +14,12 @@
   <!--
       Тултип: тема родного ToolTip, ключом типа — как ScrollBar. Подсказка живёт
       всегда в окне попапа, и поле под тень у неё то же, что у меню.
+
+      Рядом с текстом — жест той команды, которую делает контрол под курсором.
+      Кнопка полосы несёт один значок, и как её зовут с клавиатуры, узнать было
+      негде: подсказка называла действие, а сочетание пряталось в настройках.
+      Жест приходит к подсказке наследованием — своего у окна попапа нет, как
+      нет и своего контекста данных, — и пишется так, как его пишет платформа.
   -->
   <ControlTheme x:Key="{x:Type ToolTip}" TargetType="ToolTip">
     <Setter Property="Background" Value="{DynamicResource AxToolTipFillBrush}"/>
@@ -32,8 +39,18 @@
                 BoxShadow="{DynamicResource AxShadowPopup}"
                 Padding="{TemplateBinding Padding}"
                 Margin="{DynamicResource AxPopupShadowRoom}">
-          <ContentPresenter Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"/>
+          <DockPanel>
+            <ax:AxChip x:Name="PART_Gesture"
+                       DockPanel.Dock="Right"
+                       Kind="Key"
+                       VerticalAlignment="Center"
+                       Margin="{DynamicResource AxSpaceLeadingThickness}"
+                       Content="{Binding $self.(ax:AxToolTip.Gesture), Converter={x:Static t:AxGestureText.Platform}}"
+                       IsVisible="{Binding $self.(ax:AxToolTip.Gesture), Converter={x:Static ObjectConverters.IsNotNull}}"/>
+            <ContentPresenter Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              VerticalAlignment="Center"/>
+          </DockPanel>
         </Border>
       </ControlTemplate>
     </Setter>

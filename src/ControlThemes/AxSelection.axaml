@@ -198,9 +198,12 @@
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
     <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    <Setter Property="Background" Value="Transparent"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <Grid ColumnDefinitions="Auto,Auto,Auto,*" VerticalAlignment="Center">
+        <Panel Background="{TemplateBinding Background}">
+          <t:AxFocusRing x:Name="PART_FocusRing" Placement="Row"/>
+          <Grid ColumnDefinitions="Auto,Auto,Auto,*" VerticalAlignment="Center">
           <!--
               Стрелка мелкая — тот же отдельный класс, что у дерева, и той же
               толщины обводки: на отдельных иконках её не меняют.
@@ -227,21 +230,36 @@
                             TextElement.FontWeight="Normal"
                             VerticalAlignment="Center"
                             IsVisible="{TemplateBinding Counter, Converter={x:Static ObjectConverters.IsNotNull}}"/>
-          <Border x:Name="PART_Rule"
-                  Grid.Column="3"
-                  Height="{DynamicResource AxHairline}"
-                  Margin="{DynamicResource AxGroupRuleMargin}"
-                  VerticalAlignment="Center"
-                  Background="{DynamicResource AxStrokeSubtleBrush}"/>
-        </Grid>
+          <!-- Линия до конца строки — разделитель: пиксель устройства он меряет сам. -->
+          <ax:AxDivider x:Name="PART_Rule"
+                        Grid.Column="3"
+                        Margin="{DynamicResource AxGroupRuleMargin}"/>
+          </Grid>
+        </Panel>
       </ControlTemplate>
     </Setter>
 
-    <Style Selector="^[IsCollapsible=True] /template/ Border#PART_Rule">
+    <Style Selector="^[IsCollapsible=True] /template/ ax|AxDivider#PART_Rule">
       <Setter Property="Margin" Value="{DynamicResource AxGroupRuleMarginCollapsible}"/>
     </Style>
     <Style Selector="^[IsExpanded=True] /template/ ax|AxIcon#PART_Chevron">
       <Setter Property="Data" Value="{x:Static ax:AxIcons.ChevronDown}"/>
+    </Style>
+    <!--
+        Состояния есть только у сворачиваемого: у заголовка, который ничего не делает, нечему
+        отзываться на курсор, и подсветка обещала бы действие, которого нет.
+    -->
+    <Style Selector="^:collapsible:pointerover /template/ ax|AxIcon#PART_Chevron">
+      <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
+    </Style>
+    <Style Selector="^:disabled /template/ ax|AxIcon#PART_Chevron">
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
     </Style>
   </ControlTheme>
 

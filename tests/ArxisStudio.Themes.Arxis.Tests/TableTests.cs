@@ -49,8 +49,12 @@ public class TableTests
 
         var header = Header(table);
 
-        Assert.Equal(new Thickness(0, 0, 0, 1), header.BorderThickness);
-        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(header.BorderBrush));
+        // Линию под шапкой ведёт разделитель: пиксель устройства он меряет сам, а нижняя рамка
+        // шапки при 150 % давала бы два.
+        var rule = table.GetVisualDescendants().OfType<AxDivider>().First();
+
+        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(rule.Fill));
+        Assert.Equal(1d, rule.Bounds.Height);
         Assert.Equal(24d, header.Bounds.Height);
 
         var caption = header.GetVisualDescendants().OfType<TextBlock>().First();
@@ -151,8 +155,9 @@ public class TableTests
         return grid;
     }
 
+    /// <summary>Шапка таблицы: часть с именем, а не «та рамка, у которой есть низ».</summary>
     private static Border Header(AxDataGrid table) =>
-        table.GetVisualDescendants().OfType<Border>().First(b => b.BorderThickness.Bottom > 0);
+        table.GetVisualDescendants().OfType<Border>().Single(part => part.Name == "PART_Header");
 
     private static IEnumerable<AxListBoxItem> Rows(AxDataGrid table) =>
         table.GetVisualDescendants().OfType<AxListBoxItem>();

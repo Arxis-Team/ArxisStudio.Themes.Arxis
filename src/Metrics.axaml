@@ -386,6 +386,13 @@
   <x:Double x:Key="AxSettingsFilterWidth">170</x:Double>
   <x:Double x:Key="AxSettingsFieldWidth">220</x:Double>
   <x:Double x:Key="AxSettingsActionWidth">112</x:Double>
+  <!--
+      Палитра команд: карточка шире обычного попапа поиска — в ней читают целые
+      названия команд с сочетаниями справа, — и висит ниже верхнего края окна,
+      чтобы не наезжать на полосу заголовка.
+  -->
+  <x:Double x:Key="AxPaletteWidth">520</x:Double>
+  <Thickness x:Key="AxPaletteMargin">0,80,0,0</Thickness>
   <!-- Рамка подсказки и призрака докинга: вдвое толще линии, её видно поверх чужого окна. -->
   <Thickness x:Key="AxDockHintThickness">2</Thickness>
   <x:Double x:Key="AxSettingsRowHeight">44</x:Double>

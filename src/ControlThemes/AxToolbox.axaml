@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
 
   <!--
       Инструменты каркаса: главный тулбар, лоадер, блок кода и таблица-список.
@@ -138,6 +139,12 @@
       строка отбита снизу, и только у последней и у выбранной отбивки нет:
       линия под выделением разрезала бы его полосу.
 
+      Шапка стоит над областью прокрутки и едет вбок вместе со строками. Уехав
+      внутрь области, она уходила бы вверх на первом же обороте колеса; оставшись
+      на месте при боковой прокрутке — разошлась бы с колонками, которые уехали.
+      Поэтому она обрезана своей рамкой и сдвигается ровно на столько, на сколько
+      уехало содержимое.
+
       Строка идёт на AxRowHeight, поэтому вертикальной отбивки у ячейки нет —
       её съедает высота строки. Горизонтальные 10 остаются и стоят на ячейке, а
       не на строке: иначе отступ был бы только у первой колонки, а остальные
@@ -174,17 +181,26 @@
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}">
           <DockPanel>
-            <Border DockPanel.Dock="Top"
-                    BorderBrush="{DynamicResource AxStrokeSubtleBrush}"
-                    BorderThickness="{DynamicResource AxHairlineBottomThickness}"
+            <Border x:Name="PART_Header"
+                    DockPanel.Dock="Top"
+                    ClipToBounds="True"
                     MinHeight="{DynamicResource AxRowHeight}"
                     IsVisible="{TemplateBinding Header, Converter={x:Static ObjectConverters.IsNotNull}}">
               <ContentPresenter Content="{TemplateBinding Header}"
                                 VerticalAlignment="Center"
                                 TextBlock.Foreground="{DynamicResource AxTextSecondaryBrush}"
-                                TextBlock.FontSize="{DynamicResource AxFontSizeSmall}"/>
+                                TextBlock.FontSize="{DynamicResource AxFontSizeSmall}"
+                                RenderTransform="{Binding #PART_ScrollViewer.Offset, Converter={x:Static t:AxScrollShift.Horizontal}}"/>
             </Border>
-            <ScrollViewer x:Name="PART_ScrollViewer">
+            <!-- Линия под шапкой — разделитель: пиксель устройства он меряет сам. -->
+            <ax:AxDivider DockPanel.Dock="Top"
+                          IsVisible="{TemplateBinding Header, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+            <!--
+                Вбок таблица ездит: колонок в ней бывает больше, чем места, и
+                сжимать их до нечитаемого — не выход. Шапка едет следом.
+            -->
+            <ScrollViewer x:Name="PART_ScrollViewer"
+                          HorizontalScrollBarVisibility="Auto">
               <ItemsPresenter x:Name="PART_ItemsPresenter"
                               ItemsPanel="{TemplateBinding ItemsPanel}"
                               Margin="{TemplateBinding Padding}"/>

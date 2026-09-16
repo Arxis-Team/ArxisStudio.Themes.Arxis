@@ -1,16 +1,23 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
 
   <!--
       Меню студии. Тема пункта написана для родного MenuItem и перекрывает его
       ключом типа — контекстные меню и Flyout получают вид студии без своих
       контейнеров; AxMenuItem наследует её. Правила: строка AxMenuRowHeight —
       она выше строки списка на ступень, потому что в меню целятся мышью, а не
-      читают списком,
-      колонка иконок 16 фиксирована — пункт без иконки получает пустой отступ,
-      и текст не съезжает; шорткат прижат вправо и остаётся AxTextTertiary (декор);
+      читают списком; шорткат прижат вправо и остаётся AxTextTertiary (декор);
       подсвеченный пункт — AxSelectionActive; деструктивный несёт класс danger.
+
+      Колонки выровнены по всему меню, а не по каждому пункту: глиф, жест и
+      шеврон объявлены общими группами размера, и место им даёт самый широкий
+      пункт. Прежде колонка глифа была шириной в клетку значка у каждого пункта
+      порознь, а колонки жеста не было вовсе — жест стоял сразу за подписью, и
+      столбец шорткатов гулял по меню лесенкой. Область общего размера объявляет
+      каждое меню у себя: колонки равняются внутри одного полотна, а не между
+      разными.
   -->
   <ControlTheme x:Key="{x:Type MenuItem}" TargetType="MenuItem">
     <Setter Property="MinHeight" Value="{DynamicResource AxMenuRowHeight}"/>
@@ -26,31 +33,52 @@
                   Background="{TemplateBinding Background}"
                   CornerRadius="{TemplateBinding CornerRadius}"
                   Padding="{TemplateBinding Padding}">
-            <!--
-                Колонка иконки — Auto, а не 16: ширину ей задаёт сама клетка
-                иконки, и число не приходится держать в двух местах сразу.
-            -->
-            <Grid ColumnDefinitions="Auto,8,*,12,Auto,Auto" VerticalAlignment="Center">
-              <Viewbox Width="{DynamicResource AxIconSize}" Height="{DynamicResource AxIconSize}"
-                       StretchDirection="DownOnly"
-                       HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ContentPresenter x:Name="PART_IconPresenter"
-                                  Content="{TemplateBinding Icon}"/>
-              </Viewbox>
+            <Grid VerticalAlignment="Center">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="AxMenuGlyph"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="AxMenuGesture"/>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="AxMenuChevron"/>
+              </Grid.ColumnDefinitions>
+              <!--
+                  Значок и галочка стоят в одной клетке: пункт-переключатель
+                  показывает своё состояние там же, где сосед показывает значок,
+                  и подписи в меню не разъезжаются на две колонки.
+              -->
+              <Panel Margin="{DynamicResource AxGapIconTextThickness}">
+                <Viewbox Width="{DynamicResource AxIconSize}" Height="{DynamicResource AxIconSize}"
+                         StretchDirection="DownOnly"
+                         HorizontalAlignment="Center" VerticalAlignment="Center">
+                  <ContentPresenter x:Name="PART_IconPresenter"
+                                    Content="{TemplateBinding Icon}"/>
+                </Viewbox>
+                <ax:AxIcon x:Name="PART_Check"
+                           Data="{x:Static ax:AxIcons.Check}"
+                           Foreground="{DynamicResource AxAccentBrush}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                           IsVisible="False"/>
+              </Panel>
               <ContentPresenter x:Name="PART_HeaderPresenter"
-                                Grid.Column="2"
+                                Grid.Column="1"
                                 Content="{TemplateBinding Header}"
                                 ContentTemplate="{TemplateBinding HeaderTemplate}"
                                 RecognizesAccessKey="True"
                                 VerticalAlignment="Center"/>
+              <!--
+                  Жест пишется так, как его читают на этой платформе: на macOS
+                  той же командой правит знак команды, а клавиши с именем Ctrl
+                  под пальцем нет вовсе. Привязка к строке отдавала инвариантную
+                  запись обеим.
+              -->
               <TextBlock x:Name="PART_InputGestureText"
-                         Grid.Column="4"
-                         Text="{TemplateBinding InputGesture}"
+                         Grid.Column="2"
+                         Margin="{DynamicResource AxSpaceWideLeadingThickness}"
+                         Text="{TemplateBinding InputGesture, Converter={x:Static t:AxGestureText.Platform}}"
                          Foreground="{DynamicResource AxTextTertiaryBrush}"
                          FontSize="{DynamicResource AxFontSizeSmall}"
                          VerticalAlignment="Center"/>
               <ax:AxIcon x:Name="PART_SubmenuChevron"
-                         Grid.Column="5"
+                         Grid.Column="3"
                          Size="Small"
                          Data="{x:Static ax:AxIcons.ChevronRight}"
                          Foreground="{DynamicResource AxTextSecondaryBrush}"
@@ -73,6 +101,7 @@
                     Margin="{DynamicResource AxPopupShadowRoom}">
               <ScrollViewer>
                 <ItemsPresenter x:Name="PART_ItemsPresenter"
+                                Grid.IsSharedSizeScope="True"
                                 ItemsPanel="{TemplateBinding ItemsPanel}"/>
               </ScrollViewer>
             </Border>
@@ -92,6 +121,17 @@
     </Style>
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="{DynamicResource AxSelectionActiveBrush}"/>
+    </Style>
+    <!--
+        Галочка переключателя и точка выбора — оба состояния показывает та же
+        галочка: два разных глифа в колонке в шестнадцать точек различались бы
+        только под лупой, а смысл у них один — этот пункт сейчас включён.
+    -->
+    <Style Selector="^:toggle:checked /template/ ax|AxIcon#PART_Check">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:radio:checked /template/ ax|AxIcon#PART_Check">
+      <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:empty /template/ ax|AxIcon#PART_SubmenuChevron">
       <Setter Property="IsVisible" Value="False"/>
@@ -139,6 +179,7 @@
                 Margin="{DynamicResource AxPopupShadowRoom}">
           <ScrollViewer>
             <ItemsPresenter x:Name="PART_ItemsPresenter"
+                            Grid.IsSharedSizeScope="True"
                             ItemsPanel="{TemplateBinding ItemsPanel}"/>
           </ScrollViewer>
         </Border>
@@ -163,6 +204,7 @@
                 Margin="{DynamicResource AxPopupShadowRoom}">
           <ScrollViewer>
             <ItemsPresenter x:Name="PART_ItemsPresenter"
+                            Grid.IsSharedSizeScope="True"
                             ItemsPanel="{TemplateBinding ItemsPanel}"/>
           </ScrollViewer>
         </Border>
