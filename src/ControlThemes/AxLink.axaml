@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
 
   <!--
       Ссылка: акцентный текст, подчёркивание появляется на наведении,
@@ -29,18 +30,18 @@
             переключателя: у ссылки нет своей рамки, которую фокус мог бы
             перекрасить, и весь контур несёт кольцо.
         -->
-        <Border x:Name="PART_FocusRing"
-                Padding="{DynamicResource AxFocusOutlineGap}"
-                Margin="{DynamicResource AxFocusOutlineRowMargin}"
-                CornerRadius="{DynamicResource AxCornerRadiusSmall}"
-                BorderThickness="{DynamicResource AxFocusOutlineThickness}"
-                BorderBrush="Transparent">
+        <t:AxFocusRing x:Name="PART_FocusRing"
+                       Placement="Row"
+                       Padding="{DynamicResource AxFocusOutlineGap}"
+                       CornerRadius="{DynamicResource AxCornerRadiusSmall}"
+                       BorderBrush="Transparent"
+                       IsVisible="True">
           <ContentPresenter x:Name="PART_ContentPresenter"
                             Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
                             Foreground="{TemplateBinding Foreground}"
                             RecognizesAccessKey="True"/>
-        </Border>
+        </t:AxFocusRing>
       </ControlTemplate>
     </Setter>
 
@@ -53,7 +54,7 @@
     <Style Selector="^:pressed">
       <Setter Property="Foreground" Value="{DynamicResource AxLinkPressedBrush}"/>
     </Style>
-    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+    <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
       <Setter Property="BorderBrush" Value="{DynamicResource AxFocusRingBrush}"/>
     </Style>
     <Style Selector="^[IsVisited=True]">

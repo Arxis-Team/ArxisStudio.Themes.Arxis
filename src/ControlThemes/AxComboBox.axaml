@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
 
   <!-- Выпадающий список: поле 28 (24 в плотной зоне) с шевроном, попап на bg2. -->
   <ControlTheme x:Key="{x:Type ax:AxComboBox}" TargetType="ax:AxComboBox">
@@ -17,16 +18,10 @@
     <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="PlaceholderForeground" Value="{DynamicResource AxTextSecondaryBrush}"/>
     <Setter Property="MaxDropDownHeight" Value="320"/>
-    <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Panel>
-        <Border x:Name="PART_FocusRing"
-                Margin="{DynamicResource AxFocusOutlineOuterMargin}"
-                CornerRadius="{DynamicResource AxCornerRadiusFocusOuter}"
-                BorderThickness="{DynamicResource AxFocusOutlineOuter}"
-                BorderBrush="{DynamicResource AxFocusRingBrush}"
-                IsVisible="False"/>
+        <t:AxFocusRing x:Name="PART_FocusRing"/>
         <Border x:Name="PART_Background"
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -75,7 +70,20 @@
     <Style Selector="^:pointerover /template/ Border#PART_Background">
       <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
     </Style>
-    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+
+    <!--
+        Нажатие и раскрытый список. Пока список открыт, поле остаётся нажатым на вид и держит
+        рамку фокуса: иначе открытый список висел бы над полем, которое ничем не показывает, что
+        он его.
+    -->
+    <Style Selector="^:pressed /template/ Border#PART_Background">
+      <Setter Property="Background" Value="{DynamicResource AxPressedBrush}"/>
+    </Style>
+    <Style Selector="^:dropdownopen /template/ Border#PART_Background">
+      <Setter Property="Background" Value="{DynamicResource AxPressedBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxFocusRingBrush}"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:focus-visible /template/ Border#PART_Background">
@@ -83,7 +91,6 @@
     </Style>
     <Style Selector="^:disabled">
       <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
-      <Setter Property="Cursor" Value="Arrow"/>
     </Style>
     <Style Selector="^:disabled /template/ Border#PART_Background">
       <Setter Property="Background" Value="{DynamicResource AxFillDisabledBrush}"/>
@@ -126,15 +133,11 @@
                 Стоит последним, значит поверх заливки выделения: иначе
                 выбранная строка в фокусе прятала бы кольцо под собой.
             -->
-            <Border x:Name="PART_FocusRing"
-                    BorderThickness="{DynamicResource AxFocusOutlineInset}"
-                    BorderBrush="{DynamicResource AxFocusRingBrush}"
-                    CornerRadius="{TemplateBinding CornerRadius}"
-                    IsVisible="False"/>
+            <t:AxFocusRing x:Name="PART_FocusRing" Placement="Inside" CornerRadius="{TemplateBinding CornerRadius}"/>
         </Panel>
       </ControlTemplate>
     </Setter>
-    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+    <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">

@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
 
   <!-- Сегментный переключатель: контейнер bg1 с рамкой, активный сегмент — акцент. -->
   <ControlTheme x:Key="{x:Type ax:AxSegmentedControl}" TargetType="ax:AxSegmentedControl">
@@ -51,7 +52,6 @@
     <Setter Property="FontSize" Value="{DynamicResource AxFontSizeSmall}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
     <Setter Property="Background" Value="Transparent"/>
-    <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Panel>
@@ -73,15 +73,11 @@
                 Стоит последним, значит поверх заливки выделения: иначе
                 выбранная строка в фокусе прятала бы кольцо под собой.
             -->
-            <Border x:Name="PART_FocusRing"
-                    BorderThickness="{DynamicResource AxFocusOutlineInset}"
-                    BorderBrush="{DynamicResource AxFocusRingBrush}"
-                    CornerRadius="{TemplateBinding CornerRadius}"
-                    IsVisible="False"/>
+            <t:AxFocusRing x:Name="PART_FocusRing" Placement="Inside" CornerRadius="{TemplateBinding CornerRadius}"/>
         </Panel>
       </ControlTemplate>
     </Setter>
-    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+    <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:pointerover">

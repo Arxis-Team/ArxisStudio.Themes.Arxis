@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
 
   <!--
       Поле ввода: 28 высотой, скругление 4, горизонтальный отступ 9
@@ -35,12 +36,7 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Panel>
-          <Border x:Name="PART_FocusRing"
-                  Margin="{DynamicResource AxFocusOutlineOuterMargin}"
-                  CornerRadius="{DynamicResource AxCornerRadiusFocusOuter}"
-                  BorderThickness="{DynamicResource AxFocusOutlineOuter}"
-                  BorderBrush="{DynamicResource AxFocusRingBrush}"
-                  IsVisible="False"/>
+          <t:AxFocusRing x:Name="PART_FocusRing"/>
           <Border x:Name="PART_BorderElement"
                   Background="{TemplateBinding Background}"
                   BorderBrush="{TemplateBinding BorderBrush}"
@@ -110,7 +106,7 @@
     <Style Selector="^:focus /template/ Border#PART_BorderElement">
       <Setter Property="BorderBrush" Value="{DynamicResource AxFocusRingBrush}"/>
     </Style>
-    <Style Selector="^:focus /template/ Border#PART_FocusRing">
+    <Style Selector="^:focus /template/ t|AxFocusRing#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:disabled">
@@ -127,14 +123,14 @@
     <Style Selector="^:validation-error /template/ Border#PART_BorderElement">
       <Setter Property="BorderBrush" Value="{DynamicResource AxErrorOutlineBrush}"/>
     </Style>
-    <Style Selector="^:validation-error /template/ Border#PART_FocusRing">
+    <Style Selector="^:validation-error /template/ t|AxFocusRing#PART_FocusRing">
       <Setter Property="BorderBrush" Value="{DynamicResource AxErrorOutlineBrush}"/>
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:validation-warning /template/ Border#PART_BorderElement">
       <Setter Property="BorderBrush" Value="{DynamicResource AxWarningOutlineBrush}"/>
     </Style>
-    <Style Selector="^:validation-warning /template/ Border#PART_FocusRing">
+    <Style Selector="^:validation-warning /template/ t|AxFocusRing#PART_FocusRing">
       <Setter Property="BorderBrush" Value="{DynamicResource AxWarningOutlineBrush}"/>
       <Setter Property="IsVisible" Value="True"/>
     </Style>
@@ -164,7 +160,7 @@
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="Padding" Value="0"/>
 
-    <Style Selector="^:focus /template/ Border#PART_FocusRing">
+    <Style Selector="^:focus /template/ t|AxFocusRing#PART_FocusRing">
       <Setter Property="IsVisible" Value="False"/>
     </Style>
     <Style Selector="^:pointerover /template/ Border#PART_BorderElement">

@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
 
   <!--
       Тумблер 30×17 с кнобом 13 (размеры — метрики темы): выключен — дорожка bg4
@@ -12,7 +13,6 @@
     <!-- Не обрезаем себя: кольцо фокуса выходит за границы контрола. -->
     <Setter Property="ClipToBounds" Value="False"/>
 
-    <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="HorizontalAlignment" Value="Left"/>
     <Setter Property="VerticalAlignment" Value="Center"/>
     <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
@@ -31,12 +31,7 @@
               вплотную слилось бы с ней в одно пятно. Просвет в 1px стоит во
               всех фокусных состояниях.
           -->
-          <Border x:Name="PART_FocusRing"
-                  Margin="{DynamicResource AxFocusOutlineRowMargin}"
-                  CornerRadius="{DynamicResource AxCornerRadiusFocusRow}"
-                  BorderThickness="{DynamicResource AxFocusOutlineThickness}"
-                  BorderBrush="{DynamicResource AxFocusRingBrush}"
-                  IsVisible="False"/>
+          <t:AxFocusRing x:Name="PART_FocusRing" Placement="Row"/>
           <Grid ColumnDefinitions="*,Auto" VerticalAlignment="Center">
             <!-- Подпись идёт слева от дорожки — как в компоненте. -->
             <ContentPresenter Margin="{DynamicResource AxSpaceTrailingThickness}"
@@ -71,10 +66,18 @@
     <Style Selector="^:checked:pointerover /template/ Border#PART_Track">
       <Setter Property="Background" Value="{DynamicResource AxAccentFillHoverBrush}"/>
     </Style>
+
+    <!-- Нажатие: дорожка темнеет — выключенная шагом нажатия, включённая шагом акцента. -->
+    <Style Selector="^:pressed:not(:checked) /template/ Border#PART_Track">
+      <Setter Property="Background" Value="{DynamicResource AxPressedBrush}"/>
+    </Style>
+    <Style Selector="^:pressed:checked /template/ Border#PART_Track">
+      <Setter Property="Background" Value="{DynamicResource AxAccentFillPressedBrush}"/>
+    </Style>
     <Style Selector="^:checked /template/ Ellipse#PART_Knob">
       <Setter Property="HorizontalAlignment" Value="Right"/>
     </Style>
-    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+    <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <!--
@@ -89,7 +92,6 @@
     -->
     <Style Selector="^:disabled">
       <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
-      <Setter Property="Cursor" Value="Arrow"/>
     </Style>
     <Style Selector="^:disabled /template/ Border#PART_Track">
       <Setter Property="Background" Value="{DynamicResource AxFillDisabledBrush}"/>

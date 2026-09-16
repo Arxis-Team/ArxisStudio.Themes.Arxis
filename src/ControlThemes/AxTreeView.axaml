@@ -121,11 +121,7 @@
                 содержит, они идут отдельной частью ниже, и обводить их вместе
                 с родителем значило бы обводить пол-дерева.
             -->
-            <Border x:Name="PART_FocusRing"
-                    BorderThickness="{DynamicResource AxFocusOutlineInset}"
-                    BorderBrush="{DynamicResource AxFocusRingBrush}"
-                    CornerRadius="{DynamicResource AxCornerRadius}"
-                    IsVisible="False"/>
+            <t:AxFocusRing x:Name="PART_FocusRing" Placement="Inside"/>
           </Panel>
           <ItemsPresenter x:Name="PART_ItemsPresenter"
                           IsVisible="{TemplateBinding IsExpanded}"
@@ -159,21 +155,24 @@
         ветка предков. PART_Root детей не содержит, они идут отдельной частью
         ниже, поэтому его наведение — ровно одна строка.
     -->
-    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+    <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
 
     <Style Selector="^ /template/ Border#PART_Root:pointerover">
       <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
     </Style>
+    <!--
+        Погашенное выделение — состояние по умолчанию; полную силу ему даёт клавиатура внутри
+        дерева. Открытое над строкой контекстное меню считается «внутри»: область смотрит на
+        логическую цепочку, а у окна попапа логический родитель — его владелец.
+    -->
     <Style Selector="^:selected /template/ Border#PART_Root">
       <Setter Property="Background" Value="{DynamicResource AxSelectionInactiveBrush}"/>
     </Style>
-    <!--
-        Погашенное выделение — состояние по умолчанию: полную силу ему даёт
-        фокус списка, и стиль на это живёт в ArxisTheme.axaml — стилю из темы
-        контрола предок не виден.
-    -->
+    <Style Selector="^:selected:selection-active /template/ Border#PART_Root">
+      <Setter Property="Background" Value="{DynamicResource AxSelectionActiveBrush}"/>
+    </Style>
     <!--
         Выключенная строка: текст на AxTextDisabled.
         Стиль стоит последним намеренно — выделение и наведение объявлены выше,

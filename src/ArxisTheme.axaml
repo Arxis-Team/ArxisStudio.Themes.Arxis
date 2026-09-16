@@ -20,6 +20,7 @@
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/Metrics.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/Spacing.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/Strings.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxFocusRing.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxButton.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxTextBox.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxCheckBox.axaml"/>
@@ -55,9 +56,18 @@
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
   </Style>
 
-  <!-- Тултип не выскакивает под руку: задержка показа 600 мс. -->
-  <Style Selector=":is(Control)">
-    <Setter Property="(ToolTip.ShowDelay)" Value="600"/>
+  <!--
+      Подсказка не выскакивает под руку, а при проходе по полосе не заставляет ждать снова: первая
+      ждёт AxToolTipShowDelay, соседняя открывается через AxToolTipBetweenShowDelay. Обе величины
+      не наследуются, поэтому их ставят самим контролам.
+
+      Список типов, а не :is(Control): правило со «всяким контролом» проверялось на каждом элементе
+      дерева, а подсказку носят немногие — контролы с подписью, вкладка, значок и текст, которому
+      её даёт AxTrimmedTip.
+  -->
+  <Style Selector="ax|AxButton, ax|AxToggleButton, ax|AxSplitButton, ax|AxDropDownButton, ax|AxComboBox, ax|AxCheckBox, ax|AxToggleSwitch, ax|AxTabItem, ax|AxChip, ax|AxBadge, ax|AxLink, ax|AxIcon, :is(TextBlock)">
+    <Setter Property="(ToolTip.ShowDelay)" Value="{DynamicResource AxToolTipShowDelay}"/>
+    <Setter Property="(ToolTip.BetweenShowDelay)" Value="{DynamicResource AxToolTipBetweenShowDelay}"/>
   </Style>
 
   <!--
@@ -66,29 +76,6 @@
       шаг, заведённый для плашек. Баннер — плашка, поэтому действие в нём светится
       этим токеном, а не обычным цветом ссылки.
   -->
-  <!--
-      Выделение в списке и дереве говорит и о фокусе: AxSelectionActive, пока фокус внутри,
-      AxSelectionInactive, когда он ушёл, — строка остаётся отмеченной, но не спорит
-      за внимание с тем полем, куда человек перешёл. Погашенный цвет объявлен
-      в темах строк, полный — здесь.
-
-      Стиль стоит в общих стилях, а не в теме строки: предок в селекторе теме
-      контрола не виден, и строка, однажды загоревшись, уже не гасла.
-
-      Строка названа своим типом, а не «всякий наследник ListBoxItem». Так
-      было, и правило доставало до всего, что построено на списке: у
-      сегментного переключателя выбранный сегмент под фокусом терял акцентную
-      заливку и красился цветом выделения строки — ровно после щелчка по нему,
-      хотя выбранный сегмент залит акцентом, и в покое так и было.
-      Вкладку спасало только то, что часть в её шаблоне названа иначе.
-  -->
-  <Style Selector=":is(ListBox):focus-within ax|AxListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Background" Value="{DynamicResource AxSelectionActiveBrush}"/>
-  </Style>
-  <Style Selector=":is(TreeView):focus-within :is(TreeViewItem):selected /template/ Border#PART_Root">
-    <Setter Property="Background" Value="{DynamicResource AxSelectionActiveBrush}"/>
-  </Style>
-
   <Style Selector="ax|AxBanner ax|AxLink">
     <Setter Property="Foreground" Value="{DynamicResource AxLinkOnPlateBrush}"/>
   </Style>

@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
 
   <!--
       Кнопка с меню: левая часть — действие, правая (24) открывает Flyout.
@@ -42,12 +43,7 @@
               стрелка, и каждый показывает себя сам.
           -->
           <!-- Просвет в пиксель: у класса accent половина залита акцентом. -->
-          <Border x:Name="PART_FocusRing"
-                  Margin="{DynamicResource AxFocusOutlineRowMargin}"
-                  CornerRadius="{DynamicResource AxCornerRadiusFocusRow}"
-                  BorderThickness="{DynamicResource AxFocusOutlineThickness}"
-                  BorderBrush="{DynamicResource AxFocusRingBrush}"
-                  IsVisible="False"/>
+          <t:AxFocusRing x:Name="PART_FocusRing" Placement="Row"/>
           <ContentPresenter x:Name="PART_ContentPresenter"
                             Background="{TemplateBinding Background}"
                             CornerRadius="{TemplateBinding CornerRadius}"
@@ -61,7 +57,7 @@
         </Panel>
       </ControlTemplate>
     </Setter>
-    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+    <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
@@ -114,7 +110,6 @@
     <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="FontWeight" Value="Medium"/>
-    <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Panel>
@@ -149,7 +144,6 @@
 
     <Style Selector="^:disabled">
       <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
-      <Setter Property="Cursor" Value="Arrow"/>
     </Style>
     <Style Selector="^:disabled /template/ Border#PART_Container">
       <Setter Property="Background" Value="{DynamicResource AxSurfaceRaisedBrush}"/>

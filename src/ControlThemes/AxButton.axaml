@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
 
   <!--
       Кнопка: 28 высотой, скругление 4, отступы 12×6, минимальная ширина 72.
@@ -50,7 +51,6 @@
     <Setter Property="FontWeight" Value="Medium"/>
     <Setter Property="HorizontalContentAlignment" Value="Center"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
-    <Setter Property="Cursor" Value="Hand"/>
     <!--
         Подпись, которой не хватает ширины, кончается многоточием, а целиком
         читается в подсказке. Срезанная краем, она обрывалась на полуслове и
@@ -67,12 +67,7 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Panel>
-          <Border x:Name="PART_FocusRing"
-                  Margin="{DynamicResource AxFocusOutlineOuterMargin}"
-                  CornerRadius="{DynamicResource AxCornerRadiusFocusOuter}"
-                  BorderThickness="{DynamicResource AxFocusOutlineOuter}"
-                  BorderBrush="{DynamicResource AxFocusRingBrush}"
-                  IsVisible="False"/>
+          <t:AxFocusRing x:Name="PART_FocusRing"/>
           <ContentPresenter x:Name="PART_ContentPresenter"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
@@ -89,7 +84,7 @@
       </ControlTemplate>
     </Setter>
 
-    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+    <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
 
@@ -98,10 +93,6 @@
     </Style>
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource AxPressedBrush}"/>
-    </Style>
-    <Style Selector="^:disabled">
-      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
-      <Setter Property="Cursor" Value="Arrow"/>
     </Style>
     <!-- Выключенная кнопка: фон выключенного поля, рамка та же. -->
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
@@ -206,6 +197,16 @@
     <Style Selector="^:danger:pressed /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource AxPressedBrush}"/>
     </Style>
+
+    <!--
+        Выключенность сильнее вида, и потому стоит последней. Вид называет свой цвет подписи —
+        белый у основной кнопки, красный у опасной, вторичный у призрачной, — и объявленный выше
+        выключенный проигрывал ему: выключенная основная кнопка оставалась с белой подписью на
+        заливке выключенного поля, то есть выглядела рабочей и почти пустой.
+    -->
+    <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
+    </Style>
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type ax:AxButton}" TargetType="ax:AxButton"
@@ -228,6 +229,11 @@
     </Style>
     <Style Selector="^:toolbar:checked">
       <Setter Property="Foreground" Value="{DynamicResource AxAccentBrush}"/>
+    </Style>
+
+    <!-- Выключенность сильнее включённости — по той же причине, что и сильнее вида. -->
+    <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
     </Style>
   </ControlTheme>
 

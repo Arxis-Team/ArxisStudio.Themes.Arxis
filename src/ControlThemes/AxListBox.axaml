@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
 
   <!-- Список: прозрачный контейнер со скроллом. -->
   <ControlTheme x:Key="{x:Type ax:AxListBox}" TargetType="ax:AxListBox">
@@ -52,28 +53,28 @@
                 Стоит последним, значит поверх заливки выделения: иначе
                 выбранная строка в фокусе прятала бы кольцо под собой.
             -->
-            <Border x:Name="PART_FocusRing"
-                    BorderThickness="{DynamicResource AxFocusOutlineInset}"
-                    BorderBrush="{DynamicResource AxFocusRingBrush}"
-                    CornerRadius="{TemplateBinding CornerRadius}"
-                    IsVisible="False"/>
+            <t:AxFocusRing x:Name="PART_FocusRing" Placement="Inside" CornerRadius="{TemplateBinding CornerRadius}"/>
         </Panel>
       </ControlTemplate>
     </Setter>
-    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+    <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
     </Style>
+    <!--
+        Погашенное выделение — состояние по умолчанию; полную силу ему даёт клавиатура внутри
+        области. Область объявляет себя сама (AxSelectionScope) и метит своё поддерево, поэтому
+        оба состояния живут здесь, а не в общих стилях с предком: вложенный список загорался от
+        фокуса внешнего, а открытое меню гасило выделение владельца.
+    -->
     <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource AxSelectionInactiveBrush}"/>
     </Style>
-    <!--
-        Погашенное выделение — состояние по умолчанию: полную силу ему даёт
-        фокус списка, и стиль на это живёт в ArxisTheme.axaml — стилю из темы
-        контрола предок не виден.
-    -->
+    <Style Selector="^:selected:selection-active /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource AxSelectionActiveBrush}"/>
+    </Style>
     <!--
         Выключенная строка: текст на AxTextDisabled.
         Стиль стоит последним намеренно — выделение и наведение объявлены выше,

@@ -118,17 +118,33 @@
     <Setter Property="VerticalContentAlignment" Value="Center"/>
     <Setter Property="Template">
       <ControlTemplate>
-        <ContentPresenter x:Name="PART_ContentPresenter"
-                          Background="{TemplateBinding Background}"
-                          CornerRadius="{TemplateBinding CornerRadius}"
-                          Content="{TemplateBinding Content}"
-                          HorizontalContentAlignment="Center"
-                          VerticalContentAlignment="Center"/>
+        <Panel>
+          <ContentPresenter x:Name="PART_ContentPresenter"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Content="{TemplateBinding Content}"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"/>
+          <!--
+              Кольцо внутри, а не снаружи: кнопка окна стоит вплотную к краю, и вынесенное наружу
+              кольцо срезала бы сама рама. Свернуть, развернуть и закрыть — первые три остановки
+              Tab в любом окне студии, и без кольца человек, идущий с клавиатуры, начинал путь в
+              пустоте.
+          -->
+          <t:AxFocusRing x:Name="PART_FocusRing" Placement="Inside"
+                         CornerRadius="{TemplateBinding CornerRadius}"/>
+        </Panel>
       </ControlTemplate>
     </Setter>
 
+    <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
+    </Style>
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource AxPressedBrush}"/>
     </Style>
     <Style Selector="^.close:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource AxErrorBrush}"/>

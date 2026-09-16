@@ -111,10 +111,12 @@
         Заголовок для этого не годится: в докинге он всегда пуст — там его
         работу делают вкладки, — и покрасить нечего.
 
-        focus-within, а не focus: фокус стоит на контроле внутри панели, у
-        самой панели его не бывает никогда.
+        :active, а не :focus-within: фокус стоит на контроле внутри панели, у самой панели его не
+        бывает никогда, а focus-within вдобавок гас, стоило открыть меню — у окна попапа нет
+        визуального предка. Признак ставит область выделения, которая смотрит на логическую
+        цепочку, и меню остаётся внутри панели, из которой его позвали.
     -->
-    <Style Selector="^:focus-within /template/ Border#PART_Header">
+    <Style Selector="^:active /template/ Border#PART_Header">
       <Setter Property="Background" Value="{DynamicResource AxSurfaceRaisedBrush}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource AxAccentBrush}"/>
     </Style>

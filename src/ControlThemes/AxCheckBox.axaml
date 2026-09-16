@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
 
   <!-- Флажок 16×16, скругление 3; отмеченный — акцентная заливка с галочкой. -->
   <ControlTheme x:Key="{x:Type ax:AxCheckBox}" TargetType="ax:AxCheckBox">
@@ -10,7 +11,6 @@
     <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
-    <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="HorizontalAlignment" Value="Left"/>
     <!--
         Системную пунктирную обводку фокуса снимаем: своё кольцо тема рисует
@@ -32,12 +32,7 @@
               тем же акцентом, и вплотную кольцо сливалось с ней в одно пятно.
               Три пикселя поля — это два кольца плюс просвет.
           -->
-          <Border x:Name="PART_FocusRing"
-                  Margin="{DynamicResource AxFocusOutlineRowMargin}"
-                  CornerRadius="{DynamicResource AxCornerRadiusFocusRow}"
-                  BorderThickness="{DynamicResource AxFocusOutlineThickness}"
-                  BorderBrush="{DynamicResource AxFocusRingBrush}"
-                  IsVisible="False"/>
+          <t:AxFocusRing x:Name="PART_FocusRing" Placement="Row"/>
           <Grid ColumnDefinitions="Auto,*" VerticalAlignment="Center">
             <Panel VerticalAlignment="Center">
               <Border x:Name="PART_Box"
@@ -108,6 +103,17 @@
       <Setter Property="Background" Value="{DynamicResource AxAccentHoverBrush}"/>
     </Style>
 
+    <!--
+        Нажатие: у пустой коробки темнеет заливка, у отмеченной — акцент. Без него флажок отвечал
+        на нажатие только тем, что переключался, и промах по нему был неотличим от попадания.
+    -->
+    <Style Selector="^:pressed:not(:checked):not(:indeterminate) /template/ Border#PART_Box">
+      <Setter Property="Background" Value="{DynamicResource AxPressedBrush}"/>
+    </Style>
+    <Style Selector="^:pressed:checked /template/ Border#PART_Box, ^:pressed:indeterminate /template/ Border#PART_Box">
+      <Setter Property="Background" Value="{DynamicResource AxAccentFillPressedBrush}"/>
+    </Style>
+
     <!-- Проблема ввода: рамка и фон коробки говорят о ней и без текста рядом. -->
     <Style Selector="^:validation-error /template/ Border#PART_Box">
       <Setter Property="BorderBrush" Value="{DynamicResource AxErrorOutlineBrush}"/>
@@ -123,12 +129,11 @@
     <Style Selector="^:pointerover /template/ Border#PART_Box">
       <Setter Property="BorderBrush" Value="{DynamicResource AxTextSecondaryBrush}"/>
     </Style>
-    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+    <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:disabled">
       <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
-      <Setter Property="Cursor" Value="Arrow"/>
     </Style>
     <Style Selector="^:disabled /template/ Border#PART_Box">
       <Setter Property="Background" Value="{DynamicResource AxFillDisabledBrush}"/>

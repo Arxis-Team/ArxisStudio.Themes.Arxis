@@ -1,0 +1,33 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
+
+  <!--
+      Кольцо фокуса: три формы одной части. Снаружи — у контрола со своей рамкой; вокруг строки —
+      у контрола без рамки, где весь контур несёт кольцо; внутри — у строки, которую хозяин обрезал
+      бы по краям.
+
+      Цвет один на все три: кольцо фокуса — единственное, чем клавиатура показывает, где она.
+  -->
+  <ControlTheme x:Key="{x:Type t:AxFocusRing}" TargetType="t:AxFocusRing">
+    <Setter Property="BorderBrush" Value="{DynamicResource AxFocusRingBrush}"/>
+    <Setter Property="IsVisible" Value="False"/>
+    <Setter Property="IsHitTestVisible" Value="False"/>
+    <Setter Property="Margin" Value="{DynamicResource AxFocusOutlineOuterMargin}"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxFocusOutlineOuter}"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusFocusOuter}"/>
+
+    <Style Selector="^[Placement=Row]">
+      <Setter Property="Margin" Value="{DynamicResource AxFocusOutlineRowMargin}"/>
+      <Setter Property="BorderThickness" Value="{DynamicResource AxFocusOutlineThickness}"/>
+      <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusFocusRow}"/>
+    </Style>
+
+    <Style Selector="^[Placement=Inside]">
+      <Setter Property="Margin" Value="0"/>
+      <Setter Property="BorderThickness" Value="{DynamicResource AxFocusOutlineInset}"/>
+      <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
+    </Style>
+  </ControlTheme>
+
+</ResourceDictionary>

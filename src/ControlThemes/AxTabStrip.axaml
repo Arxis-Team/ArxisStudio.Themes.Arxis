@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
 
   <!-- Полоса вкладок: ряд вкладок на фоне панели с разделителем снизу. -->
   <ControlTheme x:Key="{x:Type ax:AxTabStrip}" TargetType="ax:AxTabStrip">
@@ -121,7 +122,6 @@
     -->
     <Setter Property="IconBrush" Value="{Binding $self.Foreground}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
-    <Setter Property="Cursor" Value="Hand"/>
     <!--
         Шире места своей полосы вкладка не мерится — это правило контрола. Имя,
         которому тогда не хватает ширины, кончается многоточием, а целиком
@@ -235,27 +235,34 @@
                 Стоит последним, значит поверх заливки выделения: иначе
                 выбранная строка в фокусе прятала бы кольцо под собой.
             -->
-            <Border x:Name="PART_FocusRing"
-                    BorderThickness="{DynamicResource AxFocusOutlineInset}"
-                    BorderBrush="{DynamicResource AxFocusRingBrush}"
-                    CornerRadius="{TemplateBinding CornerRadius}"
-                    IsVisible="False"/>
+            <t:AxFocusRing x:Name="PART_FocusRing" Placement="Inside" CornerRadius="{TemplateBinding CornerRadius}"/>
           </Panel>
         </Border>
       </ControlTemplate>
     </Setter>
 
-    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+    <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
 
     <Style Selector="^:pointerover /template/ Border#PART_Root">
       <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
     </Style>
+    <!--
+        Крестик изменённой вкладки уступает место точке, и возвращается он не только под курсором:
+        человек, дошедший до вкладки по Tab, обязан видеть, чем её закрыть. Наведение и фокус
+        делают одно и то же.
+    -->
     <Style Selector="^:pointerover /template/ ax|AxIcon#PART_CloseIcon">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:pointerover /template/ Ellipse#PART_Modified">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ ax|AxIcon#PART_CloseIcon">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ Ellipse#PART_Modified">
       <Setter Property="IsVisible" Value="False"/>
     </Style>
     <Style Selector="^[IsModified=True] /template/ ax|AxIcon#PART_CloseIcon">

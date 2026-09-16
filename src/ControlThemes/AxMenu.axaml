@@ -81,6 +81,15 @@
       </ControlTemplate>
     </Setter>
 
+    <!--
+        Подсветка пункта: и под курсором, и под клавиатурой. Avalonia метит наведённый пункт
+        :selected, и поначалу этого хватало — но :selected приходит и от стрелок, и от мыши, а
+        правило состояний спрашивает наведение отдельно: пункт, помеченный только выбором, в
+        линте выглядит пунктом без наведения, и отличить одно от другого нечем.
+    -->
+    <Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{DynamicResource AxSelectionActiveBrush}"/>
+    </Style>
     <Style Selector="^:selected /template/ Border#PART_LayoutRoot">
       <Setter Property="Background" Value="{DynamicResource AxSelectionActiveBrush}"/>
     </Style>

@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
 
   <!--
       Переключатель одного варианта: круг 16px, у выбранного — акцентная
@@ -13,7 +14,6 @@
     <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
     <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
-    <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="HorizontalAlignment" Value="Left"/>
     <Setter Property="Template">
       <ControlTemplate>
@@ -28,12 +28,7 @@
               Кольцо на просвет в пиксель от точки: включённая она залита тем
               же акцентом, и вплотную кольцо сливалось с ней в одно пятно.
           -->
-          <Border x:Name="PART_FocusRing"
-                  Margin="{DynamicResource AxFocusOutlineRowMargin}"
-                  CornerRadius="{DynamicResource AxCornerRadiusFocusRow}"
-                  BorderThickness="{DynamicResource AxFocusOutlineThickness}"
-                  BorderBrush="{DynamicResource AxFocusRingBrush}"
-                  IsVisible="False"/>
+          <t:AxFocusRing x:Name="PART_FocusRing" Placement="Row"/>
           <Grid ColumnDefinitions="Auto,*" VerticalAlignment="Center">
             <Panel Width="{DynamicResource AxCheckboxSize}"
                    Height="{DynamicResource AxCheckboxSize}"
@@ -74,12 +69,20 @@
     <Style Selector="^:checked:pointerover /template/ Ellipse#PART_Circle">
       <Setter Property="Stroke" Value="{DynamicResource AxAccentHoverBrush}"/>
     </Style>
-    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+
+    <!-- Нажатие: у пустого кружка темнеет середина, у выбранного — кольцо. -->
+    <Style Selector="^:pressed:not(:checked) /template/ Ellipse#PART_Circle">
+      <Setter Property="Fill" Value="{DynamicResource AxPressedBrush}"/>
+    </Style>
+    <Style Selector="^:pressed:checked /template/ Ellipse#PART_Circle">
+      <Setter Property="Stroke" Value="{DynamicResource AxAccentFillPressedBrush}"/>
+    </Style>
+
+    <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^:disabled">
       <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
-      <Setter Property="Cursor" Value="Arrow"/>
     </Style>
     <Style Selector="^:disabled /template/ Ellipse#PART_Circle">
       <Setter Property="Fill" Value="{DynamicResource AxFillDisabledBrush}"/>
@@ -271,7 +274,6 @@
   <ControlTheme x:Key="AxSliderThumb" TargetType="Thumb">
     <Setter Property="Width" Value="{DynamicResource AxSliderThumbSize}"/>
     <Setter Property="Height" Value="{DynamicResource AxSliderThumbSize}"/>
-    <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Ellipse Fill="{DynamicResource AxSurfaceBaseBrush}"
@@ -284,9 +286,6 @@
     </Style>
     <Style Selector="^:disabled /template/ Ellipse">
       <Setter Property="Stroke" Value="{DynamicResource AxTextDisabledBrush}"/>
-    </Style>
-    <Style Selector="^:disabled">
-      <Setter Property="Cursor" Value="Arrow"/>
     </Style>
   </ControlTheme>
 
@@ -302,12 +301,7 @@
       <ControlTemplate>
         <Panel Background="Transparent">
           <!-- Просвет в пиксель: заполненная часть дорожки акцентная. -->
-          <Border x:Name="PART_FocusRing"
-                  Margin="{DynamicResource AxFocusOutlineRowMargin}"
-                  CornerRadius="{DynamicResource AxCornerRadiusFocusRow}"
-                  BorderThickness="{DynamicResource AxFocusOutlineThickness}"
-                  BorderBrush="{DynamicResource AxFocusRingBrush}"
-                  IsVisible="False"/>
+          <t:AxFocusRing x:Name="PART_FocusRing" Placement="Row"/>
           <Track Name="PART_Track"
                  Minimum="{TemplateBinding Minimum}"
                  Maximum="{TemplateBinding Maximum}"
@@ -326,7 +320,7 @@
       </ControlTemplate>
     </Setter>
 
-    <Style Selector="^:focus-visible /template/ Border#PART_FocusRing">
+    <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
     </Style>
   </ControlTheme>

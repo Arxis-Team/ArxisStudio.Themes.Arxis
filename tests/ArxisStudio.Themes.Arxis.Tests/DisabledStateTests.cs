@@ -26,6 +26,37 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 public class DisabledStateTests
 {
     /// <summary>
+    /// Выключенность сильнее вида и включённости.
+    /// </summary>
+    /// <remarks>
+    /// Вид называет свой цвет подписи — белый у основной кнопки, красный у опасной, вторичный у
+    /// призрачной, — а включённая кнопка полосы горит акцентом. Пока выключенный цвет был объявлен
+    /// выше них, он проигрывал: выключенная основная кнопка стояла с белой подписью на заливке
+    /// выключенного поля и выглядела рабочей. Порядок стилей в теме увидеть трудно, а цвет на
+    /// экране — легко, поэтому спрашивается цвет.
+    /// </remarks>
+    [AvaloniaTheory]
+    [InlineData(AxButtonAppearance.Default, false)]
+    [InlineData(AxButtonAppearance.Primary, false)]
+    [InlineData(AxButtonAppearance.Subtle, false)]
+    [InlineData(AxButtonAppearance.Danger, false)]
+    [InlineData(AxButtonAppearance.Toolbar, false)]
+    [InlineData(AxButtonAppearance.Default, true)]
+    [InlineData(AxButtonAppearance.Toolbar, true)]
+    public void Disabled_wins_over_appearance(AxButtonAppearance appearance, bool toggle)
+    {
+        TemplatedControl control = toggle
+            ? new AxToggleButton { Appearance = appearance, Content = "Готово", IsChecked = true, IsEnabled = false }
+            : new AxButton { Appearance = appearance, Content = "Готово", IsEnabled = false };
+
+        var window = Shown(control);
+
+        Assert.Equal(Resource(window, "AxTextDisabledBrush"), Colour(control.Foreground));
+
+        window.Close();
+    }
+
+    /// <summary>
     /// Всё, что человек выбирает или нажимает, гаснет текстом.
     /// </summary>
     /// <remarks>
