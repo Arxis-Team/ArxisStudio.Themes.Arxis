@@ -6,8 +6,9 @@
   <!-- Полоса вкладок: ряд вкладок на фоне панели с разделителем снизу. -->
   <ControlTheme x:Key="{x:Type ax:AxTabStrip}" TargetType="ax:AxTabStrip">
     <Setter Property="Background" Value="{DynamicResource AxSurfacePanelBrush}"/>
+    <!-- BorderBrush — цвет линии под полосой; линию рисует разделитель, а не рамка. -->
     <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeSubtleBrush}"/>
-    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineBottomThickness}"/>
+    <Setter Property="BorderThickness" Value="0"/>
     <!--
         Полоса вкладок документа скруглена сверху и прижата к краю: вкладки
         начинаются от самой границы.
@@ -26,12 +27,48 @@
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 ClipToBounds="True">
-          <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-            <ItemsPresenter ItemsPanel="{TemplateBinding ItemsPanel}" Margin="{TemplateBinding Padding}"/>
-          </ScrollViewer>
+          <DockPanel>
+            <!--
+                Линия под полосой — разделитель, а не нижняя рамка: пиксель устройства он меряет
+                сам, и при 150 % под вкладками остаётся линия, а не кант в два пикселя.
+            -->
+            <ax:AxDivider x:Name="PART_Rule"
+                          DockPanel.Dock="Bottom"
+                          Fill="{TemplateBinding BorderBrush}"/>
+            <!--
+                Кнопка переполнения: появляется, только когда доставать есть что, и стоит у
+                правого края — там же, где в Rider и Visual Studio. Полоса прокрутки под
+                вкладками снята: в среде с десятком документов она занимала строку, а достать
+                нужный документ всё равно не помогала.
+            -->
+            <ax:AxButton x:Name="PART_Overflow"
+                         DockPanel.Dock="Right"
+                         Appearance="Toolbar"
+                         IsVisible="False"
+                         AutomationProperties.Name="{DynamicResource AxTextTabOverflow}"
+                         ToolTip.Tip="{DynamicResource AxTextTabOverflow}">
+              <ax:AxIcon Size="Small" Data="{x:Static ax:AxIcons.ChevronDown}"/>
+            </ax:AxButton>
+            <ScrollViewer x:Name="PART_Scroll"
+                          HorizontalScrollBarVisibility="Hidden"
+                          VerticalScrollBarVisibility="Disabled">
+              <ItemsPresenter ItemsPanel="{TemplateBinding ItemsPanel}" Margin="{TemplateBinding Padding}"/>
+            </ScrollViewer>
+          </DockPanel>
         </Border>
       </ControlTemplate>
     </Setter>
+
+    <Style Selector="^:overflow /template/ ax|AxButton#PART_Overflow">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <!--
+        В шапке панели своей линии у полосы нет: там линию держит сама панель — одну на шапку,
+        под вкладками и действиями сразу. Две подряд читались бы канавкой.
+    -->
+    <Style Selector="^:tool-window /template/ ax|AxDivider#PART_Rule">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
   </ControlTheme>
 
   <!--
@@ -42,7 +79,6 @@
                 BasedOn="{StaticResource {x:Type ax:AxTabStrip}}">
     <Setter Property="Kind" Value="ToolWindow"/>
     <Setter Property="Background" Value="Transparent"/>
-    <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="CornerRadius" Value="0"/>
     <Setter Property="Padding" Value="0"/>
     <Setter Property="VerticalAlignment" Value="Stretch"/>

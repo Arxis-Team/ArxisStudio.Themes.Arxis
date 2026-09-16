@@ -113,7 +113,9 @@ public class ToolBarTests
     /// </summary>
     /// <remarks>
     /// Полоса прижата к краям окна, и обводить её по периметру нечем — линия
-    /// есть только снизу.
+    /// есть только снизу. Рисует её разделитель, а не нижняя рамка полосы: раскладочная единица
+    /// при 150 % даёт два пикселя, и под полосой заголовка вырастал кант вдвое толще линий,
+    /// которыми разрезано всё окно под ней.
     /// </remarks>
     [AvaloniaTheory]
     [InlineData("Light")]
@@ -132,10 +134,13 @@ public class ToolBarTests
         window.Show();
         window.UpdateLayout();
 
+        var rule = bar.GetVisualDescendants().OfType<AxDivider>().Single(part => part.Name == "PART_Rule");
+
         Assert.Equal(40d, bar.Bounds.Height);
-        Assert.Equal(new Thickness(0, 0, 0, 1), bar.BorderThickness);
+        Assert.Equal(default, bar.BorderThickness);
         Assert.Equal(Resource(window, "AxSurfacePanelColor", variant), Colour(bar.Background));
-        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(bar.BorderBrush));
+        Assert.Equal(1d, rule.Bounds.Height);
+        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(rule.Fill));
 
         window.Close();
     }

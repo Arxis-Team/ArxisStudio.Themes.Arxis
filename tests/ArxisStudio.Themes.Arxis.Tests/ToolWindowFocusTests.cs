@@ -51,13 +51,13 @@ public class ToolWindowFocusTests
     public void The_line_under_an_active_header_turns_accent()
     {
         var (panel, inside, window) = Shown();
-        var header = Header(panel);
-        var calm = Paint(header.BorderBrush);
+        var rule = Rule(panel);
+        var calm = Paint(rule.Fill);
 
         Assert.True(inside.Focus());
         window.UpdateLayout();
 
-        var lit = Paint(header.BorderBrush);
+        var lit = Paint(rule.Fill);
 
         Assert.NotEqual(calm, lit);
         Assert.Equal(Token(panel, "AxAccentBrush"), lit);
@@ -85,12 +85,12 @@ public class ToolWindowFocusTests
         Assert.True(inside.Focus());
         window.UpdateLayout();
 
-        var lit = Paint(Header(panel).BorderBrush);
+        var lit = Paint(Rule(panel).Fill);
 
         Assert.True(away.Focus());
         window.UpdateLayout();
 
-        Assert.NotEqual(lit, Paint(Header(panel).BorderBrush));
+        Assert.NotEqual(lit, Paint(Rule(panel).Fill));
 
         window.Close();
     }
@@ -98,6 +98,10 @@ public class ToolWindowFocusTests
     /// <summary>Шапка панели — она в шаблоне одна.</summary>
     private static Border Header(AxToolWindow panel) =>
         panel.GetVisualDescendants().OfType<Border>().Single(border => border.Name == "PART_Header");
+
+    /// <summary>Линия под шапкой: разделитель, а не нижняя рамка шапки.</summary>
+    private static AxDivider Rule(AxToolWindow panel) =>
+        panel.GetVisualDescendants().OfType<AxDivider>().Single(part => part.Name == "PART_HeaderRule");
 
     /// <summary>Цвет кисти; <c>null</c> — кисти нет вовсе.</summary>
     private static Color? Paint(IBrush? brush) => (brush as ISolidColorBrush)?.Color;

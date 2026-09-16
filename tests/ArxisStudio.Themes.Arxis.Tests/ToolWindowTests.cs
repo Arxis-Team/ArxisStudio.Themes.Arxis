@@ -19,21 +19,27 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 /// </remarks>
 public class ToolWindowTests
 {
-    /// <summary>Панель обведена, скруглена и стоит на подложке второго уровня.</summary>
+    /// <summary>
+    /// Панель плоская: ни рамки, ни скругления, только своя подложка.
+    /// </summary>
+    /// <remarks>
+    /// Доки — одна поверхность, разрезанная линиями, а не стопка карточек. Рамка панели легла бы
+    /// поверх разделителя области — три линии там, где нужна одна, — а скруглённый угол на стыке
+    /// открывал фон оболочки, и по границам выступали тёмные зазубрины.
+    /// </remarks>
     [AvaloniaTheory]
     [InlineData("Light")]
     [InlineData("Dark")]
-    public void Panel_is_a_bordered_surface(string variant)
+    public void Panel_is_a_flat_surface(string variant)
     {
         var (panel, window) = Shown(variant: variant);
 
-        Assert.Equal(new Thickness(1), panel.BorderThickness);
-        Assert.Equal(new CornerRadius(4), panel.CornerRadius);
+        Assert.Equal(default, panel.BorderThickness);
+        Assert.Equal(default, panel.CornerRadius);
         Assert.Equal(Resource(window, "AxSurfacePanelColor", variant), Colour(panel.Background));
-        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(panel.BorderBrush));
 
-        // Обрезка: без неё линия под шапкой вылезает за скругление усиками.
-        Assert.True(Root(panel).ClipToBounds, "панель не обрезает содержимое по скруглению");
+        // BorderBrush остался цветом линии под шапкой — рисует её разделитель.
+        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(panel.BorderBrush));
 
         window.Close();
     }
@@ -74,15 +80,30 @@ public class ToolWindowTests
     {
         var (panel, window) = Shown(variant: variant);
 
-        var header = (Border)Part(panel, "PART_Header");
+        var rule = (AxDivider)Part(panel, "PART_HeaderRule");
 
-        Assert.Equal(new Thickness(0), header.BorderThickness);
+        Assert.False(rule.IsVisible, "линия под шапкой без спроса");
 
         panel.ShowHeaderSeparator = true;
         window.UpdateLayout();
 
-        Assert.Equal(new Thickness(0, 0, 0, 1), header.BorderThickness);
-        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(header.BorderBrush));
+        Assert.True(rule.IsVisible, "линия под шапкой не появилась");
+        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(rule.Fill));
+
+        window.Close();
+    }
+
+    /// <summary>Линии нет там, где нет шапки: лечь ей не подо что.</summary>
+    [AvaloniaFact]
+    public void A_panel_without_a_header_has_no_line_under_it()
+    {
+        var (panel, window) = Shown();
+
+        panel.ShowHeaderSeparator = true;
+        panel.ShowHeader = false;
+        window.UpdateLayout();
+
+        Assert.False(((AxDivider)Part(panel, "PART_HeaderRule")).IsVisible, "линия под снятой шапкой");
 
         window.Close();
     }

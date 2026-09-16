@@ -10,8 +10,14 @@
   <ControlTheme x:Key="{x:Type ax:AxTitleBar}" TargetType="ax:AxTitleBar">
     <Setter Property="Background" Value="{DynamicResource AxSurfacePanelBrush}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
+    <!--
+        BorderBrush — цвет линии под полосой; рамки у полосы нет. Линия эта не рамка, а граница
+        двух областей окна, и мерить её раскладочной единицей нельзя: при 150 % единица даёт два
+        пикселя, и полоса заголовка обрастает видимым кантом ровно там, где всё соседнее остаётся
+        на месте. Разделитель считает пиксель устройства сам.
+    -->
     <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeSubtleBrush}"/>
-    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineBottomThickness}"/>
+    <Setter Property="BorderThickness" Value="0"/>
     <!--
         40: высота полосы, в которой стоят проект, лента вкладов и кнопки окна.
 
@@ -29,6 +35,9 @@
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}">
           <DockPanel>
+            <ax:AxDivider x:Name="PART_Rule"
+                          DockPanel.Dock="Bottom"
+                          Fill="{TemplateBinding BorderBrush}"/>
             <ax:AxWindowControls x:Name="PART_WindowControls"
                                  DockPanel.Dock="Right"
                                  IsVisible="{TemplateBinding ShowWindowControls}"/>

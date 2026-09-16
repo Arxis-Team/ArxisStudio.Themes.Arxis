@@ -139,7 +139,7 @@ public class SplitterTests
     {
         var (splitter, window) = Shown(Orientation.Vertical, variant);
 
-        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(Line(splitter).Background));
+        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(Line(splitter).Fill));
 
         window.Close();
     }
@@ -166,9 +166,10 @@ public class SplitterTests
             new AxSplitter { Orientation = Orientation.Horizontal }.ResizeDirection);
     }
 
-    private static Border Line(AxSplitter splitter)
+    /// <summary>Линия разделителя — тот же AxDivider, что стоит между панелями.</summary>
+    private static AxDivider Line(AxSplitter splitter)
     {
-        var line = splitter.GetVisualDescendants().OfType<Border>().FirstOrDefault(part => part.Name == "PART_Line");
+        var line = splitter.GetVisualDescendants().OfType<AxDivider>().FirstOrDefault(part => part.Name == "PART_Line");
 
         Assert.NotNull(line);
 

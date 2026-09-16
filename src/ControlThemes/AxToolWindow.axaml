@@ -3,7 +3,7 @@
                     xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
 
   <!--
-      Панель инструментов: шапка 30px и содержимое под ней.
+      Панель инструментов: шапка ростом с вкладку и содержимое под ней.
 
       Заголовок и вкладки лежат в одной строке шапки — вкладки не
       заменяют заголовок, а встают рядом с ним, поэтому «Проект» остаётся
@@ -13,14 +13,18 @@
   <ControlTheme x:Key="{x:Type ax:AxToolWindow}" TargetType="ax:AxToolWindow">
     <Setter Property="Background" Value="{DynamicResource AxSurfacePanelBrush}"/>
     <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeSubtleBrush}"/>
     <!--
-        Панель обведена и скруглена контрольным радиусом. Обрезка нужна линии
-        под шапкой: без неё она вылезает за
-        скругление и торчит усиками по краям.
+        Панель плоская: ни рамки, ни скругления. Доки — не стопка карточек, а одна поверхность,
+        разрезанная линиями: панели стоят встык, и границу между ними держит разделитель области
+        в пиксель устройства. Обведённая панель добавляла к нему свою рамку с каждой стороны — три
+        линии там, где нужна одна, — а скруглённый угол на стыке открывал фон оболочки, и по
+        границам выступали тёмные зазубрины.
+
+        BorderBrush при этом остаётся: это цвет линии под шапкой, и рисует её разделитель.
     -->
-    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineThickness}"/>
-    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeSubtleBrush}"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="CornerRadius" Value="0"/>
     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
     <Setter Property="VerticalContentAlignment" Value="Stretch"/>
     <Setter Property="Template">
@@ -50,8 +54,6 @@
                     DockPanel.Dock="Top"
                     MinHeight="{DynamicResource AxTabHeight}"
                     Padding="0,0"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="0"
                     IsVisible="{TemplateBinding ShowHeader}">
               <DockPanel>
                 <ContentPresenter x:Name="PART_Actions"
@@ -80,6 +82,15 @@
                                   IsVisible="{TemplateBinding Tabs, Converter={x:Static ObjectConverters.IsNotNull}}"/>
               </DockPanel>
             </Border>
+            <!--
+                Линия под шапкой: разделитель, а не нижняя рамка шапки. Раскладочная единица при
+                150 % даёт два пикселя, и шапка панели обрастала кантом вдвое толще линий,
+                которыми разрезан весь остальной док. Разделитель считает пиксель устройства сам.
+            -->
+            <ax:AxDivider x:Name="PART_HeaderRule"
+                          DockPanel.Dock="Top"
+                          Fill="{TemplateBinding BorderBrush}"
+                          IsVisible="False"/>
             <ContentPresenter Content="{TemplateBinding Content}"
                               ContentTemplate="{TemplateBinding ContentTemplate}"
                               Padding="{TemplateBinding Padding}"
@@ -90,8 +101,9 @@
       </ControlTemplate>
     </Setter>
 
-    <Style Selector="^[ShowHeaderSeparator=True] /template/ Border#PART_Header">
-      <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineBottomThickness}"/>
+    <!-- Линия под шапкой нужна только там, где есть шапка: без неё она легла бы на пустое место. -->
+    <Style Selector="^[ShowHeaderSeparator=True][ShowHeader=True] /template/ ax|AxDivider#PART_HeaderRule">
+      <Setter Property="IsVisible" Value="True"/>
     </Style>
 
     <!--
@@ -118,7 +130,9 @@
     -->
     <Style Selector="^:active /template/ Border#PART_Header">
       <Setter Property="Background" Value="{DynamicResource AxSurfaceRaisedBrush}"/>
-      <Setter Property="BorderBrush" Value="{DynamicResource AxAccentBrush}"/>
+    </Style>
+    <Style Selector="^:active /template/ ax|AxDivider#PART_HeaderRule">
+      <Setter Property="Fill" Value="{DynamicResource AxAccentBrush}"/>
     </Style>
   </ControlTheme>
 

@@ -14,5 +14,6 @@
   <x:String x:Key="AxTextSearchClear">Clear search</x:String>
   <x:String x:Key="AxTextMessageClose">Close message</x:String>
   <x:String x:Key="AxTextDialogClose">Close</x:String>
+  <x:String x:Key="AxTextTabOverflow">More tabs</x:String>
 
 </ResourceDictionary>
