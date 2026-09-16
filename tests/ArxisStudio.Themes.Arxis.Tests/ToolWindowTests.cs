@@ -2,6 +2,7 @@ using ArxisStudio.Controls;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
+using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.VisualTree;
@@ -45,13 +46,14 @@ public class ToolWindowTests
     }
 
     /// <summary>
-    /// Шапка: 30 высотой и без собственных отступов — их носят заголовок и
-    /// действия.
+    /// Шапка: 30 высотой, слева без отбивки, справа со своей.
     /// </summary>
     /// <remarks>
-    /// Отбивку носит тот, кому она нужна. Стой она на самой шапке —
-    /// вкладки не доходили бы до края и полоса вкладок начиналась бы правее
-    /// панели под ней.
+    /// Слева отбивку носит тот, кому она нужна, — заголовок: стой она на самой
+    /// шапке, вкладки не доходили бы до края и полоса вкладок начиналась бы
+    /// правее панели под ней. Справа отбивка у шапки: последним у края бывает
+    /// кто угодно из иконочных кнопок, и помнить о крае каждому из них значило
+    /// бы однажды забыть.
     /// </remarks>
     [AvaloniaFact]
     public void Header_is_the_height_of_a_tab()
@@ -63,14 +65,53 @@ public class ToolWindowTests
         var actions = Part(panel, "PART_Actions");
 
         Assert.Equal(32d, header.Bounds.Height);
-        Assert.Equal(default, header.Padding);
+        Assert.Equal(new Thickness(0, 0, 12, 0), header.Padding);
 
-        // Отбивку носят те двое, кому она нужна, — вкладки идут вровень с краем.
+        // Слева вкладки идут вровень с краем, и отбивку носит заголовок; у действий своя одна —
+        // зазор от вкладок.
         Assert.Equal(new Thickness(12, 0), title.Margin);
-        Assert.Equal(new Thickness(12, 0), actions.Margin);
+        Assert.Equal(new Thickness(12, 0, 0, 0), actions.Margin);
 
         window.Close();
     }
+
+    /// <summary>Правого края шапки не касается никто: ни действия, ни кнопки, приехавшие с вкладками.</summary>
+    /// <remarks>
+    /// Кнопка скрытия группы доков и кнопка переполнения полосы стоят не в действиях, а внутри
+    /// вкладок, — и, дойди они до края, читались бы обрезанными, а подсветка под курсором
+    /// упиралась бы в соседнюю панель. Проверяется то, что видно: расстояние от кнопки до края
+    /// панели.
+    /// </remarks>
+    [AvaloniaFact]
+    public void Nothing_in_the_header_touches_the_right_edge()
+    {
+        // Панель докинга: заголовка нет, действий нет, и у правого края стоит кнопка, приехавшая
+        // с вкладками, — так стоит кнопка скрытия группы.
+        var edge = new Button { Content = "×", VerticalAlignment = VerticalAlignment.Center };
+        var docked = new AxToolWindow { Tabs = new DockPanel { Children = { edge } } };
+
+        DockPanel.SetDock(edge, Dock.Right);
+
+        var window = new Window { Content = docked, Width = 320, Height = 200 };
+
+        window.Show();
+        window.UpdateLayout();
+
+        Assert.Equal(12d, docked.Bounds.Width - Right(edge, docked));
+
+        // Панель студии: у края стоят её действия.
+        var panel = new AxToolWindow { Title = "Панель", Actions = new Button { Content = "…" } };
+
+        window.Content = panel;
+        window.UpdateLayout();
+
+        Assert.Equal(12d, panel.Bounds.Width - Right(Part(panel, "PART_Actions"), panel));
+
+        window.Close();
+    }
+
+    private static double Right(Visual part, Visual of) =>
+        part.TranslatePoint(new Point(part.Bounds.Width, 0), of)!.Value.X;
 
     /// <summary>Линия под шапкой появляется по свойству, а не сама собой.</summary>
     [AvaloniaTheory]
