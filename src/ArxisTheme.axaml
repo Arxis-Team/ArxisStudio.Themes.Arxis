@@ -1,11 +1,13 @@
 ﻿<!--
-    Тема «Arxis». В M0 подключается поверх FluentTheme — базового слоя для
-    не-Ax примитивов (окно, попапы, тултипы):
+    Тема «Arxis» — единственный слой, который нужен приложению:
 
         <Application.Styles>
-            <FluentTheme/>
             <themes:ArxisTheme/>
         </Application.Styles>
+
+    Чужой базовой темы под ней больше нет. Окно, окно попапа, накладку поверх содержимого и
+    простые контейнеры одевает AxRoots — три коротких шаблона вместо сотни чужих, и без чужих
+    визуальных слоёв в придачу.
 -->
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -20,6 +22,7 @@
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/Metrics.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/Spacing.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/Strings.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxRoots.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxFocusRing.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxButton.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxTextBox.axaml"/>

@@ -1,0 +1,210 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio">
+
+  <!--
+      Корни дерева и простые контейнеры — то, за чем студия ходила в FluentTheme.
+
+      Окно, окно попапа и накладка поверх содержимого — не украшение, а несущая конструкция: в
+      шаблоне окна живёт слой оверлеев, из которого открываются палитра команд и подсказки
+      докинга, а в шаблоне окна попапа — всё, что показывают меню, тултип и поиск. Без них
+      Avalonia рисует пустое место: контрол есть, шаблона нет, и дерево кончается на нём.
+
+      Шаблоны эти короткие и своих красок почти не несут. Держать ради них целую чужую тему
+      значило бы грузить сотню шаблонов ради трёх и получать чужие визуальные слои в придачу.
+  -->
+
+  <!--
+      Окно: фон, содержимое и слой оверлеев над ним.
+
+      VisualLayerManager обязателен — он и есть тот слой, в который встают палитра команд,
+      подсказка перетаскивания и всё, что рисуется поверх окна, не заводя своего. Прозрачная
+      подложка под ним держит поле системных украшений: окно без рамки отдаёт его шаблону, и
+      без неё содержимое залезало бы под кнопки окна.
+  -->
+  <ControlTheme x:Key="{x:Type Window}" TargetType="Window">
+    <Setter Property="Background" Value="{DynamicResource AxSurfaceBaseBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
+    <Setter Property="FontFamily" Value="{DynamicResource AxFontFamily}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
+    <Setter Property="TransparencyBackgroundFallback" Value="{DynamicResource AxSurfaceBaseBrush}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <Border x:Name="PART_TransparencyFallback" IsHitTestVisible="False"/>
+          <Border Background="{TemplateBinding Background}" IsHitTestVisible="False"/>
+          <Panel Background="Transparent" Margin="{TemplateBinding WindowDecorationMargin}"/>
+          <VisualLayerManager x:Name="PART_VisualLayerManager">
+            <ContentPresenter x:Name="PART_ContentPresenter"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Margin="{TemplateBinding Padding}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+          </VisualLayerManager>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <!--
+      Окно попапа: меню, подсказка, поиск, любой Flyout.
+
+      Своего фона у него нет намеренно — карточку рисует то, что внутри, и рисует со своей тенью;
+      фон здесь закрыл бы её прямым углом.
+
+      Слой оверлеев нужен и здесь, и просить его приходится прямо: подменю открывается из окна
+      попапа, и слой ему нужен свой — слой главного окна до него не достаёт. Без этой строки
+      подменю не открывалось вовсе.
+  -->
+  <ControlTheme x:Key="{x:Type PopupRoot}" TargetType="PopupRoot">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="TransparencyBackgroundFallback" Value="Transparent"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel Background="{TemplateBinding Background}">
+          <VisualLayerManager x:Name="PART_VisualLayerManager">
+            <ContentPresenter x:Name="PART_ContentPresenter"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Margin="{TemplateBinding Padding}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+          </VisualLayerManager>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <!--
+      Попап внутри окна: та же роль, но без своего окна.
+
+      Так Avalonia показывает попапы там, где окон попапа нет вовсе, и так же их показывает всякий,
+      кто попросил слой оверлеев вместо окна, — подсказка это умеет свойством.
+  -->
+  <ControlTheme x:Key="{x:Type OverlayPopupHost}" TargetType="OverlayPopupHost">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ContentPresenter x:Name="PART_ContentPresenter"
+                          Content="{TemplateBinding Content}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          Margin="{TemplateBinding Padding}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <!--
+      Простые контейнеры: содержимое и ничего больше.
+
+      Своего вида у них нет и быть не должно — их ставят, чтобы что-то во что-то положить. Но без
+      шаблона содержимое не показывается вовсе, и экран, собранный из UserControl, оказывался
+      пустым.
+  -->
+  <ControlTheme x:Key="{x:Type ContentControl}" TargetType="ContentControl">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ContentPresenter x:Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          Content="{TemplateBinding Content}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          Padding="{TemplateBinding Padding}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <ControlTheme x:Key="{x:Type UserControl}" TargetType="UserControl"
+                BasedOn="{StaticResource {x:Type ContentControl}}"/>
+
+  <ControlTheme x:Key="{x:Type ax:AxUserControl}" TargetType="ax:AxUserControl"
+                BasedOn="{StaticResource {x:Type ContentControl}}"/>
+
+  <!--
+      Список без выбора: ItemsControl. Своей прокрутки у него нет — её добавляет тот, кому нужна.
+  -->
+  <ControlTheme x:Key="{x:Type ItemsControl}" TargetType="ItemsControl">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <ItemsPresenter x:Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <!--
+      Родной переключатель: место под содержимое и три состояния, не больше.
+
+      Вид кнопки студии ему не дают намеренно. Родной ToggleButton в студии — деталь чужого
+      шаблона: шеврон строки дерева, ручка раскрытия, кнопка внутри контрола. Дай ему вид кнопки —
+      и он принесёт с собой её наименьшие размеры: шеврон дерева, которому назначено двадцать,
+      раздувался до семидесяти двух, а строка дерева — до высоты кнопки. Кому нужен вид кнопки,
+      тот берёт AxToggleButton.
+  -->
+  <ControlTheme x:Key="{x:Type ToggleButton}" TargetType="ToggleButton">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Padding" Value="0"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="PART_Root"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <ContentPresenter Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:pointerover /template/ Border#PART_Root">
+      <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
+    </Style>
+    <Style Selector="^:pressed /template/ Border#PART_Root">
+      <Setter Property="Background" Value="{DynamicResource AxPressedBrush}"/>
+    </Style>
+    <Style Selector="^:checked /template/ Border#PART_Root">
+      <Setter Property="Background" Value="{DynamicResource AxSelectionActiveBrush}"/>
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
+    </Style>
+  </ControlTheme>
+
+  <!--
+      Жалоба привязки: студия её не показывает, но ставит всякий TextBox, и без шаблона на экране
+      остаётся пустая рамка вместо поля.
+  -->
+  <ControlTheme x:Key="{x:Type DataValidationErrors}" TargetType="DataValidationErrors">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ContentPresenter x:Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          Content="{TemplateBinding Content}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          Padding="{TemplateBinding Padding}"/>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+</ResourceDictionary>

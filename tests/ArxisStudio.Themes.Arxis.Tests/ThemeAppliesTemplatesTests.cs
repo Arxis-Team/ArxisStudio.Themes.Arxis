@@ -84,17 +84,24 @@ public class ThemeAppliesTemplatesTests
     /// Базовые контролы, которых тема берёт на себя, объявлены в ней самой.
     /// </summary>
     /// <remarks>
-    /// Спрашиваем тему, а не приложение: под ним лежит Fluent, и недостающий
-    /// шаблон он подменит собой — проверка «шаблон есть» прошла бы и на дыре.
-    /// Ровно так и вышло с областью прокрутки: без своей темы ScrollViewer
-    /// падал на дефолт ContentControl, рисовал содержимое и молча терял
+    /// Спрашиваем тему, а не приложение: чужой базовый слой недостающий шаблон подменил бы собой,
+    /// и проверка «шаблон есть» прошла бы на дыре. Ровно так и вышло с областью прокрутки: без
+    /// своей темы ScrollViewer падал на дефолт ContentControl, рисовал содержимое и молча терял
     /// прокрутку.
     ///
-    /// Список закрыт намеренно: тема не подменяет базовый слой целиком, она
-    /// добирает то, на что опираются Ax*-контролы и витрина. Пока он не
-    /// закроется, Fluent остаётся под темой — и в галерее, и здесь.
+    /// Список закрыт и полон: чужого слоя под темой больше нет, и всё, на что опираются
+    /// Ax*-контролы, студия и витрина, объявлено здесь. Корни дерева — окно, окно попапа,
+    /// накладка — держат на себе и слой оверлеев: из него открываются палитра команд и меню.
     /// </remarks>
     [AvaloniaTheory]
+    [InlineData(typeof(Window))]
+    [InlineData(typeof(PopupRoot))]
+    [InlineData(typeof(OverlayPopupHost))]
+    [InlineData(typeof(ContentControl))]
+    [InlineData(typeof(UserControl))]
+    [InlineData(typeof(ItemsControl))]
+    [InlineData(typeof(ToggleButton))]
+    [InlineData(typeof(DataValidationErrors))]
     [InlineData(typeof(ScrollViewer))]
     [InlineData(typeof(ScrollBar))]
     [InlineData(typeof(ContextMenu))]
@@ -133,6 +140,38 @@ public class ThemeAppliesTemplatesTests
         Assert.Contains(parts, p => p is ScrollBar { Name: "PART_VerticalScrollBar" });
         Assert.Contains(parts, p => p is ScrollBar { Name: "PART_HorizontalScrollBar" });
 
+        window.Close();
+    }
+
+    /// <summary>
+    /// Окно даёт слой оверлеев, а окно попапа — место для меню: без них не открыть ни палитру,
+    /// ни контекстное меню.
+    /// </summary>
+    /// <remarks>
+    /// Проверка не про краски, а про несущее: слой оверлеев живёт в шаблоне окна и находится по
+    /// имени части. Забудь имя — и палитра команд не открывается вовсе, а меню падает с «нет ни
+    /// попапа, ни слоя». Именно так и вышло, когда тема впервые встала без чужого базового слоя.
+    /// </remarks>
+    [AvaloniaFact]
+    public void A_window_carries_the_layer_that_popups_need()
+    {
+        var anchor = new Border { Width = 40, Height = 20 };
+        var window = new Window { Width = 300, Height = 200, Content = anchor };
+
+        window.Show();
+        window.UpdateLayout();
+
+        Assert.NotNull(OverlayLayer.GetOverlayLayer(window));
+
+        var menu = new ContextMenu { ItemsSource = new[] { new MenuItem { Header = "Открыть" } } };
+
+        anchor.ContextMenu = menu;
+        menu.Open(anchor);
+        window.UpdateLayout();
+
+        Assert.True(menu.IsOpen, "контекстное меню не открылось");
+
+        menu.Close();
         window.Close();
     }
 

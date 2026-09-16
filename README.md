@@ -7,8 +7,7 @@ Ax\*-контролов и палитры **Dark / Light**. Роли, прави
 
 ## Подключение
 
-В M0 тема подключается поверх `FluentTheme` — базового слоя для не-Ax примитивов
-(окно, попапы, тултипы); приложение регистрирует шрифт Inter:
+Тема — единственный слой, который нужен приложению; оно же регистрирует шрифт Inter:
 
 ```csharp
 AppBuilder.Configure<App>().UsePlatformDetect().WithInterFont();
@@ -16,10 +15,15 @@ AppBuilder.Configure<App>().UsePlatformDetect().WithInterFont();
 
 ```xml
 <Application.Styles>
-    <FluentTheme/>
     <themes:ArxisTheme/>
 </Application.Styles>
 ```
+
+Чужой базовой темы под ней нет. Окно, окно попапа, накладку поверх содержимого и простые
+контейнеры одевает `AxRoots` — три коротких шаблона вместо сотни чужих. В шаблоне окна живёт слой
+оверлеев: из него открываются меню, подсказки и палитра команд, и находит его Avalonia по имени
+части `PART_VisualLayerManager` — забытое имя означает окно, в котором не открыть меню. Замер на
+студии: фаза «стили» при запуске — 135 мс вместо 183.
 
 Вариант темы переключается штатно: `Application.RequestedThemeVariant =
 ThemeVariant.Dark / Light` — все токены объявлены в theme dictionaries и

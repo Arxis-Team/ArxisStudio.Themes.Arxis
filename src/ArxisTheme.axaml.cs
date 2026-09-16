@@ -5,9 +5,9 @@ namespace ArxisStudio.Themes.Arxis;
 
 /// <summary>
 /// Тема «Arxis»: палитры Dark/Light по дизайн-токенам студии и ControlTheme-шаблоны
-/// всех Ax*-контролов. В M0 подключается поверх <c>FluentTheme</c> — базового слоя
-/// для не-Ax примитивов; приложение должно зарегистрировать шрифт Inter
-/// (<c>WithInterFont()</c>).
+/// всех Ax*-контролов, а с ними — окно, окно попапа и простые контейнеры. Чужого базового слоя
+/// под ней нет: приложению довольно её одной, а зарегистрировать шрифт Inter
+/// (<c>WithInterFont()</c>) — по-прежнему его дело.
 /// </summary>
 public partial class ArxisTheme : Styles
 {
