@@ -259,7 +259,6 @@
                     Height="{DynamicResource AxTabMarkerHeight}"
                     VerticalAlignment="Bottom"
                     Margin="{DynamicResource AxTabMarkerMargin}"
-                    Background="{DynamicResource AxAccentBrush}"
                     IsVisible="False"/>
             <!--
                 Кольцо строки лежит внутри, а не снаружи, и это не мелочь. У
@@ -320,20 +319,45 @@
       <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
     </Style>
 
-    <Style Selector="^:selected">
-      <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
-    </Style>
     <!--
-        Веса выбранной вкладке не даёт ни та, ни другая разновидность. Жирное
-        начертание меняет метрику текста, вкладка становится шире — и весь ряд
-        сдвигается на каждое переключение. Выбор показывают цвет и полоса
-        снизу: они не двигают соседей.
+        Три ступени, а не две, и третья — про фокус.
+
+        Невыбранная вкладка — вторичным цветом. Выбранная в спящей панели — тем же вторичным, но с
+        полосой снизу: полоса говорит, какая вкладка выбрана, и читается она нейтральной линией —
+        AxStrokeControl, у которой 3:1 к обеим поверхностям закреплены порогом. Выбранная в панели,
+        где сейчас клавиатура, — основным цветом и акцентной полосой.
+
+        Спокойный цвет полосы — AxStrokeControl, а не AxStrokeStrong, и выбран он замером, а не
+        именем роли: сильная граница даёт в светлой теме 4,55:1 на панели против 4,52 у акцента,
+        то есть спящая полоса вышла бы чуть заметнее зажжённой, и два состояния различались бы
+        одним оттенком. Контрольная даёт 3,17 против тех же 4,52 — разница видна и в оттенке, и в
+        яркости. Держит это порог в тестах контраста.
+
+        Так устроен и ответ на вопрос «куда пойдёт нажатие»: акцентная полоса в окне ровно одна.
+        Прежде вместо неё поднималась вся шапка панели — крупное пятно, переезжавшее между
+        панелями на каждый щелчок; у JetBrains в новом оформлении шапка неподвижна, а различаются
+        underlineColor и inactiveUnderlineColor выбранной вкладки.
+
+        Признак области приходит наследованием от панели — псевдоклассом :selection-active, как у
+        строки списка. Своей области полоса вкладок не заводит нарочно: фокус стоит в содержимом
+        панели, а не в шапке, и полоса гасла бы на каждом щелчке по содержимому.
+
+        Веса выбранной вкладке не даёт ни та, ни другая разновидность. Жирное начертание меняет
+        метрику текста, вкладка становится шире — и весь ряд сдвигается на каждое переключение.
+        Выбор показывают цвет и полоса снизу: они не двигают соседей.
     -->
     <Style Selector="^:selected /template/ Border#PART_Root">
       <Setter Property="Background" Value="{DynamicResource AxSurfaceBaseBrush}"/>
     </Style>
     <Style Selector="^:selected /template/ Border#PART_ActiveMarker">
       <Setter Property="IsVisible" Value="True"/>
+      <Setter Property="Background" Value="{DynamicResource AxStrokeControlBrush}"/>
+    </Style>
+    <Style Selector="^:selected:selection-active">
+      <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
+    </Style>
+    <Style Selector="^:selected:selection-active /template/ Border#PART_ActiveMarker">
+      <Setter Property="Background" Value="{DynamicResource AxAccentBrush}"/>
     </Style>
 
     <!-- Вкладка панели (полоса Kind=ToolWindow): без своего фона; высота общая. -->

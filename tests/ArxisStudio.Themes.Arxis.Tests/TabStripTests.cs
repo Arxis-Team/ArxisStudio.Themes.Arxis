@@ -130,12 +130,17 @@ public class TabStripTests
     }
 
     /// <summary>
-    /// Полоса выбора — два пикселя у обеих разновидностей.
+    /// Полоса выбора — два пикселя у обеих разновидностей, и два цвета.
     /// </summary>
     /// <remarks>
-    /// Два, а не три. Панельная вкладка держала три, и в шапке дока нижний пиксель
-    /// уходил под разделитель — полоса выходила и громче соседней, и короче
-    /// себя самой.
+    /// Два пикселя, а не три. Панельная вкладка держала три, и в шапке дока нижний пиксель уходил
+    /// под разделитель — полоса выходила и громче соседней, и короче себя самой.
+    /// <para>
+    /// Цвета два, потому что полоса отвечает сразу на два вопроса: какая вкладка выбрана —
+    /// нейтральной линией, — и держит ли эта область клавиатуру — акцентом. Признак области
+    /// приходит вкладке наследованием от панели; здесь он ставится тем же псевдоклассом, которым
+    /// его ставит область.
+    /// </para>
     /// </remarks>
     [AvaloniaTheory]
     [InlineData(false, 2d)]
@@ -151,6 +156,13 @@ public class TabStripTests
 
         Assert.True(marker.IsVisible, "полосы выбора не видно");
         Assert.Equal(thickness, marker.Bounds.Height);
+        Assert.Equal(
+            Resource(window, "AxStrokeControlColor", "Dark"),
+            Colour(marker.GetValue(Border.BackgroundProperty)));
+
+        ((IPseudoClasses)tab.Classes).Set(":selection-active", true);
+        window.UpdateLayout();
+
         Assert.Equal(
             Resource(window, "AxAccentColor", "Dark"),
             Colour(marker.GetValue(Border.BackgroundProperty)));
@@ -365,7 +377,8 @@ public class TabStripTests
     /// Цвет значка у вкладки заведён для документа: тип файла красит свой значок сам. Глиф панели
     /// своего цвета не несёт — он из набора студии и красится темой, как кнопка полосы. Раньше путь
     /// без данного цвета оставался без кисти и не рисовался вовсе; теперь он идёт за подписью:
-    /// вторичный у невыбранной вкладки, основной у выбранной, выключенный у выключенной.
+    /// вторичный у невыбранной вкладки, вторичный же у выбранной в спящей области, основной у
+    /// выбранной там, где клавиатура, выключенный у выключенной.
     /// </remarks>
     [AvaloniaTheory]
     [InlineData("Light")]
@@ -382,6 +395,11 @@ public class TabStripTests
             Assert.Equal(Resource(window, "AxTextSecondaryColor", variant), Colour(Stroke(tab)));
 
             ((IPseudoClasses)tab.Classes).Set(":selected", true);
+            window.UpdateLayout();
+
+            Assert.Equal(Resource(window, "AxTextSecondaryColor", variant), Colour(Stroke(tab)));
+
+            ((IPseudoClasses)tab.Classes).Set(":selection-active", true);
             window.UpdateLayout();
 
             Assert.Equal(Resource(window, "AxTextPrimaryColor", variant), Colour(Stroke(tab)));

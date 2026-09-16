@@ -149,7 +149,13 @@ public class ToolWindowTests
         window.Close();
     }
 
-    /// <summary>Заголовок: основной текст усиленным начертанием, кегль базовый.</summary>
+    /// <summary>Заголовок: усиленное начертание, базовый кегль, а цвет говорит о клавиатуре.</summary>
+    /// <remarks>
+    /// Вторичный у спящей панели и основной у той, где клавиатура: панель с заголовком вместо
+    /// вкладок отвечает на вопрос «куда пойдёт нажатие» тем же способом, что вкладка, — яркостью
+    /// подписи. Здесь панель фокуса не держит, поэтому цвет вторичный; про обе стороны говорит
+    /// <c>ToolWindowFocusTests</c>.
+    /// </remarks>
     [AvaloniaTheory]
     [InlineData("Light")]
     [InlineData("Dark")]
@@ -159,7 +165,7 @@ public class ToolWindowTests
 
         var title = (TextBlock)Part(panel, "PART_Title");
 
-        Assert.Equal(Resource(window, "AxTextPrimaryColor", variant), Colour(title.Foreground));
+        Assert.Equal(Resource(window, "AxTextSecondaryColor", variant), Colour(title.Foreground));
         // Avalonia зовёт этот вес DemiBold — то же начертание, другое имя.
         Assert.Equal(FontWeight.SemiBold, title.FontWeight);
         Assert.Equal(13d, title.FontSize);
@@ -196,6 +202,10 @@ public class ToolWindowTests
     /// выбранное имя поднимается над ней. Веса же не даётся ни той, ни другой:
     /// жирное начертание меняет метрику текста, вкладка становится шире, и весь
     /// ряд сдвигается на каждое переключение.
+    /// <para>
+    /// Полоса здесь нейтральная: панель в этом прогоне клавиатуры не держит. Акцентной она
+    /// становится вместе с областью, и об этом говорит <c>ToolWindowFocusTests</c>.
+    /// </para>
     /// </remarks>
     [AvaloniaTheory]
     [InlineData("Light")]
@@ -216,7 +226,7 @@ public class ToolWindowTests
         Assert.True(marker.IsVisible, "полосы выбора не видно");
         Assert.Equal(2d, marker.Bounds.Height);
         Assert.Equal(FontWeight.Normal, selected.FontWeight);
-        Assert.Equal(Resource(window, "AxAccentColor", variant), Colour(marker.Background));
+        Assert.Equal(Resource(window, "AxStrokeControlColor", variant), Colour(marker.Background));
         // Прозрачная кисть, а не её отсутствие: своего фона у вкладки нет, но
         // сама кисть нужна — без неё вкладку не поймать курсором.
         Assert.Equal(0, Colour(((Border)Part(selected, "PART_Root")).Background)!.Value.A);
