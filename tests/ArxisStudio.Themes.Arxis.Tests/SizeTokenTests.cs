@@ -22,15 +22,21 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 /// </remarks>
 public class SizeTokenTests
 {
-    /// <summary>Иконка идёт за своим токеном, а её клетка координат — нет.</summary>
+    /// <summary>Иконка идёт за своим токеном, а рисунок остаётся в своей клетке.</summary>
     /// <remarks>
-    /// Клетка 16×16 — это viewBox, в котором нарисованы все пути набора.
-    /// Пойди она за размером, Viewbox начал бы вписывать клетку в
-    /// клетку вместо рисунка в рамку, и при токене 24 путь занял бы шестнадцать
-    /// единиц в углу двадцатичетырёх.
+    /// Клетка — viewBox, в котором нарисован путь, и Viewbox вписывает её в рамку целиком. Ставь
+    /// Viewbox чернила вместо клетки — каждый глиф раздувался бы до краёв своим множителем и
+    /// садился по центру своих чернил, а не клетки; ровно так и было, пока путь лежал в Viewbox
+    /// без клетки.
+    /// <para>
+    /// Клетка при этом не обязана быть шестнадцатью: набор нарисован ещё и в клетках 20, 24 и 28,
+    /// и значок берёт ту, что равна числу занятых им пикселей. Проверяется поэтому не число, а
+    /// правило: клетка равна той, в которой нарисован показанный путь, и рисунок занимает в рамке
+    /// ту же долю.
+    /// </para>
     /// </remarks>
     [AvaloniaFact]
-    public void An_icon_follows_its_token_and_its_grid_does_not()
+    public void An_icon_follows_its_token_and_its_drawing_keeps_its_cell()
     {
         var icon = new AxIcon { Data = AxIcons.Plus };
         var window = Shown(icon);
@@ -38,16 +44,23 @@ public class SizeTokenTests
         var grid = icon.GetVisualDescendants().OfType<Canvas>().Single();
 
         Assert.Equal(new Size(16, 16), icon.Bounds.Size);
-        Assert.Equal(new Size(16, 16), grid.Bounds.Size);
+        Assert.Equal(new Size(icon.Cell, icon.Cell), grid.Bounds.Size);
+
+        var share = Ink(icon) / icon.Bounds.Width;
 
         window.Resources["AxIconSize"] = 24d;
         window.UpdateLayout();
 
         Assert.Equal(new Size(24, 24), icon.Bounds.Size);
-        Assert.Equal(new Size(16, 16), grid.Bounds.Size);
+        Assert.Equal(new Size(icon.Cell, icon.Cell), grid.Bounds.Size);
+        Assert.Equal(share, Ink(icon) / icon.Bounds.Width, 1);
 
         window.Close();
     }
+
+    /// <summary>Ширина чернил глифа в единицах экрана.</summary>
+    private static double Ink(AxIcon icon) =>
+        icon.GetVisualDescendants().OfType<Avalonia.Controls.Shapes.Path>().Single().Bounds.Width;
 
     /// <summary>Мелкая иконка идёт за своим токеном, а не за общим.</summary>
     [AvaloniaFact]

@@ -48,9 +48,13 @@ public class IconRenderTests
     }
 
     /// <summary>
-    /// Мелкий шеврон — единственное отступление от 16 — уменьшается целиком,
-    /// вместе с клеткой, а не подгоняется чернилами.
+    /// Мелкий значок уменьшается целиком, вместе с клеткой, а не подгоняется чернилами.
     /// </summary>
+    /// <remarks>
+    /// Клетка у него своя — двенадцать: набор нарисован и в ней. Прежде путь клетки 16 сжимался в
+    /// двенадцать точек, на единицу приходилось три четверти пикселя, и от штриха оставалась
+    /// серая полоска: доля сплошных пикселей по всему набору была 1.3 %.
+    /// </remarks>
     [AvaloniaFact]
     public void Small_icon_scales_the_whole_cell()
     {
@@ -58,7 +62,8 @@ public class IconRenderTests
         var window = Shown(icon);
 
         Assert.Equal(12d, icon.Bounds.Width);
-        Assert.Equal(Cell, Inner(icon).Width);
+        Assert.Equal(icon.Cell, Inner(icon).Width);
+        Assert.Equal(12d, icon.Cell);
 
         window.Close();
     }
@@ -97,12 +102,35 @@ public class IconRenderTests
     }
 
     /// <summary>
-    /// Между целыми клетками — и в мелком шевроне — обводка остаётся той, что
-    /// задана: полуклетка там падает на доли пикселя, и толщина её не соберёт.
+    /// В клетке, под которую набор нарисован, штрих — ровно пиксель.
     /// </summary>
+    /// <remarks>
+    /// Набор нарисован в четырёх клетках: 16, 20, 24 и 28. Значок, занявший столько же пикселей,
+    /// берёт свою клетку — там на единицу приходится пиксель, оси стоят в его середине, и резким
+    /// выходит нечётный штрих. Один пиксель — тот же волосок, что и при 100 %, где заданные 1.2
+    /// ложатся ровно в пиксель.
+    /// </remarks>
     [AvaloniaTheory]
     [InlineData(12d)]
+    [InlineData(20d)]
     [InlineData(24d)]
+    [InlineData(28d)]
+    public void In_a_cell_of_its_own_the_stroke_is_a_pixel(double size)
+    {
+        var icon = new AxIcon { Data = AxIcons.Plus, Width = size, Height = size };
+        var window = Shown(icon);
+
+        Assert.Equal(size, icon.Cell);
+        Assert.Equal(1d, Stroke(icon));
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Мимо клеток набора обводка остаётся той, что задана: полуклетка там падает на доли
+    /// пикселя, и толщина её не соберёт.
+    /// </summary>
+    [AvaloniaTheory]
     [InlineData(40d)]
     public void Between_whole_cells_the_stroke_stays_as_given(double size)
     {
@@ -148,11 +176,16 @@ public class IconRenderTests
 
         window.SetRenderScaling(2);
         Assert.Equal(1d, Stroke(icon), 6);
+        Assert.Equal(16d, icon.Cell);
 
+        // При 150 % значок в шестнадцать точек занимает 24 пикселя — и берёт клетку 24, в которой
+        // набор нарисован тоже. Штрих там ровно пиксель.
         window.SetRenderScaling(1.5);
-        Assert.Equal(1.2d, Stroke(icon));
+        Assert.Equal(24d, icon.Cell);
+        Assert.Equal(1d, Stroke(icon));
 
         window.SetRenderScaling(3);
+        Assert.Equal(16d, icon.Cell);
         Assert.Equal(1d, Stroke(icon), 6);
 
         window.Close();
