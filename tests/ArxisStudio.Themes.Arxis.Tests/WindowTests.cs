@@ -52,5 +52,50 @@ public class WindowTests
         plain.Close();
     }
 
+    /// <summary>
+    /// Окно не открывается больше рабочей области экрана — ни размером, ни наименьшим размером.
+    /// </summary>
+    /// <remarks>
+    /// Числа окна заданы под обычный монитор, а ноутбук 1920 × 1080 при 150 % — это 1280 × 720 точек
+    /// без панели задач. Окно крупнее экрана вставало по центру с заголовком выше верхнего края, и
+    /// сдвинуть его было не за что, а наименьший размер крупнее экрана не давал его и сжать.
+    /// </remarks>
+    [AvaloniaFact]
+    public void A_window_larger_than_its_screen_opens_within_the_working_area()
+    {
+        var window = new AxWindow { Width = 100000, Height = 100000, MinWidth = 90000, MinHeight = 90000 };
+
+        window.Show();
+
+        var screen = window.Screens?.Primary;
+
+        Assert.NotNull(screen);
+
+        var area = screen.WorkingArea.ToRect(screen.Scaling).Size;
+
+        Assert.True(window.Width <= area.Width && window.Height <= area.Height, $"окно {window.Width} × {window.Height} больше экрана {area}");
+        Assert.True(window.MinWidth <= area.Width && window.MinHeight <= area.Height, $"наименьший размер {window.MinWidth} × {window.MinHeight} больше экрана {area}");
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Окно, которое на экран влезает, остаётся своего размера, и наименьший размер у него — от темы,
+    /// а не прибитый.
+    /// </summary>
+    [AvaloniaFact]
+    public void A_window_that_fits_keeps_its_size_and_leaves_its_minimum_to_the_style()
+    {
+        var window = new AxWindow { Width = 400, Height = 300 };
+
+        window.Show();
+
+        Assert.Equal(400, window.Width);
+        Assert.Equal(300, window.Height);
+        Assert.False(window.IsSet(Avalonia.Layout.Layoutable.MinWidthProperty), "наименьший размер прибит местным значением");
+
+        window.Close();
+    }
+
     private static Color? Colour(IBrush? brush) => (brush as ISolidColorBrush)?.Color;
 }
