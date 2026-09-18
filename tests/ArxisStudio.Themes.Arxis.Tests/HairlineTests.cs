@@ -102,7 +102,7 @@ public class HairlineTests
         {
             var data = new TheoryData<string, double>();
 
-            foreach (var part in new[] { "title-bar", "tab-strip", "tool-window" })
+            foreach (var part in new[] { "title-bar", "tab-strip", "tool-window", "quick-search" })
             {
                 foreach (var scaling in new[] { 1d, 1.25d, 1.5d, 1.75d, 2d })
                     data.Add(part, scaling);
@@ -118,6 +118,7 @@ public class HairlineTests
         "title-bar" => (new AxTitleBar { ShowWindowControls = false, Content = new TextBlock() }, "PART_Rule"),
         "tab-strip" => (new AxTabStrip { ItemsSource = new[] { "Program.cs" } }, "PART_Rule"),
         "tool-window" => (new AxToolWindow { Title = "Проект", ShowHeaderSeparator = true }, "PART_HeaderRule"),
+        "quick-search" => (new AxQuickSearch { ItemsSource = new[] { "ChatView.axaml" } }, "PART_FieldRule"),
         _ => throw new ArgumentOutOfRangeException(nameof(part), part, null),
     };
 

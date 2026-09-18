@@ -84,9 +84,12 @@
                 Margin="{DynamicResource AxDialogWindowMargin}">
           <Border CornerRadius="{TemplateBinding CornerRadius}" ClipToBounds="True">
           <DockPanel>
+            <!--
+                Линии между полями карточки — разделители, а не края рамок: край толщиной в
+                раскладочную единицу при 150 и 175 % выходил вдвое толще разделителей студии.
+                Разделитель стоит после своей полосы: док кладёт его к ней.
+            -->
             <Border DockPanel.Dock="Top"
-                    BorderBrush="{DynamicResource AxStrokeSubtleBrush}"
-                    BorderThickness="{DynamicResource AxHairlineBottomThickness}"
                     Padding="{DynamicResource AxQuickSearchFieldPadding}">
               <DockPanel>
                 <ax:AxIcon DockPanel.Dock="Left"
@@ -104,14 +107,14 @@
                               VerticalContentAlignment="Center"/>
               </DockPanel>
             </Border>
+            <ax:AxDivider x:Name="PART_FieldRule" DockPanel.Dock="Top"/>
             <Border DockPanel.Dock="Bottom"
-                    BorderBrush="{DynamicResource AxStrokeSubtleBrush}"
-                    BorderThickness="{DynamicResource AxHairlineTopThickness}"
                     Padding="{DynamicResource AxQuickSearchHintsPadding}">
               <TextBlock Text="{TemplateBinding Hints}"
                          Foreground="{DynamicResource AxTextSecondaryBrush}"
                          FontSize="{DynamicResource AxFontSizeSmall}"/>
             </Border>
+            <ax:AxDivider x:Name="PART_HintsRule" DockPanel.Dock="Bottom"/>
             <ax:AxListBox x:Name="PART_List"
                           Margin="{DynamicResource AxSpaceTightThickness}"
                           ItemsSource="{TemplateBinding ItemsSource}"

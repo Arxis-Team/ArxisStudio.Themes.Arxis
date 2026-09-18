@@ -2,6 +2,7 @@ using ArxisStudio.Controls;
 using ArxisStudio.Icons;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Media;
 using Avalonia.Styling;
@@ -65,10 +66,35 @@ public class DialogTests
         var (dialog, window) = Shown(alert: false, variant);
 
         var footer = (Border)Part(dialog, "PART_Footer");
+        var rule = Assert.IsType<AxDivider>(Part(dialog, "PART_FooterRule"));
 
-        Assert.Equal(new Thickness(0, 1, 0, 0), footer.BorderThickness);
-        Assert.Equal(Resource(window, "AxStrokeSubtleColor", variant), Colour(footer.BorderBrush));
+        // Линия — разделитель над полосой, а не её верхний край: край толщиной в раскладочную
+        // единицу при 150 и 175 % выходил вдвое толще разделителей студии.
+        Assert.Equal(default, footer.BorderThickness);
+        Assert.True(rule.IsEffectivelyVisible, "линии над кнопками нет");
+        Assert.Equal(
+            footer.TranslatePoint(default, dialog)!.Value.Y,
+            rule.TranslatePoint(new Point(0, rule.Bounds.Height), dialog)!.Value.Y,
+            3);
         Assert.Equal(new Thickness(16, 12), footer.Padding);
+
+        Close(dialog, window);
+    }
+
+    /// <summary>Линия над кнопками — пиксель устройства и при 150, и при 175 %.</summary>
+    [AvaloniaTheory]
+    [InlineData(1.5)]
+    [InlineData(1.75)]
+    public void The_rule_above_the_buttons_is_one_device_pixel(double scaling)
+    {
+        var (dialog, window) = Shown(alert: false);
+
+        dialog.SetRenderScaling(scaling);
+        dialog.UpdateLayout();
+
+        var rule = (AxDivider)Part(dialog, "PART_FooterRule");
+
+        Assert.Equal(1d, Math.Round(rule.Bounds.Height * scaling, 6));
 
         Close(dialog, window);
     }

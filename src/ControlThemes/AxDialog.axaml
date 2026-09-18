@@ -44,8 +44,6 @@
               </DockPanel>
               <Border x:Name="PART_Footer"
                       DockPanel.Dock="Bottom"
-                      BorderBrush="{DynamicResource AxStrokeSubtleBrush}"
-                      BorderThickness="{DynamicResource AxHairlineTopThickness}"
                       Padding="{DynamicResource AxDialogBandPadding}">
                 <DockPanel>
                   <ContentPresenter Content="{TemplateBinding Buttons}"
@@ -59,6 +57,12 @@
                                     IsVisible="{TemplateBinding FooterContent, Converter={x:Static ObjectConverters.IsNotNull}}"/>
                 </DockPanel>
               </Border>
+              <!--
+                  Линия над полосой кнопок — разделитель, а не верхний край рамки: край толщиной в
+                  раскладочную единицу при 150 и 175 % выходил вдвое толще разделителей студии.
+                  Стоит после полосы: док кладёт её над ней.
+              -->
+              <ax:AxDivider x:Name="PART_FooterRule" DockPanel.Dock="Bottom"/>
               <!--
                   Тело. У алерта в него въезжают значок слева и заголовок над
                   текстом — оба прячутся, пока значка нет.
