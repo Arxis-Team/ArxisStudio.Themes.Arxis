@@ -71,6 +71,9 @@ public class MetricsScaleTests
         "AxTileSliderWidth",
         "AxTileGlyphSizeSmall",
         "AxTileGlyphSizeStep",
+        // Метка выбранной строки: толщина и длина.
+        "AxRowMarkerWidth",
+        "AxRowMarkerHeight",
     ];
 
     [AvaloniaTheory]

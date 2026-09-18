@@ -121,6 +121,14 @@
                 содержит, они идут отдельной частью ниже, и обводить их вместе
                 с родителем значило бы обводить пол-дерева.
             -->
+            <!-- Метка выбора у переднего края строки — та же, что у строки списка. -->
+            <Border x:Name="PART_SelectionMarker"
+                    IsVisible="False"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Width="{DynamicResource AxRowMarkerWidth}"
+                    Height="{DynamicResource AxRowMarkerHeight}"
+                    CornerRadius="{DynamicResource AxCornerRadiusPill}"/>
             <t:AxFocusRing x:Name="PART_FocusRing" Placement="Inside"/>
           </Panel>
           <ItemsPresenter x:Name="PART_ItemsPresenter"
@@ -172,6 +180,13 @@
     </Style>
     <Style Selector="^:selected:selection-active /template/ Border#PART_Root">
       <Setter Property="Background" Value="{DynamicResource AxSelectionActiveBrush}"/>
+    </Style>
+    <Style Selector="^:selected /template/ Border#PART_SelectionMarker">
+      <Setter Property="IsVisible" Value="True"/>
+      <Setter Property="Background" Value="{DynamicResource AxTextSecondaryBrush}"/>
+    </Style>
+    <Style Selector="^:selected:selection-active /template/ Border#PART_SelectionMarker">
+      <Setter Property="Background" Value="{DynamicResource AxAccentBrush}"/>
     </Style>
     <!--
         Выключенная строка: текст на AxTextDisabled.
