@@ -65,10 +65,12 @@ public class MetricsScaleTests
         "AxSpaceLoose",
         "AxSpaceSection",
         "AxSpaceScreen",
-        // Плитки окна проекта: ширина плитки и ползунка их размера.
+        // Плитки окна проекта: ширина плитки, ползунка их размера, малая ступень силуэта и шаг лестницы.
         "AxTileWidth",
         "AxTileWidthLarge",
         "AxTileSliderWidth",
+        "AxTileGlyphSizeSmall",
+        "AxTileGlyphSizeStep",
     ];
 
     [AvaloniaTheory]
@@ -95,9 +97,10 @@ public class MetricsScaleTests
     /// </summary>
     /// <remarks>
     /// Плитка — второе названное исключение из «размер значка один»: силуэт папки и листа в клетке 16,
-    /// растянутый до размера ключа. Край силуэта стоит на целых точках сетки, и резким он остаётся
-    /// лишь там, где единица сетки занимает целое число пикселей: у 64 это 4, 5, 6, 7 и 8 пикселей
-    /// при 100…200 %, у 128 — вдвое больше. Размер 48 или 96 размыл бы весь край при 125 и 175 %.
+    /// растянутый до размера ступени. Обычная и крупная ступени стоят на пикселях сами: у 64 единица
+    /// сетки — 4, 5, 6, 7 и 8 пикселей при 100…200 %, у 128 — вдвое больше. Промежуточные ступени так
+    /// не ложатся — у 48 при 125 % единица 3,75 пикселя, — и их силуэт сажает на пиксели AxIcon; здесь
+    /// держится то, что обычная и крупная в этом не нуждаются.
     /// </remarks>
     [AvaloniaTheory]
     [InlineData("AxTileGlyphSize")]
@@ -118,6 +121,41 @@ public class MetricsScaleTests
                 Math.Abs(unit - Math.Round(unit)) < 1e-9,
                 $"{key} = {size}: при {scale * 100} % единица сетки — {unit} пикселя, край силуэта размыт");
         }
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Лестница плитки проходит через свои ключи: обычная и крупная ступени — целые шаги от малой, а
+    /// шаг — клетка набора.
+    /// </summary>
+    /// <remarks>
+    /// Окно проекта строит лестницу от малой ступени шагом до крупной и начинает с обычной. Ступень,
+    /// не лежащая на лестнице, была бы недостижима ползунком и колесом, а шаг не в клетку набора давал
+    /// бы силуэту дробную единицу сетки и на обычном экране.
+    /// </remarks>
+    [AvaloniaFact]
+    public void The_tile_ladder_steps_through_its_named_sizes()
+    {
+        var window = new Window();
+        window.Show();
+
+        double Size(string key)
+        {
+            Assert.True(window.TryFindResource(key, window.ActualThemeVariant, out var value), $"в теме нет ключа {key}");
+
+            return Assert.IsType<double>(value);
+        }
+
+        var small = Size("AxTileGlyphSizeSmall");
+        var normal = Size("AxTileGlyphSize");
+        var large = Size("AxTileGlyphSizeLarge");
+        var step = Size("AxTileGlyphSizeStep");
+
+        Assert.True(small < normal && normal < large, $"ступени не по порядку: {small}, {normal}, {large}");
+        Assert.Equal(Size("AxIconSize"), step);
+        Assert.True((normal - small) % step == 0, $"обычная ступень {normal} не на лестнице от {small} шагом {step}");
+        Assert.True((large - small) % step == 0, $"крупная ступень {large} не на лестнице от {small} шагом {step}");
 
         window.Close();
     }

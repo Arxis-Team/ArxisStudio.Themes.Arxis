@@ -191,6 +191,37 @@ public class IconRenderTests
         window.Close();
     }
 
+    /// <summary>
+    /// Силуэт, растянутый туда, где единица сетки не целая, рисуется в клетке своих пикселей, а где
+    /// целая — в клетке 16.
+    /// </summary>
+    /// <remarks>
+    /// Плитку окна проекта растягивают ступенями по 16 точек: у 48 при 125 % на единицу приходится
+    /// 3,75 пикселя, и путь клетки 16 положил бы край заливки внутрь пикселя — контрол берёт силуэт,
+    /// посаженный на 60 пикселей значка. У 64 единица — пять пикселей, и путь стоит на них сам.
+    /// </remarks>
+    [AvaloniaFact]
+    public void A_stretched_silhouette_takes_the_cell_of_its_pixels()
+    {
+        var icon = new AxIcon { Data = AxIcons.FolderTile, Width = 48, Height = 48 };
+        var window = Shown(icon);
+
+        window.SetRenderScaling(1.25);
+        window.UpdateLayout();
+
+        Assert.Equal(60d, icon.Cell);
+        Assert.Equal(60d, Inner(icon).Width);
+        Assert.NotSame(AxIcons.FolderTile, icon.Shown);
+
+        icon.Width = icon.Height = 64;
+        window.UpdateLayout();
+
+        Assert.Equal(Cell, icon.Cell);
+        Assert.Same(AxIcons.FolderTile, icon.Shown);
+
+        window.Close();
+    }
+
     public static TheoryData<string> Samples =>
         ["Plus", "ChevronDown", "Search", "Close", "Play", "Folder", "Check", "Settings"];
 
