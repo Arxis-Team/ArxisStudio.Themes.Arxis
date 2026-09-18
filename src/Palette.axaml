@@ -89,6 +89,8 @@
       <!-- Оттенки значков типов и плитки монограмм: белые инициалы держат на них 5,9:1 и выше. -->
       <Color x:Key="AxTintOrangeColor">#E08855</Color>
       <Color x:Key="AxTintPurpleColor">#A571E6</Color>
+      <Color x:Key="AxTintGreenColor">#57A869</Color>
+      <Color x:Key="AxTintBlueColor">#4E9FD6</Color>
       <Color x:Key="AxMonogramOrangeColor">#A14916</Color>
       <Color x:Key="AxMonogramGreenColor">#1E6B33</Color>
       <Color x:Key="AxMonogramPurpleColor">#55339C</Color>
@@ -160,6 +162,8 @@
       <SolidColorBrush x:Key="AxErrorStrokeBrush" Color="{StaticResource AxErrorStrokeColor}"/>
       <SolidColorBrush x:Key="AxTintOrangeBrush" Color="{StaticResource AxTintOrangeColor}"/>
       <SolidColorBrush x:Key="AxTintPurpleBrush" Color="{StaticResource AxTintPurpleColor}"/>
+      <SolidColorBrush x:Key="AxTintGreenBrush" Color="{StaticResource AxTintGreenColor}"/>
+      <SolidColorBrush x:Key="AxTintBlueBrush" Color="{StaticResource AxTintBlueColor}"/>
       <SolidColorBrush x:Key="AxMonogramOrangeBrush" Color="{StaticResource AxMonogramOrangeColor}"/>
       <SolidColorBrush x:Key="AxMonogramGreenBrush" Color="{StaticResource AxMonogramGreenColor}"/>
       <SolidColorBrush x:Key="AxMonogramPurpleBrush" Color="{StaticResource AxMonogramPurpleColor}"/>
@@ -245,6 +249,8 @@
       <!-- Оттенки значков типов и плитки монограмм: белые инициалы держат на них 5,9:1 и выше. -->
       <Color x:Key="AxTintOrangeColor">#A14916</Color>
       <Color x:Key="AxTintPurpleColor">#55339C</Color>
+      <Color x:Key="AxTintGreenColor">#2A7A3F</Color>
+      <Color x:Key="AxTintBlueColor">#1D6AA1</Color>
       <Color x:Key="AxMonogramOrangeColor">#A14916</Color>
       <Color x:Key="AxMonogramGreenColor">#1E6B33</Color>
       <Color x:Key="AxMonogramPurpleColor">#55339C</Color>
@@ -316,6 +322,8 @@
       <SolidColorBrush x:Key="AxErrorStrokeBrush" Color="{StaticResource AxErrorStrokeColor}"/>
       <SolidColorBrush x:Key="AxTintOrangeBrush" Color="{StaticResource AxTintOrangeColor}"/>
       <SolidColorBrush x:Key="AxTintPurpleBrush" Color="{StaticResource AxTintPurpleColor}"/>
+      <SolidColorBrush x:Key="AxTintGreenBrush" Color="{StaticResource AxTintGreenColor}"/>
+      <SolidColorBrush x:Key="AxTintBlueBrush" Color="{StaticResource AxTintBlueColor}"/>
       <SolidColorBrush x:Key="AxMonogramOrangeBrush" Color="{StaticResource AxMonogramOrangeColor}"/>
       <SolidColorBrush x:Key="AxMonogramGreenBrush" Color="{StaticResource AxMonogramGreenColor}"/>
       <SolidColorBrush x:Key="AxMonogramPurpleBrush" Color="{StaticResource AxMonogramPurpleColor}"/>

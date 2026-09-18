@@ -65,6 +65,10 @@ public class MetricsScaleTests
         "AxSpaceLoose",
         "AxSpaceSection",
         "AxSpaceScreen",
+        // Плитки окна проекта: ширина плитки и ползунка их размера.
+        "AxTileWidth",
+        "AxTileWidthLarge",
+        "AxTileSliderWidth",
     ];
 
     [AvaloniaTheory]
@@ -82,6 +86,38 @@ public class MetricsScaleTests
 
         // При 150 % чётная длина обязана дать целое число пикселей.
         Assert.Equal(length * 1.5, Math.Round(length * 1.5));
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Силуэт плитки кладёт каждую единицу сетки значка на целые пиксели при любом масштабе.
+    /// </summary>
+    /// <remarks>
+    /// Плитка — второе названное исключение из «размер значка один»: силуэт папки и листа в клетке 16,
+    /// растянутый до размера ключа. Край силуэта стоит на целых точках сетки, и резким он остаётся
+    /// лишь там, где единица сетки занимает целое число пикселей: у 64 это 4, 5, 6, 7 и 8 пикселей
+    /// при 100…200 %, у 128 — вдвое больше. Размер 48 или 96 размыл бы весь край при 125 и 175 %.
+    /// </remarks>
+    [AvaloniaTheory]
+    [InlineData("AxTileGlyphSize")]
+    [InlineData("AxTileGlyphSizeLarge")]
+    public void A_tile_glyph_puts_every_grid_unit_on_whole_pixels(string key)
+    {
+        var window = new Window();
+        window.Show();
+
+        Assert.True(window.TryFindResource(key, window.ActualThemeVariant, out var value));
+        var size = Assert.IsType<double>(value);
+
+        foreach (var scale in new[] { 1, 1.25, 1.5, 1.75, 2 })
+        {
+            var unit = size / 16 * scale;
+
+            Assert.True(
+                Math.Abs(unit - Math.Round(unit)) < 1e-9,
+                $"{key} = {size}: при {scale * 100} % единица сетки — {unit} пикселя, край силуэта размыт");
+        }
 
         window.Close();
     }

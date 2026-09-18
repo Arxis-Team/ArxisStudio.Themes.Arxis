@@ -51,6 +51,7 @@ public class ControlThemeLintTests
         { typeof(AxMenuItem), [":pointerover", ":selected", ":disabled"] },
         { typeof(AxSplitter), [":pointerover", ":pressed", ":disabled", ":focus-visible"] },
         { typeof(AxGroupHeader), [":pointerover", ":disabled", ":focus-visible"] },
+        { typeof(AxBreadcrumbItem), [":pointerover", ":pressed", ":disabled", ":focus-visible"] },
     };
 
     /// <summary>
@@ -90,6 +91,7 @@ public class ControlThemeLintTests
         { typeof(AxLink), ":focus-visible" },
         { typeof(AxSlider), ":focus-visible" },
         { typeof(AxGroupHeader), ":focus-visible" },
+        { typeof(AxBreadcrumbItem), ":focus-visible" },
         { typeof(AxTextBox), ":focus" },
     };
 

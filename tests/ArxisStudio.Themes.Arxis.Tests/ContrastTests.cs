@@ -232,6 +232,8 @@ public class ContrastTests
     {
         AtLeast(Visible, "TintOrange", "SurfaceBase", "SurfacePanel");
         AtLeast(Visible, "TintPurple", "SurfaceBase", "SurfacePanel");
+        AtLeast(Visible, "TintGreen", "SurfaceBase", "SurfacePanel");
+        AtLeast(Visible, "TintBlue", "SurfaceBase", "SurfacePanel");
         AtLeast(Readable, "TextOnAccent", "MonogramOrange", "MonogramGreen", "MonogramPurple", "MonogramRed");
     }
 

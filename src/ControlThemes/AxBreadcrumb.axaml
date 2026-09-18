@@ -1,0 +1,135 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
+
+  <!--
+      Крошки навигации: путь от корня до текущего места одной строкой.
+
+      Кнопка переполнения лежит поверх начала ряда, а не рядом с ним. Появляется она тогда, когда
+      ряд не поместился, и, стой она в той же строке, её появление отнимало бы у ряда место —
+      тот прятал бы ещё сегмент, и граница «помещается или нет» качалась бы. Место под кнопку ряд
+      держит сам, только когда что-то спрятал.
+
+      Ряд обрезает то, что не уместилось: последний сегмент бывает шире колонки, и тогда он
+      сокращается многоточием, а не выходит за край.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxBreadcrumb}" TargetType="ax:AxBreadcrumb">
+    <Setter Property="Padding" Value="{DynamicResource AxBreadcrumbPadding}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel Margin="{TemplateBinding Padding}">
+          <ItemsPresenter ItemsPanel="{TemplateBinding ItemsPanel}" ClipToBounds="True"/>
+          <ax:AxButton x:Name="PART_Overflow"
+                       Appearance="Subtle"
+                       Size="Compact"
+                       HorizontalAlignment="Left"
+                       IsVisible="False"
+                       AutomationProperties.Name="{DynamicResource AxTextBreadcrumbOverflow}"
+                       ToolTip.Tip="{DynamicResource AxTextBreadcrumbOverflow}">
+            <ax:AxIcon Data="{x:Static ax:AxIcons.MoreHorizontal}"/>
+          </ax:AxButton>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:overflow /template/ ax|AxButton#PART_Overflow">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+  </ControlTheme>
+
+  <!--
+      Сегмент пути: шеврон-разделитель, затем подложка со значком и подписью.
+
+      Разделитель стоит за подложкой и в попадание не входит: наведение подсвечивает подпись, а не
+      промежуток между подписями, и щелчок по шеврону никуда не ведёт. Перед первым сегментом
+      разделителя нет.
+
+      Подпись вторичная, на наведении — основная; текущий сегмент основной всегда и инертен: он
+      назван, читается диктором, но подложки не зажигает — туда человек уже пришёл. Высота — у
+      компактной кнопки, чтобы кнопка переполнения стояла с сегментами одной строкой.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxBreadcrumbItem}" TargetType="ax:AxBreadcrumbItem">
+    <Setter Property="ClipToBounds" Value="False"/>
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
+    <Setter Property="IconBrush" Value="{Binding $self.Foreground}"/>
+    <Setter Property="Padding" Value="{DynamicResource AxBreadcrumbItemPadding}"/>
+    <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="ToolTip.Tip" Value=""/>
+    <Setter Property="ax:AxTrimmedTip.IsEnabled" Value="True"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <DockPanel>
+          <ax:AxIcon x:Name="PART_Separator"
+                     DockPanel.Dock="Left"
+                     Size="Small"
+                     Data="{x:Static ax:AxIcons.ChevronRight}"
+                     Foreground="{DynamicResource AxTextTertiaryBrush}"
+                     IsHitTestVisible="False"
+                     VerticalAlignment="Center"/>
+          <Panel>
+            <Border x:Name="PART_Plate"
+                    Background="{TemplateBinding Background}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    Padding="{TemplateBinding Padding}">
+              <DockPanel>
+                <ax:AxIcon x:Name="PART_Icon"
+                           DockPanel.Dock="Left"
+                           Margin="{DynamicResource AxGapIconTextThickness}"
+                           Data="{TemplateBinding Icon}"
+                           Foreground="{TemplateBinding IconBrush}"
+                           IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}"
+                           VerticalAlignment="Center"/>
+                <ContentPresenter x:Name="PART_ContentPresenter"
+                                  Content="{TemplateBinding Content}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  Foreground="{TemplateBinding Foreground}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  TextTrimming="CharacterEllipsis"/>
+              </DockPanel>
+            </Border>
+            <t:AxFocusRing x:Name="PART_FocusRing" Placement="Inside" CornerRadius="{TemplateBinding CornerRadius}"/>
+          </Panel>
+        </DockPanel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:first /template/ ax|AxIcon#PART_Separator">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+
+    <Style Selector="^:pointerover">
+      <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
+    </Style>
+    <Style Selector="^:pointerover /template/ Border#PART_Plate">
+      <Setter Property="Background" Value="{DynamicResource AxHoverBrush}"/>
+    </Style>
+    <Style Selector="^:pressed /template/ Border#PART_Plate">
+      <Setter Property="Background" Value="{DynamicResource AxPressedBrush}"/>
+    </Style>
+
+    <Style Selector="^:current">
+      <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
+    </Style>
+    <Style Selector="^:current:pointerover /template/ Border#PART_Plate">
+      <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style Selector="^:current:pressed /template/ Border#PART_Plate">
+      <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+
+    <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
+    </Style>
+  </ControlTheme>
+
+</ResourceDictionary>

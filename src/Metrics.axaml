@@ -378,6 +378,20 @@
   -->
   <x:Double x:Key="AxAvatarSizeSmall">22</x:Double>
   <x:Double x:Key="AxPluginTileSize">32</x:Double>
+  <!--
+      Плитки окна проекта: силуэт папки и листа в 64 и 128 точек — второе названное исключение
+      из «размер значка один», после мелкого шеврона. Шестнадцать, умноженные на четыре и на
+      восемь, ложатся в пиксели на каждом масштабе с шагом в четверть — единица сетки занимает
+      целое число пикселей, — а 48 и 96 при 125 и 175 % размывают весь край. Плотности не
+      следуют, как и размер значка: сетка значка от плотности не меняется.
+  -->
+  <x:Double x:Key="AxTileGlyphSize">64</x:Double>
+  <x:Double x:Key="AxTileGlyphSizeLarge">128</x:Double>
+  <!-- Плитка шире силуэта: подпись под ним держит две строки имени файла. -->
+  <x:Double x:Key="AxTileWidth">96</x:Double>
+  <x:Double x:Key="AxTileWidthLarge">160</x:Double>
+  <Thickness x:Key="AxTilePadding">4</Thickness>
+  <x:Double x:Key="AxTileSliderWidth">96</x:Double>
   <x:Double x:Key="AxSearchFieldMaxWidth">340</x:Double>
   <!-- Ширина колонки чтения: длинная строка не растягивается во всю ширину окна. -->
   <x:Double x:Key="AxReadingWidth">760</x:Double>
