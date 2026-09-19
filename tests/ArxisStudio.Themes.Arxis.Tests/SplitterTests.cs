@@ -1,5 +1,7 @@
 using ArxisStudio.Controls;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Layout;
@@ -99,24 +101,14 @@ public class SplitterTests
     [AvaloniaFact]
     public void An_arrow_key_moves_the_border()
     {
-        var splitter = new AxSplitter { Orientation = Orientation.Horizontal };
-
-        var grid = new Grid { RowDefinitions = new RowDefinitions("*,Auto,*") };
-
-        grid.Children.Add(new Border());
-        grid.Children.Add(splitter);
-        grid.Children.Add(new Border());
-
-        Grid.SetRow(grid.Children[0], 0);
-        Grid.SetRow(splitter, 1);
-        Grid.SetRow(grid.Children[2], 2);
-
-        var window = new Window { Width = 240, Height = 240, Content = grid };
-
-        window.Show();
-        window.UpdateLayout();
+        var (splitter, grid, window) = Between();
 
         var before = grid.RowDefinitions[0].ActualHeight;
+        var moved = 0;
+        var dragged = 0;
+
+        splitter.Moved += (_, _) => moved++;
+        splitter.DragCompleted += (_, _) => dragged++;
 
         Assert.True(splitter.Focus(), "разделитель не принял фокус");
 
@@ -127,6 +119,67 @@ public class SplitterTests
         Assert.True(
             grid.RowDefinitions[0].ActualHeight > before,
             $"доля не сдвинулась: было {before:F0}, стало {grid.RowDefinitions[0].ActualHeight:F0}");
+
+        // Хозяин границы записывает её по концу хода, и без этого события ход стрелкой до него не
+        // доходил вовсе. Конца тяги стрелке не придумывают: тяги не было.
+        Assert.Equal(1, moved);
+        Assert.Equal(0, dragged);
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Стрелка поперёк оси границу не двигает и о ходе не объявляет.
+    /// </summary>
+    /// <remarks>
+    /// Базовый контрол отмечает обработанной и её: хозяин, записывающий границу по ходу, переписал
+    /// бы долю на каждое такое нажатие — а переписанная, она расходится с записанной на долю пикселя.
+    /// </remarks>
+    [AvaloniaFact]
+    public void An_arrow_across_the_border_moves_nothing_and_reports_nothing()
+    {
+        var (splitter, grid, window) = Between();
+
+        var before = grid.RowDefinitions[0].ActualHeight;
+        var moved = 0;
+
+        splitter.Moved += (_, _) => moved++;
+
+        Assert.True(splitter.Focus(), "разделитель не принял фокус");
+
+        splitter.RaiseEvent(new KeyEventArgs { RoutedEvent = InputElement.KeyDownEvent, Key = Key.Right });
+        splitter.RaiseEvent(new KeyEventArgs { RoutedEvent = InputElement.KeyDownEvent, Key = Key.Left });
+
+        window.UpdateLayout();
+
+        Assert.Equal(before, grid.RowDefinitions[0].ActualHeight);
+        Assert.Equal(0, moved);
+
+        window.Close();
+    }
+
+    /// <summary>Тяга мышью кончается тем же ходом, что и шаг стрелкой.</summary>
+    [AvaloniaFact]
+    public void A_drag_ends_with_a_move()
+    {
+        var (splitter, grid, window) = Between();
+
+        var before = grid.RowDefinitions[0].ActualHeight;
+        var moved = 0;
+
+        splitter.Moved += (_, _) => moved++;
+
+        var at = splitter.TranslatePoint(new Point(splitter.Bounds.Width / 2, splitter.Bounds.Height / 2), window)!.Value;
+
+        window.MouseDown(at, MouseButton.Left);
+        window.MouseMove(at + new Vector(0, 30));
+        window.MouseUp(at + new Vector(0, 30), MouseButton.Left);
+        window.UpdateLayout();
+
+        Assert.True(
+            grid.RowDefinitions[0].ActualHeight > before,
+            $"тяга не сдвинула долю: было {before:F0}, стало {grid.RowDefinitions[0].ActualHeight:F0}");
+        Assert.Equal(1, moved);
 
         window.Close();
     }
@@ -181,6 +234,29 @@ public class SplitterTests
         Assert.True(window.TryFindResource("AxSplitterLane", ThemeVariant.Dark, out var value));
 
         return (double)value!;
+    }
+
+    /// <summary>Разделитель строк между двумя долями, как в доке, — показанный.</summary>
+    private static (AxSplitter Splitter, Grid Grid, Window Window) Between()
+    {
+        var splitter = new AxSplitter { Orientation = Orientation.Horizontal };
+
+        var grid = new Grid { RowDefinitions = new RowDefinitions("*,Auto,*") };
+
+        grid.Children.Add(new Border());
+        grid.Children.Add(splitter);
+        grid.Children.Add(new Border());
+
+        Grid.SetRow(grid.Children[0], 0);
+        Grid.SetRow(splitter, 1);
+        Grid.SetRow(grid.Children[2], 2);
+
+        var window = new Window { Width = 240, Height = 240, Content = grid };
+
+        window.Show();
+        window.UpdateLayout();
+
+        return (splitter, grid, window);
     }
 
     private static (AxSplitter Splitter, Window Window) Shown(Orientation orientation, string variant = "Dark")
