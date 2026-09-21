@@ -246,6 +246,36 @@ public class ContrastTests
     }
 
     /// <summary>
+    /// Разница строк: на фоне добавленного, удалённого и переписанного читается код, видны номера
+    /// строк, а сам фон отличим от панели.
+    /// </summary>
+    /// <remarks>
+    /// Строку разницы читают так же подолгу, как код, и основной текст на ней держит порог плашки,
+    /// 7:1. Подсветка кода, если её положат на ту же строку, — порог своего блока, 4,5:1. Номер
+    /// строки — третичным, ему довольно 3:1, как третичному на плашке. А фон, неотличимый от панели,
+    /// прятал бы саму разницу: окно истории показывало бы две одинаковые колонки.
+    /// </remarks>
+    [AvaloniaFact]
+    public void Diff_fills_keep_code_readable_and_stand_apart_from_the_panel()
+    {
+        string[] fills = ["DiffAddedFill", "DiffRemovedFill", "DiffChangedFill"];
+
+        AtLeast(OnPlate, "TextPrimary", fills);
+        AtLeast(Readable, "CodeText", fills);
+        AtLeast(Visible, "TextTertiary", fills);
+
+        foreach (var variant in Variants)
+        {
+            foreach (var fill in fills)
+            {
+                Assert.True(
+                    Ratio(fill, "SurfacePanel", variant) >= 1.15d,
+                    $"{fill} [{variant}] неотличим от панели: {Ratio(fill, "SurfacePanel", variant):F2}:1");
+            }
+        }
+    }
+
+    /// <summary>
     /// Наведение — одна ступень на любой поверхности; нажатие и неактивное выделение заметнее.
     /// </summary>
     /// <remarks>

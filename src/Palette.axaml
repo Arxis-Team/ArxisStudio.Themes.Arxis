@@ -108,6 +108,13 @@
       <Color x:Key="AxCodeAttributeColor">#BCBEC4</Color>
       <Color x:Key="AxCodeStringColor">#6AAB73</Color>
       <Color x:Key="AxCodeCommentColor">#868A91</Color>
+      <!--
+          Разница строк: добавленное, удалённое и переписанное — фоном строки. Основной текст
+          держит на них 7:1, номер строки третичным — 3:1, и от панели фон отличим.
+      -->
+      <Color x:Key="AxDiffAddedFillColor">#1E3A28</Color>
+      <Color x:Key="AxDiffRemovedFillColor">#43272A</Color>
+      <Color x:Key="AxDiffChangedFillColor">#1F3350</Color>
 
       <!-- Тени всплывающего окна и модального диалога. -->
       <BoxShadows x:Key="AxShadowPopup">0 4 16 0 #73000000</BoxShadows>
@@ -177,6 +184,9 @@
       <SolidColorBrush x:Key="AxCodeAttributeBrush" Color="{StaticResource AxCodeAttributeColor}"/>
       <SolidColorBrush x:Key="AxCodeStringBrush" Color="{StaticResource AxCodeStringColor}"/>
       <SolidColorBrush x:Key="AxCodeCommentBrush" Color="{StaticResource AxCodeCommentColor}"/>
+      <SolidColorBrush x:Key="AxDiffAddedFillBrush" Color="{StaticResource AxDiffAddedFillColor}"/>
+      <SolidColorBrush x:Key="AxDiffRemovedFillBrush" Color="{StaticResource AxDiffRemovedFillColor}"/>
+      <SolidColorBrush x:Key="AxDiffChangedFillBrush" Color="{StaticResource AxDiffChangedFillColor}"/>
     </ResourceDictionary>
 
     <ResourceDictionary x:Key="Light">
@@ -268,6 +278,13 @@
       <Color x:Key="AxCodeAttributeColor">#174AD4</Color>
       <Color x:Key="AxCodeStringColor">#067D17</Color>
       <Color x:Key="AxCodeCommentColor">#686B71</Color>
+      <!--
+          Разница строк: добавленное, удалённое и переписанное — фоном строки. Основной текст
+          держит на них 7:1, номер строки третичным — 3:1, и от панели фон отличим.
+      -->
+      <Color x:Key="AxDiffAddedFillColor">#D0EDD8</Color>
+      <Color x:Key="AxDiffRemovedFillColor">#F9DADA</Color>
+      <Color x:Key="AxDiffChangedFillColor">#D6E4FA</Color>
 
       <!-- Тени всплывающего окна и модального диалога. -->
       <BoxShadows x:Key="AxShadowPopup">0 4 16 0 #24000000</BoxShadows>
@@ -337,6 +354,9 @@
       <SolidColorBrush x:Key="AxCodeAttributeBrush" Color="{StaticResource AxCodeAttributeColor}"/>
       <SolidColorBrush x:Key="AxCodeStringBrush" Color="{StaticResource AxCodeStringColor}"/>
       <SolidColorBrush x:Key="AxCodeCommentBrush" Color="{StaticResource AxCodeCommentColor}"/>
+      <SolidColorBrush x:Key="AxDiffAddedFillBrush" Color="{StaticResource AxDiffAddedFillColor}"/>
+      <SolidColorBrush x:Key="AxDiffRemovedFillBrush" Color="{StaticResource AxDiffRemovedFillColor}"/>
+      <SolidColorBrush x:Key="AxDiffChangedFillBrush" Color="{StaticResource AxDiffChangedFillColor}"/>
     </ResourceDictionary>
 
   </ResourceDictionary.ThemeDictionaries>
