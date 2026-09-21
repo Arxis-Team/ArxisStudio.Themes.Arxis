@@ -224,4 +224,8 @@
     </Setter>
   </ControlTheme>
 
+  <!-- Тот же разделитель, которым делит меню расширение: родной Separator ему заводить нельзя. -->
+  <ControlTheme x:Key="{x:Type ax:AxSeparator}" TargetType="ax:AxSeparator"
+                BasedOn="{StaticResource {x:Type Separator}}"/>
+
 </ResourceDictionary>

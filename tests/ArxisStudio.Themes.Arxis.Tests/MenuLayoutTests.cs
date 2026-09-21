@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
 using Avalonia.Styling;
+using Avalonia.Threading;
 using Avalonia.VisualTree;
 using Xunit;
 
@@ -102,6 +103,37 @@ public class MenuLayoutTests
         var text = (TextBlock)Part(item, "PART_InputGestureText");
 
         Assert.Equal(gesture.ToString("p", CultureInfo.CurrentCulture), text.Text);
+
+        menu.Close();
+        window.Close();
+    }
+
+    /// <summary>
+    /// Разделитель в подменю — линия, а не строка: и родной, и тот, которым делит меню расширение.
+    /// </summary>
+    /// <remarks>
+    /// Пункт подменю спрашивал про разделитель наравне с пунктами и заворачивал его в строку меню —
+    /// с подсветкой под курсором и щелчком, — а в корне того же меню разделитель оставался линией.
+    /// </remarks>
+    [AvaloniaTheory]
+    [InlineData(typeof(Separator))]
+    [InlineData(typeof(AxSeparator))]
+    public void A_separator_in_a_submenu_stays_a_line(Type kind)
+    {
+        var line = (Separator)Activator.CreateInstance(kind)!;
+        var branch = new AxMenuItem { Header = "Ветка" };
+
+        branch.Items.Add(new AxMenuItem { Header = "Один" });
+        branch.Items.Add(line);
+        branch.Items.Add(new AxMenuItem { Header = "Два" });
+
+        var (menu, window) = Shown(branch);
+
+        branch.Open();
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.Same(line, branch.ContainerFromIndex(1));
+        Assert.NotNull(line.Template);
 
         menu.Close();
         window.Close();
