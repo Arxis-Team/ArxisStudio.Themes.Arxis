@@ -11,12 +11,13 @@ using Xunit;
 namespace ArxisStudio.Themes.Arxis.Tests;
 
 /// <summary>
-/// Строка списка — цель перетаскивания: подкраска и рамка поверх, раскладка на месте.
+/// Строка списка и сегмент крошек — цель перетаскивания: подкраска и рамка поверх, раскладка на месте.
 /// </summary>
 /// <remarks>
-/// Цель ставит хозяин списка (<see cref="AxListBoxItem.IsDropTarget"/>), а тема её рисует. Рамка
-/// лежит поверх строки, как кольцо фокуса: на самой заливке она сдвинула бы содержимое на свою
-/// толщину, и строка дёргалась бы под курсором, пока над ней несут файлы.
+/// Цель ставит хозяин списка и крошек (<see cref="AxListBoxItem.IsDropTarget"/>,
+/// <see cref="AxBreadcrumbItem.IsDropTarget"/>), а тема её рисует. Рамка лежит поверх, как кольцо
+/// фокуса: на самой заливке она сдвинула бы содержимое на свою толщину, и строка дёргалась бы под
+/// курсором, пока над ней несут файлы.
 /// </remarks>
 public class DropTargetTests
 {
@@ -98,8 +99,89 @@ public class DropTargetTests
         window.Close();
     }
 
+    /// <summary>
+    /// Сегмент крошек — цель: подложка подкрашена и обведена, соседний сегмент — нет, подпись на
+    /// месте; текущий сегмент, к наведению инертный, цель показывает тоже.
+    /// </summary>
+    /// <remarks>
+    /// Уровень пути — такое же место, как строка каталога, и отпущенное на нём ложится туда; копия,
+    /// отпущенная на текущем сегменте, — туда, где человек стоит.
+    /// </remarks>
+    [AvaloniaFact]
+    public void A_crumb_marked_as_a_drop_target_wears_a_ring_and_keeps_its_layout()
+    {
+        var crumbs = new AxBreadcrumb { ItemsSource = new[] { "Hello", "src", "App" }, Width = 400 };
+        var window = Shown(crumbs, ThemeVariant.Dark);
+        var segments = crumbs.GetVisualDescendants().OfType<AxBreadcrumbItem>().ToList();
+        var label = segments[1].GetVisualDescendants().OfType<TextBlock>().Single();
+        var before = label.TranslatePoint(default, segments[1]);
+
+        Assert.True(segments[2].IsCurrent, "последний сегмент не текущий — проверять нечего");
+        Assert.Equal(Resource(window, "AxTextSecondaryColor"), Colour(Text(segments[1]).Foreground));
+
+        segments[1].IsDropTarget = true;
+        segments[2].IsDropTarget = true;
+        window.UpdateLayout();
+
+        // Цель читается как сегмент под курсором: подпись основная, а не вторичная, как у пути.
+        Assert.Equal(Resource(window, "AxTextPrimaryColor"), Colour(Text(segments[1]).Foreground));
+        Assert.True(Ring(segments[1]).IsEffectivelyVisible, "у цели нет рамки");
+        Assert.False(Ring(segments[0]).IsEffectivelyVisible, "рамка стоит и у соседнего сегмента");
+        Assert.True(Ring(segments[2]).IsEffectivelyVisible, "текущий сегмент цели не показывает");
+        Assert.Equal(Resource(window, "AxInfoFillColor"), Colour(Plate(segments[1]).Background));
+        Assert.Equal(Resource(window, "AxInfoFillColor"), Colour(Plate(segments[2]).Background));
+        Assert.Equal(Resource(window, "AxAccentColor"), Colour(Ring(segments[1]).BorderBrush));
+        Assert.Equal(before, label.TranslatePoint(default, segments[1]));
+
+        segments[1].IsDropTarget = false;
+        window.UpdateLayout();
+
+        Assert.False(Ring(segments[1]).IsEffectivelyVisible, "рамка осталась, когда цель сняли");
+        Assert.NotEqual(Resource(window, "AxInfoFillColor"), Colour(Plate(segments[1]).Background));
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// У сегмента-цели рамка отличается от подкраски и от панели не меньше чем на 3:1, а подпись на
+    /// подкраске читается на 4,5:1 — в обеих темах.
+    /// </summary>
+    /// <remarks>
+    /// Подпись сегмента вторичная; на подкраске цели она становится основной, и проверяется цвет,
+    /// которым её нарисовали.
+    /// </remarks>
+    [AvaloniaTheory]
+    [InlineData("Dark")]
+    [InlineData("Light")]
+    public void A_crumb_drop_target_reads_in_both_themes(string variant)
+    {
+        var crumbs = new AxBreadcrumb { ItemsSource = new[] { "Hello", "App" }, Width = 400 };
+        var window = Shown(crumbs, variant == "Dark" ? ThemeVariant.Dark : ThemeVariant.Light);
+        var segment = crumbs.GetVisualDescendants().OfType<AxBreadcrumbItem>().First();
+
+        segment.IsDropTarget = true;
+        window.UpdateLayout();
+
+        var ring = Colour(Ring(segment).BorderBrush)!.Value;
+        var fill = Colour(Plate(segment).Background)!.Value;
+        var text = Colour(Text(segment).Foreground)!.Value;
+        var panel = Resource(window, "AxSurfacePanelColor");
+
+        Assert.True(Ratio(ring, fill) >= 3, $"{variant}: рамка к подкраске {Ratio(ring, fill):0.00}:1");
+        Assert.True(Ratio(ring, panel) >= 3, $"{variant}: рамка к панели {Ratio(ring, panel):0.00}:1");
+        Assert.True(Ratio(text, fill) >= 4.5, $"{variant}: подпись к подкраске {Ratio(text, fill):0.00}:1");
+
+        window.Close();
+    }
+
     private static Border Ring(Control row) =>
         row.GetVisualDescendants().OfType<Border>().First(part => part.Name == "PART_DropTarget");
+
+    private static Border Plate(Control segment) =>
+        segment.GetVisualDescendants().OfType<Border>().First(part => part.Name == "PART_Plate");
+
+    /// <summary>Подпись сегмента — её цветом и рисуется текст.</summary>
+    private static ContentPresenter Text(Control segment) => Fill(segment);
 
     private static ContentPresenter Fill(Control row) =>
         row.GetVisualDescendants().OfType<ContentPresenter>().First(part => part.Name == "PART_ContentPresenter");

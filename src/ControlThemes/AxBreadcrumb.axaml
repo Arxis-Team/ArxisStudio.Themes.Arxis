@@ -93,6 +93,16 @@
                                   TextTrimming="CharacterEllipsis"/>
               </DockPanel>
             </Border>
+            <!--
+                Цель перетаскивания — рамкой поверх подложки, как у строки списка: рамка на самой
+                подложке сдвинула бы подпись на свою толщину, и крошки дёргались бы под курсором.
+            -->
+            <Border x:Name="PART_DropTarget"
+                    IsVisible="False"
+                    IsHitTestVisible="False"
+                    BorderBrush="{DynamicResource AxAccentBrush}"
+                    BorderThickness="{DynamicResource AxDropTargetThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}"/>
             <t:AxFocusRing x:Name="PART_FocusRing" Placement="Inside" CornerRadius="{TemplateBinding CornerRadius}"/>
           </Panel>
         </DockPanel>
@@ -121,6 +131,23 @@
     </Style>
     <Style Selector="^:current:pressed /template/ Border#PART_Plate">
       <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <!--
+        Цель перетаскивания — уровень пути, куда ляжет отпущенное: подкраска сообщения и рамка
+        акцента, та же пара, что у строки списка. Стоит после наведения и текущего и сильнее их:
+        текущий сегмент к наведению инертен, но копия, отпущенная на нём, ложится туда, где человек
+        стоит, — и цель должна быть видна и у него. Подпись у цели основная, как у сегмента под
+        курсором: цель — то место, куда смотрят.
+    -->
+    <Style Selector="^:drop-target">
+      <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
+    </Style>
+    <Style Selector="^:drop-target /template/ Border#PART_Plate">
+      <Setter Property="Background" Value="{DynamicResource AxInfoFillBrush}"/>
+    </Style>
+    <Style Selector="^:drop-target /template/ Border#PART_DropTarget">
+      <Setter Property="IsVisible" Value="True"/>
     </Style>
 
     <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
