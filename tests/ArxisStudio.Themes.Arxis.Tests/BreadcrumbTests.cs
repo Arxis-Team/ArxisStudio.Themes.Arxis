@@ -345,9 +345,7 @@ public class BreadcrumbTests
 
         // Раскрытое меню встаёт на место и попадает в сцену кадром отрисовки: до него курсор, принесённый
         // на пункт, пришёлся бы на пустое место.
-        Dispatcher.UIThread.RunJobs();
-        AvaloniaHeadlessPlatform.ForceRenderTimerTick();
-        Dispatcher.UIThread.RunJobs();
+        Frame();
 
         // Ответ читается на полотне меню, после пересылки: дальше всплывающего окна событие не идёт.
         var item = Menu(path)[0];
@@ -366,6 +364,121 @@ public class BreadcrumbTests
 
         Assert.Same(Segments(path)[0], heard);
         Assert.Equal(DragDropEffects.Copy, answered);
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Меню, раскрытое тягой, окна не заслоняет: под точкой мимо него — то, что там показано.
+    /// </summary>
+    /// <remarks>
+    /// Под всплывающее с лёгким закрытием Avalonia стелет поверх окна прозрачный слой, которым ловит
+    /// щелчок мимо, и в нём тонет всякое попадание в окно — попадание системной тяги тоже. Раскрытое
+    /// тягой меню сделало бы недосягаемым всё, над чем несут, и закрыть его было бы уже нечем.
+    /// </remarks>
+    [AvaloniaFact]
+    public void A_drag_opened_overflow_leaves_the_window_reachable()
+    {
+        var path = Path(160, Deep);
+        var below = new AxButton { Content = "под крошками" };
+
+        DockPanel.SetDock(path, Dock.Top);
+        DockPanel.SetDock(below, Dock.Bottom);
+
+        var window = Shown(new DockPanel { LastChildFill = false, Children = { path, below } }, height: 400);
+
+        Assert.True(path.OpenOverflow(), "меню спрятанных уровней не раскрылось");
+
+        Frame();
+
+        var beside = Center(below, window);
+
+        Assert.Same(below, (window.InputHitTest(beside) as Visual)?.FindAncestorOfType<AxButton>(includeSelf: true));
+
+        // Закрывшись, меню возвращает слой: раскрытое щелчком закрывается щелчком мимо, как всегда.
+        path.CloseOverflow();
+
+        var clicked = 0;
+        var at = Center(Overflow(path), window);
+
+        below.Click += (_, _) => clicked++;
+
+        window.MouseDown(at, MouseButton.Left);
+        window.MouseUp(at, MouseButton.Left);
+        Frame();
+
+        Assert.True(path.IsOverflowOpen, "щелчок не раскрыл меню");
+
+        window.MouseDown(beside, MouseButton.Left);
+        window.MouseUp(beside, MouseButton.Left);
+        Dispatcher.UIThread.RunJobs();
+
+        Assert.False(path.IsOverflowOpen, "щелчок мимо не закрыл меню");
+        Assert.True(clicked == 0, "щелчок, закрывший меню, дошёл и до кнопки под ним");
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Карточка меню встаёт под «…», а не на поле под тень дальше, и место переполнения — она: сквозь
+    /// поле видно то, что лежит под меню, и несут туда, к нему.
+    /// </summary>
+    [AvaloniaFact]
+    public void The_overflow_menu_stands_under_the_button()
+    {
+        var path = Path(160, Deep);
+
+        path.Margin = new Thickness(40, 40, 0, 0);
+
+        var window = Shown(path, height: 400);
+        var button = Overflow(path);
+        var corner = button.PointToScreen(new Point(0, button.Bounds.Height));
+
+        path.OpenOverflow();
+        Frame();
+
+        var card = Card(window);
+        var top = card.PointToScreen(default);
+        var bottom = card.PointToScreen(new Point(0, card.Bounds.Height));
+
+        Assert.True(
+            Math.Abs(top.X - corner.X) <= 1 && Math.Abs(top.Y - corner.Y) <= 1,
+            $"карточка встала в {top}, а «…» кончается в {corner}");
+        Assert.True(path.IsOverflowAt(top + new PixelVector(4, 4)), "карточка — не место переполнения");
+        Assert.False(path.IsOverflowAt(bottom + new PixelVector(-4, 4)), "поле под тень сочтено меню");
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Целью сброса бывает полотно меню вслед за крошками — и только оно: окно всплывающего шире
+    /// карточки на поле под тень, и сброс, пришедший на поле, разобрать некому.
+    /// </summary>
+    /// <remarks>
+    /// Цель, у которой нет обработчика, отвечает источнику тем, что он предложил: проводник счёл бы
+    /// сброс принятым и мог бы убрать у себя отпущенное.
+    /// </remarks>
+    [AvaloniaFact]
+    public void The_overflow_menu_is_a_target_only_where_the_crumbs_are()
+    {
+        var path = Path(160, Deep);
+        var window = Shown(path, height: 400);
+
+        DragDrop.SetAllowDrop(path, true);
+        path.OpenOverflow();
+        Frame();
+
+        var presenter = Presenter(window);
+
+        Assert.True(DragDrop.GetAllowDrop(presenter), "полотно меню не стало целью вслед за крошками");
+        Assert.True(DragDrop.GetAllowDrop(Menu(path)[0]), "пункт спрятанного уровня не стал целью");
+        Assert.False(
+            DragDrop.GetAllowDrop(Assert.IsAssignableFrom<Interactive>(presenter.Parent)),
+            "окно меню — цель, а разобрать сброс на нём некому");
+
+        DragDrop.SetAllowDrop(path, false);
+
+        Assert.False(DragDrop.GetAllowDrop(presenter), "полотно осталось целью, когда крошки перестали ею быть");
 
         window.Close();
     }
@@ -405,6 +518,24 @@ public class BreadcrumbTests
 
     private static void Click(AxBreadcrumbItem segment) =>
         segment.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+
+    /// <summary>
+    /// Прогоняет кадр отрисовки: раскрытое меню встаёт на место и попадает в сцену им — до кадра
+    /// точка над пунктом пришлась бы на пустое место.
+    /// </summary>
+    private static void Frame()
+    {
+        Dispatcher.UIThread.RunJobs();
+        AvaloniaHeadlessPlatform.ForceRenderTimerTick();
+        Dispatcher.UIThread.RunJobs();
+    }
+
+    /// <summary>Полотно раскрытого меню спрятанных уровней.</summary>
+    private static MenuFlyoutPresenter Presenter(Window window) =>
+        window.GetVisualDescendants().OfType<MenuFlyoutPresenter>().Single();
+
+    /// <summary>Видимая карточка раскрытого меню — полотно без поля под тень.</summary>
+    private static Visual Card(Window window) => Presenter(window).GetVisualChildren().First();
 
     /// <summary>Пункты меню спрятанных уровней — по порядку уровней.</summary>
     private static List<AxMenuItem> Menu(AxBreadcrumb path) =>
