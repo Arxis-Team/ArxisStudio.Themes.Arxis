@@ -2,9 +2,12 @@ using ArxisStudio.Controls;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Styling;
+using Avalonia.Threading;
 using Avalonia.VisualTree;
 using Xunit;
 
@@ -44,7 +47,7 @@ public class TabOverflowTests
 
         Assert.True(button.IsVisible, "кнопка переполнения при нехватке места");
 
-        var menu = Assert.IsType<MenuFlyout>(button.Flyout);
+        var menu = Assert.IsAssignableFrom<MenuFlyout>(button.Flyout);
         var items = menu.Items.OfType<AxMenuItem>().ToList();
 
         Assert.NotEmpty(items);
@@ -81,7 +84,7 @@ public class TabOverflowTests
         var strip = Strip(160, "Program.cs", "App.axaml", "MainWindow.axaml", "StudioDock.cs");
         var window = Shown(strip);
 
-        var menu = Assert.IsType<MenuFlyout>(Overflow(strip).Flyout);
+        var menu = Assert.IsAssignableFrom<MenuFlyout>(Overflow(strip).Flyout);
 
         Assert.Contains("StudioDock.cs", Headers(menu));
 
@@ -110,7 +113,7 @@ public class TabOverflowTests
         var strip = Strip(160, "Program.cs", "App.axaml", "MainWindow.axaml", "StudioDock.cs");
         var window = Shown(strip);
 
-        var menu = Assert.IsType<MenuFlyout>(Overflow(strip).Flyout);
+        var menu = Assert.IsAssignableFrom<MenuFlyout>(Overflow(strip).Flyout);
         var hidden = strip.GetRealizedContainers().OfType<AxTabItem>().Last();
 
         Assert.Contains("StudioDock.cs", Headers(menu));
@@ -119,6 +122,47 @@ public class TabOverflowTests
         window.UpdateLayout();
 
         Assert.Contains("StudioDock.g.cs", Headers(menu));
+
+        window.Close();
+    }
+
+    /// <summary>Карточка меню встаёт под кнопкой, у её правого края, а не на поле под тень дальше.</summary>
+    /// <remarks>
+    /// Карточка стоит в попапе не вплотную: вокруг неё тема оставляет поле, на котором рисуется тень.
+    /// Место попап отмеряет от своего края, и меню, поставленное «под кнопкой по правому краю», без
+    /// поправки встаёт на ширину поля правее и ниже — оторванным от кнопки, которая его открыла.
+    /// Поправку знает <see cref="AxMenuFlyout"/>, и меню полосы — такое же меню студии, как всякое
+    /// другое.
+    /// </remarks>
+    [AvaloniaFact]
+    public void The_overflow_menu_stands_under_the_button()
+    {
+        var strip = Strip(160, "Program.cs", "App.axaml", "MainWindow.axaml", "StudioDock.cs");
+
+        // Окно повыше: меню, которому не хватило места под кнопкой, отпрыгнуло бы над ней.
+        var window = Shown(strip, height: 400);
+        var button = Overflow(strip);
+
+        Assert.True(button.IsVisible, "кнопка переполнения при нехватке места");
+
+        var corner = button.PointToScreen(new Point(button.Bounds.Width, button.Bounds.Height));
+        var at = button.TranslatePoint(new Point(button.Bounds.Width / 2, button.Bounds.Height / 2), window)!.Value;
+
+        window.MouseDown(at, MouseButton.Left);
+        window.MouseUp(at, MouseButton.Left);
+
+        // Раскрытое меню встаёт на место кадром отрисовки: до него карточка стоит там, где её ещё
+        // не двигали.
+        Dispatcher.UIThread.RunJobs();
+        AvaloniaHeadlessPlatform.ForceRenderTimerTick();
+        Dispatcher.UIThread.RunJobs();
+
+        var card = window.GetVisualDescendants().OfType<MenuFlyoutPresenter>().Single().GetVisualChildren().First();
+        var top = card.PointToScreen(new Point(card.Bounds.Width, 0));
+
+        Assert.True(
+            Math.Abs(top.X - corner.X) <= 1 && Math.Abs(top.Y - corner.Y) <= 1,
+            $"карточка встала в {top}, а кнопка кончается в {corner}");
 
         window.Close();
     }
@@ -132,12 +176,12 @@ public class TabOverflowTests
     private static AxTabStrip Strip(double width, params string[] items) =>
         new() { ItemsSource = items, Width = width, SelectedIndex = 0 };
 
-    private static Window Shown(Control content)
+    private static Window Shown(Control content, double height = 200)
     {
         var window = new Window
         {
             Width = 480,
-            Height = 200,
+            Height = height,
             RequestedThemeVariant = ThemeVariant.Dark,
             Content = content,
         };
