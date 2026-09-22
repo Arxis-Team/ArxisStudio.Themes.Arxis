@@ -55,6 +55,16 @@
                   Width="{DynamicResource AxRowMarkerWidth}"
                   Height="{DynamicResource AxRowMarkerHeight}"
                   CornerRadius="{DynamicResource AxCornerRadiusPill}"/>
+          <!--
+              Цель перетаскивания — рамкой поверх строки, как кольцо: рамка на самой заливке
+              сдвинула бы содержимое на свою толщину, и строка дёргалась бы под курсором.
+          -->
+          <Border x:Name="PART_DropTarget"
+                  IsVisible="False"
+                  IsHitTestVisible="False"
+                  BorderBrush="{DynamicResource AxAccentBrush}"
+                  BorderThickness="{DynamicResource AxDropTargetThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"/>
             <!--
                 Кольцо строки лежит внутри, а не снаружи, и это не мелочь. У
                 кнопки оно вынесено наружу отрицательным полем — там вокруг
@@ -86,6 +96,17 @@
     </Style>
     <Style Selector="^:selected:selection-active /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource AxSelectionActiveBrush}"/>
+    </Style>
+    <!--
+        Цель перетаскивания стоит после выделения и сильнее его: выбранная строка, над которой
+        несут файлы, должна говорить «сюда ляжет», а не «выбрано». Подкраска — заливка сообщения,
+        рамка — акцент: пара, у которой дизайн-система держит контраст 3:1.
+    -->
+    <Style Selector="^:drop-target /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource AxInfoFillBrush}"/>
+    </Style>
+    <Style Selector="^:drop-target /template/ Border#PART_DropTarget">
+      <Setter Property="IsVisible" Value="True"/>
     </Style>
     <!--
         Метка — вторичным цветом, пока фокус не в области, и акцентом, пока в ней: полная сила

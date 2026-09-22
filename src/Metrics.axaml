@@ -430,6 +430,11 @@
   <Thickness x:Key="AxPaletteMargin">0,80,0,0</Thickness>
   <!-- Рамка подсказки и призрака докинга: вдвое толще линии, её видно поверх чужого окна. -->
   <Thickness x:Key="AxDockHintThickness">2</Thickness>
+  <!--
+      Рамка цели перетаскивания в строке списка — той же толщины, что подсказка докинга: оба
+      говорят «сюда ляжет», и одинаковая рамка читается одним знаком.
+  -->
+  <Thickness x:Key="AxDropTargetThickness">2</Thickness>
   <x:Double x:Key="AxSettingsRowHeight">44</x:Double>
   <x:Double x:Key="AxLinkRowHeight">40</x:Double>
   <!-- Разделитель в полосе заголовка: короче полосы, чтобы не доставать до её краёв. -->
