@@ -86,6 +86,17 @@
                          IsVisible="False"/>
             </Grid>
           </Border>
+          <!--
+              Цель перетаскивания — рамкой поверх пункта, как у строки списка: рамка на самой
+              подложке сдвинула бы подпись. Состояние бывает только у пункта студии (AxMenuItem):
+              пункт спрятанного уровня в меню крошек — такая же цель, как сам уровень.
+          -->
+          <Border x:Name="PART_DropTarget"
+                  IsVisible="False"
+                  IsHitTestVisible="False"
+                  BorderBrush="{DynamicResource AxAccentBrush}"
+                  BorderThickness="{DynamicResource AxDropTargetThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"/>
           <Popup x:Name="PART_Popup"
                  Placement="RightEdgeAlignedTop"
                  HorizontalOffset="{DynamicResource AxSubmenuHorizontalOffset}"
@@ -156,8 +167,20 @@
     </Style>
   </ControlTheme>
 
+  <!--
+      Пункт студии — тот же пункт, и ещё цель перетаскивания: подкраска сообщения и рамка акцента,
+      та же пара, что у строки списка и сегмента крошек. Стоит после наведения и выбора и сильнее их:
+      над пунктом, на который несут, говорится «сюда ляжет».
+  -->
   <ControlTheme x:Key="{x:Type ax:AxMenuItem}" TargetType="ax:AxMenuItem"
-                BasedOn="{StaticResource {x:Type MenuItem}}"/>
+                BasedOn="{StaticResource {x:Type MenuItem}}">
+    <Style Selector="^:drop-target /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{DynamicResource AxInfoFillBrush}"/>
+    </Style>
+    <Style Selector="^:drop-target /template/ Border#PART_DropTarget">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+  </ControlTheme>
 
   <!-- Полотно контекстного меню и MenuFlyout: карточка на тени попапа. -->
   <ControlTheme x:Key="{x:Type MenuFlyoutPresenter}" TargetType="MenuFlyoutPresenter">

@@ -174,8 +174,77 @@ public class DropTargetTests
         window.Close();
     }
 
+    /// <summary>
+    /// Пункт меню — цель: подложка подкрашена и обведена, соседний пункт — нет, подпись на месте;
+    /// цель сильнее выбора.
+    /// </summary>
+    /// <remarks>
+    /// Так выглядит спрятанный уровень крошек в меню переполнения, когда тяга над ним: пункт —
+    /// такое же место, как сам уровень.
+    /// </remarks>
+    [AvaloniaFact]
+    public void A_menu_item_marked_as_a_drop_target_wears_a_ring_and_keeps_its_layout()
+    {
+        var items = new[] { new AxMenuItem { Header = "App" }, new AxMenuItem { Header = "Views" } };
+        var panel = new StackPanel { Width = 220 };
+
+        panel.Children.AddRange(items);
+
+        var window = Shown(panel, ThemeVariant.Dark);
+        var label = items[0].GetVisualDescendants().OfType<TextBlock>().First(text => text.Text == "App");
+        var before = label.TranslatePoint(default, items[0]);
+
+        items[0].IsSelected = true;
+        items[0].IsDropTarget = true;
+        window.UpdateLayout();
+
+        Assert.True(Ring(items[0]).IsEffectivelyVisible, "у цели нет рамки");
+        Assert.False(Ring(items[1]).IsEffectivelyVisible, "рамка стоит и у соседнего пункта");
+        Assert.Equal(Resource(window, "AxInfoFillColor"), Colour(Layout(items[0]).Background));
+        Assert.Equal(Resource(window, "AxAccentColor"), Colour(Ring(items[0]).BorderBrush));
+        Assert.Equal(before, label.TranslatePoint(default, items[0]));
+
+        items[0].IsDropTarget = false;
+        window.UpdateLayout();
+
+        Assert.False(Ring(items[0]).IsEffectivelyVisible, "рамка осталась, когда цель сняли");
+        Assert.NotEqual(Resource(window, "AxInfoFillColor"), Colour(Layout(items[0]).Background));
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// У пункта-цели рамка отличается от подкраски и от полотна меню не меньше чем на 3:1, а подпись на
+    /// подкраске читается на 4,5:1 — в обеих темах.
+    /// </summary>
+    [AvaloniaTheory]
+    [InlineData("Dark")]
+    [InlineData("Light")]
+    public void A_menu_item_drop_target_reads_in_both_themes(string variant)
+    {
+        var item = new AxMenuItem { Header = "App" };
+        var window = Shown(new StackPanel { Width = 220, Children = { item } }, variant == "Dark" ? ThemeVariant.Dark : ThemeVariant.Light);
+
+        item.IsDropTarget = true;
+        window.UpdateLayout();
+
+        var ring = Colour(Ring(item).BorderBrush)!.Value;
+        var fill = Colour(Layout(item).Background)!.Value;
+        var text = Colour(item.Foreground)!.Value;
+        var menu = Resource(window, "AxSurfaceOverlayColor");
+
+        Assert.True(Ratio(ring, fill) >= 3, $"{variant}: рамка к подкраске {Ratio(ring, fill):0.00}:1");
+        Assert.True(Ratio(ring, menu) >= 3, $"{variant}: рамка к полотну меню {Ratio(ring, menu):0.00}:1");
+        Assert.True(Ratio(text, fill) >= 4.5, $"{variant}: подпись к подкраске {Ratio(text, fill):0.00}:1");
+
+        window.Close();
+    }
+
     private static Border Ring(Control row) =>
         row.GetVisualDescendants().OfType<Border>().First(part => part.Name == "PART_DropTarget");
+
+    private static Border Layout(Control item) =>
+        item.GetVisualDescendants().OfType<Border>().First(part => part.Name == "PART_LayoutRoot");
 
     private static Border Plate(Control segment) =>
         segment.GetVisualDescendants().OfType<Border>().First(part => part.Name == "PART_Plate");
