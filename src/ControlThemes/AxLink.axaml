@@ -21,27 +21,29 @@
     <Setter Property="Template">
       <ControlTemplate>
         <!--
-            Кольцо фокуса лежит снаружи и на раскладку влиять не должно:
-            просвет 1 плюс рамка 2 — это 3 с каждой стороны, столько же и
-            снимается отрицательным отступом. Было −2, и ссылка выходила на два
-            пикселя выше строки текста; в баннере это распирало полосу.
+            Кольцо фокуса — сосед подписи, а не её рамка. Кольцо мышь не ловит, и подпись
+            внутри него не ловила её тоже: ссылку нельзя было нажать мышью, только клавишей.
+            Подложка прозрачная и ловит мышь по всей строке ссылки, а не по буквам.
+
+            Кольцо лежит снаружи и на раскладку влиять не должно: просвет 1 плюс рамка 2 —
+            это 3 с каждой стороны, столько же и снимается отрицательным отступом строки.
+            Было −2, и ссылка выходила на два пикселя выше строки текста; в баннере это
+            распирало полосу.
 
             Толщина 2 и просвет в пиксель — та же мера, что у флажка и
             переключателя: у ссылки нет своей рамки, которую фокус мог бы
             перекрасить, и весь контур несёт кольцо.
         -->
-        <t:AxFocusRing x:Name="PART_FocusRing"
-                       Placement="Row"
-                       Padding="{DynamicResource AxFocusOutlineGap}"
-                       CornerRadius="{DynamicResource AxCornerRadiusSmall}"
-                       BorderBrush="Transparent"
-                       IsVisible="True">
+        <Panel Background="{TemplateBinding Background}">
           <ContentPresenter x:Name="PART_ContentPresenter"
                             Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
                             Foreground="{TemplateBinding Foreground}"
                             RecognizesAccessKey="True"/>
-        </t:AxFocusRing>
+          <t:AxFocusRing x:Name="PART_FocusRing"
+                         Placement="Row"
+                         CornerRadius="{DynamicResource AxCornerRadiusSmall}"/>
+        </Panel>
       </ControlTemplate>
     </Setter>
 
@@ -55,7 +57,7 @@
       <Setter Property="Foreground" Value="{DynamicResource AxLinkPressedBrush}"/>
     </Style>
     <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
-      <Setter Property="BorderBrush" Value="{DynamicResource AxFocusRingBrush}"/>
+      <Setter Property="IsVisible" Value="True"/>
     </Style>
     <Style Selector="^[IsVisited=True]">
       <Setter Property="Foreground" Value="{DynamicResource AxLinkVisitedBrush}"/>
