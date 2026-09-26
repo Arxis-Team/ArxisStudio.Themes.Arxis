@@ -353,13 +353,16 @@
   <x:Double x:Key="AxTextAreaMinHeight">72</x:Double>
   <!--
       Всплывающие поверхности: ширина попапа поиска и его высота, предел ширины
-      подсказки и меню, наименьшая ширина диалога. Числа эти — вёрстка экрана, а
+      подсказки и меню, наименьшая ширина диалога, предел строки его вопроса и
+      ширина поля, в которое он спрашивает имя. Числа эти — вёрстка экрана, а
       не шкала, и потому названы здесь, а не выведены из ступеней.
   -->
   <x:Double x:Key="AxQuickSearchWidth">300</x:Double>
   <x:Double x:Key="AxQuickSearchMaxHeight">400</x:Double>
   <x:Double x:Key="AxToolTipMaxWidth">400</x:Double>
   <x:Double x:Key="AxDialogMinWidth">320</x:Double>
+  <x:Double x:Key="AxDialogMessageMaxWidth">420</x:Double>
+  <x:Double x:Key="AxDialogFieldWidth">260</x:Double>
   <x:Double x:Key="AxMenuMinWidth">160</x:Double>
   <x:Double x:Key="AxMenuMaxWidth">456</x:Double>
   <!-- Половины кнопки с раздельным действием: скругление снаружи, стык внутри. -->

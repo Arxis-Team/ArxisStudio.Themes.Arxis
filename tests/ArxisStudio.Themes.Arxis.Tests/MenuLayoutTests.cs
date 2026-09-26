@@ -108,6 +108,26 @@ public class MenuLayoutTests
         window.Close();
     }
 
+    /// <summary>Enter подписан так, как подписана клавиша, — Enter, а не Return.</summary>
+    /// <remarks>
+    /// У Avalonia Enter и Return — одно значение клавиши, и без своего слова платформы жест выходил
+    /// «Return»: так меню окна проекта подписывало пункт «Открыть». Проверяется меню, а не
+    /// преобразователь: подпись ставит шаблон, и держать надо то, что видно.
+    /// </remarks>
+    [AvaloniaFact]
+    public void Enter_is_written_the_way_the_key_is_labelled()
+    {
+        var opening = new AxMenuItem { Header = "Открыть", InputGesture = new KeyGesture(Key.Enter) };
+        var running = new AxMenuItem { Header = "Выполнить", InputGesture = new KeyGesture(Key.Enter, KeyModifiers.Control) };
+        var (menu, window) = Shown(opening, running);
+
+        Assert.Equal("Enter", ((TextBlock)Part(opening, "PART_InputGestureText")).Text);
+        Assert.Equal("Ctrl+Enter", ((TextBlock)Part(running, "PART_InputGestureText")).Text);
+
+        menu.Close();
+        window.Close();
+    }
+
     /// <summary>
     /// Разделитель в подменю — линия, а не строка: и родной, и тот, которым делит меню расширение.
     /// </summary>
