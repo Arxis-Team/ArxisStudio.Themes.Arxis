@@ -71,6 +71,10 @@ public class MetricsScaleTests
         "AxTileSliderWidth",
         "AxTileGlyphSizeSmall",
         "AxTileGlyphSizeStep",
+        // Карточка формы на доске дизайнера: ширина, наименьшая высота и зазор раскладки.
+        "AxFormCardWidth",
+        "AxFormCardMinHeight",
+        "AxFormCardGap",
         // Метка выбранной строки: толщина и длина.
         "AxRowMarkerWidth",
         "AxRowMarkerHeight",
