@@ -75,6 +75,9 @@ public class MetricsScaleTests
         "AxFormCardWidth",
         "AxFormCardMinHeight",
         "AxFormCardGap",
+        // Рамка формы без объявленного размера.
+        "AxFormFrameWidth",
+        "AxFormFrameHeight",
         // Метка выбранной строки: толщина и длина.
         "AxRowMarkerWidth",
         "AxRowMarkerHeight",

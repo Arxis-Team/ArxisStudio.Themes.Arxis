@@ -425,6 +425,14 @@
   <x:Double x:Key="AxFormCardWidth">240</x:Double>
   <x:Double x:Key="AxFormCardMinHeight">120</x:Double>
   <x:Double x:Key="AxFormCardGap">40</x:Double>
+  <!--
+      Рамка формы во вкладке дизайнера, когда форма размера не объявила: окно без Width и Height,
+      пользовательский элемент без d:DesignWidth и d:DesignHeight. Числа — те, что пишут шаблоны
+      Avalonia в d:DesignWidth и d:DesignHeight нового окна и элемента: форма, заведённая из шаблона
+      и ещё не размеченная, выглядит в дизайнере так же, как в превью шаблона.
+  -->
+  <x:Double x:Key="AxFormFrameWidth">800</x:Double>
+  <x:Double x:Key="AxFormFrameHeight">450</x:Double>
   <x:Double x:Key="AxSearchFieldMaxWidth">340</x:Double>
   <!-- Ширина колонки чтения: длинная строка не растягивается во всю ширину окна. -->
   <x:Double x:Key="AxReadingWidth">760</x:Double>
