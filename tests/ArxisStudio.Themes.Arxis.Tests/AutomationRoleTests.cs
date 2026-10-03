@@ -47,6 +47,31 @@ public class AutomationRoleTests
     }
 
     /// <summary>
+    /// Просмотр кода — документ только для чтения, и диктор читает его текст.
+    /// </summary>
+    /// <remarks>
+    /// Без своего пира шаблонный контрол читался бы безымянной группой, а правка через диктора
+    /// упала бы в контрол, который не правят.
+    /// </remarks>
+    [AvaloniaFact]
+    public void A_code_view_reads_as_a_read_only_document()
+    {
+        var view = new AxCodeView { Text = "<Button/>" };
+        var window = new Window { Width = 300, Height = 100, Content = view };
+
+        window.Show();
+
+        var peer = ControlAutomationPeer.CreatePeerForElement(view);
+        var value = Assert.IsAssignableFrom<IValueProvider>(peer.GetProvider<IValueProvider>());
+
+        Assert.Equal(AutomationControlType.Document, peer.GetAutomationControlType());
+        Assert.True(value.IsReadOnly);
+        Assert.Equal("<Button/>", value.Value);
+
+        window.Close();
+    }
+
+    /// <summary>
     /// Узел дерева говорит диктору, свёрнут он, развёрнут или лист, раскрывается его командой и
     /// сообщает о раскрытии, как бы оно ни случилось.
     /// </summary>

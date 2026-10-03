@@ -4,7 +4,7 @@
                     xmlns:t="using:ArxisStudio.Themes.Arxis">
 
   <!--
-      Инструменты каркаса: главный тулбар, лоадер, блок кода и таблица-список.
+      Инструменты каркаса: главный тулбар, лоадер, блок и просмотр кода и таблица-список.
       Все — плоские: фон им даёт место, где они стоят.
   -->
 
@@ -131,6 +131,76 @@
         </Border>
       </ControlTemplate>
     </Setter>
+  </ControlTheme>
+
+  <!--
+      Просмотр кода: документ, а не врезка, — стоит на основном фоне, как редактор, без рамки и
+      скругления; рамку ему даёт место, где он стоит. Шрифт, кегль и строка — те же, что у блока
+      кода. Номера строк третичным текстом: их не читают, по ним сверяются. Каретка акцентом, как в
+      поле ввода.
+
+      Выделение горит полным цветом, пока клавиатура в просмотре, и гаснет, когда она ушла, — тем же
+      :selection-active, что у строк списка. Отметка хозяина от фокуса не зависит: она показывает
+      выбранное на холсте, а не то, где каретка.
+
+      Строки, каретку и номера рисует поверхность, которую контрол кладёт в PART_ScrollViewer сам:
+      прокрутка у неё логическая, и номера стоят на месте, пока текст едет вбок.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxCodeView}" TargetType="ax:AxCodeView">
+    <Setter Property="Background" Value="{DynamicResource AxSurfaceBaseBrush}"/>
+    <Setter Property="Padding" Value="{DynamicResource AxCodeViewPadding}"/>
+    <Setter Property="GutterPadding" Value="{DynamicResource AxCodeGutterPadding}"/>
+    <Setter Property="FontFamily" Value="{DynamicResource AxFontFamilyMono}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
+    <Setter Property="LineHeightRatio" Value="{DynamicResource AxCodeLineHeightRatio}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxCodeTextBrush}"/>
+    <Setter Property="TagBrush" Value="{DynamicResource AxCodeTagBrush}"/>
+    <Setter Property="AttributeBrush" Value="{DynamicResource AxCodeAttributeBrush}"/>
+    <Setter Property="StringBrush" Value="{DynamicResource AxCodeStringBrush}"/>
+    <Setter Property="CommentBrush" Value="{DynamicResource AxCodeCommentBrush}"/>
+    <Setter Property="ExtensionBrush" Value="{DynamicResource AxCodeExtensionBrush}"/>
+    <Setter Property="PrefixBrush" Value="{DynamicResource AxCodePrefixBrush}"/>
+    <Setter Property="DirectiveBrush" Value="{DynamicResource AxCodeDirectiveBrush}"/>
+    <Setter Property="ErrorBrush" Value="{DynamicResource AxCodeErrorBrush}"/>
+    <Setter Property="LineNumberBrush" Value="{DynamicResource AxTextTertiaryBrush}"/>
+    <Setter Property="SelectionBrush" Value="{DynamicResource AxSelectionInactiveBrush}"/>
+    <Setter Property="HighlightBrush" Value="{DynamicResource AxCodeHighlightFillBrush}"/>
+    <Setter Property="HighlightMarkerBrush" Value="{DynamicResource AxAccentBrush}"/>
+    <Setter Property="HighlightMarkerWidth" Value="{DynamicResource AxRowMarkerWidth}"/>
+    <Setter Property="CaretBrush" Value="{DynamicResource AxAccentBrush}"/>
+    <Setter Property="CaretThickness" Value="{DynamicResource AxCaretWidth}"/>
+    <Setter Property="Cursor" Value="Ibeam"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+          <ScrollViewer x:Name="PART_ScrollViewer"
+                        HorizontalScrollBarVisibility="Auto"
+                        VerticalScrollBarVisibility="Auto"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:selection-active">
+      <Setter Property="SelectionBrush" Value="{DynamicResource AxSelectionActiveBrush}"/>
+    </Style>
+
+    <!-- Выключенный просмотр гаснет текстом целиком: подсветка выключенного читалась бы рабочей. -->
+    <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
+      <Setter Property="TagBrush" Value="{DynamicResource AxTextDisabledBrush}"/>
+      <Setter Property="AttributeBrush" Value="{DynamicResource AxTextDisabledBrush}"/>
+      <Setter Property="StringBrush" Value="{DynamicResource AxTextDisabledBrush}"/>
+      <Setter Property="CommentBrush" Value="{DynamicResource AxTextDisabledBrush}"/>
+      <Setter Property="ExtensionBrush" Value="{DynamicResource AxTextDisabledBrush}"/>
+      <Setter Property="PrefixBrush" Value="{DynamicResource AxTextDisabledBrush}"/>
+      <Setter Property="DirectiveBrush" Value="{DynamicResource AxTextDisabledBrush}"/>
+      <Setter Property="ErrorBrush" Value="{DynamicResource AxTextDisabledBrush}"/>
+      <Setter Property="LineNumberBrush" Value="{DynamicResource AxTextDisabledBrush}"/>
+      <Setter Property="HighlightMarkerBrush" Value="{DynamicResource AxTextDisabledBrush}"/>
+    </Style>
   </ControlTheme>
 
   <!--

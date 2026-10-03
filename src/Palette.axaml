@@ -102,12 +102,24 @@
       <Color x:Key="AxScrollThumbColor">#33FFFFFF</Color>
       <Color x:Key="AxScrollThumbHoverColor">#59FFFFFF</Color>
 
-      <!-- Подсветка кода. -->
+      <!--
+          Подсветка кода: текст и роли разбора. Каждая роль держит 4,5:1 на утопленной полосе блока,
+          на основном фоне просмотра и на заливке его отметки; комментарий поднят ради последней.
+      -->
       <Color x:Key="AxCodeTextColor">#BCBEC4</Color>
       <Color x:Key="AxCodeTagColor">#E8BF6A</Color>
       <Color x:Key="AxCodeAttributeColor">#BCBEC4</Color>
       <Color x:Key="AxCodeStringColor">#6AAB73</Color>
-      <Color x:Key="AxCodeCommentColor">#868A91</Color>
+      <Color x:Key="AxCodeCommentColor">#8C9097</Color>
+      <Color x:Key="AxCodeExtensionColor">#CF8E6D</Color>
+      <Color x:Key="AxCodePrefixColor">#C77DBB</Color>
+      <Color x:Key="AxCodeDirectiveColor">#56A8F5</Color>
+      <Color x:Key="AxCodeErrorColor">#F85A69</Color>
+      <!--
+          Отметка просмотра кода — элемент, выбранный хозяином: тихая заливка под текстом, отличимая
+          от основного фона, и акцентная метка у края строк; одной заливкой отметка не держится.
+      -->
+      <Color x:Key="AxCodeHighlightFillColor">#202736</Color>
       <!--
           Разница строк: добавленное, удалённое и переписанное — фоном строки. Основной текст
           держит на них 7:1, номер строки третичным — 3:1, и от панели фон отличим.
@@ -184,6 +196,11 @@
       <SolidColorBrush x:Key="AxCodeAttributeBrush" Color="{StaticResource AxCodeAttributeColor}"/>
       <SolidColorBrush x:Key="AxCodeStringBrush" Color="{StaticResource AxCodeStringColor}"/>
       <SolidColorBrush x:Key="AxCodeCommentBrush" Color="{StaticResource AxCodeCommentColor}"/>
+      <SolidColorBrush x:Key="AxCodeExtensionBrush" Color="{StaticResource AxCodeExtensionColor}"/>
+      <SolidColorBrush x:Key="AxCodePrefixBrush" Color="{StaticResource AxCodePrefixColor}"/>
+      <SolidColorBrush x:Key="AxCodeDirectiveBrush" Color="{StaticResource AxCodeDirectiveColor}"/>
+      <SolidColorBrush x:Key="AxCodeErrorBrush" Color="{StaticResource AxCodeErrorColor}"/>
+      <SolidColorBrush x:Key="AxCodeHighlightFillBrush" Color="{StaticResource AxCodeHighlightFillColor}"/>
       <SolidColorBrush x:Key="AxDiffAddedFillBrush" Color="{StaticResource AxDiffAddedFillColor}"/>
       <SolidColorBrush x:Key="AxDiffRemovedFillBrush" Color="{StaticResource AxDiffRemovedFillColor}"/>
       <SolidColorBrush x:Key="AxDiffChangedFillBrush" Color="{StaticResource AxDiffChangedFillColor}"/>
@@ -272,12 +289,24 @@
       <Color x:Key="AxScrollThumbColor">#33000000</Color>
       <Color x:Key="AxScrollThumbHoverColor">#59000000</Color>
 
-      <!-- Подсветка кода. -->
+      <!--
+          Подсветка кода: текст и роли разбора. Каждая роль держит 4,5:1 на утопленной полосе блока,
+          на основном фоне просмотра и на заливке его отметки.
+      -->
       <Color x:Key="AxCodeTextColor">#1F2227</Color>
       <Color x:Key="AxCodeTagColor">#0033B3</Color>
       <Color x:Key="AxCodeAttributeColor">#174AD4</Color>
       <Color x:Key="AxCodeStringColor">#067D17</Color>
       <Color x:Key="AxCodeCommentColor">#686B71</Color>
+      <Color x:Key="AxCodeExtensionColor">#9C4E05</Color>
+      <Color x:Key="AxCodePrefixColor">#871094</Color>
+      <Color x:Key="AxCodeDirectiveColor">#00627A</Color>
+      <Color x:Key="AxCodeErrorColor">#C4182A</Color>
+      <!--
+          Отметка просмотра кода — элемент, выбранный хозяином: тихая заливка под текстом, отличимая
+          от основного фона, и акцентная метка у края строк; одной заливкой отметка не держится.
+      -->
+      <Color x:Key="AxCodeHighlightFillColor">#E9EFFB</Color>
       <!--
           Разница строк: добавленное, удалённое и переписанное — фоном строки. Основной текст
           держит на них 7:1, номер строки третичным — 3:1, и от панели фон отличим.
@@ -354,6 +383,11 @@
       <SolidColorBrush x:Key="AxCodeAttributeBrush" Color="{StaticResource AxCodeAttributeColor}"/>
       <SolidColorBrush x:Key="AxCodeStringBrush" Color="{StaticResource AxCodeStringColor}"/>
       <SolidColorBrush x:Key="AxCodeCommentBrush" Color="{StaticResource AxCodeCommentColor}"/>
+      <SolidColorBrush x:Key="AxCodeExtensionBrush" Color="{StaticResource AxCodeExtensionColor}"/>
+      <SolidColorBrush x:Key="AxCodePrefixBrush" Color="{StaticResource AxCodePrefixColor}"/>
+      <SolidColorBrush x:Key="AxCodeDirectiveBrush" Color="{StaticResource AxCodeDirectiveColor}"/>
+      <SolidColorBrush x:Key="AxCodeErrorBrush" Color="{StaticResource AxCodeErrorColor}"/>
+      <SolidColorBrush x:Key="AxCodeHighlightFillBrush" Color="{StaticResource AxCodeHighlightFillColor}"/>
       <SolidColorBrush x:Key="AxDiffAddedFillBrush" Color="{StaticResource AxDiffAddedFillColor}"/>
       <SolidColorBrush x:Key="AxDiffRemovedFillBrush" Color="{StaticResource AxDiffRemovedFillColor}"/>
       <SolidColorBrush x:Key="AxDiffChangedFillBrush" Color="{StaticResource AxDiffChangedFillColor}"/>

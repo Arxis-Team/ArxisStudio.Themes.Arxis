@@ -52,6 +52,7 @@ public class ControlThemeLintTests
         { typeof(AxSplitter), [":pointerover", ":pressed", ":disabled", ":focus-visible"] },
         { typeof(AxGroupHeader), [":pointerover", ":disabled", ":focus-visible"] },
         { typeof(AxBreadcrumbItem), [":pointerover", ":pressed", ":disabled", ":focus-visible"] },
+        { typeof(AxCodeView), [":selection-active", ":disabled"] },
     };
 
     /// <summary>

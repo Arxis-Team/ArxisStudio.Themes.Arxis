@@ -42,6 +42,10 @@ public class ContrastTests
     /// <summary>Заливки сообщений: на них пишут и основным текстом, и ссылкой.</summary>
     private static readonly string[] MessageFills = ["InfoFill", "SuccessFill", "WarningFill", "ErrorFill"];
 
+    /// <summary>Текст кода и роли его разбора.</summary>
+    private static readonly string[] CodeRoles =
+        ["CodeText", "CodeTag", "CodeAttribute", "CodeString", "CodeComment", "CodeExtension", "CodePrefix", "CodeDirective", "CodeError"];
+
     /// <summary>
     /// Основной текст: 11:1 на основном фоне и панели, 7:1 на любой плашке.
     /// </summary>
@@ -237,12 +241,54 @@ public class ContrastTests
         AtLeast(Readable, "TextOnAccent", "MonogramOrange", "MonogramGreen", "MonogramPurple", "MonogramRed");
     }
 
-    /// <summary>Подсветка кода читается на утопленной полосе блока кода.</summary>
+    /// <summary>
+    /// Подсветка кода читается на утопленной полосе блока, на основном фоне просмотра и на заливке его
+    /// отметки.
+    /// </summary>
+    /// <remarks>
+    /// Отметка — элемент, выбранный на холсте, — стоит под текстом, пока его читают: заливка, на которой
+    /// роль падала бы ниже порога, прятала бы ровно то, что человек выбрал, чтобы прочесть.
+    /// </remarks>
     [AvaloniaFact]
-    public void Code_reads_on_its_block()
+    public void Code_reads_on_its_block_its_view_and_its_highlight()
     {
-        foreach (var role in new[] { "CodeText", "CodeTag", "CodeAttribute", "CodeString", "CodeComment" })
-            AtLeast(Readable, role, "SurfaceSunken");
+        foreach (var role in CodeRoles)
+            AtLeast(Readable, role, "SurfaceSunken", "SurfaceBase", "CodeHighlightFill");
+    }
+
+    /// <summary>
+    /// Под выделением код хотя бы различим.
+    /// </summary>
+    /// <remarks>
+    /// Выделение — плашка, взятая у строк списка, и держит его заливка от 1,3:1 к панели: подсветка
+    /// на ней теряет запас, как в любом редакторе. Порог — тот, что у третичного текста на выделении:
+    /// выделенное копируют, а не читают подолгу.
+    /// </remarks>
+    [AvaloniaFact]
+    public void Code_stays_distinct_under_a_selection()
+    {
+        foreach (var role in CodeRoles)
+            AtLeast(Visible, role, "SelectionActive", "SelectionInactive");
+    }
+
+    /// <summary>
+    /// Заливка отметки отличима от документа, а каретка видна и на ней.
+    /// </summary>
+    /// <remarks>
+    /// Заливка тихая — подсветка обязана читаться на ней, — но не неотличимая: порог тот же, что у
+    /// фона строки разницы к панели. Место отметки по строкам держит её метка у края текста.
+    /// </remarks>
+    [AvaloniaFact]
+    public void The_highlight_fill_stands_apart_from_the_document()
+    {
+        foreach (var variant in Variants)
+        {
+            Assert.True(
+                Ratio("CodeHighlightFill", "SurfaceBase", variant) >= 1.15d,
+                $"CodeHighlightFill [{variant}] неотличим от документа: {Ratio("CodeHighlightFill", "SurfaceBase", variant):F2}:1");
+        }
+
+        AtLeast(Visible, "Accent", "CodeHighlightFill");
     }
 
     /// <summary>

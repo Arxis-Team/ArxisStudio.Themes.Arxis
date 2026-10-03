@@ -81,6 +81,8 @@ public class MetricsScaleTests
         // Метка выбранной строки: толщина и длина.
         "AxRowMarkerWidth",
         "AxRowMarkerHeight",
+        // Каретка просмотра кода.
+        "AxCaretWidth",
     ];
 
     [AvaloniaTheory]
