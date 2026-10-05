@@ -76,6 +76,21 @@ public class ContrastTests
             [.. Surfaces, "Hover", "SelectionActive", "SelectionInactive", "ToolTipFill", .. MessageFills]);
 
     /// <summary>
+    /// На утопленной подложке читаются второстепенный текст и ссылка.
+    /// </summary>
+    /// <remarks>
+    /// Утопленная подложка — холст дизайнера, и над каждой формой доски на ней стоит её имя:
+    /// второстепенным текстом, а у выбранной формы — цветом ссылки. Среди поверхностей правила
+    /// второстепенного её нет — текстом на ней пишут только код и эти имена.
+    /// </remarks>
+    [AvaloniaFact]
+    public void Form_names_read_on_the_sunken_canvas()
+    {
+        AtLeast(Readable, "TextSecondary", "SurfaceSunken");
+        AtLeast(Readable, "Link", "SurfaceSunken");
+    }
+
+    /// <summary>
     /// Третичный текст читается на поверхностях и хотя бы различим на плашке.
     /// </summary>
     /// <remarks>
