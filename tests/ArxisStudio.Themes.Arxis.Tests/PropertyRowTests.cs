@@ -97,6 +97,21 @@ public class PropertyRowTests
         second.Close();
     }
 
+    /// <summary>
+    /// Обёртка не прячет наименьшую ширину поля: вектор в рамке — как в барьере, за которым студия ставит поле
+    /// плагина, — уходит под подпись так же, как без неё.
+    /// </summary>
+    [AvaloniaFact]
+    public void A_wrapped_vector_too_narrow_for_two_cells_still_goes_under_its_label()
+    {
+        var width = Token("AxPropertyMarkerWidth") + Token("AxPropertyLabelMinWidth") + Token("AxSpaceTight") + Token("AxVectorFieldMinWidth") - 2;
+        var wrapped = new Border { Child = new Border { Child = new AxVectorField { Labels = ["X", "Y"], Values = [0, 0] } } };
+        var (row, window) = Shown(width, wrapped);
+
+        Assert.True(Panel(row).IsStacked, "вектор в обёртке остался рядом с подписью, где ему не встать двумя ячейками");
+        window.Close();
+    }
+
     /// <summary>Задано здесь — полоса акцента у края и полужирная подпись; иначе полосы нет.</summary>
     [AvaloniaFact]
     public void Overridden_shows_the_accent_bar_and_a_bold_label()
