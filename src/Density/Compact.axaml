@@ -76,6 +76,7 @@
 
   <!-- Направленные и парные зазоры: величина — из своей ступени. -->
   <Thickness x:Key="AxSpaceSnugTrailingThickness">0,0,4,0</Thickness>
+  <Thickness x:Key="AxSpaceTightTrailingThickness">0,0,2,0</Thickness>
   <Thickness x:Key="AxSpaceLeadingThickness">6,0,0,0</Thickness>
   <Thickness x:Key="AxSpaceTightAboveThickness">0,2,0,0</Thickness>
   <Thickness x:Key="AxSpaceWideLeadingThickness">8,0,0,0</Thickness>

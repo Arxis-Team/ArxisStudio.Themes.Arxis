@@ -71,6 +71,7 @@
       знают, и зазор приходится вешать полем на соседа.
   -->
   <Thickness x:Key="AxSpaceSnugTrailingThickness">0,0,6,0</Thickness>
+  <Thickness x:Key="AxSpaceTightTrailingThickness">0,0,4,0</Thickness>
   <Thickness x:Key="AxSpaceLeadingThickness">8,0,0,0</Thickness>
   <Thickness x:Key="AxSpaceTightAboveThickness">0,4,0,0</Thickness>
   <Thickness x:Key="AxSpaceWideLeadingThickness">12,0,0,0</Thickness>

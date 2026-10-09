@@ -16,5 +16,8 @@
   <x:String x:Key="AxTextDialogClose">Close</x:String>
   <x:String x:Key="AxTextTabOverflow">More tabs</x:String>
   <x:String x:Key="AxTextBreadcrumbOverflow">Earlier path segments</x:String>
+  <x:String x:Key="AxTextChipRemove">Remove</x:String>
+  <x:String x:Key="AxTextVectorLink">Same value for all</x:String>
+  <x:String x:Key="AxTextMixedValues">Different values</x:String>
 
 </ResourceDictionary>

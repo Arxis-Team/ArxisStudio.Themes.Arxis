@@ -30,7 +30,9 @@ public class ControlThemeLintTests
     /// <remarks>
     /// Нажатие спрашивается там, где нажимают сам контрол: кнопка, флажок, переключатель, поле
     /// выбора. У строки списка и пункта меню его нет — строку выбирают, и выбор виден выделением,
-    /// а не вдавленностью; у поля ввода тоже: в него ставят каретку.
+    /// а не вдавленностью; у поля ввода тоже: в него ставят каретку. Подпись числа не нажимают, а
+    /// тянут — у неё «можно тянуть» и «тянут»; поле жетонов в фокусе не бывает — каретка стоит в его
+    /// строке ввода, — и пишет оно об этом своим <c>:editing</c>.
     /// </remarks>
     public static TheoryData<Type, string[]> Interactive => new()
     {
@@ -53,6 +55,9 @@ public class ControlThemeLintTests
         { typeof(AxGroupHeader), [":pointerover", ":disabled", ":focus-visible"] },
         { typeof(AxBreadcrumbItem), [":pointerover", ":pressed", ":disabled", ":focus-visible"] },
         { typeof(AxCodeView), [":selection-active", ":disabled"] },
+        { typeof(AxNumberField), [":pointerover", ":focus", ":disabled", ":mixed"] },
+        { typeof(AxScrubLabel), [":scrubbable", ":scrubbing", ":disabled"] },
+        { typeof(AxTokenField), [":pointerover", ":editing", ":disabled"] },
     };
 
     /// <summary>
@@ -94,6 +99,9 @@ public class ControlThemeLintTests
         { typeof(AxGroupHeader), ":focus-visible" },
         { typeof(AxBreadcrumbItem), ":focus-visible" },
         { typeof(AxTextBox), ":focus" },
+        { typeof(AxNumberField), ":focus" },
+        { typeof(AxTokenField), ":editing" },
+        { typeof(AxChip), ":focus-visible" },
     };
 
     /// <summary>У интерактивного контрола объявлено каждое его состояние.</summary>

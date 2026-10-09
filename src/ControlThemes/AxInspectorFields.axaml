@@ -1,0 +1,264 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
+
+  <!--
+      Поля инспектора: подпись, которую тянут, число, вектор, строка свойства, жетоны. Плотность у них
+      одна — тесная: строки инспектора стоят так же густо, как в Unity и Rider, и поля в них берут
+      AxControlHeightCompact.
+  -->
+
+  <!--
+      Подпись, которую тянут: вторичный тон — подпись ячейки вектора («X», «L») говорит тише числа.
+      Строка свойства перекрашивает свою подпись сама. Курсор — стрелки влево и вправо, пока подписью
+      можно тянуть и пока тянут: так и только так видно, что подпись — ручка, а не текст. Сокращённая
+      подпись читается целиком подсказкой.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxScrubLabel}" TargetType="ax:AxScrubLabel">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="ToolTip.Tip" Value=""/>
+    <Setter Property="ax:AxTrimmedTip.IsEnabled" Value="True"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ContentPresenter x:Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          Padding="{TemplateBinding Padding}"
+                          Content="{TemplateBinding Content}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                          TextTrimming="CharacterEllipsis"/>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:scrubbable">
+      <Setter Property="Cursor" Value="SizeWestEast"/>
+    </Style>
+    <Style Selector="^:scrubbing">
+      <Setter Property="Cursor" Value="SizeWestEast"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
+    </Style>
+  </ControlTheme>
+
+  <!--
+      Числовое поле — то же поле ввода. Разные значения у выбранных — прочерк на месте подсказки и
+      «Разные значения» подсказкой: пустое поле без прочерка читалось бы нулём, которого нет.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxNumberField}" TargetType="ax:AxNumberField"
+                BasedOn="{StaticResource {x:Type ax:AxTextBox}}">
+    <Style Selector="^:mixed /template/ TextBlock#PART_Watermark">
+      <Setter Property="Text" Value="—"/>
+    </Style>
+    <Style Selector="^:mixed">
+      <Setter Property="ToolTip.Tip" Value="{DynamicResource AxTextMixedValues}"/>
+    </Style>
+  </ControlTheme>
+
+  <!--
+      Поле вектора: ячейки — числовые поля с подписью внутри, «L 4», как у Unity и Figma, и поля в них
+      теснее обычного: подпись уже стоит отступом. Не уже двух ячеек в ряд — уже строка уводит вектор
+      под свою подпись. Переключатель связи — иконочная кнопка после ячеек, а не перед ними: ячейки
+      начинаются там же, где поля соседних строк, а включённый переключатель правит все составляющие
+      разом. В тесной строке он квадрат её высоты.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxVectorField}" TargetType="ax:AxVectorField">
+    <Setter Property="ClipToBounds" Value="False"/>
+    <Setter Property="MinWidth" Value="{DynamicResource AxVectorFieldMinWidth}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <DockPanel HorizontalSpacing="{DynamicResource AxSpaceTight}">
+          <DockPanel.Styles>
+            <Style Selector="ax|AxNumberField">
+              <Setter Property="Padding" Value="{DynamicResource AxSpaceTightSidesThickness}"/>
+            </Style>
+            <Style Selector="ax|AxNumberField ax|AxScrubLabel">
+              <Setter Property="Padding" Value="{DynamicResource AxSpaceTightTrailingThickness}"/>
+            </Style>
+          </DockPanel.Styles>
+          <ax:AxToggleButton x:Name="PART_Link"
+                             DockPanel.Dock="Right"
+                             Appearance="Toolbar"
+                             VerticalAlignment="Top"
+                             IsVisible="{TemplateBinding CanLink}"
+                             IsEnabled="{TemplateBinding IsReadOnly, Converter={x:Static BoolConverters.Not}}"
+                             IsChecked="{TemplateBinding IsLinked, Mode=TwoWay}"
+                             AutomationProperties.Name="{DynamicResource AxTextVectorLink}"
+                             ToolTip.Tip="{DynamicResource AxTextVectorLink}">
+            <ax:AxIcon Data="{x:Static ax:AxIcons.Link}"/>
+          </ax:AxToggleButton>
+          <ax:AxVectorPanel x:Name="PART_Cells"
+                            CellMinWidth="{DynamicResource AxVectorCellMinWidth}"
+                            Spacing="{DynamicResource AxSpaceTight}"/>
+        </DockPanel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:compact /template/ ax|AxToggleButton#PART_Link">
+      <Setter Property="Width" Value="{DynamicResource AxControlHeightCompact}"/>
+      <Setter Property="Height" Value="{DynamicResource AxControlHeightCompact}"/>
+    </Style>
+  </ControlTheme>
+
+  <!--
+      Строка свойства. Подпись — колонкой по правилу Unity (AxPropertyRowPanel), высотой в тесное поле
+      и по его первой строке: у многострочного поля подпись стоит наверху, а не посередине. Задано здесь
+      — полоса акцента у края и полужирная подпись, как у переопределённого в префабе Unity; только
+      чтение — подпись вторичным тоном, а само поле — выделяемым текстом. Заметка под полем мельче и
+      вторичная, а у строки с ошибкой (AxValidation.State) — цветом ошибки: почему значение не годится,
+      человек читает там же, где его набрал.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxPropertyRow}" TargetType="ax:AxPropertyRow">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                Padding="{TemplateBinding Padding}">
+          <ax:AxPropertyRowPanel x:Name="PART_Panel"
+                                 Layout="{TemplateBinding Layout}"
+                                 Indent="{TemplateBinding Indent}"
+                                 LabelInset="{DynamicResource AxPropertyLabelInset}"
+                                 LabelMinWidth="{DynamicResource AxPropertyLabelMinWidth}"
+                                 ValueMinWidth="{DynamicResource AxPropertyValueMinWidth}"
+                                 IndentStep="{DynamicResource AxTreeIndent}"
+                                 Spacing="{DynamicResource AxSpaceTight}">
+            <Border x:Name="PART_Marker"
+                    ax:AxPropertyRowPanel.Part="Marker"
+                    Width="{DynamicResource AxPropertyMarkerWidth}"
+                    Background="Transparent"/>
+            <ax:AxScrubLabel x:Name="PART_Label"
+                             ax:AxPropertyRowPanel.Part="Label"
+                             Content="{TemplateBinding Label}"
+                             Target="{TemplateBinding ScrubTarget}"
+                             Foreground="{TemplateBinding Foreground}"
+                             MinHeight="{DynamicResource AxControlHeightCompact}"
+                             VerticalAlignment="Top"/>
+            <ContentPresenter x:Name="PART_ContentPresenter"
+                              ax:AxPropertyRowPanel.Part="Value"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="Top"/>
+            <ContentPresenter x:Name="PART_Actions"
+                              ax:AxPropertyRowPanel.Part="Actions"
+                              Content="{TemplateBinding Actions}"
+                              MinHeight="{DynamicResource AxControlHeightCompact}"
+                              VerticalAlignment="Top"
+                              VerticalContentAlignment="Center"
+                              IsVisible="{TemplateBinding Actions, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+            <ContentPresenter x:Name="PART_Note"
+                              ax:AxPropertyRowPanel.Part="Note"
+                              Content="{TemplateBinding Note}"
+                              Margin="{DynamicResource AxSpaceHairAboveThickness}"
+                              Foreground="{DynamicResource AxTextSecondaryBrush}"
+                              FontSize="{DynamicResource AxFontSizeSmall}"
+                              TextWrapping="Wrap"
+                              IsVisible="{TemplateBinding Note, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+          </ax:AxPropertyRowPanel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:overridden /template/ Border#PART_Marker">
+      <Setter Property="Background" Value="{DynamicResource AxAccentBrush}"/>
+    </Style>
+    <Style Selector="^:overridden /template/ ax|AxScrubLabel#PART_Label">
+      <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+    <Style Selector="^:readonly">
+      <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
+    </Style>
+    <Style Selector="^:full /template/ ax|AxScrubLabel#PART_Label">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="^:validation-warning /template/ ContentPresenter#PART_Note">
+      <Setter Property="Foreground" Value="{DynamicResource AxWarningTextBrush}"/>
+    </Style>
+    <Style Selector="^:validation-error /template/ ContentPresenter#PART_Note">
+      <Setter Property="Foreground" Value="{DynamicResource AxErrorTextBrush}"/>
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
+    </Style>
+  </ControlTheme>
+
+  <!--
+      Поле жетонов: та же рамка, что у поля ввода, а внутри — чипы и строка ввода за ними одним
+      потоком. Каретка в строке — рамка и кольцо поля целиком: человек пишет в поле, а не в строку
+      внутри него. Подсказка видна, пока жетонов нет: рядом с ними она читалась бы ещё одним.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxTokenField}" TargetType="ax:AxTokenField">
+    <!-- Не обрезаем себя: кольцо фокуса выходит за границы контрола. -->
+    <Setter Property="ClipToBounds" Value="False"/>
+    <Setter Property="MinHeight" Value="{DynamicResource AxControlHeight}"/>
+    <Setter Property="Padding" Value="{DynamicResource AxSpaceHairThickness}"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
+    <Setter Property="Background" Value="{DynamicResource AxSurfaceBaseBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineThickness}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <t:AxFocusRing x:Name="PART_FocusRing"/>
+          <Border x:Name="PART_BorderElement"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="{TemplateBinding Padding}">
+            <WrapPanel x:Name="PART_Tokens"
+                       VerticalAlignment="Center"
+                       ItemSpacing="{DynamicResource AxSpaceTight}"
+                       LineSpacing="{DynamicResource AxSpaceHair}">
+              <ax:AxTextBox x:Name="PART_Input"
+                            Theme="{StaticResource AxInlineTextBox}"
+                            MinWidth="{DynamicResource AxTokenInputMinWidth}"
+                            MinHeight="0"
+                            Margin="{DynamicResource AxSpaceTightSidesThickness}"
+                            VerticalAlignment="Center"
+                            IsVisible="{TemplateBinding IsReadOnly, Converter={x:Static BoolConverters.Not}}"/>
+            </WrapPanel>
+          </Border>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:empty /template/ ax|AxTextBox#PART_Input">
+      <Setter Property="PlaceholderText"
+              Value="{Binding PlaceholderText, RelativeSource={RelativeSource TemplatedParent}}"/>
+    </Style>
+    <Style Selector="^:pointerover /template/ Border#PART_BorderElement">
+      <Setter Property="BorderBrush" Value="{DynamicResource AxTextTertiaryBrush}"/>
+    </Style>
+    <Style Selector="^:editing /template/ Border#PART_BorderElement">
+      <Setter Property="BorderBrush" Value="{DynamicResource AxFocusRingBrush}"/>
+    </Style>
+    <Style Selector="^:editing /template/ t|AxFocusRing#PART_FocusRing">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:readonly /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="BorderBrush" Value="Transparent"/>
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
+    </Style>
+    <Style Selector="^:disabled /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="{DynamicResource AxFillDisabledBrush}"/>
+    </Style>
+    <Style Selector="^:compact">
+      <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
+    </Style>
+  </ControlTheme>
+
+</ResourceDictionary>

@@ -69,6 +69,7 @@ public class SpacingTokenTests
     private static readonly (string Key, double Left, double Top, double Right, double Bottom)[] Directed =
     [
         ("AxSpaceSnugTrailingThickness", 0, 0, 6, 0),
+        ("AxSpaceTightTrailingThickness", 0, 0, 4, 0),
         ("AxSpaceLeadingThickness", 8, 0, 0, 0),
         ("AxSpaceTightAboveThickness", 0, 4, 0, 0),
         ("AxSpaceWideLeadingThickness", 12, 0, 0, 0),
