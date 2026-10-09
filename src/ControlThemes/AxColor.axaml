@@ -1,0 +1,221 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
+                    xmlns:t="using:ArxisStudio.Themes.Arxis">
+
+  <!--
+      Выбор цвета: спектр, ползунок канала, сам выбор и поле цвета. Цвета градиентов — данные модели HSV, их
+      ставят контролы; тема даёт рамки, скругления, ручку, шахматку под прозрачным и карточку попапа.
+  -->
+
+  <!--
+      Ручка спектра и ползунка — белое кольцо в тёмной кайме: видна на любом цвете, от белого до чёрного. В
+      самой ручке цвета нет — смотрят сквозь неё, на то место, куда она указала.
+  -->
+  <ControlTheme x:Key="AxColorThumb" TargetType="Border">
+    <Setter Property="Width" Value="{DynamicResource AxSliderThumbSize}"/>
+    <Setter Property="Height" Value="{DynamicResource AxSliderThumbSize}"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusPill}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxColorThumbOutlineBrush}"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineThickness}"/>
+    <Setter Property="IsHitTestVisible" Value="False"/>
+    <Setter Property="Child">
+      <Template>
+        <Border CornerRadius="{DynamicResource AxCornerRadiusPill}"
+                BorderBrush="{DynamicResource AxColorThumbBrush}"
+                BorderThickness="{DynamicResource AxFocusOutlineThickness}"/>
+      </Template>
+    </Setter>
+  </ControlTheme>
+
+  <!--
+      Спектр: насыщенность слева направо, яркость сверху вниз — два градиента, обрезанных скруглением. Рамка
+      в волос поверх них, а с клавиатуры она красится цветом кольца и вместе с кольцом даёт контур в два, как у
+      поля ввода. Выключенный спектр закрыт заливкой выключенного: цвета на нём уже не выбрать.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxColorSpectrum}" TargetType="ax:AxColorSpectrum">
+    <!-- Не обрезаем себя: ручка у края и кольцо фокуса выходят за границы. -->
+    <Setter Property="ClipToBounds" Value="False"/>
+    <Setter Property="Height" Value="{DynamicResource AxColorSpectrumHeight}"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeSubtleBrush}"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineThickness}"/>
+    <Setter Property="AutomationProperties.Name" Value="{DynamicResource AxTextColorSpectrum}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <t:AxFocusRing x:Name="PART_FocusRing"/>
+          <Border CornerRadius="{TemplateBinding CornerRadius}" ClipToBounds="True">
+            <Panel>
+              <Border x:Name="PART_Saturation"/>
+              <Border x:Name="PART_Shade"/>
+              <Border x:Name="PART_Disabled" Background="{DynamicResource AxFillDisabledBrush}" IsVisible="False"/>
+            </Panel>
+          </Border>
+          <Border x:Name="PART_Frame"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  IsHitTestVisible="False"/>
+          <Canvas IsHitTestVisible="False">
+            <Border x:Name="PART_Thumb" Theme="{StaticResource AxColorThumb}"/>
+          </Canvas>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ Border#PART_Frame">
+      <Setter Property="BorderBrush" Value="{DynamicResource AxFocusRingBrush}"/>
+    </Style>
+    <Style Selector="^:disabled /template/ Border#PART_Disabled">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:disabled /template/ Border#PART_Thumb">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+  </ControlTheme>
+
+  <!--
+      Ползунок канала: дорожка-пилюля под ручкой, градиент канала по ней, а у непрозрачности под градиентом —
+      шахматка (:alpha), иначе прозрачный конец не отличить от фона. Кольцо — вокруг строки, как у ползунка.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxColorSlider}" TargetType="ax:AxColorSlider">
+    <!-- Не обрезаем себя: ручка у края и кольцо фокуса выходят за границы. -->
+    <Setter Property="ClipToBounds" Value="False"/>
+    <Setter Property="Height" Value="{DynamicResource AxSliderThumbSize}"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusPill}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <t:AxFocusRing x:Name="PART_FocusRing" Placement="Row"/>
+          <Border Height="{DynamicResource AxColorTrackHeight}"
+                  VerticalAlignment="Center"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  ClipToBounds="True">
+            <Panel>
+              <Border x:Name="PART_Checker" Background="{DynamicResource AxCheckerPattern}" IsVisible="False"/>
+              <Border x:Name="PART_Gradient"/>
+              <Border x:Name="PART_Disabled" Background="{DynamicResource AxFillDisabledBrush}" IsVisible="False"/>
+            </Panel>
+          </Border>
+          <Canvas IsHitTestVisible="False">
+            <Border x:Name="PART_Thumb" Theme="{StaticResource AxColorThumb}"/>
+          </Canvas>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:alpha /template/ Border#PART_Checker">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:disabled /template/ Border#PART_Disabled">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:disabled /template/ Border#PART_Thumb">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+  </ControlTheme>
+
+  <!--
+      Выбор цвета: спектр, оттенок, непрозрачность, запись и каналы — столбцом. Запись — моноширинным: это
+      значение, а не подпись, и цифры в нём стоят одной колонкой.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxColorPicker}" TargetType="ax:AxColorPicker">
+    <Setter Property="ClipToBounds" Value="False"/>
+    <Setter Property="Width" Value="{DynamicResource AxColorPickerWidth}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <StackPanel Spacing="{DynamicResource AxSpace}">
+          <ax:AxColorSpectrum x:Name="PART_Spectrum"/>
+          <ax:AxColorSlider x:Name="PART_Hue"
+                            Channel="Hue"
+                            AutomationProperties.Name="{DynamicResource AxTextColorHue}"/>
+          <ax:AxColorSlider x:Name="PART_Alpha"
+                            Channel="Alpha"
+                            IsVisible="{TemplateBinding AllowsAlpha}"
+                            AutomationProperties.Name="{DynamicResource AxTextColorAlpha}"/>
+          <ax:AxTextBox x:Name="PART_Hex"
+                        Size="Compact"
+                        FontFamily="{DynamicResource AxFontFamilyMono}"
+                        AutomationProperties.Name="{DynamicResource AxTextColorCode}"/>
+          <ax:AxVectorField x:Name="PART_Channels" Size="Compact"/>
+        </StackPanel>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <!--
+      Поле цвета — поле ввода с образцом внутри слева: образец — кнопка, которая открывает выбор, а запись —
+      моноширинная, как в выборе. Образец стоит в клетке значка на шахматке: прозрачный цвет видно, а у разных
+      значений он пуст. Выбор открывается карточкой под полем — той же, что у выпадающего меню, с тенью в своём
+      поле.
+
+      Образец лежит содержимым поля ввода (InnerLeftContent), а такому содержимому Avalonia шаблонного
+      родителя не ставит, и TemplateBinding там пуст: значения поля образец берёт у предка, как крестик поля
+      поиска — у своей кнопки. Выбору в попапе прозрачность и цвет ставит само поле, когда его открывает.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxColorField}" TargetType="ax:AxColorField">
+    <Setter Property="ClipToBounds" Value="False"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <ax:AxTextBox x:Name="PART_Text"
+                        Size="{TemplateBinding Size}"
+                        IsReadOnly="{TemplateBinding IsReadOnly}"
+                        FontFamily="{DynamicResource AxFontFamilyMono}"
+                        AutomationProperties.Name="{DynamicResource AxTextColorCode}">
+            <ax:AxTextBox.InnerLeftContent>
+              <ax:AxButton x:Name="PART_Swatch"
+                           Theme="{StaticResource AxInlineIconButton}"
+                           Margin="{DynamicResource AxSpaceTightTrailingThickness}"
+                           IsEnabled="{Binding $parent[ax:AxColorField].IsReadOnly, Converter={x:Static BoolConverters.Not}}"
+                           AutomationProperties.Name="{DynamicResource AxTextColorChoose}"
+                           ToolTip.Tip="{DynamicResource AxTextColorChoose}">
+                <Panel Width="{DynamicResource AxIconSize}" Height="{DynamicResource AxIconSize}">
+                  <Border Background="{DynamicResource AxCheckerPattern}"
+                          CornerRadius="{DynamicResource AxCornerRadiusSmall}"/>
+                  <Border Background="{Binding $parent[ax:AxColorField].SwatchBrush}"
+                          BorderBrush="{DynamicResource AxStrokeControlBrush}"
+                          BorderThickness="{DynamicResource AxHairlineThickness}"
+                          CornerRadius="{DynamicResource AxCornerRadiusSmall}"/>
+                </Panel>
+              </ax:AxButton>
+            </ax:AxTextBox.InnerLeftContent>
+          </ax:AxTextBox>
+          <Popup x:Name="PART_Popup"
+                 IsOpen="{TemplateBinding IsPickerOpen, Mode=TwoWay}"
+                 PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
+                 Placement="BottomEdgeAlignedLeft"
+                 HorizontalOffset="{DynamicResource AxColorPopupHorizontalOffset}"
+                 VerticalOffset="{DynamicResource AxColorPopupVerticalOffset}"
+                 IsLightDismissEnabled="True">
+            <Border Background="{DynamicResource AxSurfaceOverlayBrush}"
+                    BorderBrush="{DynamicResource AxStrokeControlBrush}"
+                    BorderThickness="{DynamicResource AxHairlineThickness}"
+                    CornerRadius="{DynamicResource AxCornerRadiusLarge}"
+                    BoxShadow="{DynamicResource AxShadowPopup}"
+                    Padding="{DynamicResource AxSpaceWideThickness}"
+                    Margin="{DynamicResource AxPopupShadowRoom}">
+              <ax:AxColorPicker x:Name="PART_Picker"/>
+            </Border>
+          </Popup>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+
+    <!-- Разные значения: запись пуста, на месте подсказки — прочерк, а подсказка говорит почему. -->
+    <Style Selector="^:mixed /template/ ax|AxTextBox#PART_Text">
+      <Setter Property="PlaceholderText" Value="—"/>
+    </Style>
+    <Style Selector="^:mixed">
+      <Setter Property="ToolTip.Tip" Value="{DynamicResource AxTextMixedValues}"/>
+    </Style>
+  </ControlTheme>
+
+</ResourceDictionary>

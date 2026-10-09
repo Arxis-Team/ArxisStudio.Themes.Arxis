@@ -476,6 +476,17 @@
   <x:Double x:Key="AxVectorFieldMinWidth">116</x:Double>
   <x:Double x:Key="AxTokenInputMinWidth">48</x:Double>
   <!--
+      Выбор цвета: карточка шириной AxColorPickerWidth, спектр высотой AxColorSpectrumHeight, дорожка канала
+      AxColorTrackHeight под ручкой ползунка (AxSliderThumbSize). Карточка встаёт под полем цвета: попап стоит
+      в поле под тень (AxPopupShadowRoom, 16 × 20), и сдвиг возвращает её к полю — вровень слева и с зазором
+      в четыре снизу.
+  -->
+  <x:Double x:Key="AxColorPickerWidth">240</x:Double>
+  <x:Double x:Key="AxColorSpectrumHeight">160</x:Double>
+  <x:Double x:Key="AxColorTrackHeight">10</x:Double>
+  <x:Double x:Key="AxColorPopupHorizontalOffset">-16</x:Double>
+  <x:Double x:Key="AxColorPopupVerticalOffset">-16</x:Double>
+  <!--
       Страница плагинов делится на список и подробности границей, которую тянут. Уже этого колонка
       не становится: в списке остаётся плитка значка, имя и флажок, в подробностях — строка
       кнопок плагина.

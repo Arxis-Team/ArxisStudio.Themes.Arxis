@@ -58,6 +58,8 @@ public class ControlThemeLintTests
         { typeof(AxNumberField), [":pointerover", ":focus", ":disabled", ":mixed"] },
         { typeof(AxScrubLabel), [":scrubbable", ":scrubbing", ":disabled"] },
         { typeof(AxTokenField), [":pointerover", ":editing", ":disabled"] },
+        { typeof(AxColorSpectrum), [":focus-visible", ":disabled"] },
+        { typeof(AxColorSlider), [":focus-visible", ":disabled"] },
     };
 
     /// <summary>
@@ -102,6 +104,8 @@ public class ControlThemeLintTests
         { typeof(AxNumberField), ":focus" },
         { typeof(AxTokenField), ":editing" },
         { typeof(AxChip), ":focus-visible" },
+        { typeof(AxColorSpectrum), ":focus-visible" },
+        { typeof(AxColorSlider), ":focus-visible" },
     };
 
     /// <summary>У интерактивного контрола объявлено каждое его состояние.</summary>

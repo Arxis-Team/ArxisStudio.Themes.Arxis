@@ -19,5 +19,10 @@
   <x:String x:Key="AxTextChipRemove">Remove</x:String>
   <x:String x:Key="AxTextVectorLink">Same value for all</x:String>
   <x:String x:Key="AxTextMixedValues">Different values</x:String>
+  <x:String x:Key="AxTextColorChoose">Choose color</x:String>
+  <x:String x:Key="AxTextColorSpectrum">Saturation and brightness</x:String>
+  <x:String x:Key="AxTextColorHue">Hue</x:String>
+  <x:String x:Key="AxTextColorAlpha">Opacity</x:String>
+  <x:String x:Key="AxTextColorCode">Color code</x:String>
 
 </ResourceDictionary>

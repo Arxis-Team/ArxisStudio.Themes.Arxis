@@ -27,6 +27,7 @@
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxButton.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxTextBox.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxInspectorFields.axaml"/>
+        <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxColor.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxCheckBox.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxToggleSwitch.axaml"/>
         <ResourceInclude Source="avares://ArxisStudio.Themes.Arxis/ControlThemes/AxComboBox.axaml"/>
@@ -70,7 +71,7 @@
       дерева, а подсказку носят немногие — контролы с подписью, вкладка, значок и текст, которому
       её даёт AxTrimmedTip.
   -->
-  <Style Selector="ax|AxButton, ax|AxToggleButton, ax|AxSplitButton, ax|AxDropDownButton, ax|AxComboBox, ax|AxCheckBox, ax|AxToggleSwitch, ax|AxTabItem, ax|AxChip, ax|AxBadge, ax|AxLink, ax|AxIcon, ax|AxScrubLabel, ax|AxNumberField, :is(TextBlock)">
+  <Style Selector="ax|AxButton, ax|AxToggleButton, ax|AxSplitButton, ax|AxDropDownButton, ax|AxComboBox, ax|AxCheckBox, ax|AxToggleSwitch, ax|AxTabItem, ax|AxChip, ax|AxBadge, ax|AxLink, ax|AxIcon, ax|AxScrubLabel, ax|AxNumberField, ax|AxColorField, :is(TextBlock)">
     <Setter Property="(ToolTip.ShowDelay)" Value="{DynamicResource AxToolTipShowDelay}"/>
     <Setter Property="(ToolTip.BetweenShowDelay)" Value="{DynamicResource AxToolTipBetweenShowDelay}"/>
   </Style>
