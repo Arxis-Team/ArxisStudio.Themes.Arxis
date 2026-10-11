@@ -495,6 +495,12 @@
       образца или библиотеки — шириной AxColorPresetNameWidth.
   -->
   <x:Double x:Key="AxColorPresetCellSize">16</x:Double>
+  <!--
+      Строка инспектора, как у Unity: поле AxPropertyFieldHeight, а шаг строки — AxPropertyRowHeight в любой плотности,
+      чтобы плотные строки не сжимали попадание мельче 24.
+  -->
+  <x:Double x:Key="AxPropertyFieldHeight">20</x:Double>
+  <x:Double x:Key="AxPropertyRowHeight">24</x:Double>
   <x:Double x:Key="AxColorPaletteWidth">214</x:Double>
   <x:Double x:Key="AxColorPresetNameWidth">160</x:Double>
   <!--
@@ -578,6 +584,12 @@
       по одному на каждую ориентацию, — потому и здесь, а не в шаблоне.
   -->
   <x:Double x:Key="AxScrollBarLane">12</x:Double>
+  <!--
+      Полоса лежит поверх содержимого списка, и строка оставляет ей место своим правым полем. То, что встаёт во всю
+      ширину строки без её полей, — полоса раздела инспектора — кончается у полосы прокрутки так же, а не уходит под неё:
+      кнопку под полосой не нажать.
+  -->
+  <Thickness x:Key="AxScrollBarLaneTrailingThickness">0,0,12,0</Thickness>
   <x:Double x:Key="AxScrollThumbSize">6</x:Double>
   <x:Double x:Key="AxScrollThumbSizeHover">8</x:Double>
   <!--

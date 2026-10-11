@@ -83,6 +83,21 @@ public class ControlGeometryTests
         Assert.Equal(24d, button.Bounds.Height);
     }
 
+    /// <summary>
+    /// Тесная иконочная кнопка — квадрат тесной высоты: наименьшая ширина тесной кнопки с подписью растянула бы ⋮ в
+    /// полосу.
+    /// </summary>
+    [AvaloniaFact]
+    public void Compact_icon_button_is_a_compact_square()
+    {
+        var button = Shown(new AxButton { Appearance = AxButtonAppearance.Toolbar, Size = AxControlSize.Compact });
+
+        var side = button.TryFindResource("AxControlHeightCompact", out var compact) && compact is double height ? height : double.NaN;
+
+        Assert.Equal(side, button.Bounds.Height);
+        Assert.Equal(side, button.Bounds.Width);
+    }
+
     /// <summary>Поле ввода: 28 высотой, отступы 10, радиус 4.</summary>
     [AvaloniaFact]
     public void Text_box_matches_the_component()

@@ -204,6 +204,61 @@ public class GroupHeaderTests
         window.Close();
     }
 
+    /// <summary>
+    /// Полоса — заголовок компонента у Unity: подложка AxSurfaceRaised во всю ширину с чертой сверху вместо линии,
+    /// высотой не меньше тесного контрола, значок перед именем.
+    /// </summary>
+    [AvaloniaTheory]
+    [InlineData("Light")]
+    [InlineData("Dark")]
+    public void A_band_lays_a_raised_strip_instead_of_the_rule(string variant)
+    {
+        var (header, window) = Shown(collapsible: true, counter: 3, variant: variant);
+
+        header.Appearance = AxGroupHeaderAppearance.Band;
+        header.Icon = AxIcons.Palette;
+        window.UpdateLayout();
+
+        var band = (Border)Part(header, "PART_Band");
+
+        Assert.True(band.IsVisible, "у полосы нет подложки");
+        Assert.Equal(Resource(window, "AxSurfaceRaisedColor", variant), Colour(band.Background));
+        Assert.Equal(new Thickness(0, 1, 0, 0), band.BorderThickness);
+        Assert.False(Part(header, "PART_Rule").IsVisible, "у полосы осталась линия");
+        Assert.True(Part(header, "PART_Icon").IsVisible, "у полосы нет значка");
+        Assert.True(header.Bounds.Height >= (double)window.FindResource("AxControlHeightCompact")!, "полоса ниже тесного контрола");
+        Assert.Equal(band.Bounds.Width, header.Bounds.Width);
+
+        header.Icon = null;
+        window.UpdateLayout();
+
+        Assert.False(Part(header, "PART_Icon").IsVisible, "значок без значка");
+
+        window.Close();
+    }
+
+    /// <summary>Действия хозяина стоят справа, а нажатие по ним группу не сворачивает.</summary>
+    [AvaloniaFact]
+    public void The_actions_stand_on_the_right_and_a_press_on_them_does_not_fold_the_group()
+    {
+        var (header, window) = Shown(collapsible: true);
+        var more = new AxButton { Content = "⋮" };
+
+        header.Appearance = AxGroupHeaderAppearance.Band;
+        header.Actions = more;
+        window.UpdateLayout();
+
+        var right = more.TranslatePoint(new Point(more.Bounds.Width, 0), header)!.Value.X;
+
+        Assert.True(header.Bounds.Width - right < 12, $"действия не у правого края: {right} из {header.Bounds.Width}");
+
+        Click(more, window);
+
+        Assert.True(header.IsExpanded, "нажатие по действию свернуло группу");
+
+        window.Close();
+    }
+
     /// <summary>Щёлкает по середине контрола — так, как это делает человек.</summary>
     private static void Click(Control control, Window window)
     {

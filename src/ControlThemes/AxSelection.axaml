@@ -192,6 +192,10 @@
       подписи. Зазор до линии разный: 10 у обычного, 8 у
       сворачиваемого — там его задаёт общий зазор ряда, в который попадает и
       стрелка.
+
+      Полоса (:band) — заголовок компонента у Unity: вместо линии — подложка
+      AxSurfaceRaised во всю ширину с чертой в волос сверху, высотой
+      AxControlHeightCompact, значок 16 перед именем и действия хозяина справа.
   -->
   <ControlTheme x:Key="{x:Type ax:AxGroupHeader}" TargetType="ax:AxGroupHeader">
     <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
@@ -202,8 +206,13 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Panel Background="{TemplateBinding Background}">
+          <Border x:Name="PART_Band"
+                  Background="{DynamicResource AxSurfaceRaisedBrush}"
+                  BorderBrush="{DynamicResource AxStrokeSubtleBrush}"
+                  BorderThickness="{DynamicResource AxHairlineTopThickness}"
+                  IsVisible="False"/>
           <t:AxFocusRing x:Name="PART_FocusRing" Placement="Row"/>
-          <Grid ColumnDefinitions="Auto,Auto,Auto,*" VerticalAlignment="Center">
+          <Grid x:Name="PART_Row" ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto" VerticalAlignment="Center">
           <!--
               Стрелка мелкая — тот же отдельный класс, что у дерева, и той же
               толщины обводки: на отдельных иконках её не меняют.
@@ -215,14 +224,21 @@
                      Foreground="{DynamicResource AxTextSecondaryBrush}"
                      VerticalAlignment="Center"
                      IsVisible="{TemplateBinding IsCollapsible}"/>
-          <ContentPresenter Grid.Column="1"
+          <ax:AxIcon x:Name="PART_Icon"
+                     Grid.Column="1"
+                     Margin="{DynamicResource AxGapIconTextThickness}"
+                     Data="{TemplateBinding Icon}"
+                     Foreground="{DynamicResource AxTextSecondaryBrush}"
+                     VerticalAlignment="Center"
+                     IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+          <ContentPresenter Grid.Column="2"
                             Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
                             Foreground="{TemplateBinding Foreground}"
                             VerticalAlignment="Center"/>
           <!-- Счётчик: сколько всего в группе. Вторичным текстом и мельче. -->
           <ContentPresenter x:Name="PART_Counter"
-                            Grid.Column="2"
+                            Grid.Column="3"
                             Margin="{DynamicResource AxSpaceLeadingThickness}"
                             Content="{TemplateBinding Counter}"
                             TextBlock.Foreground="{DynamicResource AxTextSecondaryBrush}"
@@ -232,8 +248,14 @@
                             IsVisible="{TemplateBinding Counter, Converter={x:Static ObjectConverters.IsNotNull}}"/>
           <!-- Линия до конца строки — разделитель: пиксель устройства он меряет сам. -->
           <ax:AxDivider x:Name="PART_Rule"
-                        Grid.Column="3"
+                        Grid.Column="4"
                         Margin="{DynamicResource AxGroupRuleMargin}"/>
+          <!-- Действия хозяина справа: нажатие по ним до заголовка не доходит. -->
+          <ContentPresenter x:Name="PART_Actions"
+                            Grid.Column="5"
+                            Content="{TemplateBinding Actions}"
+                            VerticalAlignment="Center"
+                            IsVisible="{TemplateBinding Actions, Converter={x:Static ObjectConverters.IsNotNull}}"/>
           </Grid>
         </Panel>
       </ControlTemplate>
@@ -241,6 +263,18 @@
 
     <Style Selector="^[IsCollapsible=True] /template/ ax|AxDivider#PART_Rule">
       <Setter Property="Margin" Value="{DynamicResource AxGroupRuleMarginCollapsible}"/>
+    </Style>
+    <Style Selector="^:band">
+      <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
+    </Style>
+    <Style Selector="^:band /template/ Border#PART_Band">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:band /template/ ax|AxDivider#PART_Rule">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="^:band /template/ Grid#PART_Row">
+      <Setter Property="Margin" Value="{DynamicResource AxSpaceTightSidesThickness}"/>
     </Style>
     <Style Selector="^[IsExpanded=True] /template/ ax|AxIcon#PART_Chevron">
       <Setter Property="Data" Value="{x:Static ax:AxIcons.ChevronDown}"/>

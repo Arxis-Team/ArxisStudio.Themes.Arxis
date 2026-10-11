@@ -182,6 +182,17 @@
       <Setter Property="MinWidth" Value="0"/>
       <Setter Property="Padding" Value="{DynamicResource AxButtonPaddingGhost}"/>
     </Style>
+    <!--
+        Тесная кнопка под одну иконку — квадрат тесной высоты: ⋮ в полосе раздела, в строке свойства. Наименьшая
+        ширина тесной кнопки с подписью растянула бы её в полосу шире подписи раздела.
+    -->
+    <Style Selector="^:compact:toolbar">
+      <Setter Property="Width" Value="{DynamicResource AxControlHeightCompact}"/>
+      <Setter Property="Height" Value="{DynamicResource AxControlHeightCompact}"/>
+      <Setter Property="MinWidth" Value="0"/>
+      <Setter Property="MinHeight" Value="0"/>
+      <Setter Property="Padding" Value="0"/>
+    </Style>
 
     <!--
         Деструктивная кнопка контурная: красный ТЕКСТ (AxErrorText, 4,5:1), а не

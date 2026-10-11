@@ -37,6 +37,9 @@ public class MetricsScaleTests
         "AxToolbarButtonSize",
         "AxWindowButtonWidth",
         "AxTreeIndent",
+        // Строка инспектора: поле и шаг строки.
+        "AxPropertyFieldHeight",
+        "AxPropertyRowHeight",
     ];
 
     /// <summary>Остальные длины раскладки: ширины, размеры и толщины.</summary>
