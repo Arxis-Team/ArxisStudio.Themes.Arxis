@@ -84,6 +84,9 @@ public class MetricsScaleTests
         "AxRowMarkerHeight",
         // Каретка просмотра кода.
         "AxCaretWidth",
+        // Число в границах: поле рядом с ползунком и наименьшая ширина.
+        "AxRangeFieldNumberWidth",
+        "AxRangeFieldMinWidth",
     ];
 
     [AvaloniaTheory]

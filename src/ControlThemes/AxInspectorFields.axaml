@@ -4,7 +4,7 @@
                     xmlns:t="using:ArxisStudio.Themes.Arxis">
 
   <!--
-      Поля инспектора: подпись, которую тянут, число, вектор, строка свойства, жетоны. Плотность у них
+      Поля инспектора: подпись, которую тянут, число, вектор, число в границах, строка свойства, жетоны. Плотность у них
       одна — тесная: строки инспектора стоят так же густо, как в Unity и Rider, и поля в них берут
       AxControlHeightCompact.
   -->
@@ -103,6 +103,31 @@
       <Setter Property="Width" Value="{DynamicResource AxControlHeightCompact}"/>
       <Setter Property="Height" Value="{DynamicResource AxControlHeightCompact}"/>
     </Style>
+  </ControlTheme>
+
+  <!--
+      Число в границах — Range у Unity: ползунок во всю ширину и поле числа справа шириной AxRangeFieldNumberWidth, в
+      AxSpaceSnug от ползунка. Поле не уже AxRangeFieldMinWidth: дорожке, сжатой до ручки, нечего тянуть. Части контрол
+      заводит сам и кладёт в PART_Host, а вид им дают стили панели; значение, границы, шаг и размер ставит контрол.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxRangeField}" TargetType="ax:AxRangeField">
+    <Setter Property="MinWidth" Value="{DynamicResource AxRangeFieldMinWidth}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <DockPanel x:Name="PART_Host">
+          <DockPanel.Styles>
+            <Style Selector="ax|AxNumberField">
+              <Setter Property="Width" Value="{DynamicResource AxRangeFieldNumberWidth}"/>
+              <Setter Property="Margin" Value="{DynamicResource AxSpaceSnugLeadingThickness}"/>
+              <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style Selector="ax|AxSlider">
+              <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+          </DockPanel.Styles>
+        </DockPanel>
+      </ControlTemplate>
+    </Setter>
   </ControlTheme>
 
   <!--

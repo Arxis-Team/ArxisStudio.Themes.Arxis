@@ -330,21 +330,26 @@
     </Style>
   </ControlTheme>
 
+  <!--
+      Ручка — круг с рамкой акцентом. Рамку круг берёт у ручки (BorderBrush): так ползунок красит ручку, которую
+      тянут, своим состоянием, не заходя в её шаблон.
+  -->
   <ControlTheme x:Key="AxSliderThumb" TargetType="Thumb">
     <Setter Property="Width" Value="{DynamicResource AxSliderThumbSize}"/>
     <Setter Property="Height" Value="{DynamicResource AxSliderThumbSize}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxAccentBrush}"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Ellipse Fill="{DynamicResource AxSurfaceBaseBrush}"
-                 Stroke="{DynamicResource AxAccentBrush}"
+                 Stroke="{TemplateBinding BorderBrush}"
                  StrokeThickness="{DynamicResource AxFocusOutlineWidth}"/>
       </ControlTemplate>
     </Setter>
-    <Style Selector="^:pointerover /template/ Ellipse">
-      <Setter Property="Stroke" Value="{DynamicResource AxAccentHoverBrush}"/>
+    <Style Selector="^:pointerover">
+      <Setter Property="BorderBrush" Value="{DynamicResource AxAccentHoverBrush}"/>
     </Style>
-    <Style Selector="^:disabled /template/ Ellipse">
-      <Setter Property="Stroke" Value="{DynamicResource AxTextDisabledBrush}"/>
+    <Style Selector="^:disabled">
+      <Setter Property="BorderBrush" Value="{DynamicResource AxTextDisabledBrush}"/>
     </Style>
   </ControlTheme>
 
@@ -367,11 +372,15 @@
                  Value="{TemplateBinding Value, Mode=TwoWay}"
                  Orientation="Horizontal"
                  VerticalAlignment="Center">
+            <!--
+                Половины дорожки названы так, как их ищет Slider: по ним он узнаёт нажатие на дорожку и ставит значение
+                под указатель. Безымянные они нажатия не ловили — значение шло только за ручкой.
+            -->
             <Track.DecreaseButton>
-              <RepeatButton Theme="{StaticResource AxSliderFill}"/>
+              <RepeatButton x:Name="PART_DecreaseButton" Theme="{StaticResource AxSliderFill}"/>
             </Track.DecreaseButton>
             <Track.IncreaseButton>
-              <RepeatButton Theme="{StaticResource AxSliderRail}"/>
+              <RepeatButton x:Name="PART_IncreaseButton" Theme="{StaticResource AxSliderRail}"/>
             </Track.IncreaseButton>
             <Thumb Theme="{StaticResource AxSliderThumb}"/>
           </Track>
@@ -381,6 +390,10 @@
 
     <Style Selector="^:focus-visible /template/ t|AxFocusRing#PART_FocusRing">
       <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <!-- Ручку, которую тянут, видно взятой и тогда, когда указатель с неё ушёл. -->
+    <Style Selector="^:scrubbing /template/ Thumb">
+      <Setter Property="BorderBrush" Value="{DynamicResource AxAccentHoverBrush}"/>
     </Style>
   </ControlTheme>
 
