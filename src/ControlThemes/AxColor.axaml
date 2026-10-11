@@ -192,9 +192,56 @@
   </ControlTheme>
 
   <!--
+      Ячейка палитры и образца — кнопка размером AxColorPresetCellSize: цвет на шахматке в рамке в волос, наведение
+      усиливает рамку, а не заливает ячейку — цвет под ним остаётся цветом. Кольцо фокуса — как у всякой кнопки.
+  -->
+  <ControlTheme x:Key="AxColorPresetCell" TargetType="ax:AxButton"
+                BasedOn="{StaticResource {x:Type ax:AxButton}}">
+    <Setter Property="Width" Value="{DynamicResource AxColorPresetCellSize}"/>
+    <Setter Property="Height" Value="{DynamicResource AxColorPresetCellSize}"/>
+    <Setter Property="MinWidth" Value="0"/>
+    <Setter Property="MinHeight" Value="0"/>
+    <Setter Property="Padding" Value="0"/>
+    <Setter Property="CornerRadius" Value="0"/>
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineThickness}"/>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeStrongBrush}"/>
+    </Style>
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="Transparent"/>
+    </Style>
+  </ControlTheme>
+
+  <!--
+      Строка образца в виде списком: ячейка цвета размером AxColorPresetCellSize и имя во всю ширину, наведение заливает
+      строку, как строку меню. Ячейку в строке размеряет контрол ключами темы: она — содержимое, а не часть шаблона.
+  -->
+  <ControlTheme x:Key="AxColorPresetRow" TargetType="ax:AxButton"
+                BasedOn="{StaticResource {x:Type ax:AxButton}}">
+    <Setter Property="MinWidth" Value="0"/>
+    <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
+    <Setter Property="Padding" Value="{DynamicResource AxSpaceTightSidesThickness}"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+  </ControlTheme>
+
+  <!--
       Выбор цвета — окно Color у Unity: сверху пипетка и полоса образцов «стало | было», под ними кольцо оттенков с
       квадратом насыщенности и яркости внутри, справа выбор вида каналов, ползунки каналов с числами и код — шесть
       цифр, моноширинным: это значение, а не подпись. Строка прозрачности есть, только если цвет бывает прозрачным.
+      Ниже — раскрывающиеся «Палитра» и «Образцы»: ячейки ставит контрол, тема даёт им панели — сетку с зазором в волос
+      и список; раздел образцов есть, только когда хозяин дал хранилище (:presets), а имя образца и библиотеки
+      спрашивает всплывающее поле. Сетки ячеек — шириной AxColorPaletteWidth, ровно двенадцать в ряд, а список — не шире
+      выбора: окно меряет выбор по содержимому, и сетка без предела встала бы одной строкой во всю палитру.
       Ширина — наименьшая, а не прибитая: с крупным текстом подпись кода и выбор вида раздвигают окно, а не выталкивают
       поле за край.
   -->
@@ -298,9 +345,76 @@
                           FontFamily="{DynamicResource AxFontFamilyMono}"
                           AutomationProperties.Name="{DynamicResource AxTextColorCode}"/>
           </StackPanel>
+
+          <StackPanel Spacing="{DynamicResource AxSpaceTight}">
+            <ax:AxGroupHeader x:Name="PART_PaletteHeader"
+                              Content="{DynamicResource AxTextColorPalette}"
+                              IsCollapsible="True"
+                              IsExpanded="{Binding IsPaletteExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+            <WrapPanel x:Name="PART_Palette"
+                       MaxWidth="{DynamicResource AxColorPaletteWidth}"
+                       HorizontalAlignment="Left"
+                       ItemSpacing="{DynamicResource AxSpaceHair}"
+                       LineSpacing="{DynamicResource AxSpaceHair}"
+                       IsVisible="{TemplateBinding IsPaletteExpanded}"/>
+          </StackPanel>
+
+          <StackPanel x:Name="PART_PresetsSection" Spacing="{DynamicResource AxSpaceTight}" IsVisible="False">
+            <DockPanel>
+              <ax:AxButton x:Name="PART_PresetsMenu"
+                           DockPanel.Dock="Right"
+                           Theme="{StaticResource AxInlineIconButton}"
+                           AutomationProperties.Name="{DynamicResource AxTextColorPresetsMenu}"
+                           ToolTip.Tip="{DynamicResource AxTextColorPresetsMenu}">
+                <ax:AxIcon Data="{x:Static ax:AxIcons.MoreVertical}"/>
+              </ax:AxButton>
+              <!-- Имя образца или библиотеки: попап места не занимает, а живёт там, где есть всегда, пока есть образцы. -->
+              <Popup x:Name="PART_NamePopup"
+                     Placement="BottomEdgeAlignedLeft"
+                     IsLightDismissEnabled="True">
+                <Border Background="{DynamicResource AxSurfaceOverlayBrush}"
+                        BorderBrush="{DynamicResource AxStrokeControlBrush}"
+                        BorderThickness="{DynamicResource AxHairlineThickness}"
+                        CornerRadius="{DynamicResource AxCornerRadiusLarge}"
+                        BoxShadow="{DynamicResource AxShadowPopup}"
+                        Padding="{DynamicResource AxSpaceThickness}"
+                        Margin="{DynamicResource AxPopupShadowRoom}">
+                  <StackPanel Spacing="{DynamicResource AxSpaceTight}" Width="{DynamicResource AxColorPresetNameWidth}">
+                    <TextBlock x:Name="PART_NameLabel" ax:AxText.Tone="Secondary"/>
+                    <ax:AxTextBox x:Name="PART_Name" Size="Compact"/>
+                  </StackPanel>
+                </Border>
+              </Popup>
+              <ax:AxGroupHeader x:Name="PART_PresetsHeader"
+                                Content="{DynamicResource AxTextColorPresets}"
+                                IsCollapsible="True"
+                                IsExpanded="{Binding ArePresetsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+            </DockPanel>
+            <Panel MaxWidth="{DynamicResource AxColorPickerWidth}"
+                   HorizontalAlignment="Left"
+                   IsVisible="{TemplateBinding ArePresetsExpanded}">
+              <WrapPanel x:Name="PART_PresetGrid"
+                         MaxWidth="{DynamicResource AxColorPaletteWidth}"
+                         HorizontalAlignment="Left"
+                         ItemSpacing="{DynamicResource AxSpaceHair}"
+                         LineSpacing="{DynamicResource AxSpaceHair}"/>
+              <StackPanel x:Name="PART_PresetList" Spacing="{DynamicResource AxSpaceHair}" IsVisible="False"/>
+            </Panel>
+          </StackPanel>
+
         </StackPanel>
       </ControlTemplate>
     </Setter>
+
+    <Style Selector="^:presets /template/ StackPanel#PART_PresetsSection">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:list /template/ WrapPanel#PART_PresetGrid">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="^:list /template/ StackPanel#PART_PresetList">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
   </ControlTheme>
 
   <!--

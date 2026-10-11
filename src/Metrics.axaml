@@ -490,6 +490,14 @@
   <x:Double x:Key="AxColorChannelNumberWidth">56</x:Double>
   <x:Double x:Key="AxColorHexWidth">80</x:Double>
   <!--
+      Палитра и образцы окна «Цвет»: ячейка AxColorPresetCellSize, и сетка шириной AxColorPaletteWidth держит ровно
+      двенадцать в ряд с зазором в волос (12 × 16 + 11 × 2) — ряд палитры и есть тон по двенадцати оттенкам. Поле имени
+      образца или библиотеки — шириной AxColorPresetNameWidth.
+  -->
+  <x:Double x:Key="AxColorPresetCellSize">16</x:Double>
+  <x:Double x:Key="AxColorPaletteWidth">214</x:Double>
+  <x:Double x:Key="AxColorPresetNameWidth">160</x:Double>
+  <!--
       Поле цвета, как у Unity: полоса цвета во всю ширину в рамке поля, с зазором AxColorSwatchInset между рамкой и
       цветом — без него белый цвет сливался бы со светлой рамкой, — и полоской прозрачности высотой
       AxColorAlphaBarHeight. «Нет цвета» перечёркнут линией AxColorNoneThickness.

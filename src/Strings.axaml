@@ -33,5 +33,17 @@
   <x:String x:Key="AxTextColorModeRgb255">RGB 0–255</x:String>
   <x:String x:Key="AxTextColorModeRgb1">RGB 0–1.0</x:String>
   <x:String x:Key="AxTextColorModeHsv">HSV</x:String>
+  <x:String x:Key="AxTextColorPalette">Palette</x:String>
+  <x:String x:Key="AxTextColorPresets">Swatches</x:String>
+  <x:String x:Key="AxTextColorPresetsMenu">Swatch options</x:String>
+  <x:String x:Key="AxTextColorPresetAdd">Save the current color</x:String>
+  <x:String x:Key="AxTextColorPresetName">Swatch name</x:String>
+  <x:String x:Key="AxTextColorPresetReplace">Replace</x:String>
+  <x:String x:Key="AxTextColorPresetDelete">Delete</x:String>
+  <x:String x:Key="AxTextColorPresetsGrid">Grid</x:String>
+  <x:String x:Key="AxTextColorPresetsList">List</x:String>
+  <x:String x:Key="AxTextColorLibraryInProfile">New library in profile…</x:String>
+  <x:String x:Key="AxTextColorLibraryInProject">New library in solution…</x:String>
+  <x:String x:Key="AxTextColorLibraryName">Library name</x:String>
 
 </ResourceDictionary>
