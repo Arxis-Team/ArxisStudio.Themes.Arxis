@@ -6,6 +6,8 @@ using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
+using Avalonia.Interactivity;
+using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.VisualTree;
 using Xunit;
@@ -13,7 +15,7 @@ using Xunit;
 namespace ArxisStudio.Themes.Arxis.Tests;
 
 /// <summary>
-/// Выбор цвета: модель HSV, протяжка по спектру и ползунку, клавиши, каналы RGB.
+/// Выбор цвета — окно Color у Unity: модель HSV, кольцо оттенков с квадратом, каналы в трёх видах, код, «было».
 /// </summary>
 /// <remarks>
 /// Один жест — одна фиксация: протяжку видно на ходу, а фиксируется она при отпускании, и Esc посреди неё
@@ -21,6 +23,9 @@ namespace ArxisStudio.Themes.Arxis.Tests;
 /// </remarks>
 public class ColorPickerTests
 {
+    /// <summary>Строки каналов окна: три цветом и прозрачность.</summary>
+    private static readonly string[] Rows = ["0", "1", "2", "A"];
+
     [AvaloniaTheory]
     [InlineData("#3C6ECF", 0xFF3C6ECFu)]
     [InlineData("3C6ECF", 0xFF3C6ECFu)]
@@ -48,6 +53,7 @@ public class ColorPickerTests
         Assert.Equal("#3C6ECF", AxColorField.Format(Color.FromUInt32(0xFF3C6ECF)));
         Assert.Equal("#803C6ECF", AxColorField.Format(Color.FromUInt32(0x803C6ECF)));
         Assert.Equal("#3C6ECF", AxColorField.Format(Color.FromUInt32(0x803C6ECF), alpha: false));
+        Assert.Equal("3C6ECF", AxColorPicker.Hex(Color.FromUInt32(0x803C6ECF)));
     }
 
     /// <summary>
@@ -98,6 +104,81 @@ public class ColorPickerTests
         window.Close();
     }
 
+    /// <summary>
+    /// Квадрат стоит внутри кольца: его углы вместе с кольцом фокуса не задевают полосу оттенков, а нажатие в середине
+    /// достаётся квадрату, не кольцу.
+    /// </summary>
+    [AvaloniaFact]
+    public void The_square_sits_inside_the_ring()
+    {
+        var (picker, window) = Shown();
+        var wheel = Part<AxColorWheel>(picker, "PART_Wheel");
+        var spectrum = Part<AxColorSpectrum>(picker, "PART_Spectrum");
+        var focus = Application.Current!.TryFindResource("AxFocusOutlineWidth", out var width) && width is double outline
+            ? outline
+            : 0;
+        var inner = Math.Min(wheel.Bounds.Width, wheel.Bounds.Height) / 2 - wheel.RingThickness;
+        var center = wheel.TranslatePoint(new Point(wheel.Bounds.Width / 2, wheel.Bounds.Height / 2), window)!.Value;
+
+        Assert.True(wheel.RingThickness > 0, "у кольца нет толщины");
+
+        foreach (var corner in new[] { new Point(0, 0), new Point(1, 0), new Point(0, 1), new Point(1, 1) })
+        {
+            var at = Point(spectrum, window, corner.X, corner.Y);
+            var reach = Math.Sqrt(Math.Pow(at.X - center.X, 2) + Math.Pow(at.Y - center.Y, 2)) + focus;
+
+            Assert.True(reach <= inner, $"угол квадрата {corner} с кольцом фокуса заходит на кольцо: {reach} > {inner}");
+        }
+
+        Assert.False(wheel.HitTest(new Point(wheel.Bounds.Width / 2, wheel.Bounds.Height / 2)), "середина кольца нажимается");
+        Assert.True(wheel.HitTest(wheel.PointAt(90)), "полоса кольца не нажимается");
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Кольцо: красный справа, оттенок растёт против часовой стрелки; протяжка видна на ходу и фиксируется одной правкой,
+    /// стрелки шагают на градус, с Shift — на десять, и круг замкнут.
+    /// </summary>
+    [AvaloniaFact]
+    public void The_ring_turns_the_hue_by_drag_and_by_keys()
+    {
+        var (picker, window) = Shown(hsv: new HsvColor(1, 30, 0.8, 0.9));
+        var (changing, committed) = Listen(picker);
+        var wheel = Part<AxColorWheel>(picker, "PART_Wheel");
+
+        // Красный справа, оттенок растёт против часовой стрелки: сверху — 90°, слева — 180°.
+        Assert.Equal(0, wheel.HueAt(new Point(wheel.Bounds.Width, wheel.Bounds.Height / 2)), 6);
+        Assert.Equal(90, wheel.HueAt(new Point(wheel.Bounds.Width / 2, 0)), 6);
+
+        window.MouseDown(OnRing(wheel, window, 100), MouseButton.Left);
+        window.MouseMove(OnRing(wheel, window, 140));
+        window.MouseMove(OnRing(wheel, window, 120));
+
+        Assert.True(changing.Count >= 2, $"протяжка кольца показала {changing.Count} шагов");
+        Assert.Empty(committed);
+
+        window.MouseUp(OnRing(wheel, window, 120), MouseButton.Left);
+
+        Assert.Single(committed);
+        Assert.Equal(120, picker.Hsv.H, 0);
+        Assert.Equal(0.8, picker.Hsv.S, 6);
+        Assert.Equal(0.9, picker.Hsv.V, 6);
+
+        committed.Clear();
+        Assert.True(wheel.Focus(NavigationMethod.Tab), "кольцо не взяло каретку");
+
+        Press(window, Key.Home);
+        Press(window, Key.Left);
+        Assert.Equal(359, picker.Hsv.H, 6);
+
+        Press(window, Key.Right, RawInputModifiers.Shift);
+        Assert.Equal(9, picker.Hsv.H, 6);
+        Assert.Equal(3, committed.Count);
+
+        window.Close();
+    }
+
     [AvaloniaFact]
     public void Escape_cancels_a_drag_and_gives_back_the_color_it_started_from()
     {
@@ -108,15 +189,15 @@ public class ColorPickerTests
 
         picker.ColorCancelled += (_, _) => cancelled++;
 
-        var hue = Part<AxColorSlider>(picker, "PART_Hue");
+        var wheel = Part<AxColorWheel>(picker, "PART_Wheel");
 
-        window.MouseDown(Point(hue, window, 0.1, 0.5), MouseButton.Left);
-        window.MouseMove(Point(hue, window, 0.6, 0.5));
+        window.MouseDown(OnRing(wheel, window, 10), MouseButton.Left);
+        window.MouseMove(OnRing(wheel, window, 120));
 
         Assert.NotEqual(before, picker.Color);
 
         window.KeyPress(Key.Escape, RawInputModifiers.None, PhysicalKey.Escape, string.Empty);
-        window.MouseUp(Point(hue, window, 0.6, 0.5), MouseButton.Left);
+        window.MouseUp(OnRing(wheel, window, 120), MouseButton.Left);
 
         Assert.Equal(before, picker.Color);
         Assert.Equal(1, cancelled);
@@ -146,21 +227,75 @@ public class ColorPickerTests
         window.Close();
     }
 
-    /// <summary>Оттенок у правого края не доходит до 360: модель свела бы его к нулю, и ручка прыгнула бы в начало.</summary>
+    /// <summary>
+    /// Один цвет в трёх видах каналов: RGB 0…255 — целыми, RGB 0…1 — долями, HSV — градусами и сотыми; подписи и
+    /// ползунки идут за видом, выбранным в списке.
+    /// </summary>
     [AvaloniaFact]
-    public void The_hue_slider_keys_reach_both_ends_without_wrapping()
+    public void Three_modes_show_one_color()
     {
-        var (picker, window) = Shown();
-        var hue = Part<AxColorSlider>(picker, "PART_Hue");
+        var (picker, window) = Shown(color: 0xFF3366CC);
+        var mode = Part<AxComboBox>(picker, "PART_Mode");
 
-        Assert.True(hue.Focus(NavigationMethod.Tab), "ползунок оттенка не взял каретку");
+        Assert.Equal(AxColorPickerMode.Rgb255, picker.Mode);
+        Assert.Equal(["R", "G", "B", "A"], Labels(picker));
+        Assert.Equal([51, 102, 204, 255], Numbers(picker));
 
-        Press(window, Key.End);
-        Assert.True(hue.Value > 359.9, $"End поставил оттенок {hue.Value}");
+        mode.SelectedIndex = 1;
+        window.UpdateLayout();
 
-        Press(window, Key.Home);
+        Assert.Equal(AxColorPickerMode.Rgb1, picker.Mode);
+        Assert.Equal([0.2, 0.4, 0.8, 1], Numbers(picker));
+
+        picker.Mode = AxColorPickerMode.Hsv;
+        window.UpdateLayout();
+
+        Assert.Equal(2, mode.SelectedIndex);
+        Assert.Equal(["H", "S", "V", "A"], Labels(picker));
+        Assert.Equal([220, 75, 80, 255], Numbers(picker));
+        Assert.Equal(AxColorChannel.Hue, Part<AxColorSlider>(picker, "PART_Slider0").Channel);
+        Assert.Equal(Color.FromUInt32(0xFF3366CC), picker.Color);
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Дорожка канала — его градиент при остальных каналах: у красного при G и B — от (0, G, B) до (255, G, B), как у
+    /// Unity, а ручка стоит на значении канала.
+    /// </summary>
+    [AvaloniaFact]
+    public void A_channel_track_runs_through_its_channel_at_the_others()
+    {
+        var (picker, window) = Shown(color: 0xFF3366CC);
+        var red = Part<AxColorSlider>(picker, "PART_Slider0");
+        var gradient = Assert.IsType<LinearGradientBrush>(Part<Border>(red, "PART_Gradient").Background);
+
+        Assert.Equal(AxColorChannel.Red, red.Channel);
+        Assert.Equal(Color.FromRgb(0, 0x66, 0xCC), gradient.GradientStops[0].Color);
+        Assert.Equal(Color.FromRgb(0xFF, 0x66, 0xCC), gradient.GradientStops[^1].Color);
+        Assert.Equal(0x33 / 255d, red.Value, 6);
+
+        window.Close();
+    }
+
+    /// <summary>Шаг ползунка канала RGB — единица из 255, и каждый шаг фиксируется; число строки идёт за ним.</summary>
+    [AvaloniaFact]
+    public void An_rgb_slider_steps_by_one_level_and_the_number_follows()
+    {
+        var (picker, window) = Shown(color: 0xFF3366CC);
+        var (_, committed) = Listen(picker);
+        var green = Part<AxColorSlider>(picker, "PART_Slider1");
+
+        Assert.True(green.Focus(NavigationMethod.Tab), "ползунок зелёного не взял каретку");
+
+        Press(window, Key.Right);
         Press(window, Key.Right, RawInputModifiers.Shift);
-        Assert.Equal(10, hue.Value, 6);
+
+        Assert.Equal(0x66 + 11, picker.Color.G);
+        Assert.Equal(0x33, picker.Color.R);
+        Assert.Equal(0xCC, picker.Color.B);
+        Assert.Equal(2, committed.Count);
+        Assert.Equal(0x66 + 11, Part<AxNumberField>(picker, "PART_Number1").Value);
 
         window.Close();
     }
@@ -171,7 +306,7 @@ public class ColorPickerTests
     {
         var (picker, window) = Shown();
         var (_, committed) = Listen(picker);
-        var alpha = Part<AxColorSlider>(picker, "PART_Alpha");
+        var alpha = Part<AxColorSlider>(picker, "PART_SliderA");
         var range = Assert.IsAssignableFrom<IRangeValueProvider>(ControlAutomationPeer.CreatePeerForElement(alpha));
 
         Assert.Equal(1, range.Maximum);
@@ -185,71 +320,138 @@ public class ColorPickerTests
         window.Close();
     }
 
-    /// <summary>Под ползунком непрозрачности — шахматка: прозрачный конец иначе не отличить от фона.</summary>
+    /// <summary>
+    /// Под ползунком непрозрачности — шахматка: прозрачный конец иначе не отличить от фона. Без прозрачности строки
+    /// непрозрачности нет вовсе.
+    /// </summary>
     [AvaloniaFact]
     public void Only_the_alpha_slider_lies_on_the_checker()
     {
         var (picker, window) = Shown();
 
-        Assert.True(Part<Border>(Part<AxColorSlider>(picker, "PART_Alpha"), "PART_Checker").IsVisible, "у непрозрачности нет шахматки");
-        Assert.False(Part<Border>(Part<AxColorSlider>(picker, "PART_Hue"), "PART_Checker").IsVisible, "у оттенка шахматка");
+        Assert.True(Part<Border>(Part<AxColorSlider>(picker, "PART_SliderA"), "PART_Checker").IsVisible, "у непрозрачности нет шахматки");
+        Assert.False(Part<Border>(Part<AxColorSlider>(picker, "PART_Slider0"), "PART_Checker").IsVisible, "у красного шахматка");
 
         picker.AllowsAlpha = false;
         window.UpdateLayout();
 
-        Assert.False(Part<AxColorSlider>(picker, "PART_Alpha").IsVisible, "без прозрачности ползунок непрозрачности остался");
-        Assert.Equal(3, Part<AxVectorField>(picker, "PART_Channels").Cells.Count);
+        Assert.False(Part<AxColorSlider>(picker, "PART_SliderA").IsVisible, "без прозрачности ползунок непрозрачности остался");
+        Assert.False(Part<AxNumberField>(picker, "PART_NumberA").IsVisible, "без прозрачности число непрозрачности осталось");
 
         window.Close();
     }
 
-    /// <summary>Каналы RGB правят цвет одной фиксацией, а запись — с тем текстом, которым её набрали.</summary>
+    /// <summary>
+    /// Число канала и код правят цвет одной фиксацией. Код — шесть цифр без прозрачности, как у Unity: набранные шесть
+    /// цифр оставляют прозрачность прежней, восемь ставят и её. Хозяину набранное уходит текстом, только если разметка
+    /// прочтёт его тем же цветом: «Navy» — да, цифры без решётки — нет.
+    /// </summary>
     [AvaloniaFact]
-    public void Channels_and_the_code_commit_one_color_each()
+    public void Numbers_and_the_code_commit_one_color_each()
     {
-        var (picker, window) = Shown();
+        var (picker, window) = Shown(color: 0x803C6ECF);
         var (_, committed) = Listen(picker);
         var texts = new List<string?>();
 
         picker.ColorCommitted += (_, e) => texts.Add(e.Text);
 
-        var red = Part<AxVectorField>(picker, "PART_Channels").Cells[0];
-
-        red.Focus();
-        red.SelectAll();
-        window.KeyTextInput("255");
-        Press(window, Key.Enter);
-
-        Assert.Equal(byte.MaxValue, picker.Color.R);
-
         var code = Part<TextBox>(picker, "PART_Hex");
 
-        code.Focus();
-        code.SelectAll();
-        window.KeyTextInput("Navy");
-        Press(window, Key.Enter);
+        Assert.Equal("3C6ECF", code.Text);
 
+        Type(window, Part<AxNumberField>(picker, "PART_Number0"), "255");
+        Assert.Equal(byte.MaxValue, picker.Color.R);
+
+        Type(window, code, "112233");
+        Assert.Equal(Color.FromUInt32(0x80112233), picker.Color);
+
+        Type(window, code, "#FF000080");
         Assert.Equal(Colors.Navy, picker.Color);
-        Assert.Equal("#000080", code.Text);
-        Assert.Equal(2, committed.Count);
-        Assert.Equal([null, "Navy"], texts);
+
+        // Имя того же цвета — тоже фиксация: цвет прежний, а записать его просят словом.
+        Type(window, code, "Navy");
+        Type(window, code, "Red");
+
+        Assert.Equal(Colors.Red, picker.Color);
+        Assert.Equal("FF0000", code.Text);
+        Assert.Equal(5, committed.Count);
+        Assert.Equal([null, null, "#FF000080", "Navy", "Red"], texts);
 
         window.Close();
     }
 
-    private static (AxColorPicker Picker, Window Window) Shown(HsvColor? hsv = null)
+    /// <summary>
+    /// Образцы «стало | было»: «было» — цвет начала, щелчок по нему возвращает его одной фиксацией. Без цвета начала
+    /// образец перечёркнут и не нажимается.
+    /// </summary>
+    [AvaloniaFact]
+    public void The_original_swatch_brings_the_starting_color_back()
+    {
+        var (picker, window) = Shown(color: 0xFF3C6ECF);
+        var (_, committed) = Listen(picker);
+        var original = Part<Button>(picker, "PART_Original");
+
+        picker.OriginalColor = Color.FromUInt32(0xFF3C6ECF);
+        picker.Color = Colors.Orange;
+        window.UpdateLayout();
+
+        Assert.Equal(Colors.Orange, Part<AxColorSwatch>(picker, "PART_New").Color);
+        Assert.Equal(Color.FromUInt32(0xFF3C6ECF), Part<AxColorSwatch>(picker, "PART_OriginalSwatch").Color);
+
+        original.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+
+        Assert.Equal(Color.FromUInt32(0xFF3C6ECF), picker.Color);
+        Assert.Single(committed);
+
+        picker.OriginalColor = null;
+        window.UpdateLayout();
+
+        Assert.True(Part<AxColorSwatch>(picker, "PART_OriginalSwatch").IsNone, "без цвета начала «было» не перечёркнуто");
+        Assert.False(original.IsEnabled, "без цвета начала «было» нажимается");
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Крупный текст раздвигает выбор, а не выталкивает код за край: ширина выбора — наименьшая, а не прибитая. Живая
+    /// проверка с текстом в 200 % нашла код за краем окна (запись 375).
+    /// </summary>
+    [AvaloniaFact]
+    public void Large_text_widens_the_picker_instead_of_pushing_the_code_out()
+    {
+        var (picker, window) = Shown();
+
+        // В окне «Цвет» выбор стоит по своему размеру, а не растянутым на всю ширину.
+        picker.HorizontalAlignment = HorizontalAlignment.Left;
+        window.UpdateLayout();
+
+        var width = picker.Bounds.Width;
+
+        picker.FontSize *= 2;
+        window.UpdateLayout();
+
+        var code = Part<TextBox>(picker, "PART_Hex");
+        var edge = code.TranslatePoint(new Point(code.Bounds.Width, 0), picker)!.Value.X;
+
+        Assert.True(picker.Bounds.Width > width, $"выбор не стал шире: {picker.Bounds.Width}");
+        Assert.True(edge <= picker.Bounds.Width + 0.5, $"код вытолкнут за край выбора: {edge} > {picker.Bounds.Width}");
+
+        window.Close();
+    }
+
+    private static (AxColorPicker Picker, Window Window) Shown(HsvColor? hsv = null, uint color = 0xFF3C6ECF)
     {
         var picker = new AxColorPicker();
 
         if (hsv is { } given)
             picker.Hsv = given;
         else
-            picker.Color = Color.FromUInt32(0xFF3C6ECF);
+            picker.Color = Color.FromUInt32(color);
 
         var window = new Window
         {
             Width = 400,
-            Height = 500,
+            Height = 700,
             Content = new Border { Padding = new Thickness(20), Child = picker },
         };
 
@@ -270,6 +472,12 @@ public class ColorPickerTests
         return (changing, committed);
     }
 
+    private static string[] Labels(AxColorPicker picker) =>
+        Rows.Select(row => Part<TextBlock>(picker, "PART_Label" + row).Text ?? string.Empty).ToArray();
+
+    private static double[] Numbers(AxColorPicker picker) =>
+        Rows.Select(row => Part<AxNumberField>(picker, "PART_Number" + row).Value).ToArray();
+
     private static T Part<T>(Control owner, string name)
         where T : Control =>
         owner.GetVisualDescendants().OfType<T>().First(part => part.Name == name);
@@ -277,6 +485,18 @@ public class ColorPickerTests
     /// <summary>Точка внутри части в долях её ширины и высоты — в координатах окна.</summary>
     private static Point Point(Control part, Window window, double x, double y) =>
         part.TranslatePoint(new Point(part.Bounds.Width * x, part.Bounds.Height * y), window)!.Value;
+
+    /// <summary>Точка на середине полосы кольца у оттенка — в координатах окна.</summary>
+    private static Point OnRing(AxColorWheel wheel, Window window, double hue) =>
+        wheel.TranslatePoint(wheel.PointAt(hue), window)!.Value;
+
+    private static void Type(Window window, TextBox box, string text)
+    {
+        box.Focus();
+        box.SelectAll();
+        window.KeyTextInput(text);
+        Press(window, Key.Enter);
+    }
 
     private static void Press(Window window, Key key, RawInputModifiers modifiers = RawInputModifiers.None)
     {

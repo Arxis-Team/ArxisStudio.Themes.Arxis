@@ -56,6 +56,8 @@
   <!--
       Кнопки окна: свернуть, развернуть или восстановить, закрыть.
       Кнопки 32×26; у закрытия наведение красное, как принято в Windows.
+      Свернуть и развернуть стоят, только если окно это умеет (CanMinimize,
+      CanMaximize): у окна «Цвет» остаётся один крестик.
 
       Глифы — обычные иконки набора, 16×16 и обводкой 1.2. Стояли они на классе
       small с обводкой 1.3, и это было
@@ -79,11 +81,13 @@
     <Setter Property="Template">
       <ControlTemplate>
         <StackPanel Orientation="Horizontal" Spacing="{DynamicResource AxSpaceHair}">
-          <Button x:Name="PART_Minimize" Theme="{StaticResource AxWindowButton}">
+          <Button x:Name="PART_Minimize" Theme="{StaticResource AxWindowButton}"
+                  IsVisible="{Binding $parent[Window].CanMinimize}">
             <ax:AxIcon Data="{x:Static ax:AxIcons.Minus}"
                        Foreground="{Binding $parent[Button].Foreground}"/>
           </Button>
-          <Button x:Name="PART_Maximize" Theme="{StaticResource AxWindowButton}">
+          <Button x:Name="PART_Maximize" Theme="{StaticResource AxWindowButton}"
+                  IsVisible="{Binding $parent[Window].CanMaximize}">
             <Panel>
               <ax:AxIcon x:Name="PART_MaximizeIcon"
                          Data="M3.5 3.5H12.5V12.5H3.5Z"

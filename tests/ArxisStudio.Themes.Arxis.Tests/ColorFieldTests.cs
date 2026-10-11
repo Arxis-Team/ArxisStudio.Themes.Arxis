@@ -14,15 +14,18 @@ using Xunit;
 namespace ArxisStudio.Themes.Arxis.Tests;
 
 /// <summary>
-/// Поле цвета, как у Unity: полоса цвета с полоской прозрачности, пипетка и выбор под полем.
+/// Поле цвета, как у Unity: полоса цвета с полоской прозрачности, пипетка и окно «Цвет».
 /// </summary>
 /// <remarks>
-/// Текста в поле нет: код читают подсказкой и диктором, а набирают в выборе цвета. Выбор под полем открывается с
-/// цветом поля, его события идут к хозяину сквозь поле, Esc закрывает его и возвращает каретку к полосе. Пипетка
-/// берёт пиксель экрана и фиксирует его одним событием.
+/// Текста в поле нет: код читают подсказкой и диктором, а набирают в окне цвета. Окно открывается с цветом поля и
+/// кареткой в квадрате; сеанс в нём — <see cref="ColorWindowTests"/>. Пипетка берёт пиксель экрана и фиксирует его
+/// одним событием.
 /// </remarks>
-public class ColorFieldTests
+public sealed class ColorFieldTests : IDisposable
 {
+    /// <summary>Окно цвета одно на процесс: тест, упавший с открытым, не оставляет его следующему.</summary>
+    public void Dispose() => AxColorPickerWindow.Current?.Close();
+
     /// <summary>Код цвета — подсказкой полосы и для диктора; без прозрачности — шесть цифр.</summary>
     [AvaloniaFact]
     public void The_code_is_the_swatchs_tip_and_without_alpha_it_has_six_digits()
@@ -75,6 +78,10 @@ public class ColorFieldTests
         Pump();
 
         var picker = Assert.IsType<AxColorPicker>(field.Picker);
+        var original = picker.GetVisualDescendants().OfType<Button>().Single(part => part.Name == "PART_Original");
+
+        Assert.Null(picker.OriginalColor);
+        Assert.False(original.IsEnabled, "у «нет цвета» есть цвет начала, который можно вернуть");
 
         picker.RaiseEvent(new AxColorEventArgs(AxColorPicker.ColorCommittedEvent, Colors.Red));
 
@@ -85,42 +92,53 @@ public class ColorFieldTests
     }
 
     /// <summary>
-    /// Полоса открывает выбор с цветом поля и кареткой в спектре; шаг стрелкой там — фиксация, которую слышит
-    /// хозяин поля, а Esc закрывает выбор и возвращает каретку к полосе.
+    /// Полоса открывает окно «Цвет» — отдельным окном над окном поля, с цветом поля, его же цветом «было» и кареткой в
+    /// квадрате; шаг стрелкой там поле показывает на ходу, а Esc возвращает цвет начала, закрывает окно и возвращает
+    /// каретку к полосе.
     /// </summary>
     [AvaloniaFact]
-    public void The_swatch_opens_the_picker_whose_steps_reach_the_owner_and_escape_comes_back()
+    public void The_swatch_opens_the_color_window_and_escape_comes_back()
     {
         var (field, window) = Shown(0xFF3C6ECF);
         var committed = Committed(field);
+        var changing = new List<Color>();
+        var cancelled = 0;
         var swatch = Swatch(field);
+
+        field.ColorChanging += (_, e) => changing.Add(e.Color);
+        field.ColorCancelled += (_, _) => cancelled++;
 
         Assert.True(swatch.Focus(NavigationMethod.Tab), "полоса не взяла каретку");
         Press(window, Key.Enter);
         Pump();
 
-        Assert.True(field.IsPickerOpen, "Enter на полосе не открыл выбор");
+        Assert.True(field.IsPickerOpen, "Enter на полосе не открыл окно цвета");
 
+        var colors = Assert.IsType<AxColorPickerWindow>(AxColorPickerWindow.Current);
         var picker = Assert.IsType<AxColorPicker>(field.Picker);
         var spectrum = picker.GetVisualDescendants().OfType<AxColorSpectrum>().Single();
 
+        Assert.Same(colors.Picker, picker);
+        Assert.Same(window, colors.Owner);
         Assert.Equal(field.Color, picker.Color);
-        Assert.True(spectrum.IsKeyboardFocusWithin, "каретка не пришла в спектр");
+        Assert.Equal(field.Color, picker.OriginalColor);
+        Assert.True(spectrum.IsKeyboardFocusWithin, "каретка не пришла в квадрат");
 
-        var root = Assert.IsAssignableFrom<TopLevel>(TopLevel.GetTopLevel(spectrum));
+        colors.KeyPress(Key.Down, RawInputModifiers.Shift, PhysicalKey.None, string.Empty);
 
-        root.KeyPress(Key.Down, RawInputModifiers.Shift, PhysicalKey.None, string.Empty);
-
-        var (color, text) = Assert.Single(committed);
-
-        Assert.Null(text);
-        Assert.Equal(color, field.Color);
+        Assert.Single(changing);
+        Assert.Empty(committed);
+        Assert.Equal(picker.Color, field.Color);
         Assert.NotEqual(Color.FromUInt32(0xFF3C6ECF), field.Color);
 
-        root.KeyPress(Key.Escape, RawInputModifiers.None, PhysicalKey.Escape, string.Empty);
+        colors.KeyPress(Key.Escape, RawInputModifiers.None, PhysicalKey.Escape, string.Empty);
         Pump();
 
-        Assert.False(field.IsPickerOpen, "Esc не закрыл выбор");
+        Assert.False(field.IsPickerOpen, "Esc не закрыл окно цвета");
+        Assert.Null(AxColorPickerWindow.Current);
+        Assert.Equal(Color.FromUInt32(0xFF3C6ECF), field.Color);
+        Assert.Equal(1, cancelled);
+        Assert.Empty(committed);
         Assert.True(swatch.IsFocused, "каретка не вернулась к полосе");
 
         window.Close();

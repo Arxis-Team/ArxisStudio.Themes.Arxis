@@ -475,16 +475,20 @@
   <x:Double x:Key="AxVectorFieldMinWidth">116</x:Double>
   <x:Double x:Key="AxTokenInputMinWidth">48</x:Double>
   <!--
-      Выбор цвета: карточка шириной AxColorPickerWidth, спектр высотой AxColorSpectrumHeight, дорожка канала
-      AxColorTrackHeight под ручкой ползунка (AxSliderThumbSize). Карточка встаёт под полем цвета: попап стоит
-      в поле под тень (AxPopupShadowRoom, 16 × 20), и сдвиг возвращает её к полю — вровень слева и с зазором
-      в четыре снизу.
+      Выбор цвета — окно «Цвет», как у Unity: шириной AxColorPickerWidth, кольцо оттенков AxColorWheelSize толщиной
+      AxColorWheelRingThickness, в нём квадрат насыщенности и яркости AxColorWheelSquare — вписан в кольцо так, что
+      его углы с кольцом фокуса не задевают полосу оттенков. Спектр сам по себе — высотой AxColorSpectrumHeight;
+      дорожка канала — AxColorTrackHeight под ручкой ползунка (AxSliderThumbSize). Числа каналов шириной
+      AxColorChannelNumberWidth — «255» и «0.502» в тесном поле, — код из шести цифр — AxColorHexWidth.
   -->
   <x:Double x:Key="AxColorPickerWidth">240</x:Double>
   <x:Double x:Key="AxColorSpectrumHeight">160</x:Double>
   <x:Double x:Key="AxColorTrackHeight">10</x:Double>
-  <x:Double x:Key="AxColorPopupHorizontalOffset">-16</x:Double>
-  <x:Double x:Key="AxColorPopupVerticalOffset">-16</x:Double>
+  <x:Double x:Key="AxColorWheelSize">200</x:Double>
+  <x:Double x:Key="AxColorWheelRingThickness">16</x:Double>
+  <x:Double x:Key="AxColorWheelSquare">108</x:Double>
+  <x:Double x:Key="AxColorChannelNumberWidth">56</x:Double>
+  <x:Double x:Key="AxColorHexWidth">80</x:Double>
   <!--
       Поле цвета, как у Unity: полоса цвета во всю ширину в рамке поля, с зазором AxColorSwatchInset между рамкой и
       цветом — без него белый цвет сливался бы со светлой рамкой, — и полоской прозрачности высотой

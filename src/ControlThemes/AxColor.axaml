@@ -4,8 +4,8 @@
                     xmlns:t="using:ArxisStudio.Themes.Arxis">
 
   <!--
-      Выбор цвета: спектр, ползунок канала, сам выбор и поле цвета. Цвета градиентов — данные модели HSV, их
-      ставят контролы; тема даёт рамки, скругления, ручку, шахматку под прозрачным и карточку попапа.
+      Выбор цвета: спектр, ползунок канала, кольцо оттенков, сам выбор и поле цвета. Цвета градиентов — данные
+      модели HSV, их ставят контролы; тема даёт рамки, скругления, ручку, шахматку под прозрачным и раскладку окна.
   -->
 
   <!--
@@ -123,28 +123,181 @@
   </ControlTheme>
 
   <!--
-      Выбор цвета: спектр, оттенок, непрозрачность, запись и каналы — столбцом. Запись — моноширинным: это
-      значение, а не подпись, и цифры в нём стоят одной колонкой.
+      Кольцо оттенков, как у Unity, рисует себя само (AxColorWheel.Render): тема даёт толщину кольца и ручку — светлое
+      кольцо в тёмной кайме, той же пары и тех же толщин, что у ручки спектра. Фокус клавиатуры — окружность вокруг
+      кольца цветом кольца фокуса; выключенное кольцо закрыто заливкой выключенного, и ручки на нём нет.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxColorWheel}" TargetType="ax:AxColorWheel">
+    <!-- Не обрезаем себя: кольцо фокуса выходит за границы. -->
+    <Setter Property="ClipToBounds" Value="False"/>
+    <Setter Property="RingThickness" Value="{DynamicResource AxColorWheelRingThickness}"/>
+    <Setter Property="ThumbBrush" Value="{DynamicResource AxColorThumbBrush}"/>
+    <Setter Property="ThumbOutlineBrush" Value="{DynamicResource AxColorThumbOutlineBrush}"/>
+    <Setter Property="ThumbThickness" Value="{DynamicResource AxFocusOutlineWidth}"/>
+    <Setter Property="ThumbOutlineThickness" Value="{DynamicResource AxHairline}"/>
+    <Setter Property="AutomationProperties.Name" Value="{DynamicResource AxTextColorHue}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <Ellipse x:Name="PART_Disabled"
+                   Stroke="{DynamicResource AxFillDisabledBrush}"
+                   StrokeThickness="{TemplateBinding RingThickness}"
+                   IsHitTestVisible="False"
+                   IsVisible="False"/>
+          <Ellipse x:Name="PART_FocusRing"
+                   Margin="{DynamicResource AxFocusOutlineRowMargin}"
+                   Stroke="{DynamicResource AxFocusRingBrush}"
+                   StrokeThickness="{DynamicResource AxFocusOutlineWidth}"
+                   IsHitTestVisible="False"
+                   IsVisible="False"/>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:focus-visible /template/ Ellipse#PART_FocusRing">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="ThumbBrush" Value="{x:Null}"/>
+      <Setter Property="ThumbOutlineBrush" Value="{x:Null}"/>
+    </Style>
+    <Style Selector="^:disabled /template/ Ellipse#PART_Disabled">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+  </ControlTheme>
+
+  <!--
+      Образец «было» в окне цвета — кнопка без своей рамки и заливки: рамку держит полоса образцов, а цвет под
+      наведением остаётся цветом. Кольцо фокуса — как у всякой кнопки.
+  -->
+  <ControlTheme x:Key="AxColorOriginalButton" TargetType="ax:AxButton"
+                BasedOn="{StaticResource {x:Type ax:AxButton}}">
+    <Setter Property="MinWidth" Value="0"/>
+    <Setter Property="MinHeight" Value="0"/>
+    <Setter Property="Padding" Value="0"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="CornerRadius" Value="0"/>
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    <Setter Property="VerticalAlignment" Value="Stretch"/>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="Transparent"/>
+    </Style>
+  </ControlTheme>
+
+  <!--
+      Выбор цвета — окно Color у Unity: сверху пипетка и полоса образцов «стало | было», под ними кольцо оттенков с
+      квадратом насыщенности и яркости внутри, справа выбор вида каналов, ползунки каналов с числами и код — шесть
+      цифр, моноширинным: это значение, а не подпись. Строка прозрачности есть, только если цвет бывает прозрачным.
+      Ширина — наименьшая, а не прибитая: с крупным текстом подпись кода и выбор вида раздвигают окно, а не выталкивают
+      поле за край.
   -->
   <ControlTheme x:Key="{x:Type ax:AxColorPicker}" TargetType="ax:AxColorPicker">
     <Setter Property="ClipToBounds" Value="False"/>
-    <Setter Property="Width" Value="{DynamicResource AxColorPickerWidth}"/>
+    <Setter Property="MinWidth" Value="{DynamicResource AxColorPickerWidth}"/>
     <Setter Property="Template">
       <ControlTemplate>
         <StackPanel Spacing="{DynamicResource AxSpace}">
-          <ax:AxColorSpectrum x:Name="PART_Spectrum"/>
-          <ax:AxColorSlider x:Name="PART_Hue"
-                            Channel="Hue"
-                            AutomationProperties.Name="{DynamicResource AxTextColorHue}"/>
-          <ax:AxColorSlider x:Name="PART_Alpha"
-                            Channel="Alpha"
-                            IsVisible="{TemplateBinding AllowsAlpha}"
-                            AutomationProperties.Name="{DynamicResource AxTextColorAlpha}"/>
-          <ax:AxTextBox x:Name="PART_Hex"
-                        Size="Compact"
-                        FontFamily="{DynamicResource AxFontFamilyMono}"
-                        AutomationProperties.Name="{DynamicResource AxTextColorCode}"/>
-          <ax:AxVectorField x:Name="PART_Channels" Size="Compact"/>
+          <DockPanel>
+            <ax:AxButton x:Name="PART_Eyedropper"
+                         DockPanel.Dock="Left"
+                         Theme="{StaticResource AxInlineIconButton}"
+                         Margin="{DynamicResource AxSpaceSnugTrailingThickness}"
+                         AutomationProperties.Name="{DynamicResource AxTextColorEyedropper}"
+                         ToolTip.Tip="{DynamicResource AxTextColorEyedropper}">
+              <ax:AxIcon Data="{x:Static ax:AxIcons.Eyedropper}"/>
+            </ax:AxButton>
+            <Border MinHeight="{DynamicResource AxControlHeightCompact}"
+                    Padding="{DynamicResource AxColorSwatchInset}"
+                    Background="{DynamicResource AxSurfaceBaseBrush}"
+                    BorderBrush="{DynamicResource AxStrokeControlBrush}"
+                    BorderThickness="{DynamicResource AxHairlineThickness}"
+                    CornerRadius="{DynamicResource AxCornerRadiusSmall}">
+              <Grid ColumnDefinitions="*,*">
+                <ax:AxColorSwatch x:Name="PART_New"/>
+                <ax:AxButton x:Name="PART_Original"
+                             Grid.Column="1"
+                             Theme="{StaticResource AxColorOriginalButton}"
+                             AutomationProperties.Name="{DynamicResource AxTextColorOriginal}"
+                             ToolTip.Tip="{DynamicResource AxTextColorOriginal}">
+                  <ax:AxColorSwatch x:Name="PART_OriginalSwatch"/>
+                </ax:AxButton>
+              </Grid>
+            </Border>
+          </DockPanel>
+
+          <Panel Width="{DynamicResource AxColorWheelSize}"
+                 Height="{DynamicResource AxColorWheelSize}"
+                 HorizontalAlignment="Center">
+            <ax:AxColorWheel x:Name="PART_Wheel"/>
+            <ax:AxColorSpectrum x:Name="PART_Spectrum"
+                                Width="{DynamicResource AxColorWheelSquare}"
+                                Height="{DynamicResource AxColorWheelSquare}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"/>
+          </Panel>
+
+          <ax:AxComboBox x:Name="PART_Mode"
+                         Size="Compact"
+                         HorizontalAlignment="Right"
+                         AutomationProperties.Name="{DynamicResource AxTextColorMode}">
+            <ax:AxComboBoxItem Content="{DynamicResource AxTextColorModeRgb255}"/>
+            <ax:AxComboBoxItem Content="{DynamicResource AxTextColorModeRgb1}"/>
+            <ax:AxComboBoxItem Content="{DynamicResource AxTextColorModeHsv}"/>
+          </ax:AxComboBox>
+
+          <Grid ColumnDefinitions="Auto,*,Auto"
+                RowDefinitions="Auto,Auto,Auto,Auto"
+                ColumnSpacing="{DynamicResource AxSpace}"
+                RowSpacing="{DynamicResource AxSpaceTight}">
+            <TextBlock x:Name="PART_Label0" VerticalAlignment="Center" ax:AxText.Tone="Secondary"/>
+            <ax:AxColorSlider x:Name="PART_Slider0" Grid.Column="1"
+                              AutomationProperties.LabeledBy="{Binding #PART_Label0}"/>
+            <ax:AxNumberField x:Name="PART_Number0" Grid.Column="2" Size="Compact"
+                              Width="{DynamicResource AxColorChannelNumberWidth}"
+                              AutomationProperties.LabeledBy="{Binding #PART_Label0}"/>
+
+            <TextBlock x:Name="PART_Label1" Grid.Row="1" VerticalAlignment="Center" ax:AxText.Tone="Secondary"/>
+            <ax:AxColorSlider x:Name="PART_Slider1" Grid.Row="1" Grid.Column="1"
+                              AutomationProperties.LabeledBy="{Binding #PART_Label1}"/>
+            <ax:AxNumberField x:Name="PART_Number1" Grid.Row="1" Grid.Column="2" Size="Compact"
+                              Width="{DynamicResource AxColorChannelNumberWidth}"
+                              AutomationProperties.LabeledBy="{Binding #PART_Label1}"/>
+
+            <TextBlock x:Name="PART_Label2" Grid.Row="2" VerticalAlignment="Center" ax:AxText.Tone="Secondary"/>
+            <ax:AxColorSlider x:Name="PART_Slider2" Grid.Row="2" Grid.Column="1"
+                              AutomationProperties.LabeledBy="{Binding #PART_Label2}"/>
+            <ax:AxNumberField x:Name="PART_Number2" Grid.Row="2" Grid.Column="2" Size="Compact"
+                              Width="{DynamicResource AxColorChannelNumberWidth}"
+                              AutomationProperties.LabeledBy="{Binding #PART_Label2}"/>
+
+            <TextBlock x:Name="PART_LabelA" Grid.Row="3" VerticalAlignment="Center" ax:AxText.Tone="Secondary"
+                       IsVisible="{TemplateBinding AllowsAlpha}"/>
+            <ax:AxColorSlider x:Name="PART_SliderA" Grid.Row="3" Grid.Column="1"
+                              IsVisible="{TemplateBinding AllowsAlpha}"
+                              AutomationProperties.Name="{DynamicResource AxTextColorAlpha}"/>
+            <ax:AxNumberField x:Name="PART_NumberA" Grid.Row="3" Grid.Column="2" Size="Compact"
+                              Width="{DynamicResource AxColorChannelNumberWidth}"
+                              IsVisible="{TemplateBinding AllowsAlpha}"
+                              AutomationProperties.Name="{DynamicResource AxTextColorAlpha}"/>
+          </Grid>
+
+          <StackPanel Orientation="Horizontal"
+                      HorizontalAlignment="Right"
+                      Spacing="{DynamicResource AxSpace}">
+            <TextBlock Text="{DynamicResource AxTextColorCode}" VerticalAlignment="Center" ax:AxText.Tone="Secondary"/>
+            <ax:AxTextBox x:Name="PART_Hex"
+                          Size="Compact"
+                          Width="{DynamicResource AxColorHexWidth}"
+                          FontFamily="{DynamicResource AxFontFamilyMono}"
+                          AutomationProperties.Name="{DynamicResource AxTextColorCode}"/>
+          </StackPanel>
         </StackPanel>
       </ControlTemplate>
     </Setter>
@@ -191,10 +344,10 @@
   </ControlTheme>
 
   <!--
-      Поле цвета, как у Unity: полоса цвета во всю ширину — кнопка, которая открывает выбор, — с полоской
-      прозрачности снизу, и справа пипетка. Текста в поле нет: код набирают в выборе цвета, а диктору и подсказке поле
-      отдаёт код (ColorText). У разных значений на месте цвета — прочерк, у кисти, которой нет, — перечёркнутая
-      шахматка. Выбор открывается карточкой под полем — той же, что у выпадающего меню, с тенью в своём поле.
+      Поле цвета, как у Unity: полоса цвета во всю ширину — кнопка, которая открывает окно «Цвет», — с полоской
+      прозрачности снизу, и справа пипетка. Текста в поле нет: код набирают в окне, а диктору и подсказке поле отдаёт
+      код (ColorText). У разных значений на месте цвета — прочерк, у кисти, которой нет, — перечёркнутая шахматка.
+      Попапа в шаблоне нет: без него поле открывает выбор отдельным окном.
   -->
   <ControlTheme x:Key="{x:Type ax:AxColorField}" TargetType="ax:AxColorField">
     <Setter Property="ClipToBounds" Value="False"/>
@@ -230,23 +383,6 @@
               </Panel>
             </ax:AxButton>
           </DockPanel>
-          <Popup x:Name="PART_Popup"
-                 IsOpen="{TemplateBinding IsPickerOpen, Mode=TwoWay}"
-                 PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-                 Placement="BottomEdgeAlignedLeft"
-                 HorizontalOffset="{DynamicResource AxColorPopupHorizontalOffset}"
-                 VerticalOffset="{DynamicResource AxColorPopupVerticalOffset}"
-                 IsLightDismissEnabled="True">
-            <Border Background="{DynamicResource AxSurfaceOverlayBrush}"
-                    BorderBrush="{DynamicResource AxStrokeControlBrush}"
-                    BorderThickness="{DynamicResource AxHairlineThickness}"
-                    CornerRadius="{DynamicResource AxCornerRadiusLarge}"
-                    BoxShadow="{DynamicResource AxShadowPopup}"
-                    Padding="{DynamicResource AxSpaceWideThickness}"
-                    Margin="{DynamicResource AxPopupShadowRoom}">
-              <ax:AxColorPicker x:Name="PART_Picker"/>
-            </Border>
-          </Popup>
         </Panel>
       </ControlTemplate>
     </Setter>

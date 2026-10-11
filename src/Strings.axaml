@@ -23,9 +23,15 @@
   <x:String x:Key="AxTextColorSpectrum">Saturation and brightness</x:String>
   <x:String x:Key="AxTextColorHue">Hue</x:String>
   <x:String x:Key="AxTextColorAlpha">Opacity</x:String>
-  <x:String x:Key="AxTextColorCode">Color code</x:String>
+  <x:String x:Key="AxTextColorCode">Hexadecimal</x:String>
   <x:String x:Key="AxTextColorNone">No color</x:String>
   <x:String x:Key="AxTextColorEyedropper">Pick a color from the screen</x:String>
   <x:String x:Key="AxTextEyedropperHint">Click a pixel to take its color. Esc cancels.</x:String>
+  <x:String x:Key="AxTextColorWindow">Color</x:String>
+  <x:String x:Key="AxTextColorOriginal">Original color: click to bring it back</x:String>
+  <x:String x:Key="AxTextColorMode">Color mode</x:String>
+  <x:String x:Key="AxTextColorModeRgb255">RGB 0–255</x:String>
+  <x:String x:Key="AxTextColorModeRgb1">RGB 0–1.0</x:String>
+  <x:String x:Key="AxTextColorModeHsv">HSV</x:String>
 
 </ResourceDictionary>
