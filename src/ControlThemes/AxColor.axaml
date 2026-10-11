@@ -151,43 +151,85 @@
   </ControlTheme>
 
   <!--
-      Поле цвета — поле ввода с образцом внутри слева: образец — кнопка, которая открывает выбор, а запись —
-      моноширинная, как в выборе. Образец стоит в клетке значка на шахматке: прозрачный цвет видно, а у разных
-      значений он пуст. Выбор открывается карточкой под полем — той же, что у выпадающего меню, с тенью в своём
-      поле.
+      Образец цвета рисует себя сам (AxColorSwatch.Render): доля непрозрачности ставит ширину белой части полоски, а
+      шаблону нечем перевести число в ширину. Тема даёт ему кисти и высоту полоски: белое — непрозрачность, чёрное —
+      остаток, как у Unity; «нет цвета» — шахматка, перечёркнутая цветом ошибки.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxColorSwatch}" TargetType="ax:AxColorSwatch">
+    <Setter Property="AlphaBarHeight" Value="{DynamicResource AxColorAlphaBarHeight}"/>
+    <Setter Property="AlphaFillBrush" Value="{DynamicResource AxColorAlphaFillBrush}"/>
+    <Setter Property="AlphaEmptyBrush" Value="{DynamicResource AxColorAlphaEmptyBrush}"/>
+    <Setter Property="CheckerBrush" Value="{DynamicResource AxCheckerPattern}"/>
+    <Setter Property="NoneBrush" Value="{DynamicResource AxErrorBrush}"/>
+    <Setter Property="NoneThickness" Value="{DynamicResource AxColorNoneThickness}"/>
+  </ControlTheme>
 
-      Образец лежит содержимым поля ввода (InnerLeftContent), а такому содержимому Avalonia шаблонного
-      родителя не ставит, и TemplateBinding там пуст: значения поля образец берёт у предка, как крестик поля
-      поиска — у своей кнопки. Выбору в попапе прозрачность и цвет ставит само поле, когда его открывает.
+  <!--
+      Полоса поля цвета — кнопка с рамкой поля и зазором до цвета (AxColorSwatchInset): белый не сливается со светлой
+      рамкой, тёмный — с тёмной. Наведение не заливает полосу — цвет под ним остаётся цветом, — а усиливает рамку;
+      кольцо фокуса — как у всякой кнопки.
+  -->
+  <ControlTheme x:Key="AxColorSwatchButton" TargetType="ax:AxButton"
+                BasedOn="{StaticResource {x:Type ax:AxButton}}">
+    <Setter Property="MinWidth" Value="0"/>
+    <Setter Property="MinHeight" Value="{DynamicResource AxControlHeight}"/>
+    <Setter Property="Padding" Value="{DynamicResource AxColorSwatchInset}"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadiusSmall}"/>
+    <Setter Property="Background" Value="{DynamicResource AxSurfaceBaseBrush}"/>
+    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    <Setter Property="VerticalAlignment" Value="Stretch"/>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource AxSurfaceBaseBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeStrongBrush}"/>
+    </Style>
+    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource AxSurfaceBaseBrush}"/>
+    </Style>
+  </ControlTheme>
+
+  <!--
+      Поле цвета, как у Unity: полоса цвета во всю ширину — кнопка, которая открывает выбор, — с полоской
+      прозрачности снизу, и справа пипетка. Текста в поле нет: код набирают в выборе цвета, а диктору и подсказке поле
+      отдаёт код (ColorText). У разных значений на месте цвета — прочерк, у кисти, которой нет, — перечёркнутая
+      шахматка. Выбор открывается карточкой под полем — той же, что у выпадающего меню, с тенью в своём поле.
   -->
   <ControlTheme x:Key="{x:Type ax:AxColorField}" TargetType="ax:AxColorField">
     <Setter Property="ClipToBounds" Value="False"/>
     <Setter Property="Template">
       <ControlTemplate>
         <Panel>
-          <ax:AxTextBox x:Name="PART_Text"
-                        Size="{TemplateBinding Size}"
-                        IsReadOnly="{TemplateBinding IsReadOnly}"
-                        FontFamily="{DynamicResource AxFontFamilyMono}"
-                        AutomationProperties.Name="{DynamicResource AxTextColorCode}">
-            <ax:AxTextBox.InnerLeftContent>
-              <ax:AxButton x:Name="PART_Swatch"
-                           Theme="{StaticResource AxInlineIconButton}"
-                           Margin="{DynamicResource AxSpaceTightTrailingThickness}"
-                           IsEnabled="{Binding $parent[ax:AxColorField].IsReadOnly, Converter={x:Static BoolConverters.Not}}"
-                           AutomationProperties.Name="{DynamicResource AxTextColorChoose}"
-                           ToolTip.Tip="{DynamicResource AxTextColorChoose}">
-                <Panel Width="{DynamicResource AxIconSize}" Height="{DynamicResource AxIconSize}">
-                  <Border Background="{DynamicResource AxCheckerPattern}"
-                          CornerRadius="{DynamicResource AxCornerRadiusSmall}"/>
-                  <Border Background="{Binding $parent[ax:AxColorField].SwatchBrush}"
-                          BorderBrush="{DynamicResource AxStrokeControlBrush}"
-                          BorderThickness="{DynamicResource AxHairlineThickness}"
-                          CornerRadius="{DynamicResource AxCornerRadiusSmall}"/>
-                </Panel>
-              </ax:AxButton>
-            </ax:AxTextBox.InnerLeftContent>
-          </ax:AxTextBox>
+          <DockPanel>
+            <ax:AxButton x:Name="PART_Eyedropper"
+                         DockPanel.Dock="Right"
+                         Theme="{StaticResource AxInlineIconButton}"
+                         Margin="{DynamicResource AxSpaceSnugLeadingThickness}"
+                         IsVisible="{TemplateBinding ShowsEyedropper}"
+                         IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static BoolConverters.Not}}"
+                         AutomationProperties.Name="{DynamicResource AxTextColorEyedropper}"
+                         ToolTip.Tip="{DynamicResource AxTextColorEyedropper}">
+              <ax:AxIcon Data="{x:Static ax:AxIcons.Eyedropper}"/>
+            </ax:AxButton>
+            <ax:AxButton x:Name="PART_Swatch"
+                         Theme="{StaticResource AxColorSwatchButton}"
+                         IsEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static BoolConverters.Not}}"
+                         AutomationProperties.Name="{DynamicResource AxTextColorChoose}"
+                         AutomationProperties.HelpText="{TemplateBinding ColorText}"
+                         ToolTip.Tip="{TemplateBinding ColorText}">
+              <Panel>
+                <ax:AxColorSwatch x:Name="PART_Color"
+                                  Color="{TemplateBinding Color}"
+                                  IsNone="{TemplateBinding IsNone}"/>
+                <TextBlock x:Name="PART_Mixed"
+                           Text="—"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           IsVisible="False"/>
+              </Panel>
+            </ax:AxButton>
+          </DockPanel>
           <Popup x:Name="PART_Popup"
                  IsOpen="{TemplateBinding IsPickerOpen, Mode=TwoWay}"
                  PlacementTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
@@ -209,12 +251,26 @@
       </ControlTemplate>
     </Setter>
 
-    <!-- Разные значения: запись пуста, на месте подсказки — прочерк, а подсказка говорит почему. -->
-    <Style Selector="^:mixed /template/ ax|AxTextBox#PART_Text">
-      <Setter Property="PlaceholderText" Value="—"/>
+    <Style Selector="^:compact /template/ ax|AxButton#PART_Swatch">
+      <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
     </Style>
-    <Style Selector="^:mixed">
+
+    <!-- Разные значения: на месте цвета — прочерк, а подсказка и диктор говорят почему. -->
+    <Style Selector="^:mixed /template/ ax|AxColorSwatch#PART_Color">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="^:mixed /template/ TextBlock#PART_Mixed">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:mixed /template/ ax|AxButton#PART_Swatch">
+      <Setter Property="AutomationProperties.HelpText" Value="{DynamicResource AxTextMixedValues}"/>
       <Setter Property="ToolTip.Tip" Value="{DynamicResource AxTextMixedValues}"/>
+    </Style>
+
+    <!-- Нет цвета: шахматка перечёркнута, и так же её называют. -->
+    <Style Selector="^:none /template/ ax|AxButton#PART_Swatch">
+      <Setter Property="AutomationProperties.HelpText" Value="{DynamicResource AxTextColorNone}"/>
+      <Setter Property="ToolTip.Tip" Value="{DynamicResource AxTextColorNone}"/>
     </Style>
   </ControlTheme>
 

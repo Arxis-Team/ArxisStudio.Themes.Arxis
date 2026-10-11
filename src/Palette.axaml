@@ -135,6 +135,12 @@
       -->
       <Color x:Key="AxCheckerLightColor">#6B6E73</Color>
       <Color x:Key="AxCheckerDarkColor">#46494E</Color>
+      <!--
+          Полоска прозрачности у образца цвета — как у Unity, в обеих темах одна: белое — доля непрозрачности,
+          чёрное — остаток. Та же пара обводит средний пиксель в лупе пипетки: одна из двух видна на любом цвете.
+      -->
+      <Color x:Key="AxColorAlphaFillColor">#FFFFFF</Color>
+      <Color x:Key="AxColorAlphaEmptyColor">#000000</Color>
       <Color x:Key="AxColorThumbColor">#FFFFFF</Color>
       <Color x:Key="AxColorThumbOutlineColor">#99000000</Color>
 
@@ -218,6 +224,8 @@
       <SolidColorBrush x:Key="AxColorThumbOutlineBrush" Color="{StaticResource AxColorThumbOutlineColor}"/>
       <SolidColorBrush x:Key="AxCheckerLightBrush" Color="{StaticResource AxCheckerLightColor}"/>
       <SolidColorBrush x:Key="AxCheckerDarkBrush" Color="{StaticResource AxCheckerDarkColor}"/>
+      <SolidColorBrush x:Key="AxColorAlphaFillBrush" Color="{StaticResource AxColorAlphaFillColor}"/>
+      <SolidColorBrush x:Key="AxColorAlphaEmptyBrush" Color="{StaticResource AxColorAlphaEmptyColor}"/>
       <DrawingBrush x:Key="AxCheckerPattern" TileMode="Tile" Stretch="None" DestinationRect="0,0,8,8">
         <DrawingBrush.Drawing>
           <DrawingGroup>
@@ -344,6 +352,8 @@
       -->
       <Color x:Key="AxCheckerLightColor">#FFFFFF</Color>
       <Color x:Key="AxCheckerDarkColor">#D9DCE0</Color>
+      <Color x:Key="AxColorAlphaFillColor">#FFFFFF</Color>
+      <Color x:Key="AxColorAlphaEmptyColor">#000000</Color>
       <Color x:Key="AxColorThumbColor">#FFFFFF</Color>
       <Color x:Key="AxColorThumbOutlineColor">#73000000</Color>
 
@@ -427,6 +437,8 @@
       <SolidColorBrush x:Key="AxColorThumbOutlineBrush" Color="{StaticResource AxColorThumbOutlineColor}"/>
       <SolidColorBrush x:Key="AxCheckerLightBrush" Color="{StaticResource AxCheckerLightColor}"/>
       <SolidColorBrush x:Key="AxCheckerDarkBrush" Color="{StaticResource AxCheckerDarkColor}"/>
+      <SolidColorBrush x:Key="AxColorAlphaFillBrush" Color="{StaticResource AxColorAlphaFillColor}"/>
+      <SolidColorBrush x:Key="AxColorAlphaEmptyBrush" Color="{StaticResource AxColorAlphaEmptyColor}"/>
       <DrawingBrush x:Key="AxCheckerPattern" TileMode="Tile" Stretch="None" DestinationRect="0,0,8,8">
         <DrawingBrush.Drawing>
           <DrawingGroup>

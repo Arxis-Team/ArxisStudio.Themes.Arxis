@@ -24,5 +24,8 @@
   <x:String x:Key="AxTextColorHue">Hue</x:String>
   <x:String x:Key="AxTextColorAlpha">Opacity</x:String>
   <x:String x:Key="AxTextColorCode">Color code</x:String>
+  <x:String x:Key="AxTextColorNone">No color</x:String>
+  <x:String x:Key="AxTextColorEyedropper">Pick a color from the screen</x:String>
+  <x:String x:Key="AxTextEyedropperHint">Click a pixel to take its color. Esc cancels.</x:String>
 
 </ResourceDictionary>

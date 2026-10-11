@@ -1,10 +1,11 @@
 using ArxisStudio.Controls;
 using Avalonia;
+using Avalonia.Automation;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
@@ -13,105 +14,79 @@ using Xunit;
 namespace ArxisStudio.Themes.Arxis.Tests;
 
 /// <summary>
-/// Поле цвета: запись, образец и выбор под полем.
+/// Поле цвета, как у Unity: полоса цвета с полоской прозрачности, пипетка и выбор под полем.
 /// </summary>
 /// <remarks>
-/// Запись правит текст разметки и фиксируется с набранным текстом — хозяин решает, писать ли «Red»; выбор
-/// под полем открывается с цветом поля, его события идут к хозяину сквозь поле, а Esc закрывает его и
-/// возвращает каретку к образцу.
+/// Текста в поле нет: код читают подсказкой и диктором, а набирают в выборе цвета. Выбор под полем открывается с
+/// цветом поля, его события идут к хозяину сквозь поле, Esc закрывает его и возвращает каретку к полосе. Пипетка
+/// берёт пиксель экрана и фиксирует его одним событием.
 /// </remarks>
 public class ColorFieldTests
 {
+    /// <summary>Код цвета — подсказкой полосы и для диктора; без прозрачности — шесть цифр.</summary>
     [AvaloniaFact]
-    public void A_typed_name_commits_with_its_text_and_shows_the_code()
+    public void The_code_is_the_swatchs_tip_and_without_alpha_it_has_six_digits()
     {
-        var (field, window) = Shown(0xFF3C6ECF);
-        var committed = Committed(field);
+        var (field, window) = Shown(0x803C6ECF);
 
-        Type(window, field, "Red");
-        Press(window, Key.Enter);
+        Assert.Equal("#803C6ECF", field.ColorText);
+        Assert.Equal("#803C6ECF", AutomationProperties.GetHelpText(Swatch(field)));
+        Assert.Equal("#803C6ECF", ToolTip.GetTip(Swatch(field)));
 
-        var (color, text) = Assert.Single(committed);
+        field.AllowsAlpha = false;
 
-        Assert.Equal(Colors.Red, color);
-        Assert.Equal("Red", text);
-        Assert.Equal(Colors.Red, field.Color);
-        Assert.Equal("#FF0000", Input(field).Text);
+        Assert.Equal("#3C6ECF", field.ColorText);
 
         window.Close();
     }
 
-    [AvaloniaFact]
-    public void An_unreadable_code_stays_marked_and_the_color_stays()
-    {
-        var (field, window) = Shown(0xFF3C6ECF);
-        var committed = Committed(field);
-
-        Type(window, field, "zzz");
-        Press(window, Key.Enter);
-
-        Assert.Equal(Color.FromUInt32(0xFF3C6ECF), field.Color);
-        Assert.Equal("zzz", Input(field).Text);
-        Assert.True(Input(field).Classes.Contains(":validation-error"), "непрочитанное не отмечено ошибкой");
-        Assert.Empty(committed);
-
-        Press(window, Key.Escape);
-        Assert.Equal("#3C6ECF", Input(field).Text);
-
-        window.Close();
-    }
-
-    /// <summary>Каретка, прошедшая сквозь запись, ничего не фиксирует: показанное полем — не набранное.</summary>
-    [AvaloniaFact]
-    public void Passing_through_the_code_commits_nothing()
-    {
-        var (field, window) = Shown(0xFF3C6ECF);
-        var committed = Committed(field);
-
-        Input(field).Focus();
-        field.Color = Color.FromUInt32(0xFF20A060);
-        window.GetVisualDescendants().OfType<AxButton>().First(button => Equals(button.Content, "beside")).Focus();
-
-        Assert.Empty(committed);
-        Assert.Equal("#20A060", Input(field).Text);
-
-        window.Close();
-    }
-
-    /// <summary>Без прозрачности цвет всегда плотный, а запись — шесть цифр.</summary>
-    [AvaloniaFact]
-    public void Without_alpha_the_color_is_opaque()
-    {
-        var (field, window) = Shown(0xFF20A060, setup: field => field.AllowsAlpha = false);
-
-        Type(window, field, "#80FF0000");
-        Press(window, Key.Enter);
-
-        Assert.Equal(Colors.Red, field.Color);
-        Assert.Equal("#FF0000", Input(field).Text);
-
-        window.Close();
-    }
-
-    /// <summary>Разные значения — пустая запись с прочерком и образец без цвета.</summary>
+    /// <summary>Разные значения — прочерк вместо цвета, и подсказка говорит почему.</summary>
     [AvaloniaFact]
     public void Mixed_shows_a_dash_and_no_swatch()
     {
         var (field, window) = Shown(0xFF3C6ECF, setup: field => field.IsMixed = true);
 
-        Assert.Equal(string.Empty, Input(field).Text);
-        Assert.Equal("—", Input(field).PlaceholderText);
         Assert.Null(field.SwatchBrush);
+        Assert.Null(field.ColorText);
+        Assert.False(Part<AxColorSwatch>(field, "PART_Color").IsVisible, "у разных значений виден цвет");
+        Assert.True(Part<TextBlock>(field, "PART_Mixed").IsVisible, "у разных значений нет прочерка");
+        Assert.Equal(Resource("AxTextMixedValues"), AutomationProperties.GetHelpText(Swatch(field)));
 
         field.IsMixed = false;
+
         Assert.Equal(Color.FromUInt32(0xFF3C6ECF), Assert.IsAssignableFrom<ISolidColorBrush>(field.SwatchBrush).Color);
+        Assert.True(Part<AxColorSwatch>(field, "PART_Color").IsVisible);
+
+        window.Close();
+    }
+
+    /// <summary>Нет цвета — перечёркнутый образец, и диктор слышит «нет цвета»; выбранный цвет снимает отметку.</summary>
+    [AvaloniaFact]
+    public void No_color_is_a_crossed_swatch_until_a_color_is_chosen()
+    {
+        var (field, window) = Shown(0xFFFFFFFF, setup: field => field.IsNone = true);
+
+        Assert.True(Part<AxColorSwatch>(field, "PART_Color").IsNone, "образец «нет цвета» не перечёркнут");
+        Assert.Null(field.ColorText);
+        Assert.Equal(Resource("AxTextColorNone"), AutomationProperties.GetHelpText(Swatch(field)));
+
+        Assert.True(Swatch(field).Focus(NavigationMethod.Tab));
+        Press(window, Key.Enter);
+        Pump();
+
+        var picker = Assert.IsType<AxColorPicker>(field.Picker);
+
+        picker.RaiseEvent(new AxColorEventArgs(AxColorPicker.ColorCommittedEvent, Colors.Red));
+
+        Assert.False(field.IsNone, "выбранный цвет не снял отметку «нет цвета»");
+        Assert.Equal(Colors.Red, field.Color);
 
         window.Close();
     }
 
     /// <summary>
-    /// Образец открывает выбор с цветом поля и кареткой в спектре; шаг стрелкой там — фиксация, которую слышит
-    /// хозяин поля, а Esc закрывает выбор и возвращает каретку к образцу.
+    /// Полоса открывает выбор с цветом поля и кареткой в спектре; шаг стрелкой там — фиксация, которую слышит
+    /// хозяин поля, а Esc закрывает выбор и возвращает каретку к полосе.
     /// </summary>
     [AvaloniaFact]
     public void The_swatch_opens_the_picker_whose_steps_reach_the_owner_and_escape_comes_back()
@@ -120,11 +95,11 @@ public class ColorFieldTests
         var committed = Committed(field);
         var swatch = Swatch(field);
 
-        Assert.True(swatch.Focus(NavigationMethod.Tab), "образец не взял каретку");
+        Assert.True(swatch.Focus(NavigationMethod.Tab), "полоса не взяла каретку");
         Press(window, Key.Enter);
         Pump();
 
-        Assert.True(field.IsPickerOpen, "Enter на образце не открыл выбор");
+        Assert.True(field.IsPickerOpen, "Enter на полосе не открыл выбор");
 
         var picker = Assert.IsType<AxColorPicker>(field.Picker);
         var spectrum = picker.GetVisualDescendants().OfType<AxColorSpectrum>().Single();
@@ -146,21 +121,74 @@ public class ColorFieldTests
         Pump();
 
         Assert.False(field.IsPickerOpen, "Esc не закрыл выбор");
-        Assert.True(swatch.IsFocused, "каретка не вернулась к образцу");
+        Assert.True(swatch.IsFocused, "каретка не вернулась к полосе");
 
         window.Close();
     }
 
+    /// <summary>
+    /// Пипетка поля берёт пиксель под щелчком и фиксирует его одним событием — без выбора цвета; цвет экрана плотный.
+    /// </summary>
     [AvaloniaFact]
-    public void A_read_only_field_does_not_open_the_picker()
+    public void The_eyedropper_takes_the_clicked_pixel_and_commits_it_once()
+    {
+        var (field, window) = Shown(0x803C6ECF);
+        var committed = Committed(field);
+
+        using var screen = Eyedroppers.Screen(40, 30, (10, 5, Colors.OrangeRed));
+
+        Eyedropper(field).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        Pump();
+
+        var overlay = Assert.Single(AxEyedropper.Overlays);
+
+        overlay.MouseMove(new Point(10.5, 5.5));
+        overlay.MouseDown(new Point(10.5, 5.5), MouseButton.Left);
+        Pump();
+
+        var (color, text) = Assert.Single(committed);
+
+        Assert.Equal(Colors.OrangeRed, color);
+        Assert.Null(text);
+        Assert.Equal(Colors.OrangeRed, field.Color);
+        Assert.False(field.IsPickerOpen, "пипетка открыла выбор цвета");
+        Assert.Empty(AxEyedropper.Overlays);
+
+        window.Close();
+    }
+
+    /// <summary>Esc отменяет пипетку: ни цвета, ни фиксации.</summary>
+    [AvaloniaFact]
+    public void Escape_cancels_the_eyedropper_and_commits_nothing()
+    {
+        var (field, window) = Shown(0xFF3C6ECF);
+        var committed = Committed(field);
+
+        using var screen = Eyedroppers.Screen(40, 30, (10, 5, Colors.OrangeRed));
+
+        Eyedropper(field).RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        Pump();
+
+        Assert.Single(AxEyedropper.Overlays).KeyPress(Key.Escape, RawInputModifiers.None, PhysicalKey.Escape, string.Empty);
+        Pump();
+
+        Assert.Empty(committed);
+        Assert.Equal(Color.FromUInt32(0xFF3C6ECF), field.Color);
+        Assert.Empty(AxEyedropper.Overlays);
+
+        window.Close();
+    }
+
+    /// <summary>Поле только для чтения не открывает ни выбор, ни пипетку.</summary>
+    [AvaloniaFact]
+    public void A_read_only_field_opens_neither_the_picker_nor_the_eyedropper()
     {
         var (field, window) = Shown(0xFFE0A040, setup: field => field.IsReadOnly = true);
 
-        Assert.False(Swatch(field).IsEnabled, "образец поля только для чтения нажимается");
+        Assert.False(Swatch(field).IsEnabled, "полоса поля только для чтения нажимается");
+        Assert.False(Eyedropper(field).IsEnabled, "пипетка поля только для чтения нажимается");
 
-        field.Focus();
-        Input(field).Focus();
-        Press(window, Key.Down, RawInputModifiers.Alt);
+        field.RaiseEvent(new KeyEventArgs { RoutedEvent = InputElement.KeyDownEvent, Key = Key.Down, KeyModifiers = KeyModifiers.Alt });
 
         Assert.False(field.IsPickerOpen, "Alt+↓ открыл выбор у поля только для чтения");
 
@@ -182,8 +210,6 @@ public class ColorFieldTests
 
         window.Show();
         window.UpdateLayout();
-
-        // Отложенное Avalonia — запоздалые уведомления о тексте — приходит здесь, как в живом окне.
         Pump();
 
         return (field, window);
@@ -198,17 +224,16 @@ public class ColorFieldTests
         return committed;
     }
 
-    private static TextBox Input(AxColorField field) => Assert.IsAssignableFrom<TextBox>(field.Input);
+    private static Button Swatch(AxColorField field) => Part<Button>(field, "PART_Swatch");
 
-    private static Button Swatch(AxColorField field) =>
-        field.GetVisualDescendants().OfType<Button>().Single(button => button.Name == "PART_Swatch");
+    private static Button Eyedropper(AxColorField field) => Part<Button>(field, "PART_Eyedropper");
 
-    private static void Type(Window window, AxColorField field, string text)
-    {
-        Input(field).Focus();
-        Input(field).SelectAll();
-        window.KeyTextInput(text);
-    }
+    private static T Part<T>(AxColorField field, string name)
+        where T : Control =>
+        field.GetVisualDescendants().OfType<T>().Single(part => part.Name == name);
+
+    private static object? Resource(string key) =>
+        Application.Current!.TryFindResource(key, out var value) ? value : null;
 
     private static void Press(Window window, Key key, RawInputModifiers modifiers = RawInputModifiers.None)
     {
@@ -216,7 +241,7 @@ public class ColorFieldTests
         window.UpdateLayout();
     }
 
-    /// <summary>Прокачивает диспетчер: каретку в спектр выбор ставит отложенно, когда карточка на экране.</summary>
+    /// <summary>Прокачивает диспетчер: каретку в спектр выбор ставит отложенно, окна пипетки — тоже.</summary>
     private static void Pump()
     {
         for (var at = 0; at < 5; at++)

@@ -486,6 +486,20 @@
   <x:Double x:Key="AxColorPopupHorizontalOffset">-16</x:Double>
   <x:Double x:Key="AxColorPopupVerticalOffset">-16</x:Double>
   <!--
+      Поле цвета, как у Unity: полоса цвета во всю ширину в рамке поля, с зазором AxColorSwatchInset между рамкой и
+      цветом — без него белый цвет сливался бы со светлой рамкой, — и полоской прозрачности высотой
+      AxColorAlphaBarHeight. «Нет цвета» перечёркнут линией AxColorNoneThickness.
+
+      Лупа пипетки — AxEyedropperLoupeCells пикселей в сторону, нечётно, чтобы у среднего была своя клетка, каждый
+      увеличен в AxEyedropperLoupeZoom раз; стоит в AxEyedropperLoupeOffset от курсора, по другую сторону у края.
+  -->
+  <Thickness x:Key="AxColorSwatchInset">2</Thickness>
+  <x:Double x:Key="AxColorAlphaBarHeight">3</x:Double>
+  <x:Double x:Key="AxColorNoneThickness">1.5</x:Double>
+  <x:Double x:Key="AxEyedropperLoupeCells">11</x:Double>
+  <x:Double x:Key="AxEyedropperLoupeZoom">8</x:Double>
+  <x:Double x:Key="AxEyedropperLoupeOffset">16</x:Double>
+  <!--
       Страница плагинов делится на список и подробности границей, которую тянут. Уже этого колонка
       не становится: в списке остаётся плитка значка, имя и флажок, в подробностях — строка
       кнопок плагина.
