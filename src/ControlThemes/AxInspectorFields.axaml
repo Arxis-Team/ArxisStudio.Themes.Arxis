@@ -108,7 +108,8 @@
   <!--
       Строка свойства. Подпись — колонкой по правилу Unity (AxPropertyRowPanel), высотой в тесное поле
       и по его первой строке: у многострочного поля подпись стоит наверху, а не посередине. Задано здесь
-      — полоса акцента у края и полужирная подпись, как у переопределённого в префабе Unity; только
+      — полужирная подпись, как у переопределённого в префабе Unity, но без его полосы у края: в списке,
+      где задана половина строк, полосы рябят столбиком и спорят с меткой выбранной строки; только
       чтение — подпись вторичным тоном, а само поле — выделяемым текстом. Заметка под полем мельче и
       вторичная, а у строки с ошибкой (AxValidation.State) — цветом ошибки: почему значение не годится,
       человек читает там же, где его набрал.
@@ -130,10 +131,6 @@
                                  ValueMinWidth="{DynamicResource AxPropertyValueMinWidth}"
                                  IndentStep="{DynamicResource AxTreeIndent}"
                                  Spacing="{DynamicResource AxSpaceTight}">
-            <Border x:Name="PART_Marker"
-                    ax:AxPropertyRowPanel.Part="Marker"
-                    Width="{DynamicResource AxPropertyMarkerWidth}"
-                    Background="Transparent"/>
             <ax:AxScrubLabel x:Name="PART_Label"
                              ax:AxPropertyRowPanel.Part="Label"
                              Content="{TemplateBinding Label}"
@@ -167,9 +164,6 @@
       </ControlTemplate>
     </Setter>
 
-    <Style Selector="^:overridden /template/ Border#PART_Marker">
-      <Setter Property="Background" Value="{DynamicResource AxAccentBrush}"/>
-    </Style>
     <Style Selector="^:overridden /template/ ax|AxScrubLabel#PART_Label">
       <Setter Property="FontWeight" Value="SemiBold"/>
     </Style>

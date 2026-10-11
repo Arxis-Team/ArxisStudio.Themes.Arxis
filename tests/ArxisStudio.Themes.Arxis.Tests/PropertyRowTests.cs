@@ -32,7 +32,7 @@ public class PropertyRowTests
         var expected = Math.Max(Math.Round(width * AxPropertyRowPanel.LabelShare) - Token("AxPropertyLabelInset"), Token("AxPropertyLabelMinWidth"));
 
         Assert.False(Panel(row).IsStacked, "строка поставила поле под подпись, хотя ему хватает места");
-        Assert.Equal(Token("AxPropertyMarkerWidth") + expected + Token("AxSpaceTight"), ValueLeft(row), 1);
+        Assert.Equal(expected + Token("AxSpaceTight"), ValueLeft(row), 1);
 
         window.Close();
     }
@@ -49,7 +49,7 @@ public class PropertyRowTests
 
         var window = Window(list);
 
-        Assert.Equal(Token("AxPropertyMarkerWidth") + 150 + Token("AxSpaceTight"), ValueLeft(top), 1);
+        Assert.Equal(150 + Token("AxSpaceTight"), ValueLeft(top), 1);
         Assert.Equal(ValueLeft(top), ValueLeft(nested), 1);
         Assert.Equal(2 * Token("AxTreeIndent"), LabelLeft(nested) - LabelLeft(top), 1);
 
@@ -82,7 +82,7 @@ public class PropertyRowTests
     public void A_vector_too_narrow_for_two_cells_goes_under_its_label()
     {
         var floor = Token("AxVectorFieldMinWidth");
-        var width = Token("AxPropertyMarkerWidth") + Token("AxPropertyLabelMinWidth") + Token("AxSpaceTight") + floor - 2;
+        var width = Token("AxPropertyLabelMinWidth") + Token("AxSpaceTight") + floor - 2;
 
         Assert.True(width - Token("AxPropertyLabelMinWidth") >= Token("AxPropertyValueMinWidth"), "условие теста: обычному полю места хватает");
 
@@ -104,7 +104,7 @@ public class PropertyRowTests
     [AvaloniaFact]
     public void A_wrapped_vector_too_narrow_for_two_cells_still_goes_under_its_label()
     {
-        var width = Token("AxPropertyMarkerWidth") + Token("AxPropertyLabelMinWidth") + Token("AxSpaceTight") + Token("AxVectorFieldMinWidth") - 2;
+        var width = Token("AxPropertyLabelMinWidth") + Token("AxSpaceTight") + Token("AxVectorFieldMinWidth") - 2;
         var wrapped = new Border { Child = new Border { Child = new AxVectorField { Labels = ["X", "Y"], Values = [0, 0] } } };
         var (row, window) = Shown(width, wrapped);
 
@@ -112,27 +112,37 @@ public class PropertyRowTests
         window.Close();
     }
 
-    /// <summary>Задано здесь — полоса акцента у края и полужирная подпись; иначе полосы нет.</summary>
+    /// <summary>
+    /// Задано здесь — полужирная подпись, и только она: полосы акцента у края нет, и поле не сдвигается. В
+    /// списке, где задана половина строк, полосы рябят столбиком и спорят с меткой выбранной строки.
+    /// </summary>
     [AvaloniaFact]
-    public void Overridden_shows_the_accent_bar_and_a_bold_label()
+    public void Overridden_bolds_the_label_and_paints_no_bar()
     {
         var (row, window) = Shown(400);
-        var marker = Part<Border>(row, "PART_Marker");
         var label = Part<AxScrubLabel>(row, "PART_Label");
+        var valueLeft = ValueLeft(row);
 
-        Assert.Equal(Colors.Transparent, Color(marker.Background));
         Assert.Equal(FontWeight.Normal, label.FontWeight);
 
         row.IsOverridden = true;
         window.UpdateLayout();
 
-        Assert.Equal(Color(Brush("AxAccentBrush")), Color(marker.Background));
         Assert.Equal(FontWeight.SemiBold, label.FontWeight);
+        Assert.Equal(valueLeft, ValueLeft(row), 1);
+
+        var accent = Color(Brush("AxAccentBrush"));
+        var painted = row.GetVisualDescendants().OfType<Border>()
+            .Where(part => ReferenceEquals(part.TemplatedParent, row) && part.Background is ISolidColorBrush brush && brush.Color == accent)
+            .Select(part => part.Name ?? part.GetType().Name)
+            .ToList();
+
+        Assert.True(painted.Count == 0, $"строка «задано здесь» красит акцентом: {string.Join(", ", painted)}");
 
         window.Close();
     }
 
-    /// <summary>Полный вид — без подписи: поле от края полосы во всю ширину.</summary>
+    /// <summary>Полный вид — без подписи: поле от края строки во всю ширину.</summary>
     [AvaloniaFact]
     public void Full_layout_leaves_no_label()
     {
@@ -142,7 +152,7 @@ public class PropertyRowTests
         window.UpdateLayout();
 
         Assert.False(Part<AxScrubLabel>(row, "PART_Label").IsVisible, "у полного вида осталась подпись");
-        Assert.Equal(Token("AxPropertyMarkerWidth"), ValueLeft(row), 1);
+        Assert.Equal(0, ValueLeft(row), 1);
 
         window.Close();
     }
