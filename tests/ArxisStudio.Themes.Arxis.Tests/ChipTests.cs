@@ -4,6 +4,8 @@ using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Headless.XUnit;
 using Avalonia.Input;
+using Avalonia.Media;
+using Avalonia.Styling;
 using Avalonia.VisualTree;
 using Xunit;
 
@@ -65,6 +67,37 @@ public class ChipTests
 
         Assert.Equal(1, asked);
         Assert.True(chip.Classes.Contains(":focus-visible"), "у чипа с кареткой нет кольца");
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Чип с ошибкой проверки — заливкой и текстом ошибки, и в светлой, и в тёмной теме; ошибка сильнее акцента.
+    /// </summary>
+    [AvaloniaTheory]
+    [InlineData("Light")]
+    [InlineData("Dark")]
+    public void A_chip_with_a_validation_error_takes_the_error_fill_and_text(string variant)
+    {
+        var chip = new AxChip { Content = "{Binding Nmae}", Kind = AxChipKind.Accent };
+        var window = new Window
+        {
+            Width = 300,
+            Height = 100,
+            RequestedThemeVariant = variant == "Light" ? ThemeVariant.Light : ThemeVariant.Dark,
+            Content = chip,
+        };
+
+        AxValidation.SetState(chip, AxValidationState.Error);
+        window.Show();
+        window.UpdateLayout();
+
+        var theme = variant == "Light" ? ThemeVariant.Light : ThemeVariant.Dark;
+
+        Assert.True(window.TryFindResource("AxErrorFillColor", theme, out var fill));
+        Assert.True(window.TryFindResource("AxErrorTextColor", theme, out var text));
+        Assert.Equal((Color)fill!, (chip.Background as ISolidColorBrush)?.Color);
+        Assert.Equal((Color)text!, (chip.Foreground as ISolidColorBrush)?.Color);
 
         window.Close();
     }

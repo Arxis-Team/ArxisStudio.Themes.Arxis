@@ -103,6 +103,15 @@
       <Setter Property="Foreground" Value="{DynamicResource AxLinkOnPlateBrush}"/>
     </Style>
     <!--
+        Чип с ошибкой проверки (AxValidation.State) — например, жетон сломанного выражения в инспекторе: заливка и
+        текст ошибки, как у флажка с ошибкой. Текст на заливке — 5,33:1 в светлой и 5,81:1 в тёмной. После :accent:
+        сломанное важнее выделенного.
+    -->
+    <Style Selector="^:validation-error">
+      <Setter Property="Background" Value="{DynamicResource AxErrorFillBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxErrorTextBrush}"/>
+    </Style>
+    <!--
         Чип шортката: 20 высотой, отступ только по горизонтали, радиус
         контрольный. Текст — AxTextPrimary, а не вторичный: клавишу в чипе читают как
         саму клавишу, а не как пояснение к ней.
