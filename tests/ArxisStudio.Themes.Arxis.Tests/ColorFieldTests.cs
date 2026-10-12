@@ -92,6 +92,71 @@ public sealed class ColorFieldTests : IDisposable
     }
 
     /// <summary>
+    /// У поля без цвета показанный цвет — лишь место: тот же белый, выбранный образцом палитры, — выбор, и поле получает
+    /// цвет.
+    /// </summary>
+    [AvaloniaFact]
+    public void The_shown_color_picked_from_the_palette_for_no_color_is_a_choice()
+    {
+        var (field, window) = Shown(0xFFFFFFFF, setup: field => field.IsNone = true);
+        var committed = Committed(field);
+
+        Assert.True(Swatch(field).Focus(NavigationMethod.Tab));
+        Press(window, Key.Enter);
+        Pump();
+
+        var colors = Assert.IsType<AxColorPickerWindow>(AxColorPickerWindow.Current);
+        var picker = Assert.IsType<AxColorPicker>(field.Picker);
+
+        picker.IsPaletteExpanded = true;
+        Pump();
+
+        var white = picker.GetVisualDescendants().OfType<Button>().First(part => part.Tag is Color color && color == Colors.White);
+
+        white.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+
+        Assert.False(field.IsNone, "показанный белый, выбранный образцом, не снял отметку «нет цвета»");
+
+        colors.Close();
+        Pump();
+
+        Assert.Equal(Colors.White, Assert.Single(committed).Color);
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// У разных значений показан цвет первого: его же код, подтверждённый Enter, сводит их к нему.
+    /// </summary>
+    [AvaloniaFact]
+    public void The_shown_code_confirmed_with_enter_for_mixed_values_is_a_choice()
+    {
+        var (field, window) = Shown(0xFF3C6ECF, setup: field => field.IsMixed = true);
+        var committed = Committed(field);
+
+        Assert.True(Swatch(field).Focus(NavigationMethod.Tab));
+        Press(window, Key.Enter);
+        Pump();
+
+        var colors = Assert.IsType<AxColorPickerWindow>(AxColorPickerWindow.Current);
+        var picker = Assert.IsType<AxColorPicker>(field.Picker);
+        var hex = picker.GetVisualDescendants().OfType<TextBox>().Single(part => part.Name == "PART_Hex");
+
+        Assert.True(hex.Focus(), "запись кода не взяла каретку");
+
+        colors.KeyPress(Key.Enter, RawInputModifiers.None, PhysicalKey.Enter, string.Empty);
+
+        Assert.False(field.IsMixed, "показанный код, подтверждённый Enter, не свёл разные значения");
+
+        colors.Close();
+        Pump();
+
+        Assert.Equal(Color.FromUInt32(0xFF3C6ECF), Assert.Single(committed).Color);
+
+        window.Close();
+    }
+
+    /// <summary>
     /// Полоса открывает окно «Цвет» — отдельным окном над окном поля, с цветом поля, его же цветом «было» и кареткой в
     /// квадрате; шаг стрелкой там поле показывает на ходу, а Esc возвращает цвет начала, закрывает окно и возвращает
     /// каретку к полосе.
