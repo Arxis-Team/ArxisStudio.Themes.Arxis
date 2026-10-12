@@ -87,6 +87,10 @@ public class MetricsScaleTests
         // Число в границах: поле рядом с ползунком и наименьшая ширина.
         "AxRangeFieldNumberWidth",
         "AxRangeFieldMinWidth",
+        // Выбор под полем объекта: ширина, наибольшая высота и миниатюра строки.
+        "AxObjectPickerWidth",
+        "AxObjectPickerMaxHeight",
+        "AxObjectPickerThumbnailSize",
     ];
 
     [AvaloniaTheory]

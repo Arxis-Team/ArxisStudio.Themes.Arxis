@@ -45,5 +45,7 @@
   <x:String x:Key="AxTextColorLibraryInProfile">New library in profile…</x:String>
   <x:String x:Key="AxTextColorLibraryInProject">New library in solution…</x:String>
   <x:String x:Key="AxTextColorLibraryName">Library name</x:String>
+  <x:String x:Key="AxTextObjectPick">Choose (Enter)</x:String>
+  <x:String x:Key="AxTextObjectClear">Clear (Delete)</x:String>
 
 </ResourceDictionary>

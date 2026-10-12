@@ -504,6 +504,14 @@
   <!-- Число в границах: поле справа от ползунка и наименьшая ширина всего поля — ползунку остаётся что тянуть. -->
   <x:Double x:Key="AxRangeFieldNumberWidth">56</x:Double>
   <x:Double x:Key="AxRangeFieldMinWidth">120</x:Double>
+  <!--
+      Выбор под полем объекта — картинки проекта у инспектора, как окно выбора у Unity: шириной AxObjectPickerWidth,
+      список не выше AxObjectPickerMaxHeight, а миниатюра строки — AxObjectPickerThumbnailSize, вдвое крупнее значка:
+      картинку видно, а строк на экране — с десяток.
+  -->
+  <x:Double x:Key="AxObjectPickerWidth">320</x:Double>
+  <x:Double x:Key="AxObjectPickerMaxHeight">360</x:Double>
+  <x:Double x:Key="AxObjectPickerThumbnailSize">32</x:Double>
   <x:Double x:Key="AxColorPaletteWidth">214</x:Double>
   <x:Double x:Key="AxColorPresetNameWidth">160</x:Double>
   <!--

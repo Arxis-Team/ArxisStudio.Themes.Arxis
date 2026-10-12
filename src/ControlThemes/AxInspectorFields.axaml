@@ -280,4 +280,131 @@
     </Style>
   </ControlTheme>
 
+  <!--
+      Поле объекта, как ObjectField у Unity: рамка поля ввода, внутри — миниатюра в клетке значка, имя (у пустого —
+      заглушка вторичным тоном, у разных — прочерк), крестик, пока есть что снять, и мишень ⊙ справа. Высоту поля кнопки
+      не задают — квадрат тесного контрола с рамкой поля распирал его до 26 точек, — а встают во всю высоту внутри рамки:
+      промах на пару точек мимо значка ставил бы каретку вместо выбора. Каретку они не берут: остановка
+      Tab — само поле, и его рамку и кольцо зажигает каретка, как у поля ввода. Цель броска —
+      рамкой акцентом поверх и подложкой сведений, как строка списка; только для чтения — без рамки, подложки и кнопок.
+  -->
+  <ControlTheme x:Key="{x:Type ax:AxObjectField}" TargetType="ax:AxObjectField">
+    <!-- Не обрезаем себя: кольцо фокуса выходит за границы контрола. -->
+    <Setter Property="ClipToBounds" Value="False"/>
+    <Setter Property="MinHeight" Value="{DynamicResource AxControlHeight}"/>
+    <Setter Property="Padding" Value="{DynamicResource AxTextFieldPadding}"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource AxCornerRadius}"/>
+    <Setter Property="Background" Value="{DynamicResource AxSurfaceBaseBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource AxStrokeControlBrush}"/>
+    <Setter Property="BorderThickness" Value="{DynamicResource AxHairlineThickness}"/>
+    <Setter Property="Foreground" Value="{DynamicResource AxTextPrimaryBrush}"/>
+    <Setter Property="FontSize" Value="{DynamicResource AxFontSize}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <t:AxFocusRing x:Name="PART_FocusRing"/>
+          <Border x:Name="PART_BorderElement"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <DockPanel Margin="{TemplateBinding Padding}">
+              <ax:AxButton x:Name="PART_Pick"
+                           DockPanel.Dock="Right"
+                           Theme="{StaticResource AxInlineIconButton}"
+                           Focusable="False"
+                           Height="NaN"
+                           Margin="{DynamicResource AxSpaceSnugLeadingThickness}"
+                           VerticalAlignment="Stretch"
+                           AutomationProperties.Name="{DynamicResource AxTextObjectPick}"
+                           ToolTip.Tip="{DynamicResource AxTextObjectPick}">
+                <ax:AxIcon Size="Small"
+                           Data="{x:Static ax:AxIcons.Target}"
+                           Foreground="{Binding $parent[ax:AxButton].Foreground}"/>
+              </ax:AxButton>
+              <ax:AxButton x:Name="PART_Clear"
+                           DockPanel.Dock="Right"
+                           Theme="{StaticResource AxInlineIconButton}"
+                           Focusable="False"
+                           Height="NaN"
+                           Margin="{DynamicResource AxSpaceSnugLeadingThickness}"
+                           VerticalAlignment="Stretch"
+                           AutomationProperties.Name="{DynamicResource AxTextObjectClear}"
+                           ToolTip.Tip="{DynamicResource AxTextObjectClear}">
+                <ax:AxIcon Size="Small"
+                           Data="{x:Static ax:AxIcons.Close}"
+                           Foreground="{Binding $parent[ax:AxButton].Foreground}"/>
+              </ax:AxButton>
+              <Image x:Name="PART_Thumbnail"
+                     DockPanel.Dock="Left"
+                     Source="{TemplateBinding Thumbnail}"
+                     Width="{DynamicResource AxIconSize}"
+                     Height="{DynamicResource AxIconSize}"
+                     Margin="{DynamicResource AxGapIconTextThickness}"
+                     Stretch="Uniform"
+                     VerticalAlignment="Center"
+                     IsVisible="{TemplateBinding Thumbnail, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+              <TextBlock x:Name="PART_Text"
+                         Text="{TemplateBinding Text}"
+                         TextTrimming="CharacterEllipsis"
+                         VerticalAlignment="Center"/>
+            </DockPanel>
+          </Border>
+          <!-- Цель броска — рамкой поверх, как у строки списка: рамка на самой заливке сдвинула бы содержимое. -->
+          <Border x:Name="PART_DropTarget"
+                  IsVisible="False"
+                  IsHitTestVisible="False"
+                  BorderBrush="{DynamicResource AxAccentBrush}"
+                  BorderThickness="{DynamicResource AxDropTargetThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"/>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:empty /template/ TextBlock#PART_Text">
+      <Setter Property="Text" Value="{Binding PlaceholderText, RelativeSource={RelativeSource TemplatedParent}}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AxTextSecondaryBrush}"/>
+    </Style>
+    <Style Selector="^:mixed /template/ TextBlock#PART_Text">
+      <Setter Property="Text" Value="—"/>
+    </Style>
+    <Style Selector="^:empty /template/ ax|AxButton#PART_Clear">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="^:pointerover /template/ Border#PART_BorderElement">
+      <Setter Property="BorderBrush" Value="{DynamicResource AxTextTertiaryBrush}"/>
+    </Style>
+    <Style Selector="^:focus /template/ Border#PART_BorderElement">
+      <Setter Property="BorderBrush" Value="{DynamicResource AxFocusRingBrush}"/>
+    </Style>
+    <Style Selector="^:focus /template/ t|AxFocusRing#PART_FocusRing">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:drop-target /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="{DynamicResource AxInfoFillBrush}"/>
+    </Style>
+    <Style Selector="^:drop-target /template/ Border#PART_DropTarget">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^:readonly /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="BorderBrush" Value="Transparent"/>
+    </Style>
+    <Style Selector="^:readonly /template/ ax|AxButton#PART_Pick">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="^:readonly /template/ ax|AxButton#PART_Clear">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="^:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource AxTextDisabledBrush}"/>
+    </Style>
+    <Style Selector="^:disabled /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="{DynamicResource AxFillDisabledBrush}"/>
+    </Style>
+    <Style Selector="^:compact">
+      <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
+    </Style>
+  </ControlTheme>
+
 </ResourceDictionary>
