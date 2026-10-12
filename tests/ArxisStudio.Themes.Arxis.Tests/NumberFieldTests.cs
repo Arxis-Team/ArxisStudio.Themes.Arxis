@@ -339,6 +339,45 @@ public class NumberFieldTests
         window.Close();
     }
 
+    /// <summary>
+    /// Протяжка туда и обратно, показавшая значение на ходу, кончается отменой, а не тишиной.
+    /// </summary>
+    /// <remarks>
+    /// Конец протяжки решал по счёту точек, и туда-обратно давало ноль: поле не говорило ни «записать», ни «отменить», а
+    /// показ на ходу хозяин уже начал и ждал конца. Значение 10,4 без знаков после точки протяжка к нулю ставила 10 —
+    /// поле так и оставалось при 10, а у хозяина было 10,4. Отмена возвращает то, что было.
+    /// </remarks>
+    [AvaloniaFact]
+    public void A_scrub_back_to_where_it_started_ends_as_cancelled()
+    {
+        var field = new AxNumberField { Minimum = 0, Maximum = 1000, Decimals = 0, Value = 10.4 };
+        var committed = Committed(field);
+        var changing = 0;
+        var cancelled = 0;
+
+        field.ValueChanging += (_, _) => changing++;
+        field.ScrubCancelled += (_, _) => cancelled++;
+
+        Assert.True(field.BeginScrub());
+
+        field.ScrubBy(100, KeyModifiers.None);
+        field.ScrubBy(-100, KeyModifiers.None);
+        field.EndScrub(commit: true);
+
+        Assert.True(changing > 0, "протяжка ничего не показала на ходу — проверять нечего");
+        Assert.Empty(committed);
+        Assert.Equal(1, cancelled);
+        Assert.Equal(10.4, field.Value, 9);
+
+        // Нажатие без движения — не протяжка: ни показа, ни конца.
+        Assert.True(field.BeginScrub());
+
+        field.EndScrub(commit: true);
+
+        Assert.Equal(1, cancelled);
+        Assert.Empty(committed);
+    }
+
     /// <summary>Нажатие без протяжки — щелчок: каретка в поле, набранное выделено, значение не тронуто.</summary>
     [AvaloniaFact]
     public void A_press_without_a_drag_puts_the_caret_into_the_field()

@@ -82,6 +82,35 @@ public class ColorPresetTests
         window.Close();
     }
 
+    /// <summary>
+    /// Палитра держит двенадцать в ряд в любой плотности: зазор её сетки — часть её устройства, а не воздух ступени.
+    /// </summary>
+    /// <remarks>
+    /// Сетка брала зазор у шкалы расстояний, а ширину — постоянной, под зазор в два: просторная ступень делала зазор
+    /// четыре, в ряд вставало десять, и ряды палитры — тон по двенадцати оттенкам — перемешивались.
+    /// </remarks>
+    [AvaloniaTheory]
+    [InlineData("Compact")]
+    [InlineData("Normal")]
+    [InlineData("Comfortable")]
+    public void The_palette_keeps_twelve_in_a_row_in_every_tier(string tier)
+    {
+        var picker = new AxColorPicker { IsPaletteExpanded = true };
+        var window = new Window { Width = 420, Height = 900, Content = picker };
+        var uri = new Uri($"avares://ArxisStudio.Themes.Arxis/Density/{tier}.axaml");
+
+        window.Resources.MergedDictionaries.Add(new Avalonia.Markup.Xaml.Styling.ResourceInclude(uri) { Source = uri });
+        window.Show();
+        window.UpdateLayout();
+
+        var cells = Part<Panel>(picker, "PART_Palette").Children.OfType<Control>().ToList();
+
+        Assert.Equal(cells[0].Bounds.Y, cells[11].Bounds.Y);
+        Assert.True(cells[12].Bounds.Y > cells[11].Bounds.Y, "тринадцатая ячейка встала в первый ряд");
+
+        window.Close();
+    }
+
     /// <summary>Без хранилища раздела образцов нет — палитра остаётся.</summary>
     [AvaloniaFact]
     public void Without_a_store_there_are_no_swatches()
@@ -230,6 +259,60 @@ public class ColorPresetTests
         Assert.Equal(["A", "B", "C"], store.Current.Presets.Select(preset => preset.Name));
         Assert.Equal(0, store.Saves);
         Assert.Equal(["A", "B", "C"], Cells(picker, "PART_PresetGrid").SkipLast(1).Select(cell => ((AxColorPreset)cell.Tag!).Name));
+
+        window.Close();
+    }
+
+    /// <summary>
+    /// Равные образцы — разные образцы: меню, Alt+стрелка и тяга правят тот, у которого их позвали.
+    /// </summary>
+    /// <remarks>
+    /// Образец — запись, и место его искалось по равенству: «Заменить» у второго из двух одинаковых перекрашивало первый,
+    /// Alt+стрелка двигала первый, а тяга ставила их не в том порядке, в каком стояли ячейки.
+    /// </remarks>
+    [AvaloniaFact]
+    public void Equal_swatches_are_still_different_swatches()
+    {
+        var store = new FakeStore(("Same", 0xFFFF0000), ("Same", 0xFFFF0000), ("Other", 0xFF00FF00));
+        var (picker, window) = Shown(store, 0xFF3C6ECF);
+        var first = store.Current.Presets[0];
+
+        Item(ContextMenu(Cells(picker, "PART_PresetGrid")[1]), "Replace").RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
+
+        Assert.Same(first, store.Current.Presets[0]);
+        Assert.Equal(Color.FromUInt32(0xFF3C6ECF), store.Current.Presets[1].Color);
+
+        window.Close();
+
+        store = new FakeStore(("Same", 0xFFFF0000), ("Same", 0xFFFF0000), ("Other", 0xFF00FF00));
+        (picker, window) = Shown(store);
+
+        var second = store.Current.Presets[1];
+
+        Assert.True(Cells(picker, "PART_PresetGrid")[1].Focus(NavigationMethod.Tab));
+
+        window.KeyPress(Key.Right, RawInputModifiers.Alt, PhysicalKey.None, string.Empty);
+
+        Assert.Equal(["Same", "Other", "Same"], store.Current.Presets.Select(preset => preset.Name));
+        Assert.Same(second, store.Current.Presets[2]);
+
+        window.Close();
+
+        store = new FakeStore(("Same", 0xFFFF0000), ("Same", 0xFFFF0000), ("Other", 0xFF00FF00));
+        (picker, window) = Shown(store);
+        second = store.Current.Presets[1];
+
+        var cells = Cells(picker, "PART_PresetGrid");
+        var (from, to) = (Center(cells[1], window), Center(cells[2], window));
+
+        window.MouseDown(from, MouseButton.Left);
+        window.MouseMove(to);
+        Settle(window);
+        window.MouseUp(to, MouseButton.Left);
+        Pump();
+
+        Assert.Equal(["Same", "Other", "Same"], store.Current.Presets.Select(preset => preset.Name));
+        Assert.Same(second, store.Current.Presets[2]);
 
         window.Close();
     }

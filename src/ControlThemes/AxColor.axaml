@@ -238,7 +238,7 @@
       Выбор цвета — окно Color у Unity: сверху пипетка и полоса образцов «стало | было», под ними кольцо оттенков с
       квадратом насыщенности и яркости внутри, справа выбор вида каналов, ползунки каналов с числами и код — шесть
       цифр, моноширинным: это значение, а не подпись. Строка прозрачности есть, только если цвет бывает прозрачным.
-      Ниже — раскрывающиеся «Палитра» и «Образцы»: ячейки ставит контрол, тема даёт им панели — сетку с зазором в волос
+      Ниже — раскрывающиеся «Палитра» и «Образцы»: ячейки ставит контрол, тема даёт им панели — сетку с зазором AxColorPaletteGap
       и список; раздел образцов есть, только когда хозяин дал хранилище (:presets), а имя образца и библиотеки
       спрашивает всплывающее поле. Сетки ячеек — шириной AxColorPaletteWidth, ровно двенадцать в ряд, а список — не шире
       выбора: окно меряет выбор по содержимому, и сетка без предела встала бы одной строкой во всю палитру.
@@ -354,8 +354,8 @@
             <WrapPanel x:Name="PART_Palette"
                        MaxWidth="{DynamicResource AxColorPaletteWidth}"
                        HorizontalAlignment="Left"
-                       ItemSpacing="{DynamicResource AxSpaceHair}"
-                       LineSpacing="{DynamicResource AxSpaceHair}"
+                       ItemSpacing="{DynamicResource AxColorPaletteGap}"
+                       LineSpacing="{DynamicResource AxColorPaletteGap}"
                        IsVisible="{TemplateBinding IsPaletteExpanded}"/>
           </StackPanel>
 
@@ -396,8 +396,8 @@
               <WrapPanel x:Name="PART_PresetGrid"
                          MaxWidth="{DynamicResource AxColorPaletteWidth}"
                          HorizontalAlignment="Left"
-                         ItemSpacing="{DynamicResource AxSpaceHair}"
-                         LineSpacing="{DynamicResource AxSpaceHair}"/>
+                         ItemSpacing="{DynamicResource AxColorPaletteGap}"
+                         LineSpacing="{DynamicResource AxColorPaletteGap}"/>
               <StackPanel x:Name="PART_PresetList" Spacing="{DynamicResource AxSpaceHair}" IsVisible="False"/>
             </Panel>
           </StackPanel>
