@@ -3,7 +3,11 @@
                     xmlns:ax="https://github.com/Arxis-Team/ArxisStudio"
                     xmlns:t="using:ArxisStudio.Themes.Arxis">
 
-  <!-- Выпадающий список: поле 28 (24 в плотной зоне) с шевроном, попап на bg2. -->
+  <!--
+      Выпадающий список: поле 28 (24 в плотной зоне) с шевроном, попап на bg2. Список, в который можно и набрать своё
+      (IsEditable), ставит на место выбранного поле ввода без своей рамки — рамка и кольцо остаются у списка, и каретка
+      в поле зажигает их, как у поля ввода.
+  -->
   <ControlTheme x:Key="{x:Type ax:AxComboBox}" TargetType="ax:AxComboBox">
     <!-- Не обрезаем себя: кольцо фокуса выходит за границы контрола. -->
     <Setter Property="ClipToBounds" Value="False"/>
@@ -33,9 +37,18 @@
                        Foreground="{TemplateBinding PlaceholderForeground}"
                        VerticalAlignment="Center"
                        IsVisible="{TemplateBinding SelectionBoxItem, Converter={x:Static ObjectConverters.IsNull}}"/>
-            <ContentControl Content="{TemplateBinding SelectionBoxItem}"
+            <ContentControl x:Name="PART_SelectionBox"
+                            Content="{TemplateBinding SelectionBoxItem}"
                             ContentTemplate="{TemplateBinding ItemTemplate}"
                             VerticalAlignment="Center"/>
+            <!-- Своё значение набирают здесь; ComboBox находит поле по имени и сводит его текст с выбранным. -->
+            <ax:AxTextBox x:Name="PART_EditableTextBox"
+                          Theme="{StaticResource AxInlineTextBox}"
+                          Text="{TemplateBinding Text, Mode=TwoWay}"
+                          PlaceholderText="{TemplateBinding PlaceholderText}"
+                          MinHeight="0"
+                          VerticalAlignment="Center"
+                          IsVisible="False"/>
             <ax:AxIcon Grid.Column="1"
                        x:Name="PART_Chevron"
                        Margin="{DynamicResource AxSpaceSnugLeadingThickness}"
@@ -102,6 +115,26 @@
     <!-- Плотная зона: шапка инструментального окна и строки Инспектора. -->
     <Style Selector="^:compact">
       <Setter Property="MinHeight" Value="{DynamicResource AxControlHeightCompact}"/>
+    </Style>
+
+    <!--
+        Список с вводом: на месте выбранного — поле ввода, а каретка в нём (:editing ставит сам список) зажигает рамку и
+        кольцо списка, как у поля ввода.
+    -->
+    <Style Selector="^[IsEditable=True] /template/ ax|AxTextBox#PART_EditableTextBox">
+      <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    <Style Selector="^[IsEditable=True] /template/ ContentControl#PART_SelectionBox">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="^[IsEditable=True] /template/ TextBlock#PART_PlaceholderText">
+      <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="^:editing /template/ Border#PART_Background">
+      <Setter Property="BorderBrush" Value="{DynamicResource AxFocusRingBrush}"/>
+    </Style>
+    <Style Selector="^:editing /template/ t|AxFocusRing#PART_FocusRing">
+      <Setter Property="IsVisible" Value="True"/>
     </Style>
   </ControlTheme>
 
