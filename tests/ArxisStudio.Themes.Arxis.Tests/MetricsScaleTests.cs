@@ -91,6 +91,9 @@ public class MetricsScaleTests
         "AxObjectPickerWidth",
         "AxObjectPickerMaxHeight",
         "AxObjectPickerThumbnailSize",
+        // Панель выражения под строкой инспектора: ширина и наибольшая высота списка членов.
+        "AxExpressionPanelWidth",
+        "AxExpressionMembersMaxHeight",
     ];
 
     [AvaloniaTheory]

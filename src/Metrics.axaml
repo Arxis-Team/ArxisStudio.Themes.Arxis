@@ -515,6 +515,13 @@
   <x:Double x:Key="AxObjectPickerWidth">320</x:Double>
   <x:Double x:Key="AxObjectPickerMaxHeight">360</x:Double>
   <x:Double x:Key="AxObjectPickerThumbnailSize">32</x:Double>
+  <!--
+      Панель выражения под строкой инспектора — привязка, как окно привязки у Unity: не уже AxExpressionPanelWidth —
+      подпись и поле встают в ряд, — а список членов пути внутри не выше AxExpressionMembersMaxHeight: панель держит ещё
+      источник, режим и запись, и на экране ноутбука она обязана помещаться целиком.
+  -->
+  <x:Double x:Key="AxExpressionPanelWidth">360</x:Double>
+  <x:Double x:Key="AxExpressionMembersMaxHeight">180</x:Double>
   <x:Double x:Key="AxColorPaletteWidth">214</x:Double>
   <x:Double x:Key="AxColorPresetNameWidth">160</x:Double>
   <!--
